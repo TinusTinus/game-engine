@@ -43,7 +43,7 @@ public enum Tetromino {
      *  +
      * ++
      * </pre>
-     * */
+     */
     J,
     /**
      * L shape.
