@@ -7,15 +7,12 @@ import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.ToString;
 
 /**
  * Representation of the game state for a single Tetris player.
  * 
  * @author Martijn van de Rijdt
  */
-// TODO write a better toString implementation, with a nice ascii art representation of the grid
-@ToString
 @EqualsAndHashCode
 @Getter
 public class GameState {
@@ -168,5 +165,46 @@ public class GameState {
         }
 
         return this.grid.get(x + y * this.width);
+    }
+    
+    /**
+     * Creates an ascii representation of the grid.
+     * 
+     * @return string representation of the grid
+     */
+    private String gridToAscii() {
+        StringBuilder result = new StringBuilder();
+        
+        for (int y = getHeight() - 1; y != -1; y--) {
+            result.append("|");
+            for (int x = 0; x != width; x++) {
+                Tetromino block = getBlock(x, y);
+                if (block == null) {
+                    result.append(" ");
+                } else {
+                    result.append(block);
+                }
+            }
+            result.append("|\n");
+        }
+        
+        result.append("+");
+        for (int i = 0; i != width; i++) {
+            result.append("-");
+        }
+        result.append("+");
+        
+        return result.toString();
+    }
+    
+    /** 
+     * {@inheritDoc} 
+     * 
+     * Note that this implementation contains newlines.
+     */
+    @Override
+    public String toString() {
+        return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", nextBlock="
+                + nextBlock + ", grid=\n" + gridToAscii() + ")";
     }
 }
