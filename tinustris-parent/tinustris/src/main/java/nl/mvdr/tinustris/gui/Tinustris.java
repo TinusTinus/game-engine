@@ -35,16 +35,20 @@ public class Tinustris extends Application {
      */
     public static void main(String[] args) {
         // JInput uses java.util.logging; redirect to slf4j.
+        installSlf4jBridge();
+        
+        // Launch the application!
+        launch(args);
+    }
 
+    /** Installs a bridge for java.util.logging to slf4j. */
+    private static void installSlf4jBridge() {
         // remove existing handlers attached to j.u.l root logger
         SLF4JBridgeHandler.removeHandlersForRootLogger();
 
         // add SLF4JBridgeHandler to j.u.l's root logger, should be done once during
         // the initialization phase of your application
         SLF4JBridgeHandler.install();
-        
-        // Launch the application!
-        launch(args);
     }
     
     /** {@inheritDoc} */
@@ -54,7 +58,7 @@ public class Tinustris extends Application {
         
         log.info("Starting application.");
         
-        // TODO actually start the application in stead of this dummy
+        // TODO actually start the application instead of this dummy
         
         stage.setTitle("Tinustris!");
 
