@@ -1,8 +1,8 @@
 package nl.mvdr.tinustris.input;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -88,7 +88,7 @@ public class JInputController implements InputController {
             controller.poll();
         }
         
-        Set<Input> pressedInputs = new HashSet<>(Input.values().length);
+        Set<Input> pressedInputs = EnumSet.noneOf(Input.class);
         for (Input input: Input.values()) {
             Component component = mapping.get(input);
             if (component != null) {
