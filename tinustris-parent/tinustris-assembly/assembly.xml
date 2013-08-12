@@ -5,7 +5,7 @@
 	<formats>
 		<format>zip</format>
 	</formats>
-	<baseDirectory>replaymanager</baseDirectory>
+	<baseDirectory>tinustris</baseDirectory>
 	<fileSets>
 		<fileSet>
 			<directory>${basedir}/files</directory>
