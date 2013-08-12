@@ -13,4 +13,4 @@ set JAVA_OPTS=
 
 set JAVA=javaw
 
-start %JAVA% %JAVA_OPTS% -cp %CONFIG_DIR%;%LIB_DIR%\* nl.mvdr.tinustris.gui.TinusTris
+start %JAVA% %JAVA_OPTS% -cp %CONFIG_DIR%;%LIB_DIR%\* nl.mvdr.tinustris.gui.Tinustris

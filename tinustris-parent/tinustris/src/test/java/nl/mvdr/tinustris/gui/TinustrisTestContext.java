@@ -1,10 +1,10 @@
 package nl.mvdr.tinustris.gui;
 
 /**
- * Main class, whose main method simply calls {@link TinusTris#main(String[])}.
+ * Main class, whose main method simply calls {@link Tinustris#main(String[])}.
  * 
  * Workaround for the fact that the test classpath (which contains useful things such as a log4j configuration) does not
- * seem to be available when running {@link TinusTris#main(String[])} directly in Eclipse Kepler.
+ * seem to be available when running {@link Tinustris#main(String[])} directly in Eclipse Kepler.
  * 
  * This class relies on JInput's native libraries. These are not available by default. If you want to run this
  * class, make sure that the java.library.path system property contains target/natives in this project directory.
@@ -18,10 +18,9 @@ package nl.mvdr.tinustris.gui;
  * 
  * @author Martijn van de Rijdt
  */
-public class TinusTrisTestContext {
-
+public class TinustrisTestContext {
     /**
-     * Calls {@link TinusTris#main(String[])}.
+     * Calls {@link Tinustris#main(String[])}.
      * 
      * @param args
      *            command-line parameters
