@@ -1,11 +1,21 @@
 package nl.mvdr.tinustris.gui;
 
+import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.input.InputController;
+import nl.mvdr.tinustris.input.InputState;
+import nl.mvdr.tinustris.input.JInputController;
 
 import com.sun.javafx.runtime.VersionInfo;
 
@@ -14,6 +24,7 @@ import com.sun.javafx.runtime.VersionInfo;
  * 
  * @author Martijn van de Rijdt
  */
+// When testing the application, don't run this class directly from Eclipse. Use TinusTrisTestContext instead.
 @Slf4j
 public class Tinustris extends Application {
     /**
@@ -23,6 +34,16 @@ public class Tinustris extends Application {
      *            command-line parameters
      */
     public static void main(String[] args) {
+        // JInput uses java.util.logging; redirect to slf4j.
+
+        // remove existing handlers attached to j.u.l root logger
+        SLF4JBridgeHandler.removeHandlersForRootLogger();
+
+        // add SLF4JBridgeHandler to j.u.l's root logger, should be done once during
+        // the initialization phase of your application
+        SLF4JBridgeHandler.install();
+        
+        // Launch the application!
         launch(args);
     }
     
@@ -39,7 +60,8 @@ public class Tinustris extends Application {
 
 
         AnchorPane root = new AnchorPane();
-        root.getChildren().addAll(new Label("derp"));
+        final Label label = new Label("This will show the input state");
+        root.getChildren().add(label);
 
         stage.setScene(new Scene(root));
 
@@ -50,6 +72,19 @@ public class Tinustris extends Application {
         stage.setMinHeight(stage.getHeight());
 
         log.info("Stage shown.");
+        
+        // Start a timeline which periodically checks for inputs and shows them in the user interface.
+        final InputController inputController = new JInputController();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(16), new EventHandler<ActionEvent>() {
+            /** {@inheritDoc} */
+            @Override
+            public void handle(ActionEvent event) {
+                InputState inputState = inputController.getInputState();
+                label.setText(inputState.toString());
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     /** Logs some version info. */
