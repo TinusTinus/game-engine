@@ -29,6 +29,7 @@ public class JInputController implements InputController {
      * Key / button mapping. Not every input needs to be mapped; if an input is not mapped it will simply never get
      * pressed.
      */
+    @NonNull
     private final Map<Input, Component> mapping;
 
     /** All relevant controllers. All of the components in mapping must belong to one of these controllers. */
