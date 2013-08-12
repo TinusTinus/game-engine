@@ -69,8 +69,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<!-- TODO add a main class! -->
-							<!--mainClass>nl.mvdr.tinustris.gui.Tinustris</mainClass -->
+							<mainClass>nl.mvdr.tinustris.gui.Tinustris</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
