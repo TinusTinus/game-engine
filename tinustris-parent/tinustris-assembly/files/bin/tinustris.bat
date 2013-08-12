@@ -9,7 +9,9 @@ set LIB_DIR=%PWD%\..\lib
 
 set CONFIG_DIR=%PWD%\..\etc
 
-set JAVA_OPTS=
+set NATIVES_DIR=%PWD%\..\natives
+
+set JAVA_OPTS=-Djava.library.path=%NATIVES_DIR%
 
 set JAVA=javaw
 

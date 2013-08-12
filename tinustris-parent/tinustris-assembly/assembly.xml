@@ -11,6 +11,10 @@
 			<directory>${basedir}/files</directory>
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
+		<fileSet>
+            <directory>${project.build.directory}/natives</directory>
+            <outputDirectory>/natives</outputDirectory>
+        </fileSet>
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
