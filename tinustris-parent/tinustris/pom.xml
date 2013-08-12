@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>nl.mvdr.tinustris</groupId>		
+		<groupId>nl.mvdr.tinustris</groupId>
 		<artifactId>tinustris-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
@@ -27,6 +27,12 @@
 			<artifactId>javafx</artifactId>
 		</dependency>
 
+		<!-- Input -->
+		<dependency>
+			<groupId>net.java.jinput</groupId>
+			<artifactId>jinput</artifactId>
+		</dependency>
+
 		<!-- Compile-time assistance -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -41,6 +47,10 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
 		</dependency>
 
 		<!-- Testing -->
@@ -60,7 +70,7 @@
 					<archive>
 						<manifest>
 							<!-- TODO add a main class! -->
-							<!--mainClass>nl.mvdr.tinustris.gui.Tinustris</mainClass-->
+							<!--mainClass>nl.mvdr.tinustris.gui.Tinustris</mainClass -->
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
@@ -83,6 +93,18 @@
 						<id>attach-sources</id>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.googlecode.mavennatives</groupId>
+				<artifactId>maven-nativedependencies-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpacknatives</id>
+						<goals>
+							<goal>copy</goal>
 						</goals>
 					</execution>
 				</executions>

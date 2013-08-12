@@ -16,10 +16,12 @@
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
 		<javafx.version>2</javafx.version>
+		<jinput.version>2.0.5</jinput.version>
 		<junit.version>4.11</junit.version>
 		<lombok.version>0.12.0</lombok.version>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<maven-nativedependencies-plugin.version>0.0.7</maven-nativedependencies-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
 		<slf4j.version>1.7.5</slf4j.version>
 	</properties>
@@ -38,6 +40,13 @@
 				<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
 				<scope>system</scope>
 				<!-- javadoc: http://docs.oracle.com/javafx/2/api/ -->
+			</dependency>
+
+			<!-- Input -->
+			<dependency>
+				<groupId>net.java.jinput</groupId>
+				<artifactId>jinput</artifactId>
+				<version>${jinput.version}</version>
 			</dependency>
 
 			<!-- Compile-time assistance -->
@@ -61,6 +70,11 @@
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+			</dependency>
 
 			<!-- Testing -->
 			<dependency>
@@ -71,7 +85,7 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -89,6 +103,11 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>${maven-source-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>com.googlecode.mavennatives</groupId>
+					<artifactId>maven-nativedependencies-plugin</artifactId>
+					<version>${maven-nativedependencies-plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
