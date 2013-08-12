@@ -1,8 +1,8 @@
 package nl.mvdr.tinustris.input;
 
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,7 +51,7 @@ public class JInputController implements InputController {
         log.info("Using keyboard controller: " + keyboard.getName());
         this.controllers = Collections.singleton(keyboard);
         
-        this.mapping = new HashMap<>(Input.values().length);
+        this.mapping = new EnumMap<>(Input.class);
         mapping.put(Input.LEFT, getComponent(keyboard, Key.LEFT));
         mapping.put(Input.RIGHT, getComponent(keyboard, Key.RIGHT));
         mapping.put(Input.FASTER_DROP, getComponent(keyboard, Key.DOWN));
