@@ -21,12 +21,14 @@ public class LabelRenderer implements GameRenderer<Label> {
     @Override
     public void render(final Label label, GameState gameState) {
         final String text = gameState.toString();
-        Platform.runLater(new Runnable() {
-            /** {@inheritDoc} */
-            @Override
-            public void run() {
-                label.setText(text);
-            }
-        });
+        if (!text.equals(label.getText())) {
+            Platform.runLater(new Runnable() {
+                /** {@inheritDoc} */
+                @Override
+                public void run() {
+                    label.setText(text);
+                }
+            });
+        }
     }
 }
