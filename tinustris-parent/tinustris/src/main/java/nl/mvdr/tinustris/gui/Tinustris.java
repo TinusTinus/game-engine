@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
@@ -87,15 +88,19 @@ public class Tinustris extends Application {
 
         AnchorPane root = new AnchorPane();
         label = new Label("This will show the input state");
+        label.setFont(Font.font("monospaced", 12));
         root.getChildren().add(label);
 
         stage.setScene(new Scene(root));
 
         stage.show();
 
-        // Default size should also be the minimum size.
-        stage.setMinWidth(stage.getWidth());
-        stage.setMinHeight(stage.getHeight());
+//        // Default size should also be the minimum size.
+//        stage.setMinWidth(stage.getWidth());
+//        stage.setMinHeight(stage.getHeight());
+        
+        stage.setMinWidth(640);
+        stage.setMinHeight(480);
 
         log.info("Stage shown.");
         
