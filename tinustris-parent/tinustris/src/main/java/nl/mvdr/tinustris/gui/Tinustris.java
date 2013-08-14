@@ -81,10 +81,7 @@ public class Tinustris extends Application {
         
         log.info("Starting application.");
         
-        // TODO actually start the application instead of this dummy
-        
-        stage.setTitle("Tinustris!");
-
+        stage.setTitle("Tinustris");
 
         AnchorPane root = new AnchorPane();
         label = new Label("This will show the input state");
