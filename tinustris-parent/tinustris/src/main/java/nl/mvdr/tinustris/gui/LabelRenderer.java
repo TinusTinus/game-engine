@@ -11,7 +11,7 @@ import nl.mvdr.tinustris.model.GameState;
  */
 public class LabelRenderer implements GameRenderer<Label> {
     /**
-     * Renders the game state in the given label
+     * Renders the game state in the given label.
      * 
      * @param label
      *            the label which will display the game state as ASCII art; should have a monospaced font
