@@ -1,9 +1,10 @@
 package nl.mvdr.tinustris.model;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.NonNull;
 
@@ -20,10 +21,10 @@ public enum Tetromino {
      * ++++
      * </pre>
      */
-    I(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)),
-            Arrays.asList(new Point(2, 0), new Point(2, 1), new Point(2, 2), new Point(2, 3)),
-            Arrays.asList(new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)),
-            Arrays.asList(new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3))),
+    I(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)),
+            createSet(new Point(2, 0), new Point(2, 1), new Point(2, 2), new Point(2, 3)),
+            createSet(new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)),
+            createSet(new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3))),
     /**
      * O, or square shape.
      * 
@@ -32,10 +33,10 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    O(Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2))),
+    O(createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2))),
     /**
      * T shape.
      * 
@@ -44,10 +45,10 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    T(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 3)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 2)),
-            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 1)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 2))),
+    T(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 3)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 2)),
+            createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 1)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 2))),
     /**
      * J shape.
      * 
@@ -56,10 +57,10 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    J(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 3)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
-            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 1)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 1))),
+    J(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 3)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
+            createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 1)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 1))),
     /**
      * L shape.
      * 
@@ -68,10 +69,10 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    L(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 1)),
-            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 1)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 3))),
+    L(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 1)),
+            createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 1)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 3))),
     /**
      * S skew shape.
      * 
@@ -80,10 +81,10 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    S(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
-            Arrays.asList(new Point(1, 3), new Point(1, 2), new Point(2, 2), new Point(2, 1)),
-            Arrays.asList(new Point(0, 1), new Point(1, 1), new Point(1, 2), new Point(2, 2)),
-            Arrays.asList(new Point(0, 3), new Point(0, 2), new Point(1, 2), new Point(1, 1))),
+    S(createSet(new Point(0, 2), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
+            createSet(new Point(1, 3), new Point(1, 2), new Point(2, 2), new Point(2, 1)),
+            createSet(new Point(0, 1), new Point(1, 1), new Point(1, 2), new Point(2, 2)),
+            createSet(new Point(0, 3), new Point(0, 2), new Point(1, 2), new Point(1, 1))),
     /**
      * Z skew shape.
      * 
@@ -92,16 +93,16 @@ public enum Tetromino {
      *  ++
      * </pre>
      */
-    Z(Arrays.asList(new Point(0, 3), new Point(1, 3), new Point(1, 2), new Point(2, 2)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
-            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(1, 1), new Point(2, 1)),
-            Arrays.asList(new Point(0, 1), new Point(0, 2), new Point(1, 2), new Point(1, 3)));
+    Z(createSet(new Point(0, 3), new Point(1, 3), new Point(1, 2), new Point(2, 2)),
+            createSet(new Point(1, 1), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
+            createSet(new Point(0, 2), new Point(1, 2), new Point(1, 1), new Point(2, 1)),
+            createSet(new Point(0, 1), new Point(0, 2), new Point(1, 2), new Point(1, 3)));
 
     /**
      * Per orientation: a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4
      * grid.
      */
-    private final Map<Orientation, List<Point>> points;
+    private final Map<Orientation, Set<Point>> points;
     
     /**
      * Constructor.
@@ -111,7 +112,8 @@ public enum Tetromino {
      * @param pointsFlatUp list containing the points for the Flat Up orientation
      * @param pointsFlatRight list containing the points for the Flat Right orientation
      */
-    private Tetromino(List<Point> pointsFlatDown, List<Point> pointsFlatLeft, List<Point> pointsFlatUp, List<Point> pointsFlatRight) {
+    private Tetromino(Set<Point> pointsFlatDown, Set<Point> pointsFlatLeft, Set<Point> pointsFlatUp,
+            Set<Point> pointsFlatRight) {
         this.points = new EnumMap<>(Orientation.class);
         this.points.put(Orientation.FLAT_DOWN,  pointsFlatDown);
         this.points.put(Orientation.FLAT_LEFT,  pointsFlatLeft);
@@ -127,7 +129,22 @@ public enum Tetromino {
      * grid
      * @see java.util.Map#get(java.lang.Object)
      */
-    public List<Point> getPoints(@NonNull Orientation key) {
+    public Set<Point> getPoints(@NonNull Orientation key) {
         return points.get(key);
+    }
+    
+    /**
+     * Constructs an unmodifiable set with the given values.
+     * 
+     * @param values contents of the set to be constructed
+     * @return set
+     */
+    private static Set<Point> createSet(Point... values) {
+        Set<Point> set = new HashSet<>(values.length);
+        for (Point point: values) {
+            set.add(point);
+        }
+        set = Collections.unmodifiableSet(set);
+        return set;
     }
 }

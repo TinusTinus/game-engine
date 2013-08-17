@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.model;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +26,7 @@ public class TetrominoTest {
             for (Orientation orientation : Orientation.values()) {
                 log.info("  Orientation: " + orientation);
                 
-                List<Point> pointsList = tetromino.getPoints(orientation);
-                Assert.assertEquals(4, pointsList.size());
-
-                // copy into a set to eliminate duplicates
-                Set<Point> points = new HashSet<>(pointsList);
+                Set<Point> points = tetromino.getPoints(orientation);
                 Assert.assertEquals(4, points.size());
 
                 for (Point point : points) {
