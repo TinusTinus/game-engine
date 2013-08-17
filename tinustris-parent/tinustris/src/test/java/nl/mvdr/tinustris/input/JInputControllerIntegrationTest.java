@@ -22,7 +22,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  * In Eclipse, you can do this by opening the Run Configuration, opening the arguments tab and pasting the following
  * into the "VM Arguments" text area:
  * <pre>
- * -Djava.library.path=${project_loc}\target\natives
+ * -Djava.library.path=${project_loc}/target/natives
  * </pre>
  * 
  * @author Martijn van de Rijdt

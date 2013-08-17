@@ -13,7 +13,7 @@ package nl.mvdr.tinustris.gui;
  * into the "VM Arguments" text area:
  * 
  * <pre>
- * -Djava.library.path=${project_loc}\target\natives
+ * -Djava.library.path=${project_loc}/target/natives
  * </pre>
  * 
  * @author Martijn van de Rijdt
