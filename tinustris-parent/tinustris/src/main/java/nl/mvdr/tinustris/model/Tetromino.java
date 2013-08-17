@@ -17,10 +17,7 @@ public enum Tetromino {
      * I, or straight shape.
      * 
      * <pre>
-     * +
-     * +
-     * +
-     * +
+     * ++++
      * </pre>
      */
     I(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)), 
@@ -43,8 +40,8 @@ public enum Tetromino {
      * T shape.
      * 
      * <pre>
-     * +++
      *  +
+     * +++
      * </pre>
      */
     T(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
@@ -55,9 +52,8 @@ public enum Tetromino {
      * J shape.
      * 
      * <pre>
-     *  +
-     *  +
-     * ++
+     * +
+     * +++
      * </pre>
      */
     J(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
@@ -68,9 +64,8 @@ public enum Tetromino {
      * L shape.
      * 
      * <pre>
-     * +
-     * +
-     * ++
+     *   +
+     * +++
      * </pre>
      */
     L(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
