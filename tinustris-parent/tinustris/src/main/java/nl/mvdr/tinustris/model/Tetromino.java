@@ -1,19 +1,17 @@
 package nl.mvdr.tinustris.model;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 
 /**
  * Representation of a Tetromino; that is, one of the seven groups of four blocks that can fall into the basin.
  * 
  * @author Martijn van de Rijdt
  */
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Tetromino {
     /**
      * I, or straight shape.
@@ -25,7 +23,10 @@ public enum Tetromino {
      * +
      * </pre>
      */
-    I(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    I(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)), 
+            Arrays.asList(new Point(2, 0), new Point(2, 1), new Point(2, 2), new Point(2, 3)), 
+            Arrays.asList(new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)), 
+            Arrays.asList(new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3))),
     /**
      * O, or square shape.
      * 
@@ -34,7 +35,10 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    O(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    O(Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2))),
     /**
      * T shape.
      * 
@@ -43,7 +47,10 @@ public enum Tetromino {
      *  +
      * </pre>
      */
-    T(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    T(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * J shape.
      * 
@@ -53,7 +60,10 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    J(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    J(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * L shape.
      * 
@@ -63,7 +73,10 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    L(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    L(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * S skew shape.
      * 
@@ -72,7 +85,10 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    S(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    S(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * Z skew shape.
      * 
@@ -81,8 +97,42 @@ public enum Tetromino {
      *  ++
      * </pre>
      */
-    Z(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)));
+    Z(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)));
 
-    /** List containing the (four) points where the tetrominoes actual blocks are located in a 4*4 grid. */
-    private final List<Point> points;
+    /**
+     * Per orientation: a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4
+     * grid.
+     */
+    private final Map<Orientation, List<Point>> points;
+    
+    /**
+     * Constructor.
+     * 
+     * @param pointsFlatDown list containing the points for the Flat Down orientation
+     * @param pointsFlatLeft list containing the points for the Flat Left orientation
+     * @param pointsFlatUp list containing the points for the Flat Up orientation
+     * @param pointsFlatRight list containing the points for the Flat Right orientation
+     */
+    private Tetromino(List<Point> pointsFlatDown, List<Point> pointsFlatLeft, List<Point> pointsFlatUp, List<Point> pointsFlatRight) {
+        this.points = new EnumMap<>(Orientation.class);
+        this.points.put(Orientation.FLAT_DOWN,  pointsFlatDown);
+        this.points.put(Orientation.FLAT_LEFT,  pointsFlatLeft);
+        this.points.put(Orientation.FLAT_UP,    pointsFlatUp);
+        this.points.put(Orientation.FLAT_RIGHT, pointsFlatRight);
+    }
+
+    /**
+     * Retrieves the list of points for the given orientation.
+     * 
+     * @param key orientation value
+     * @return a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4
+     * grid
+     * @see java.util.Map#get(java.lang.Object)
+     */
+    public List<Point> getPoints(@NonNull Orientation key) {
+        return points.get(key);
+    }
 }
