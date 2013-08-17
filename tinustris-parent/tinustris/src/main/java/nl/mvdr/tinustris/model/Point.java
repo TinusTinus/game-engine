@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 /**
  * Representation of a value consisiting of an x and y coordinates.
@@ -11,7 +10,6 @@ import lombok.ToString;
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
-@ToString
 @EqualsAndHashCode
 @Getter
 public class Point {
@@ -19,4 +17,10 @@ public class Point {
     private final int x;
     /** Y coordinate. */
     private final int y;
+    
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y  + ")";
+    }
 }
