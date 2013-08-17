@@ -1,10 +1,19 @@
 package nl.mvdr.tinustris.model;
 
+import java.util.Arrays;
+import java.util.List;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 /**
  * Representation of a Tetromino; that is, one of the seven groups of four blocks that can fall into the basin.
  * 
  * @author Martijn van de Rijdt
  */
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum Tetromino {
     /**
      * I, or straight shape.
@@ -16,7 +25,7 @@ public enum Tetromino {
      * +
      * </pre>
      */
-    I,
+    I(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * O, or square shape.
      * 
@@ -25,7 +34,7 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    O,
+    O(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * T shape.
      * 
@@ -34,7 +43,7 @@ public enum Tetromino {
      *  +
      * </pre>
      */
-    T,
+    T(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * J shape.
      * 
@@ -44,7 +53,7 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    J,
+    J(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * L shape.
      * 
@@ -54,7 +63,7 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    L,
+    L(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * S skew shape.
      * 
@@ -63,7 +72,7 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    S,
+    S(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
     /**
      * Z skew shape.
      * 
@@ -72,5 +81,8 @@ public enum Tetromino {
      *  ++
      * </pre>
      */
-    Z
+    Z(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)));
+
+    /** List containing the (four) points where the tetrominoes actual blocks are located in a 4*4 grid. */
+    private final List<Point> points;
 }
