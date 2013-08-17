@@ -56,10 +56,10 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    J(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    J(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 3)),
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 3)), 
+            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 1)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 1))),
     /**
      * L shape.
      * 
@@ -68,10 +68,10 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    L(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    L(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 1)), 
+            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 1)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 3))),
     /**
      * S skew shape.
      * 
