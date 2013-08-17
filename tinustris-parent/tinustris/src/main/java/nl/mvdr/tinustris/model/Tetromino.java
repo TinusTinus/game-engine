@@ -44,10 +44,10 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    T(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0))),
+    T(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 3)),
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 2)), 
+            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 1)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 2))),
     /**
      * J shape.
      * 
