@@ -20,9 +20,9 @@ public enum Tetromino {
      * ++++
      * </pre>
      */
-    I(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)), 
-            Arrays.asList(new Point(2, 0), new Point(2, 1), new Point(2, 2), new Point(2, 3)), 
-            Arrays.asList(new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)), 
+    I(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)),
+            Arrays.asList(new Point(2, 0), new Point(2, 1), new Point(2, 2), new Point(2, 3)),
+            Arrays.asList(new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)),
             Arrays.asList(new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3))),
     /**
      * O, or square shape.
@@ -32,9 +32,9 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    O(Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)), 
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)), 
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)), 
+    O(Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
             Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2))),
     /**
      * T shape.
@@ -45,8 +45,8 @@ public enum Tetromino {
      * </pre>
      */
     T(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 3)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 2)), 
-            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 1)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 2)),
+            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 1)),
             Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 2))),
     /**
      * J shape.
@@ -57,8 +57,8 @@ public enum Tetromino {
      * </pre>
      */
     J(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 3)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 3)), 
-            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 1)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
+            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 1)),
             Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 1))),
     /**
      * L shape.
@@ -69,8 +69,8 @@ public enum Tetromino {
      * </pre>
      */
     L(Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
-            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 1)), 
-            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 1)), 
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 1)),
+            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 1)),
             Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 3))),
     /**
      * S skew shape.
@@ -92,9 +92,9 @@ public enum Tetromino {
      *  ++
      * </pre>
      */
-    Z(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)), 
+    Z(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)),
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)),
+            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)),
             Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)));
 
     /**
