@@ -23,7 +23,7 @@ public class TinustrisTestContext {
      * Calls {@link Tinustris#main(String[])}.
      * 
      * @param args
-     *            command-line parameters
+     *            command line parameters
      */
     public static void main(String[] args) {
         Tinustris.main(args);
