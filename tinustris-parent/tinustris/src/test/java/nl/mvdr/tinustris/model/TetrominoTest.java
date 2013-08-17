@@ -7,7 +7,6 @@ import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -22,7 +21,6 @@ public class TetrominoTest {
      * all coordinates in the range [0, 4).
      */
     @Test
-    @Ignore // TODO finish all constructors of Tetromino
     public void testPoints() {
         for (Tetromino tetromino : Tetromino.values()) {
             log.info("Tetromino: " + tetromino);

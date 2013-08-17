@@ -92,10 +92,10 @@ public enum Tetromino {
      *  ++
      * </pre>
      */
-    Z(Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)),
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)),
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)),
-            Arrays.asList(new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)));
+    Z(Arrays.asList(new Point(0, 3), new Point(1, 3), new Point(1, 2), new Point(2, 2)),
+            Arrays.asList(new Point(1, 1), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
+            Arrays.asList(new Point(0, 2), new Point(1, 2), new Point(1, 1), new Point(2, 1)),
+            Arrays.asList(new Point(0, 1), new Point(0, 2), new Point(1, 2), new Point(1, 3)));
 
     /**
      * Per orientation: a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4
