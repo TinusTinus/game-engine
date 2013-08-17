@@ -22,6 +22,11 @@ public enum Orientation {
     /** Flat Right. The orientation where the flat side of the tetromino is on the right side. Also known as Point Left. */
     FLAT_RIGHT;
 
+    /** @return the default orientation */
+    public static Orientation getDefault() {
+        return FLAT_DOWN;
+    }
+    
     /** @return the next orientation if rotated clockwise */
     public Orientation getNextClockwise() {
         Orientation[] values = values();

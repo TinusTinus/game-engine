@@ -19,7 +19,7 @@ public class GameState {
     /** Minimum width of a Tetris grid. */
     private static final int MIN_WIDTH = 4;
     /** Minimum height of a Tetris grid. */
-    private static final int MIN_HEIGHT = 4;
+    private static final int MIN_HEIGHT = 6;
     /** Default width of a Tetris grid. */
     private static final int DEFAULT_WIDTH = 10;
     /** Default height of a Tetris grid. */
@@ -44,7 +44,10 @@ public class GameState {
     private final int width;
     /** Current block. May be null, if the game is in the process of showing a cutscene (like a disappearing line). */
     private final Tetromino currentBlock;
-    // TODO location and turn state of the current block
+    /** The current block's location. May be null if currentBlock is null as well. */
+    private final Point currentBlockLocation;
+    /** The current block's orientation. May be null if currentBlock is null as well. */
+    private final Orientation currentBlockOrientation;
     /** The next block in line. */
     @NonNull
     // TODO replace by a queue of blocks, in case we want to be able to display multiple "next" blocks
@@ -76,6 +79,8 @@ public class GameState {
         }
         this.grid = Collections.unmodifiableList(tempGrid);
         this.currentBlock = null;
+        this.currentBlockLocation = null;
+        this.currentBlockOrientation = null;
         this.nextBlock = Tetromino.I; // TODO determine randomly?
     }
 
@@ -88,10 +93,15 @@ public class GameState {
      *            width of the grid
      * @param currentBlock
      *            current block
+     * @param currentBlockLocation
+     *            location of the current block
+     * @param currentBlockOrientation
+     *            orientation of the current block
      * @param nextBlock
      *            next block
      */
-    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, @NonNull Tetromino nextBlock) {
+    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
         super();
 
         checkWidth(width);
@@ -106,9 +116,30 @@ public class GameState {
         checkHeight(getHeight());
 
         this.currentBlock = currentBlock;
+        this.currentBlockLocation = currentBlockLocation;
+        this.currentBlockOrientation = currentBlockOrientation;
         this.nextBlock = nextBlock;
     }
-
+    
+    /**
+     * Constructor.
+     * 
+     * If currentBlock is not null, it is spawned at the default spawn location.
+     * 
+     * @param grid
+     *            grid
+     * @param width
+     *            width of the grid
+     * @param currentBlock
+     *            current block
+     * @param nextBlock
+     *            next block
+     */
+    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, @NonNull Tetromino nextBlock) {
+        this(grid, width, currentBlock, currentBlock == null ? null : new Point(width / 2 - 2, computeHeight(grid,
+                width) - 6), Orientation.getDefault(), nextBlock);
+    }
+    
     /**
      * Checks that the given number is at least the minimum grid width.
      * 
@@ -139,7 +170,20 @@ public class GameState {
 
     /** @return the grid's height */
     public int getHeight() {
-        return this.grid.size() / this.width;
+        return computeHeight(this.grid, this.width);
+    }
+    
+    /**
+     * Computes the grid's height.
+     * 
+     * @param grid grid
+     * @param width width of the grid
+     */
+    private static int computeHeight(List<Tetromino> grid, int width) {
+        if (width == 0) {
+            throw new IllegalArgumentException("Width must be more than zero.");
+        }
+        return grid.size() / width;
     }
 
     /**

@@ -48,11 +48,11 @@ public class GameStateTest {
     /** Test case for the constructor with custom width and height values. */
     @Test
     public void testWidthHeightConstructorMinimum() {
-        GameState gameState = new GameState(4, 4);
+        GameState gameState = new GameState(4, 6);
 
         log.info(gameState.toString());
         Assert.assertEquals(4, gameState.getWidth());
-        Assert.assertEquals(4, gameState.getHeight());
+        Assert.assertEquals(6, gameState.getHeight());
         for (Tetromino block : gameState.getGrid()) {
             Assert.assertNull(block);
         }
@@ -113,13 +113,13 @@ public class GameStateTest {
     /** Test case for the constructor where all required fields are simply passed in. */
     @Test
     public void testConstructorMinimalSize() {
-        List<Tetromino> grid = createGrid(16);
+        List<Tetromino> grid = createGrid(24);
         
         GameState gameState = new GameState(grid, 4, Tetromino.L, Tetromino.Z);
         
         log.info(gameState.toString());
         Assert.assertEquals(4, gameState.getWidth());
-        Assert.assertEquals(4, gameState.getHeight());
+        Assert.assertEquals(6, gameState.getHeight());
         Assert.assertEquals(grid, gameState.getGrid());
         Assert.assertEquals(Tetromino.L, gameState.getCurrentBlock());
         Assert.assertEquals(Tetromino.Z, gameState.getNextBlock());
@@ -177,6 +177,7 @@ public class GameStateTest {
         GameState gameState0 = new GameState();
         
         GameState gameState1 = new GameState(gameState0.getGrid(), gameState0.getWidth(), gameState0.getCurrentBlock(),
+                gameState0.getCurrentBlockLocation(), gameState0.getCurrentBlockOrientation(), 
                 gameState0.getNextBlock());
         
         Assert.assertEquals(gameState0, gameState1);
