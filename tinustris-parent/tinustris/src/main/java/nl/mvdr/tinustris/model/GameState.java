@@ -2,7 +2,9 @@ package nl.mvdr.tinustris.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -219,14 +221,29 @@ public class GameState {
     private String gridToAscii() {
         StringBuilder result = new StringBuilder();
         
+        Set<Point> currentBlockPoints;
+        if (currentBlock != null) {
+            currentBlockPoints = new HashSet<>(4);
+            for (Point point:  currentBlock.getPoints(currentBlockOrientation)) {
+                currentBlockPoints.add(new Point(currentBlockLocation.getX() + point.getX(), currentBlockLocation
+                        .getY() + point.getY()));
+            }
+        } else {
+            currentBlockPoints = Collections.emptySet();
+        }
+        
         for (int y = getHeight() - 1; y != -1; y--) {
             result.append("|");
             for (int x = 0; x != width; x++) {
-                Tetromino block = getBlock(x, y);
-                if (block == null) {
-                    result.append(" ");
+                if (currentBlockPoints.contains(new Point(x, y))) {
+                    result.append(currentBlock);
                 } else {
-                    result.append(block);
+                    Tetromino block = getBlock(x, y);
+                    if (block == null) {
+                        result.append(" ");
+                    } else {
+                        result.append(block);
+                    }
                 }
             }
             result.append("|\n");
