@@ -354,7 +354,7 @@ public class GameState {
     }
     
     /**
-     * Determines whether the given points are within the bounds of the grid.
+     * Determines whether the given points are all within the bounds of the grid.
      * 
      * @param points points
      * @return whether the point is within bounds
