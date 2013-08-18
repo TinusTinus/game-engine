@@ -280,15 +280,11 @@ public class GameState {
      * Indicates whether the current active block can be moved one position to the left.
      * 
      * @return whether the current active block can be moved left
-     * @throws IllegalStateException if there is no active block
+     * @throws IllegalStateException
+     *             if there is no active block
      */
     public boolean canMoveLeft() {
-        if (currentBlock == null) {
-            throw new IllegalStateException("no active block");
-        }
-        
-        Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), -1, 0);
-        return isWithinBounds(newPosition) && !containsBlock(newPosition);
+        return canMove(-1, 0);
     }
     
     /**
@@ -298,12 +294,7 @@ public class GameState {
      * @throws IllegalStateException if there is no active block
      */
     public boolean canMoveRight() {
-        if (currentBlock == null) {
-            throw new IllegalStateException("no active block");
-        }
-        
-        Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), 1, 0);
-        return isWithinBounds(newPosition) && !containsBlock(newPosition);
+        return canMove(1, 0);
     }
     
     /**
@@ -313,11 +304,26 @@ public class GameState {
      * @throws IllegalStateException if there is no active block
      */
     public boolean canMoveDown() {
+        return canMove(0, -1);
+    }
+
+    /**
+     * Indicates if the current active block can be moved according to the given translation.
+     * 
+     * @param deltaX
+     *            amount the x coordinate should be moved
+     * @param deltaY
+     *            amount the y coordinate should be moved
+     * @return whether the current active block can be moved along the given translation
+     * @throws IllegalStateException
+     *             if there is no active block
+     */
+    private boolean canMove(int deltaX, int deltaY) {
         if (currentBlock == null) {
             throw new IllegalStateException("no active block");
         }
         
-        Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), 0, -1);
+        Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), deltaX, deltaY);
         return isWithinBounds(newPosition) && !containsBlock(newPosition);
     }
     
