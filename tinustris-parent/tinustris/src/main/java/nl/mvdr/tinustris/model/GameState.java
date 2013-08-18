@@ -198,15 +198,12 @@ public class GameState {
      * @return block at x, y; null if there is no block there
      */
     public Tetromino getBlock(int x, int y) {
-        if (x < 0 || getWidth() <= x) {
-            throw new IndexOutOfBoundsException(String.format(
-                    "x coordinate in (%s, %s) is out of bounds, should be between 0 and %s.",
-                    Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(width)));
-        }
-        if (y < 0 || getHeight() <= y) {
-            throw new IndexOutOfBoundsException(String.format(
-                    "y coordinate in (%s, %s) is out of bounds, should be between 0 and %s.",
-                    Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(getHeight())));
+        if (!isWithinBounds(x, y)) {
+            throw new IndexOutOfBoundsException(
+                    String.format(
+                            "Point (%s, %s) is not within bounds: x should be between %s and %s, y between %s and %s.",
+                            Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(0), Integer.valueOf(width),
+                            Integer.valueOf(0), Integer.valueOf(getHeight())));
         }
         
         return this.grid.get(x + y * this.width);
