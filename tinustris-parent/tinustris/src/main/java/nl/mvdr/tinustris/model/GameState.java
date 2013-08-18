@@ -180,8 +180,11 @@ public class GameState {
     /**
      * Computes the grid's height.
      * 
-     * @param grid grid
-     * @param width width of the grid
+     * @param grid
+     *            grid
+     * @param width
+     *            width of the grid
+     * @return the grind's height
      */
     private static int computeHeight(List<Tetromino> grid, int width) {
         if (width == 0) {
@@ -212,25 +215,25 @@ public class GameState {
     }
     
     /**
-     * Indicates whether the game is topped, that is, the game is over.
+     * Indicates whether the game is topped, that is, whether the game is over.
      * 
-     * The game is topped out in case the currently active block overlaps with blocks already in the grid, and when
-     * there are blocks in the vanish zone (the top two rows).
+     * The game is topped out if the currently active block overlaps with blocks already in the grid, or there are
+     * blocks in the vanish zone.
      * 
      * See the <a href="http://tetris.wikia.com/wiki/Top_out">Tetris Wiki</a> for more details.
      * 
      * @return whether the game is topped
      */
     public boolean isTopped() {
-        return isBlockInVanishZone() || containsBlock(getCurrentActiveBlockPoints());
+        return vanishZoneContainsBlock() || containsBlock(getCurrentActiveBlockPoints());
     }
     
     /**
      * Determines whether there is a block in the vanish zone.
      * 
-     * @return whether the grid contains at least one block in the vanish zone
+     * @return whether the grid's vanish zone contains at least one block
      */
-    private boolean isBlockInVanishZone() {
+    private boolean vanishZoneContainsBlock() {
         boolean result = false;
         int height = getHeight();
         for (int x = 0; !result && x != width; x++) {
