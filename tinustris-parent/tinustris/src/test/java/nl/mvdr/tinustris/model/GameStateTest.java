@@ -299,7 +299,6 @@ public class GameStateTest {
         List<Tetromino> grid = createEmptyGrid(220);
         // add a single block at (2, 2)
         grid.set(2 + 2 * 10, Tetromino.S);
-
         GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(1, 1), Orientation.getDefault(),
                 Tetromino.I);
         log.info(gameState.toString());
@@ -313,7 +312,6 @@ public class GameStateTest {
         List<Tetromino> grid = createEmptyGrid(220);
         // add a single block in the vanish zone
         grid.set(2 + 21 * 10, Tetromino.Z);
-
         GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
         log.info(gameState.toString());
 
@@ -326,7 +324,6 @@ public class GameStateTest {
         List<Tetromino> grid = createEmptyGrid(220);
         // add a single block in the vanish zone
         grid.set(2 + 20 * 10, Tetromino.Z);
-
         GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
         log.info(gameState.toString());
 
@@ -339,11 +336,87 @@ public class GameStateTest {
         List<Tetromino> grid = createEmptyGrid(220);
         // add a single block just below the vanish zone
         grid.set(2 + 19 * 10, Tetromino.Z);
-
         GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
         log.info(gameState.toString());
 
         Assert.assertFalse(gameState.isTopped());
+    }
+    
+    /** Tests the canMoveLeft method when there is no active block. */
+    @Test(expected = IllegalStateException.class)
+    public void testCanMoveLeftNoActiveBlock() {
+        GameState gameState = new GameState();
+        log.info(gameState.toString());
+        
+        gameState.canMoveLeft();
+    }
+    
+    /** Tests the canMoveLeft method with an empty grid and the active block at the spawn location. */
+    @Test
+    public void testCanMoveLeftEmptyGridSpawn() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.canMoveLeft());
+    }
+    
+    /** Tests the canMoveLeft method with a full grid and the active block at the spawn location. */
+    @Test
+    public void testCanMoveLeftFullGridSpawn() {
+        List<Tetromino> grid = createGrid(220, Tetromino.L);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertFalse(gameState.canMoveLeft());
+    }
+    
+    /** Tests the canMoveLeft method when the currently active block is hugging the left wall. */
+    @Test
+    public void testCanMoveLeftEmptyGridLeft() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(-1, 10), Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertFalse(gameState.canMoveLeft());
+    }
+    
+    /** Tests the canMoveLeft method when the currently active block is hugging the right wall. */
+    @Test
+    public void testCanMoveLeftEmptyGridRight() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(7, 10), Orientation.getDefault(), 
+                Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.canMoveLeft());
+    }
+
+    /** Tests the canMoveLeft method when the currently active block is directly to the right of a block. */
+    @Test
+    public void testCanMoveLeftRightOfBlock() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a single block at (2, 2)
+        grid.set(2 + 2 * 10, Tetromino.S);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(2, 1), Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertFalse(gameState.canMoveLeft());
+    }
+    
+    /** Tests the canMoveLeft method when the currently active block is directly to the left of a block. */
+    @Test
+    public void testCanMoveLeftLeftOfBlock() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a single block at (5, 2)
+        grid.set(5 + 2 * 10, Tetromino.S);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(2, 1), Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.canMoveLeft());
     }
 
     /**

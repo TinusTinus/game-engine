@@ -269,7 +269,7 @@ public class GameState {
             result = Collections.emptySet();
         } else {
             result = new HashSet<>(4);
-            for (Point point:  currentBlock.getPoints(currentBlockOrientation)) {
+            for (Point point: currentBlock.getPoints(currentBlockOrientation)) {
                 result.add(
                     new Point(currentBlockLocation.getX() + point.getX(), currentBlockLocation.getY() + point.getY()));
             }
@@ -284,7 +284,12 @@ public class GameState {
      * @throws IllegalStateException if there is no active block
      */
     public boolean canMoveLeft() {
-        return false; // TODO
+        if (currentBlock == null) {
+            throw new IllegalStateException("no active block");
+        }
+        
+        Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), -1, 0);
+        return isWithinBounds(newPosition) && !containsBlock(newPosition);
     }
     
     /**
@@ -305,6 +310,51 @@ public class GameState {
      */
     public boolean canMoveDown() {
         return false; // TODO
+    }
+    
+    /** 
+     * Translates all points with the given delta.
+     * 
+     * @param points points to be translated
+     * @param deltaX amount to be added to x values
+     * @param deltaY amount to be added to y values
+     * @return 
+     */
+    private Set<Point> translate(Set<Point> points, int deltaX, int deltaY) {
+        Set<Point> result = new HashSet<>();
+        for (Point point: points) {
+            Point translated = new Point(point.getX() + deltaX, point.getY() + deltaY);
+            result.add(translated);
+        }
+        return result;
+    }
+    
+    /**
+     * Determines whether the given point is within the bounds of the grid.
+     * 
+     * @param point point
+     * @return whether the point is within bounds
+     */
+    private boolean isWithinBounds(Point point) {
+        boolean result = 0 <= point.getX();
+        result = result && point.getX() < width;
+        result = result && 0 <= point.getY();
+        result = result && point.getY() < getHeight();
+        return result;
+    }
+    
+    /**
+     * Determines whether the given points are within the bounds of the grid.
+     * 
+     * @param points points
+     * @return whether the point is within bounds
+     */
+    private boolean isWithinBounds(Set<Point> points) {
+        boolean result = true;
+        for (Point point: points) {
+            result = result && isWithinBounds(point);
+        }
+        return result;
     }
     
     /**
