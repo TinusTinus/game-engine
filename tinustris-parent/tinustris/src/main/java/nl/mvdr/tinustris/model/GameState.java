@@ -197,7 +197,6 @@ public class GameState {
      *            y coordinate
      * @return block at x, y; null if there is no block there
      */
-    // TODO do take the currently controlled block into account?
     public Tetromino getBlock(int x, int y) {
         if (x < 0 || getWidth() <= x) {
             throw new IndexOutOfBoundsException(String.format(
