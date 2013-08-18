@@ -299,7 +299,12 @@ public class GameState {
      * @throws IllegalStateException if there is no active block
      */
     public boolean canMoveRight() {
-        return false; // TODO
+        if (currentBlock == null) {
+            throw new IllegalStateException("no active block");
+        }
+        
+        Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), 1, 0);
+        return isWithinBounds(newPosition) && !containsBlock(newPosition);
     }
     
     /**
@@ -309,7 +314,12 @@ public class GameState {
      * @throws IllegalStateException if there is no active block
      */
     public boolean canMoveDown() {
-        return false; // TODO
+        if (currentBlock == null) {
+            throw new IllegalStateException("no active block");
+        }
+        
+        Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), 0, -1);
+        return isWithinBounds(newPosition) && !containsBlock(newPosition);
     }
     
     /** 
