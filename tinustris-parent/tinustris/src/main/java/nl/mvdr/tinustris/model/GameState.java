@@ -18,10 +18,12 @@ import lombok.NonNull;
 @EqualsAndHashCode
 @Getter
 public class GameState {
+    /** height of the vanish zone. */
+    private static final int VANISH_ZONE_HEIGHT = 2;
     /** Minimum width of a Tetris grid. */
     private static final int MIN_WIDTH = 4;
     /** Minimum height of a Tetris grid. */
-    private static final int MIN_HEIGHT = 6;
+    private static final int MIN_HEIGHT = 4 + VANISH_ZONE_HEIGHT;
     /** Default width of a Tetris grid. */
     private static final int DEFAULT_WIDTH = 10;
     /** Default height of a Tetris grid. */
@@ -139,7 +141,7 @@ public class GameState {
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, @NonNull Tetromino nextBlock) {
         this(grid, width, currentBlock, currentBlock == null ? null : new Point(width / 2 - 2, computeHeight(grid,
-                width) - 6), Orientation.getDefault(), nextBlock);
+                width) - 4 - VANISH_ZONE_HEIGHT), Orientation.getDefault(), nextBlock);
     }
     
     /**
@@ -232,7 +234,7 @@ public class GameState {
         boolean result = false;
         int height = getHeight();
         for (int x = 0; !result && x != width; x++) {
-            for (int y = height - 2; !result && y != height; y++) {
+            for (int y = height - VANISH_ZONE_HEIGHT; !result && y != height; y++) {
                 result = result || getBlock(x, y) != null;
             }
         }
