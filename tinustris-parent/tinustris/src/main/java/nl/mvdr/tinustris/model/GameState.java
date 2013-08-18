@@ -208,7 +208,7 @@ public class GameState {
                     "y coordinate in (%s, %s) is out of bounds, should be between 0 and %s.",
                     Integer.valueOf(x), Integer.valueOf(y), Integer.valueOf(getHeight())));
         }
-
+        
         return this.grid.get(x + y * this.width);
     }
     
@@ -342,14 +342,15 @@ public class GameState {
     /**
      * Determines whether the given point is within the bounds of the grid.
      * 
-     * @param point point
+     * @param x x coordinate
+     * @param y y coordinate
      * @return whether the point is within bounds
      */
-    private boolean isWithinBounds(Point point) {
-        boolean result = 0 <= point.getX();
-        result = result && point.getX() < width;
-        result = result && 0 <= point.getY();
-        result = result && point.getY() < getHeight();
+    private boolean isWithinBounds(int x, int y) {
+        boolean result = 0 <= x;
+        result = result && x < width;
+        result = result && 0 <= y;
+        result = result && y < getHeight();
         return result;
     }
     
@@ -362,7 +363,7 @@ public class GameState {
     private boolean isWithinBounds(Set<Point> points) {
         boolean result = true;
         for (Point point: points) {
-            result = result && isWithinBounds(point);
+            result = result && isWithinBounds(point.getX(), point.getY());
         }
         return result;
     }
