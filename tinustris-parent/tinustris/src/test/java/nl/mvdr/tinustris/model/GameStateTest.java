@@ -346,7 +346,6 @@ public class GameStateTest {
         
         Assert.assertFalse(gameState.isTopped());
     }
-
     
     /**
      * Creates a list of tetrominoes.
