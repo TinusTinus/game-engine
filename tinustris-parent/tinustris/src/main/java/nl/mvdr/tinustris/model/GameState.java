@@ -265,11 +265,8 @@ public class GameState {
         if (currentBlock == null) {
             result = Collections.emptySet();
         } else {
-            result = new HashSet<>(4);
-            for (Point point: currentBlock.getPoints(currentBlockOrientation)) {
-                result.add(
-                    new Point(currentBlockLocation.getX() + point.getX(), currentBlockLocation.getY() + point.getY()));
-            }
+            result = translate(currentBlock.getPoints(currentBlockOrientation), currentBlockLocation.getX(),
+                    currentBlockLocation.getY());
         }
         return result;
     }
@@ -328,7 +325,7 @@ public class GameState {
      * @return 
      */
     private Set<Point> translate(Set<Point> points, int deltaX, int deltaY) {
-        Set<Point> result = new HashSet<>();
+        Set<Point> result = new HashSet<>(points.size());
         for (Point point: points) {
             Point translated = new Point(point.getX() + deltaX, point.getY() + deltaY);
             result.add(translated);
