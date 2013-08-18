@@ -254,6 +254,100 @@ public class GameStateTest {
         gameState.getBlock(4,  35);
     }
     
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedEmptyGridNoActiveBlock() {
+        GameState gameState = new GameState();
+        log.info(gameState.toString());
+        
+        Assert.assertFalse(gameState.isTopped());
+    }
+    
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedFullGridNoActiveBlock() {
+        List<Tetromino> grid = createGrid(220, Tetromino.J);
+        GameState gameState = new GameState(grid, 10, null, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.isTopped());
+    }
+    
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedEmptyGridActiveBlock() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        GameState gameState = new GameState(grid, 10, Tetromino.J, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertFalse(gameState.isTopped());
+    }
+    
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedFullGridActiveBlock() {
+        List<Tetromino> grid = createGrid(220, Tetromino.L);
+        GameState gameState = new GameState(grid, 10, Tetromino.J, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.isTopped());
+    }
+    
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedOneBlockOverlap() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a single block at (2, 2)
+        grid.set(2 + 2 * 10, Tetromino.S);
+        
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(1, 1), Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.isTopped());
+    }
+    
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedOneBlockInTopRow() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a single block in the vanish zone
+        grid.set(2 + 21 * 10, Tetromino.Z);
+        
+        GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.isTopped());
+    }
+    
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedOneBlockInSecondRowFromTop() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a single block in the vanish zone
+        grid.set(2 + 20 * 10, Tetromino.Z);
+        
+        GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertTrue(gameState.isTopped());
+    }
+
+    
+    /** Tests the isTopped method. */
+    @Test
+    public void testIsToppedOneBlockInThirdRowFromTop() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a single block just below the vanish zone
+        grid.set(2 + 19 * 10, Tetromino.Z);
+        
+        GameState gameState = new GameState(grid, 10, Tetromino.O, Tetromino.I);
+        log.info(gameState.toString());
+        
+        Assert.assertFalse(gameState.isTopped());
+    }
+
+    
     /**
      * Creates a list of tetrominoes.
      * 
@@ -272,6 +366,31 @@ public class GameStateTest {
             i = (i + 1) % values.size();
         }
         result = Collections.unmodifiableList(result);
+        return result;
+    }
+    
+    /**
+     * Creates an list with the given size, containing all null values.
+     * 
+     * @param size size of the list to be returned
+     * @return list containing only null values
+     */
+    private List<Tetromino> createEmptyGrid(int size) {
+        return createGrid(size, null);
+    }
+    
+    /**
+     * Creates a list of tetrominoes.
+     * 
+     * @param size number of items in the list
+     * @param value the tetromino value; all items of the list will have this value
+     * @return list
+     */
+    private List<Tetromino> createGrid(int size, Tetromino value) {
+        List<Tetromino> result = new ArrayList<>();
+        while (result.size() != size) {
+            result.add(value);
+        }
         return result;
     }
 }

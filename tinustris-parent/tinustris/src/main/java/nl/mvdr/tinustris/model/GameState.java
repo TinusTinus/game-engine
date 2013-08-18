@@ -85,7 +85,7 @@ public class GameState {
         this.currentBlockOrientation = null;
         this.nextBlock = Tetromino.I; // TODO determine randomly?
     }
-
+    
     /**
      * Constructor.
      * 
@@ -213,6 +213,101 @@ public class GameState {
     }
     
     /**
+     * Indicates whether the game is topped, that is, the game is over.
+     * 
+     * The game is topped out in case the currently active block overlaps with blocks already in the grid, and when
+     * there are blocks in the vanish zone (the top two rows).
+     * 
+     * See the <a href="http://tetris.wikia.com/wiki/Top_out">Tetris Wiki</a> for more details.
+     * 
+     * @return whether the game is topped
+     */
+    public boolean isTopped() {
+        return isBlockInVanishZone() || containsBlock(getCurrentActiveBlockPoints());
+    }
+    
+    /**
+     * Determines whether there is a block in the vanish zone.
+     * 
+     * @return whether the grid contains at least one block in the vanish zone
+     */
+    private boolean isBlockInVanishZone() {
+        boolean result = false;
+        int height = getHeight();
+        for (int x = 0; !result && x != width; x++) {
+            for (int y = height - 2; !result && y != height; y++) {
+                result = result || getBlock(x, y) != null;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Indicates whether any of the given points in the grid contain a non-null block.
+     * 
+     * Only the grid is inspected, not the current active block.
+     * 
+     * @param points points to be checked
+     * @return whether any of the points contain a block
+     */
+    private boolean containsBlock(Set<Point> points) {
+        boolean result = false;
+        for (Point point: points) {
+            result = result || getBlock(point.getX(), point.getY()) != null;
+        }
+        return result;
+    }
+    
+    /**
+     * Computes the points occupied by the currently active block.
+     * 
+     * @return points occupied by the currently active block; empty set if there is no currently active block
+     */
+    private Set<Point> getCurrentActiveBlockPoints() {
+        Set<Point> result;
+        if (currentBlock == null) {
+            result = Collections.emptySet();
+        } else {
+            result = new HashSet<>(4);
+            for (Point point:  currentBlock.getPoints(currentBlockOrientation)) {
+                result.add(
+                    new Point(currentBlockLocation.getX() + point.getX(), currentBlockLocation.getY() + point.getY()));
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Indicates whether the current active block can be moved one position to the left.
+     * 
+     * @return whether the current active block can be moved left
+     * @throws IllegalStateException if there is no active block
+     */
+    public boolean canMoveLeft() {
+        return false; // TODO
+    }
+    
+    /**
+     * Indicates whether the current active block can be moved one position to the right.
+     * 
+     * @return whether the current active block can be moved right
+     * @throws IllegalStateException if there is no active block
+     */
+    public boolean canMoveRight() {
+        return false; // TODO
+    }
+    
+    /**
+     * Indicates whether the current active block can be moved one position down.
+     * 
+     * @return whether the current active block can be moved down
+     * @throws IllegalStateException if there is no active block
+     */
+    public boolean canMoveDown() {
+        return false; // TODO
+    }
+    
+    /**
      * Creates an ascii representation of the grid.
      * 
      * @return string representation of the grid
@@ -220,16 +315,7 @@ public class GameState {
     private String gridToAscii() {
         StringBuilder result = new StringBuilder();
         
-        Set<Point> currentBlockPoints;
-        if (currentBlock != null) {
-            currentBlockPoints = new HashSet<>(4);
-            for (Point point:  currentBlock.getPoints(currentBlockOrientation)) {
-                currentBlockPoints.add(new Point(currentBlockLocation.getX() + point.getX(), currentBlockLocation
-                        .getY() + point.getY()));
-            }
-        } else {
-            currentBlockPoints = Collections.emptySet();
-        }
+        Set<Point> currentBlockPoints = getCurrentActiveBlockPoints();
         
         for (int y = getHeight() - 1; y != -1; y--) {
             result.append("|");
@@ -264,7 +350,8 @@ public class GameState {
      */
     @Override
     public String toString() {
-        return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", nextBlock="
+        return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", currentBlockLocation="
+                + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
                 + nextBlock + ", grid=\n" + gridToAscii() + ")";
     }
 }
