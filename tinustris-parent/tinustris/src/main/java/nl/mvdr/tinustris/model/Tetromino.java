@@ -107,10 +107,14 @@ public enum Tetromino {
     /**
      * Constructor.
      * 
-     * @param pointsFlatDown list containing the points for the Flat Down orientation
-     * @param pointsFlatLeft list containing the points for the Flat Left orientation
-     * @param pointsFlatUp list containing the points for the Flat Up orientation
-     * @param pointsFlatRight list containing the points for the Flat Right orientation
+     * @param pointsFlatDown
+     *            list containing the points for the Flat Down orientation
+     * @param pointsFlatLeft
+     *            list containing the points for the Flat Left orientation
+     * @param pointsFlatUp
+     *            list containing the points for the Flat Up orientation
+     * @param pointsFlatRight
+     *            list containing the points for the Flat Right orientation
      */
     private Tetromino(Set<Point> pointsFlatDown, Set<Point> pointsFlatLeft, Set<Point> pointsFlatUp,
             Set<Point> pointsFlatRight) {
@@ -124,9 +128,9 @@ public enum Tetromino {
     /**
      * Retrieves the list of points for the given orientation.
      * 
-     * @param key orientation value
-     * @return a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4
-     * grid
+     * @param key
+     *            orientation value
+     * @return a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4 grid
      * @see java.util.Map#get(java.lang.Object)
      */
     public Set<Point> getPoints(@NonNull Orientation key) {
@@ -136,8 +140,9 @@ public enum Tetromino {
     /**
      * Constructs an unmodifiable set with the given values.
      * 
-     * @param values contents of the set to be constructed
-     * @return set
+     * @param values
+     *            contents of the set to be constructed
+     * @return set of the given values
      */
     private static Set<Point> createSet(Point... values) {
         Set<Point> set = new HashSet<>(values.length);
