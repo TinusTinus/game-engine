@@ -32,10 +32,10 @@ public class TetrominoTest {
                 for (Point point : points) {
                     log.info("    Point: " + point);
                     
-                    Assert.assertTrue("Tetromino: " + tetromino, 0 <= point.getX());
-                    Assert.assertTrue("Tetromino: " + tetromino, point.getX() < 4);
-                    Assert.assertTrue("Tetromino: " + tetromino, 0 <= point.getY());
-                    Assert.assertTrue("Tetromino: " + tetromino, point.getY() < 4);
+                    Assert.assertTrue(0 <= point.getX());
+                    Assert.assertTrue(point.getX() < 4);
+                    Assert.assertTrue(0 <= point.getY());
+                    Assert.assertTrue(point.getY() < 4);
                 }
             }
         }
