@@ -64,6 +64,8 @@
 	<build>
 		<plugins>
 			<plugin>
+				<!-- extract (jinput's) native libraries to target/natives, so we can 
+					put it on the classpath when running integration tests -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
