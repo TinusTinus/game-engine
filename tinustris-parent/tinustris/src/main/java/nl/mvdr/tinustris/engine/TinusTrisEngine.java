@@ -10,6 +10,10 @@ import nl.mvdr.tinustris.model.Point;
  * @author Martijn van de Rijdt
  */
 public class TinusTrisEngine implements GameEngine {
+    /** Number of frames between drops. */
+    // TODO have this be variable, depending on current level
+    private static final int FRAMES_BETWEEN_DROPS = 60;
+
     /** {@inheritDoc} */
     @Override
     public GameState computeNextState(GameState previousState, InputState inputState) {
@@ -17,7 +21,7 @@ public class TinusTrisEngine implements GameEngine {
 
         int numFramesSinceLastTick = previousState.getNumFramesSinceLastTick() + 1;
         Point newLocation = previousState.getCurrentBlockLocation();
-        if (numFramesSinceLastTick == 60 && previousState.canMoveDown()) {
+        if (numFramesSinceLastTick == FRAMES_BETWEEN_DROPS && previousState.canMoveDown()) {
             newLocation = previousState.getCurrentBlockLocation().translate(0, -1);
             numFramesSinceLastTick = 0;
         }
