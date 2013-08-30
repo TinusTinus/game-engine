@@ -23,4 +23,18 @@ public class Point {
     public String toString() {
         return "(" + x + ", " + y  + ")";
     }
+    
+    /**
+     * Returns a point equal to this point, translated with the given delta. Note that this method does not modify this
+     * point instance, instead a new instance is returned.
+     * 
+     * @param deltaX
+     *            amount to be added to x
+     * @param deltaY
+     *            amount to be added to y
+     * @return new point
+     */
+    public Point translate(int deltaX, int deltaY) {
+        return new Point(x + deltaX, y + deltaY);
+    }
 }
