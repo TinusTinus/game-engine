@@ -56,6 +56,8 @@ public class GameState {
     @NonNull
     // TODO replace by a queue of blocks, in case we want to be able to display multiple "next" blocks
     private final Tetromino nextBlock;
+    /** The number of frames since the last tick. */
+    private final int numFramesSinceLastTick;
 
     /** Constructor for a (new) game with a completely empty grid of default size. */
     public GameState() {
@@ -86,6 +88,7 @@ public class GameState {
         this.currentBlockLocation = null;
         this.currentBlockOrientation = null;
         this.nextBlock = Tetromino.I; // TODO determine randomly?
+        this.numFramesSinceLastTick = 0;
     }
     
     /**
@@ -106,6 +109,29 @@ public class GameState {
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
+        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param grid
+     *            grid
+     * @param width
+     *            width of the grid
+     * @param currentBlock
+     *            current block
+     * @param currentBlockLocation
+     *            location of the current block
+     * @param currentBlockOrientation
+     *            orientation of the current block
+     * @param nextBlock
+     *            next block
+     * @param numFramesSinceLastTick
+     *            number of frames since the last tick
+     */
+    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick) {
         super();
 
         checkWidth(width);
@@ -123,6 +149,7 @@ public class GameState {
         this.currentBlockLocation = currentBlockLocation;
         this.currentBlockOrientation = currentBlockOrientation;
         this.nextBlock = nextBlock;
+        this.numFramesSinceLastTick = numFramesSinceLastTick;
     }
     
     /**
@@ -338,8 +365,7 @@ public class GameState {
     private Set<Point> translate(Set<Point> points, int deltaX, int deltaY) {
         Set<Point> result = new HashSet<>(points.size());
         for (Point point: points) {
-            Point translated = new Point(point.getX() + deltaX, point.getY() + deltaY);
-            result.add(translated);
+            result.add(point.translate(deltaX, deltaY));
         }
         return result;
     }

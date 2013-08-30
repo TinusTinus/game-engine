@@ -1,5 +1,9 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,6 +17,7 @@ import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.Tetromino;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -170,7 +175,13 @@ public class Tinustris extends Application {
         // Simple way of finding FPS.
         int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
         
-        GameState gameState = new GameState();
+        // initialise game state
+        List<Tetromino> grid = new ArrayList<>(10 * 22);
+        while (grid.size() != 10 * 22) {
+            grid.add(null);
+        }
+        grid = Collections.unmodifiableList(grid);        
+        GameState gameState = new GameState(grid, 10, Tetromino.L, Tetromino.T);
 
         log.info("Starting main game loop.");
         
