@@ -25,9 +25,9 @@ public class GameState {
     /** Minimum height of a Tetris grid. */
     private static final int MIN_HEIGHT = 4 + VANISH_ZONE_HEIGHT;
     /** Default width of a Tetris grid. */
-    private static final int DEFAULT_WIDTH = 10;
+    public static final int DEFAULT_WIDTH = 10;
     /** Default height of a Tetris grid. */
-    private static final int DEFAULT_HEIGHT = 22;
+    public static final int DEFAULT_HEIGHT = 22;
 
     /**
      * The basin of blocks.

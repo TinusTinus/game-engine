@@ -176,12 +176,12 @@ public class Tinustris extends Application {
         int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
         
         // initialise game state
-        List<Tetromino> grid = new ArrayList<>(10 * 22);
-        while (grid.size() != 10 * 22) {
+        List<Tetromino> grid = new ArrayList<>(GameState.DEFAULT_WIDTH * GameState.DEFAULT_HEIGHT);
+        while (grid.size() != GameState.DEFAULT_WIDTH * GameState.DEFAULT_HEIGHT) {
             grid.add(null);
         }
         grid = Collections.unmodifiableList(grid);        
-        GameState gameState = new GameState(grid, 10, Tetromino.L, Tetromino.T);
+        GameState gameState = new GameState(grid, GameState.DEFAULT_WIDTH, Tetromino.L, Tetromino.T);
 
         log.info("Starting main game loop.");
         
