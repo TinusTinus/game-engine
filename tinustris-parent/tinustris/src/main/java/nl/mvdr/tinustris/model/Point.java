@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Representation of a value consisiting of an x and y coordinates.
+ * Representation of a value consisting of x and y coordinates.
  * 
  * @author Martijn van de Rijdt
  */
