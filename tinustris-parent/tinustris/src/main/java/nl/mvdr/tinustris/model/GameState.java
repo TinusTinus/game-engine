@@ -422,6 +422,9 @@ public class GameState {
     /**
      * Gives the location of the ghost, or null if there is no currently selected block.
      * 
+     * The ghost location is the location where the block would end up if it were dropped straight down from its current
+     * position.
+     * 
      * @return ghost location
      */
     public Point getGhostLocation() {
