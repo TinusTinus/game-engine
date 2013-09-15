@@ -293,14 +293,34 @@ public class GameState {
      * @return points occupied by the currently active block; empty set if there is no currently active block
      */
     private Set<Point> getCurrentActiveBlockPoints() {
+        return getBlockPoints(currentBlock, currentBlockOrientation, currentBlockLocation);
+    }
+    
+    /**
+     * Computes the points occupied by the given tetromino.
+     * 
+     * @param tetromino tetromino
+     * @param orientation orientation of the tetromino
+     * @param location the tetromino's location
+     * @return points occupied by the currently active block; empty set if there is no currently active block
+     */
+    private Set<Point> getBlockPoints(Tetromino tetromino, Orientation orientation, Point location) {
         Set<Point> result;
-        if (currentBlock == null) {
+        if (tetromino == null) {
             result = Collections.emptySet();
         } else {
-            result = translate(currentBlock.getPoints(currentBlockOrientation), currentBlockLocation.getX(),
-                    currentBlockLocation.getY());
+            result = translate(tetromino.getPoints(orientation), location.getX(), location.getY());
         }
         return result;
+    }
+    
+    /**
+     * Computes the points occupied by the currently active block's ghost.
+     * 
+     * @return points occupied by the currently active block; empty set if there is no currently active block
+     */
+    private Set<Point> getGhostPoints() {
+        return getBlockPoints(currentBlock, currentBlockOrientation, getGhostLocation());
     }
     
     /**
@@ -428,16 +448,19 @@ public class GameState {
         StringBuilder result = new StringBuilder();
         
         Set<Point> currentBlockPoints = getCurrentActiveBlockPoints();
-        
+        Set<Point> ghostPoints = getGhostPoints();
+
         for (int y = getHeight() - 1; y != -1; y--) {
-            result.append("|");
+            result.append('|');
             for (int x = 0; x != width; x++) {
                 if (currentBlockPoints.contains(new Point(x, y))) {
                     result.append(currentBlock);
+                } else if (ghostPoints.contains(new Point(x, y))) {
+                    result.append('_');
                 } else {
                     Tetromino block = getBlock(x, y);
                     if (block == null) {
-                        result.append(" ");
+                        result.append(' ');
                     } else {
                         result.append(block);
                     }
@@ -446,9 +469,9 @@ public class GameState {
             result.append("|\n");
         }
         
-        result.append("+");
+        result.append('+');
         for (int i = 0; i != width; i++) {
-            result.append("-");
+            result.append('-');
         }
         result.append("+");
         
