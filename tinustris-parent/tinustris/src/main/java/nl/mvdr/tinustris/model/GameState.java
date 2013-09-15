@@ -400,6 +400,26 @@ public class GameState {
     }
     
     /**
+     * Gives the location of the ghost, or null if there is no currently selected block.
+     * 
+     * @return ghost location
+     */
+    public Point getGhostLocation() {
+        Point result;
+        
+        if (currentBlock != null) {
+            int deltaY = 0;
+            while (canMove(0, deltaY - 1)) {
+                deltaY = deltaY - 1;
+            }
+            result = new Point(currentBlockLocation.getX(), currentBlockLocation.getY() + deltaY);
+        } else {
+            result = null;
+        }
+        return result;
+    }
+    
+    /**
      * Creates an ascii representation of the grid.
      * 
      * @return string representation of the grid

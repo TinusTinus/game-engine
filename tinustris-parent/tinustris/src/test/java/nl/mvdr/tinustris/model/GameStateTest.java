@@ -610,6 +610,68 @@ public class GameStateTest {
         Assert.assertTrue(gameState.canMoveDown());
     }
     
+    /** Tests the getGhostLocation method, when there is currently no block. */
+    @Test
+    public void testGetGhostLocationNoCurrentBlock() {
+        GameState gameState = new GameState();
+        log.info(gameState.toString());
+
+        Assert.assertNull(gameState.getGhostLocation());
+    }
+    
+    /** Tests the getGhostLocation method when the currently active block is on the floor. */
+    @Test
+    public void testGetGhostLocationOnFloor() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        Point blockLocation = new Point(1, -1);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, blockLocation, Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+
+        Assert.assertEquals(blockLocation, gameState.getGhostLocation());
+    }
+    
+    /** Tests the getGhostLocation method when the currently active block is just above the floor. */
+    @Test
+    public void testGetGhostLocation1AboveFloor() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        Point blockLocation = new Point(1, 0);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, blockLocation, Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+
+        Assert.assertEquals(new Point(1, -1), gameState.getGhostLocation());
+    }
+    
+    /** Tests the getGhostLocation method when the currently active block is far above the floor. */
+    @Test
+    public void testGetGhostLocationFarAboveFloor() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        Point blockLocation = new Point(1, 15);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, blockLocation, Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+
+        Assert.assertEquals(new Point(1, -1), gameState.getGhostLocation());
+    }
+    
+    
+    /** Tests the getGhostLocation method when the currently active block is directly above a block. */
+    @Test
+    public void testGetGhostLocationDirectlyAboveBlock() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a single block at (2, 2)
+        grid.set(2 + 2 * 10, Tetromino.S);
+        Point blockLocation = new Point(1, 2);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, blockLocation, Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+
+        Assert.assertEquals(blockLocation, gameState.getGhostLocation());
+    }
+    
+
+    
     /**
      * Creates a list of tetrominoes.
      * 
