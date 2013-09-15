@@ -409,7 +409,7 @@ public class GameState {
      * Determines whether the given points are all within the bounds of the grid.
      * 
      * @param points points
-     * @return whether the point is within bounds
+     * @return whether all points are within bounds
      */
     private boolean isWithinBounds(Set<Point> points) {
         boolean result = true;
