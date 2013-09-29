@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.gui;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import lombok.NonNull;
 import nl.mvdr.tinustris.model.GameState;
 
 /**
@@ -19,7 +20,7 @@ public class LabelRenderer implements GameRenderer<Label> {
      *            game state to be displayed
      */
     @Override
-    public void render(final Label label, GameState gameState) {
+    public void render(@NonNull final Label label, @NonNull GameState gameState) {
         final String text = gameState.toString();
         if (!text.equals(label.getText())) {
             runOnJavaFXThread(new Runnable() {
