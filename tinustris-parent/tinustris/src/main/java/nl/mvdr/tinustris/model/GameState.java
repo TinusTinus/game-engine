@@ -177,8 +177,29 @@ public class GameState {
      *            next block
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, @NonNull Tetromino nextBlock) {
-        this(grid, width, currentBlock, currentBlock == null ? null : new Point(width / 2 - 2, computeHeight(grid,
-                width) - 4 - VANISH_ZONE_HEIGHT), Orientation.getDefault(), nextBlock);
+        this(grid, width, currentBlock, 
+                currentBlock == null ? null : getBlockSpawnLocation(width, computeHeight(grid, width)),
+                Orientation.getDefault(), nextBlock);
+    }
+
+    /**
+     * Computes the spawn location for new blocks.
+     * 
+     * @param width width of the grid
+     * @param height height of the grid
+     * @return spawn location
+     */
+    private static Point getBlockSpawnLocation(int width, int height) {
+        return new Point(width / 2 - 2, height - 4 - VANISH_ZONE_HEIGHT);
+    }
+    
+    /**
+     * Computes the spawn location for new blocks.
+     * 
+     * @return spawn location
+     */
+    public Point getBlockSpawnLocation() {
+        return getBlockSpawnLocation(width, getHeight());
     }
     
     /**
@@ -248,7 +269,28 @@ public class GameState {
                             Integer.valueOf(0), Integer.valueOf(getHeight())));
         }
         
-        return this.grid.get(x + y * this.width);
+        return this.grid.get(toGridIndex(x, y));
+    }
+
+    /**
+     * Translates the given coordinates to an index in the grid.
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return index in the grid
+     */
+    private int toGridIndex(int x, int y) {
+        return x + y * this.width;
+    }
+    
+    /**
+     * Translates the given coordinates to an index in the grid.
+     * 
+     * @param point point
+     * @return index in the grid
+     */
+    public int toGridIndex(Point point) {
+        return toGridIndex(point.getX(), point.getY());
     }
     
     /**
@@ -302,7 +344,7 @@ public class GameState {
      * 
      * @return points occupied by the currently active block; empty set if there is no currently active block
      */
-    private Set<Point> getCurrentActiveBlockPoints() {
+    public Set<Point> getCurrentActiveBlockPoints() {
         return getBlockPoints(currentBlock, currentBlockOrientation, currentBlockLocation);
     }
     

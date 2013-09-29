@@ -1,9 +1,15 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
+import nl.mvdr.tinustris.model.Tetromino;
 
 /**
  * Implementation of {@link GameEngine}.
@@ -20,16 +26,41 @@ public class TinusTrisEngine implements GameEngine {
     public GameState computeNextState(GameState previousState, InputState inputState) {
         // TODO implement for realsies
 
+        List<Tetromino> grid;
+        int width = previousState.getWidth();
+        Tetromino block;
+        Point location;
+        Orientation orientation = previousState.getCurrentBlockOrientation();
+        Tetromino nextBlock;
         int numFramesSinceLastTick = previousState.getNumFramesSinceLastTick() + 1;
-        Point newLocation = previousState.getCurrentBlockLocation();
-        if (numFramesSinceLastTick == FRAMES_BETWEEN_DROPS && previousState.canMoveDown()) {
-            newLocation = previousState.getCurrentBlockLocation().translate(0, -1);
+        InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
+        
+        if (numFramesSinceLastTick == FRAMES_BETWEEN_DROPS) {
+            if (previousState.canMoveDown()) {
+                block = previousState.getCurrentBlock();
+                grid = previousState.getGrid();
+                location = previousState.getCurrentBlockLocation().translate(0, -1);
+                nextBlock = previousState.getNextBlock();
+            } else {
+                block = previousState.getNextBlock();
+                grid = new ArrayList<>(previousState.getGrid());
+                for (Point point: previousState.getCurrentActiveBlockPoints()) {
+                    int index = previousState.toGridIndex(point);
+                    grid.set(index, previousState.getCurrentBlock());
+                }
+                grid = Collections.unmodifiableList(grid);
+                location = previousState.getBlockSpawnLocation();
+                nextBlock = Tetromino.J; // TODO get from generator
+            }
             numFramesSinceLastTick = 0;
+        } else {
+            block = previousState.getCurrentBlock();
+            grid = previousState.getGrid();
+            location = previousState.getCurrentBlockLocation();
+            nextBlock = previousState.getNextBlock();
         }
-        InputStateHistory newInputStateHistory = previousState.getInputStateHistory().next(inputState);
-
-        return new GameState(previousState.getGrid(), previousState.getWidth(), previousState.getCurrentBlock(),
-                newLocation, previousState.getCurrentBlockOrientation(), previousState.getNextBlock(),
-                numFramesSinceLastTick, newInputStateHistory);
+        
+        return new GameState(grid, width, block, location, orientation, nextBlock, numFramesSinceLastTick,
+                inputStateHistory);
     }
 }
