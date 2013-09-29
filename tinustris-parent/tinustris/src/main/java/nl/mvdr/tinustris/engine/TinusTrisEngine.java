@@ -32,6 +32,19 @@ public class TinusTrisEngine implements GameEngine {
     
     /** {@inheritDoc} */
     @Override
+    public GameState initGameState() {
+        List<Tetromino> grid = new ArrayList<>(GameState.DEFAULT_WIDTH * GameState.DEFAULT_HEIGHT);
+        while (grid.size() != GameState.DEFAULT_WIDTH * GameState.DEFAULT_HEIGHT) {
+            grid.add(null);
+        }
+        grid = Collections.unmodifiableList(grid);        
+        GameState gameState = new GameState(grid, GameState.DEFAULT_WIDTH, generator.get(0), generator.get(1));
+        return gameState;
+    }
+
+    
+    /** {@inheritDoc} */
+    @Override
     public GameState computeNextState(GameState previousState, InputState inputState) {
         // TODO implement for realsies
 

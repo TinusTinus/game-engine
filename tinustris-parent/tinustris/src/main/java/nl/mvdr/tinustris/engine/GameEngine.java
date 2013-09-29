@@ -10,6 +10,13 @@ import nl.mvdr.tinustris.model.GameState;
  */
 public interface GameEngine {
     /**
+     * Initialises the game state.
+     * 
+     * @return new game state
+     */
+    public GameState initGameState();
+    
+    /**
      * Computes the next game state based on the previous one and the state of the controls.
      * 
      * @param previousState
