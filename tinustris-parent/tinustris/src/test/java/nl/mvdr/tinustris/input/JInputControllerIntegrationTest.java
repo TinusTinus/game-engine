@@ -15,12 +15,13 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * Test class for {@link JInputController}.
  * 
- * This test class is an integration test and disabled by default, because it relies on JInput's native libraries. These
- * are not available by default. If you want to run this class, make sure that the java.library.path system property
- * contains target/natives in this project directory.
+ * This test class is an integration test. It is disabled by default, because it relies on JInput's native libraries.
+ * These are not available by default. If you want to run this class, make sure that the java.library.path system
+ * property contains target/natives in this project directory.
  * 
  * In Eclipse, you can do this by opening the Run Configuration, opening the arguments tab and pasting the following
  * into the "VM Arguments" text area:
+ * 
  * <pre>
  * -Djava.library.path=${project_loc}/target/natives
  * </pre>
