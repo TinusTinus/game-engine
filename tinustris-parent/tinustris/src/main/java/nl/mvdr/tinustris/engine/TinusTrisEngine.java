@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
 import nl.mvdr.tinustris.input.InputState;
+import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
 
@@ -25,9 +26,10 @@ public class TinusTrisEngine implements GameEngine {
             newLocation = previousState.getCurrentBlockLocation().translate(0, -1);
             numFramesSinceLastTick = 0;
         }
+        InputStateHistory newInputStateHistory = previousState.getInputStateHistory().next(inputState);
 
         return new GameState(previousState.getGrid(), previousState.getWidth(), previousState.getCurrentBlock(),
                 newLocation, previousState.getCurrentBlockOrientation(), previousState.getNextBlock(),
-                numFramesSinceLastTick);
+                numFramesSinceLastTick, newInputStateHistory);
     }
 }

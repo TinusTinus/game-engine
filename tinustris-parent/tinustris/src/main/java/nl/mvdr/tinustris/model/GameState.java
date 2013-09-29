@@ -9,6 +9,7 @@ import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import nl.mvdr.tinustris.input.InputStateHistory;
 
 /**
  * Representation of the game state for a single Tetris player.
@@ -58,6 +59,9 @@ public class GameState {
     private final Tetromino nextBlock;
     /** The number of frames since the last tick. */
     private final int numFramesSinceLastTick;
+    /** Input state history, up until and including the current frame. */
+    @NonNull
+    private final InputStateHistory inputStateHistory;
 
     /** Constructor for a (new) game with a completely empty grid of default size. */
     public GameState() {
@@ -89,6 +93,7 @@ public class GameState {
         this.currentBlockOrientation = null;
         this.nextBlock = Tetromino.I; // TODO determine randomly?
         this.numFramesSinceLastTick = 0;
+        this.inputStateHistory = new InputStateHistory();
     }
     
     /**
@@ -109,7 +114,8 @@ public class GameState {
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
-        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0);
+        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0,
+                new InputStateHistory());
     }
     
     /**
@@ -129,9 +135,12 @@ public class GameState {
      *            next block
      * @param numFramesSinceLastTick
      *            number of frames since the last tick
+     * @param inputStateHistory
+     *            history of the input state; includes the current frame
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick) {
+            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick,
+            InputStateHistory inputStateHistory) {
         super();
 
         checkWidth(width);
@@ -150,6 +159,7 @@ public class GameState {
         this.currentBlockOrientation = currentBlockOrientation;
         this.nextBlock = nextBlock;
         this.numFramesSinceLastTick = numFramesSinceLastTick;
+        this.inputStateHistory = inputStateHistory;
     }
     
     /**
@@ -490,6 +500,6 @@ public class GameState {
     public String toString() {
         return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", currentBlockLocation="
                 + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
-                + nextBlock + ", grid=\n" + gridToAscii() + ")";
+                + nextBlock + ", inputStateHistory=" + inputStateHistory + ", grid=\n" + gridToAscii() + ")";
     }
 }
