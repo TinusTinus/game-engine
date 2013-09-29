@@ -96,9 +96,7 @@ public class InputStateHistoryTest {
     @Test
     public void testGetNumberOfFramesOneButtonPressed() {
         InputStateHistory history = new InputStateHistory();
-        EnumSet<Input> inputs = EnumSet.noneOf(Input.class);
-        inputs.add(Input.TURN_RIGHT);
-        InputState inputState = new InputStateImpl(inputs);
+        InputState inputState = new InputStateImpl(EnumSet.of(Input.TURN_RIGHT));
         
         history = history.next(inputState);
         
