@@ -22,7 +22,7 @@ public class LabelRenderer implements GameRenderer<Label> {
     public void render(final Label label, GameState gameState) {
         final String text = gameState.toString();
         if (!text.equals(label.getText())) {
-            Platform.runLater(new Runnable() {
+            runOnJavaFXThread(new Runnable() {
                 /** {@inheritDoc} */
                 @Override
                 public void run() {
@@ -30,5 +30,15 @@ public class LabelRenderer implements GameRenderer<Label> {
                 }
             });
         }
+    }
+    
+    /**
+     * Runs the given runnable on the JavaFX thread.
+     * 
+     * @param runnable runnable
+     */
+    // protected visibility as an extension point for unit tests
+    protected void runOnJavaFXThread(Runnable runnable) {
+        Platform.runLater(runnable);
     }
 }
