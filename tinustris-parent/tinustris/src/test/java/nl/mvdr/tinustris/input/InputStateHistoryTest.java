@@ -3,6 +3,8 @@ package nl.mvdr.tinustris.input;
 import java.util.Collections;
 import java.util.EnumSet;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,6 +13,7 @@ import org.junit.Test;
  * 
  * @author Martijn van de Rijdt
  */
+@Slf4j
 public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#InputStateHistory()}. */
     @Test
@@ -106,5 +109,17 @@ public class InputStateHistoryTest {
         Assert.assertEquals(0, history.getNumberOfFrames(Input.RIGHT));
         Assert.assertEquals(0, history.getNumberOfFrames(Input.TURN_LEFT));
         Assert.assertEquals(1, history.getNumberOfFrames(Input.TURN_RIGHT));
+    }
+    
+    /** Test method for {@link InputStateHistory#toString()}. */
+    @Test
+    public void testToString() {
+        InputStateHistory history = new InputStateHistory();
+        
+        String string = history.toString();
+        
+        log.info(string);
+        Assert.assertNotNull(string);
+        Assert.assertNotEquals("", string);        
     }
 }
