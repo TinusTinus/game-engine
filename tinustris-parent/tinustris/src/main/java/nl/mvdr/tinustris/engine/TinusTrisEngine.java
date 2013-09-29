@@ -21,6 +21,15 @@ public class TinusTrisEngine implements GameEngine {
     // TODO have this be variable, depending on current level
     private static final int FRAMES_BETWEEN_DROPS = 60;
 
+    /** Tetromino generator. */
+    private final TetrominoGenerator generator;
+    
+    /**  Constructor. */
+    public TinusTrisEngine() {
+        super();
+        this.generator = new RandomTetrominoGenerator();
+    }
+    
     /** {@inheritDoc} */
     @Override
     public GameState computeNextState(GameState previousState, InputState inputState) {
@@ -34,6 +43,7 @@ public class TinusTrisEngine implements GameEngine {
         Tetromino nextBlock;
         int numFramesSinceLastTick = previousState.getNumFramesSinceLastTick() + 1;
         InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
+        int blockCounter;
         
         if (numFramesSinceLastTick == FRAMES_BETWEEN_DROPS) {
             if (previousState.canMoveDown()) {
@@ -41,6 +51,7 @@ public class TinusTrisEngine implements GameEngine {
                 grid = previousState.getGrid();
                 location = previousState.getCurrentBlockLocation().translate(0, -1);
                 nextBlock = previousState.getNextBlock();
+                blockCounter = previousState.getBlockCounter();
             } else {
                 block = previousState.getNextBlock();
                 grid = new ArrayList<>(previousState.getGrid());
@@ -50,7 +61,8 @@ public class TinusTrisEngine implements GameEngine {
                 }
                 grid = Collections.unmodifiableList(grid);
                 location = previousState.getBlockSpawnLocation();
-                nextBlock = Tetromino.J; // TODO get from generator
+                nextBlock = generator.get(previousState.getBlockCounter() + 2);
+                blockCounter = previousState.getBlockCounter() + 1;
             }
             numFramesSinceLastTick = 0;
         } else {
@@ -58,9 +70,10 @@ public class TinusTrisEngine implements GameEngine {
             grid = previousState.getGrid();
             location = previousState.getCurrentBlockLocation();
             nextBlock = previousState.getNextBlock();
+            blockCounter = previousState.getBlockCounter();
         }
         
         return new GameState(grid, width, block, location, orientation, nextBlock, numFramesSinceLastTick,
-                inputStateHistory);
+                inputStateHistory, blockCounter);
     }
 }
