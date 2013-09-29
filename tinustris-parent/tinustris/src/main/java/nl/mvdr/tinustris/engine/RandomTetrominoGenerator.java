@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.Tetromino;
 
 /**
@@ -12,6 +13,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  * 
  * @author Martijn van de Rijdt
  */
+@Slf4j
 class RandomTetrominoGenerator implements TetrominoGenerator {
     /** Random number generator. */
     private final Random random;
@@ -46,7 +48,11 @@ class RandomTetrominoGenerator implements TetrominoGenerator {
         
         while (tetrominoes.size() <= i) {
             int ord = random.nextInt(Tetromino.values().length);
-            tetrominoes.add(Tetromino.values()[ord]);
+            Tetromino tetromino = Tetromino.values()[ord];
+            tetrominoes.add(tetromino);
+            if (log.isInfoEnabled()) {
+                log.info("Block {}: {}", Integer.valueOf(i), tetromino);
+            }
         }
         
         return tetrominoes.get(i);
