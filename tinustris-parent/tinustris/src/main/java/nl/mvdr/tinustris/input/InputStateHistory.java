@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 /**
  * Keeps administration of the number of frames each input has been pressed.
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@ToString(includeFieldNames = false)
 public class InputStateHistory {
     /** Contains, per input, the number of frames it has been pressed. */
     @NonNull
@@ -60,11 +62,5 @@ public class InputStateHistory {
      */
     public int getNumberOfFrames(Input input) {
         return this.frames.get(input).intValue();
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public String toString() {
-        return this.frames.toString();
     }
 }
