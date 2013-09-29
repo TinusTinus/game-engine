@@ -53,7 +53,7 @@ public class LabelRendererTest {
     private LabelRenderer createLabelRenderer() {
         return new LabelRenderer() {
             /** 
-             * Mock implementation which just executes the runnable on the current thread,
+             * Mock implementation which just executes the runnable on the current thread.
              * 
              * @param runnable runnable to be executed
              */
