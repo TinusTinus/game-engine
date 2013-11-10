@@ -8,7 +8,6 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>${project.parent.groupId}</groupId>
 	<artifactId>tinustris-assembly</artifactId>
 	<packaging>pom</packaging>
 	<name>Tinustris Assembly</name>
