@@ -66,11 +66,10 @@ public class Tinustris extends Application {
 
     /** Installs a bridge for java.util.logging to slf4j. */
     private static void installSlf4jBridge() {
-        // remove existing handlers attached to j.u.l root logger
+        // remove existing handlers attached to java.util.logging root logger
         SLF4JBridgeHandler.removeHandlersForRootLogger();
 
-        // add SLF4JBridgeHandler to j.u.l's root logger, should be done once during
-        // the initialization phase of your application
+        // add SLF4JBridgeHandler to java.util.logging's root logger
         SLF4JBridgeHandler.install();
     }
     
@@ -214,10 +213,8 @@ public class Tinustris extends Application {
                     Thread.yield();
 
                     // This stops the app from consuming all your CPU. It makes this slightly less accurate, but is
-                    // worth it.
-                    // You can remove this line and it will still work (better), your CPU just climbs on certain OSes.
-                    // FYI on some OS's this can cause pretty bad stuttering. Scroll down and have a look at different
-                    // peoples' solutions to this.
+                    // worth it. You can remove this line and it will still work (better), your CPU just climbs on
+                    // certain OSes.
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException e) {
