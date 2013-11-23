@@ -14,6 +14,5 @@ public interface InputState {
      *            input
      * @return true if pressed, false if not
      */
-    public abstract boolean isPressed(Input input);
-
+    abstract boolean isPressed(Input input);
 }
