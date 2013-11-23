@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.input;
 
 import java.util.Set;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,10 @@ import lombok.ToString;
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode
 @ToString
-public class InputStateImpl implements InputState {
+class InputStateImpl implements InputState {
     /** Set that contains all pressed inputs. */
     @NonNull
     private Set<Input> pressedInputs;
