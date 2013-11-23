@@ -14,7 +14,7 @@ interface TetrominoGenerator {
      * If get is invoked multiple times with the same index, the same tetromino is returned.
      * 
      * @param i
-     *            index of the tetromino
+     *            index of the tetromino; must be at least 0
      * @return tetromino
      */
     Tetromino get(int i);
