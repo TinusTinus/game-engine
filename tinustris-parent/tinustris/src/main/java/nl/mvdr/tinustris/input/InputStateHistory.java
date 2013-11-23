@@ -43,7 +43,7 @@ public class InputStateHistory {
         for (Input input: Input.values()) {
             int value;
             if (inputState.isPressed(input)) {
-                value = frames.get(input).intValue() + 1;
+                value = getNumberOfFrames(input) + 1;
             } else {
                 value = 0;
             }
