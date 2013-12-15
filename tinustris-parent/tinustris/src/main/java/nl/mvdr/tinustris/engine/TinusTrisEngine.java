@@ -133,7 +133,7 @@ public class TinusTrisEngine implements GameEngine {
     }
 
     /**
-     * Executes the 'down' action.
+     * Executes the down action.
      * 
      * @param state game state
      * @return updated game state
@@ -168,7 +168,7 @@ public class TinusTrisEngine implements GameEngine {
     }
     
     /**
-     * Executes the 'left' action.
+     * Executes the left action.
      * 
      * @param state game state
      * @return updated game state
@@ -187,7 +187,7 @@ public class TinusTrisEngine implements GameEngine {
     }
 
     /**
-     * Executes the 'right' action.
+     * Executes the right action.
      * 
      * @param state game state
      * @return updated game state
