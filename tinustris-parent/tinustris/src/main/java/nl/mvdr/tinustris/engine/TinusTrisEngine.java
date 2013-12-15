@@ -341,27 +341,27 @@ public class TinusTrisEngine implements GameEngine {
     /**
      * Fixes the state after an action that may have left the game in an invalid state.
      * 
-     * @param state
+     * @param originalState
      *            original game state
-     * @param stateAfterTurn
-     *            game state after execution of the turn; this game state is allowed to be invalid (that is, a game over
-     *            state or a state where the active block is partially or completely out of bounds)
+     * @param stateAfterAction
+     *            game state after execution of the action; this game state is allowed to be invalid (that is, a game 
+     *            over state or a state where the active block is partially or completely out of bounds)
      * @return new game state
      */
-    private GameState fixStateAfterAction(GameState state, GameState stateAfterTurn) {
+    private GameState fixStateAfterAction(GameState originalState, GameState stateAfterAction) {
         GameState result;
-        if (!stateAfterTurn.isTopped()) {
+        if (!stateAfterAction.isTopped()) {
             // no problemo!
-            result = stateAfterTurn;
+            result = stateAfterAction;
         } else {
             // state is not valid
-            if (stateAfterTurn.canMoveRight()) {
-                result = moveRight(stateAfterTurn);
-            } else if (stateAfterTurn.canMoveLeft()) {
-                result = moveLeft(stateAfterTurn);
+            if (stateAfterAction.canMoveRight()) {
+                result = moveRight(stateAfterAction);
+            } else if (stateAfterAction.canMoveLeft()) {
+                result = moveLeft(stateAfterAction);
             } else {
-                // impossible to turn
-                result = state;
+                // impossible to fix; cancel the action
+                result = originalState;
             }
         }
         return result;
