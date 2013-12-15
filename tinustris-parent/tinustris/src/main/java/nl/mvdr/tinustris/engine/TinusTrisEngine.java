@@ -212,9 +212,11 @@ public class TinusTrisEngine implements GameEngine {
      * @return updated game state
      */
     private GameState executeInstantDrop(GameState state) {
-        GameState result;
-        // TODO
-        result = state;
+        GameState result = state;
+        while (result.canMoveDown()) {
+            result = executeMoveDown(result);
+        }
+        result = executeMoveDown(result);
         return result;
     }
     
