@@ -119,23 +119,19 @@ public class TinusTrisEngine implements GameEngine {
         } else if (action == Action.MOVE_RIGHT){
             result = executeMoveRight(state);
         } else if (action == Action.INSTANT_DROP) {
-            // TODO
-            result = state;
+            result = executeInstantDrop(state);
         } else if (action == Action.TURN_LEFT) {
-            // TODO
-            result = state;
+            result = executeTurnLeft(state);
         } else if (action == Action.TURN_RIGHT) {
-            // TODO 
-            result = state;
+            result = executeTurnRight(state);
         } else if (action == Action.HOLD) {
-            // TODO
-            result = state;
+            result = executeHold(state);
         } else {
             throw new IllegalArgumentException("Unexpected action: " + action);
         }
         return result;
     }
-    
+
     /**
      * Executes the 'down' action.
      * 
@@ -185,7 +181,6 @@ public class TinusTrisEngine implements GameEngine {
                     state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
                     state.getInputStateHistory(), state.getBlockCounter());
         } else {
-            // do nothing
             result = state;
         }
         return result;
@@ -205,9 +200,60 @@ public class TinusTrisEngine implements GameEngine {
                     state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
                     state.getInputStateHistory(), state.getBlockCounter());
         } else {
-            // do nothing
             result = state;
         }
+        return result;
+    }
+    
+    /**
+     * Executes the instant drop action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeInstantDrop(GameState state) {
+        GameState result;
+        // TODO
+        result = state;
+        return result;
+    }
+    
+    /**
+     * Executes the turn left action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeTurnLeft(GameState state) {
+        GameState result;
+        // TODO
+        result = state;
+        return result;
+    }
+    
+    /**
+     * Executes the turn right action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeTurnRight(GameState state) {
+        GameState result;
+        // TODO
+        result = state;
+        return result;
+    }
+    
+    /**
+     * Executes the hold action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeHold(GameState state) {
+        GameState result;
+        // TODO
+        result = state;
         return result;
     }
 }
