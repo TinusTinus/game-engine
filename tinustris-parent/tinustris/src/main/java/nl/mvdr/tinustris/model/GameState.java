@@ -310,7 +310,8 @@ public class GameState {
      * @return whether the game is topped
      */
     public boolean isTopped() {
-        return vanishZoneContainsBlock() || containsBlock(getCurrentActiveBlockPoints());
+        return !isCurrentBlockWithinBounds() || vanishZoneContainsBlock()
+                || containsBlock(getCurrentActiveBlockPoints());
     }
     
     /**
@@ -475,6 +476,16 @@ public class GameState {
             result = result && isWithinBounds(point.getX(), point.getY());
         }
         return result;
+    }
+    
+    /**
+     * Indicates whether the active block is currently within bounds. Note that if this method returns false, this is
+     * actually not a valid game state!
+     * 
+     * @return whether the current block is within bounds.
+     */
+    private boolean isCurrentBlockWithinBounds() {
+        return isWithinBounds(getCurrentActiveBlockPoints());
     }
     
     /**

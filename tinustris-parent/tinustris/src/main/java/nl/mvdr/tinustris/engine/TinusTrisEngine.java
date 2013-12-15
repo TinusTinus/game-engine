@@ -9,6 +9,7 @@ import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Action;
 import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
@@ -197,13 +198,28 @@ public class TinusTrisEngine implements GameEngine {
     private GameState executeMoveLeft(GameState state) {
         GameState result;
         if (state.canMoveLeft()) {
-            Point location = state.getCurrentBlockLocation().translate(-1, 0);
-            result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
-                    state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
-                    state.getInputStateHistory(), state.getBlockCounter());
+            result = moveLeft(state);
         } else {
+            // do nothing
             result = state;
         }
+        return result;
+    }
+
+    /**
+     * Moves the current block left one position on the given state.
+     * 
+     * This method does not check that state.canMoveLeft() is true.
+     * 
+     * @param state game state
+     * @return updated state
+     */
+    private GameState moveLeft(GameState state) {
+        GameState result;
+        Point location = state.getCurrentBlockLocation().translate(-1, 0);
+        result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
+                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                state.getInputStateHistory(), state.getBlockCounter());
         return result;
     }
 
@@ -216,13 +232,28 @@ public class TinusTrisEngine implements GameEngine {
     private GameState executeMoveRight(GameState state) {
         GameState result;
         if (state.canMoveRight()) {
-            Point location = state.getCurrentBlockLocation().translate(1, 0);
-            result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
-                    state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
-                    state.getInputStateHistory(), state.getBlockCounter());
+            result = moveRight(state);
         } else {
+            // do nothing
             result = state;
         }
+        return result;
+    }
+
+    /**
+     * Moves the current block right one position on the given state.
+     * 
+     * This method does not check that state.canMoveRight() is true.
+     * 
+     * @param state game state
+     * @return updated state
+     */
+    private GameState moveRight(GameState state) {
+        GameState result;
+        Point location = state.getCurrentBlockLocation().translate(1, 0);
+        result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
+                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                state.getInputStateHistory(), state.getBlockCounter());
         return result;
     }
     
@@ -248,10 +279,23 @@ public class TinusTrisEngine implements GameEngine {
      * @return updated game state
      */
     private GameState executeTurnLeft(GameState state) {
-        GameState result;
-        // TODO
-        result = state;
-        return result;
+        GameState stateAfterTurn = turnLeft(state);
+        return fixStateAfterTurn(state, stateAfterTurn);
+    }
+
+    /**
+     * Turns the current active block counter-clockwise.
+     * 
+     * This method does not check whether the resulting game state is valid!
+     * 
+     * @param state state
+     * @return updated game state (may be invalid)
+     */
+    private GameState turnLeft(GameState state) {
+        Orientation orientation = state.getCurrentBlockOrientation().getNextCounterClockwise();
+        return new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(),
+                state.getCurrentBlockLocation(), orientation, state.getNextBlock(),
+                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), state.getBlockCounter());
     }
     
     /**
@@ -261,11 +305,55 @@ public class TinusTrisEngine implements GameEngine {
      * @return updated game state
      */
     private GameState executeTurnRight(GameState state) {
+        GameState stateAfterTurn = turnRight(state);
+        return fixStateAfterTurn(state, stateAfterTurn);
+    }
+    
+    /**
+     * Turns the current active block clockwise.
+     * 
+     * This method does not check whether the resulting game state is valid!
+     * 
+     * @param state state
+     * @return updated game state (may be invalid)
+     */
+    private GameState turnRight(GameState state) {
+        Orientation orientation = state.getCurrentBlockOrientation().getNextClockwise();
+        return new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(),
+                state.getCurrentBlockLocation(), orientation, state.getNextBlock(),
+                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), state.getBlockCounter());
+    }
+
+    
+    /**
+     * Fixes the state after a turn action.
+     * 
+     * @param state
+     *            original game state
+     * @param stateAfterTurn
+     *            game state after execution of the turn; this game state is allowed to be invalid (that is, a game over
+     *            state or a state where the active block is partially or completely out of bounds)
+     * @return new game state
+     */
+    private GameState fixStateAfterTurn(GameState state, GameState stateAfterTurn) {
         GameState result;
-        // TODO
-        result = state;
+        if (!stateAfterTurn.isTopped()) {
+            // no problemo!
+            result = stateAfterTurn;
+        } else {
+            // state is not valid
+            if (stateAfterTurn.canMoveRight()) {
+                result = moveRight(stateAfterTurn);
+            } else if (stateAfterTurn.canMoveLeft()) {
+                result = moveLeft(stateAfterTurn);
+            } else {
+                // impossible to turn
+                result = state;
+            }
+        }
         return result;
     }
+
     
     /**
      * Executes the hold action.
