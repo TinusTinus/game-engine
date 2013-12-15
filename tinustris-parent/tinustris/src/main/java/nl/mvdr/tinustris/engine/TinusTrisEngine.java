@@ -182,8 +182,8 @@ public class TinusTrisEngine implements GameEngine {
         if (state.canMoveLeft()) {
             Point location = state.getCurrentBlockLocation().translate(-1, 0);
             result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
-                    state.getCurrentBlockOrientation(), state.getNextBlock(), 0, state.getInputStateHistory(),
-                    state.getBlockCounter());
+                    state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                    state.getInputStateHistory(), state.getBlockCounter());
         } else {
             // do nothing
             result = state;
@@ -202,8 +202,8 @@ public class TinusTrisEngine implements GameEngine {
         if (state.canMoveRight()) {
             Point location = state.getCurrentBlockLocation().translate(1, 0);
             result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
-                    state.getCurrentBlockOrientation(), state.getNextBlock(), 0, state.getInputStateHistory(),
-                    state.getBlockCounter());
+                    state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                    state.getInputStateHistory(), state.getBlockCounter());
         } else {
             // do nothing
             result = state;
