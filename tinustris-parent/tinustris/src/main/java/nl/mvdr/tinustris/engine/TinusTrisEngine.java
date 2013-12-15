@@ -58,11 +58,7 @@ public class TinusTrisEngine implements GameEngine {
         List<Action> actions = determineActions(previousState, inputState);
         GameState result = updateInputStateAndFrameCounter(previousState, inputState);
         for (Action action: actions) {
-            if (action == Action.MOVE_DOWN) {
-                result = executeMoveDown(result);
-            } else {
-                // TODO other actions!
-            }
+            result = executeAction(result, action);
         }
         return result;
     }
@@ -108,6 +104,39 @@ public class TinusTrisEngine implements GameEngine {
     }
     
     /**
+     * Executes the given action on the given game state.
+     * 
+     * @param state base game state
+     * @param action action to be performed
+     * @return updated game state
+     */
+    private GameState executeAction(GameState state, Action action) {
+        GameState result;
+        if (action == Action.MOVE_DOWN) {
+            result = executeMoveDown(state);
+        } else if (action == Action.MOVE_LEFT) {
+            result = executeMoveLeft(state);
+        } else if (action == Action.MOVE_RIGHT){
+            result = executeMoveRight(state);
+        } else if (action == Action.INSTANT_DROP) {
+            // TODO
+            result = state;
+        } else if (action == Action.TURN_LEFT) {
+            // TODO
+            result = state;
+        } else if (action == Action.TURN_RIGHT) {
+            // TODO 
+            result = state;
+        } else if (action == Action.HOLD) {
+            // TODO
+            result = state;
+        } else {
+            throw new IllegalArgumentException("Unexpected action: " + action);
+        }
+        return result;
+    }
+    
+    /**
      * Executes the 'down' action.
      * 
      * @param state game state
@@ -140,5 +169,45 @@ public class TinusTrisEngine implements GameEngine {
         
         return new GameState(grid, state.getWidth(), block, location, state.getCurrentBlockOrientation(), nextBlock, 0,
                 state.getInputStateHistory(), blockCounter);
+    }
+    
+    /**
+     * Executes the 'left' action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeMoveLeft(GameState state) {
+        GameState result;
+        if (state.canMoveLeft()) {
+            Point location = state.getCurrentBlockLocation().translate(-1, 0);
+            result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
+                    state.getCurrentBlockOrientation(), state.getNextBlock(), 0, state.getInputStateHistory(),
+                    state.getBlockCounter());
+        } else {
+            // do nothing
+            result = state;
+        }
+        return result;
+    }
+
+    /**
+     * Executes the 'right' action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeMoveRight(GameState state) {
+        GameState result;
+        if (state.canMoveRight()) {
+            Point location = state.getCurrentBlockLocation().translate(1, 0);
+            result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
+                    state.getCurrentBlockOrientation(), state.getNextBlock(), 0, state.getInputStateHistory(),
+                    state.getBlockCounter());
+        } else {
+            // do nothing
+            result = state;
+        }
+        return result;
     }
 }
