@@ -310,8 +310,7 @@ public class GameState {
      * @return whether the game is topped
      */
     public boolean isTopped() {
-        return !isCurrentBlockWithinBounds() || vanishZoneContainsBlock()
-                || containsBlock(getCurrentActiveBlockPoints());
+        return vanishZoneContainsBlock() || containsBlock(getCurrentActiveBlockPoints());
     }
     
     /**
@@ -484,7 +483,7 @@ public class GameState {
      * 
      * @return whether the current block is within bounds.
      */
-    private boolean isCurrentBlockWithinBounds() {
+    public boolean isCurrentBlockWithinBounds() {
         return isWithinBounds(getCurrentActiveBlockPoints());
     }
     

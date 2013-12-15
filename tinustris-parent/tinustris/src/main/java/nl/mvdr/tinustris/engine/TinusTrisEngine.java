@@ -350,7 +350,7 @@ public class TinusTrisEngine implements GameEngine {
      */
     private GameState fixStateAfterAction(GameState originalState, GameState stateAfterAction) {
         GameState result;
-        if (!stateAfterAction.isTopped()) {
+        if (stateAfterAction.isCurrentBlockWithinBounds() && !stateAfterAction.isTopped()) {
             // no problemo!
             result = stateAfterAction;
         } else {
