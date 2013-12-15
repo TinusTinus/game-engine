@@ -279,7 +279,7 @@ public class TinusTrisEngine implements GameEngine {
      */
     private GameState executeTurnLeft(GameState state) {
         GameState stateAfterTurn = turnLeft(state);
-        return fixStateAfterTurn(state, stateAfterTurn);
+        return fixStateAfterAction(state, stateAfterTurn);
     }
 
     /**
@@ -305,7 +305,7 @@ public class TinusTrisEngine implements GameEngine {
      */
     private GameState executeTurnRight(GameState state) {
         GameState stateAfterTurn = turnRight(state);
-        return fixStateAfterTurn(state, stateAfterTurn);
+        return fixStateAfterAction(state, stateAfterTurn);
     }
     
     /**
@@ -323,9 +323,23 @@ public class TinusTrisEngine implements GameEngine {
                 state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), state.getBlockCounter());
     }
 
+    /**
+     * Executes the hold action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeHold(GameState state) {
+        Tetromino block = state.getNextBlock();
+        Tetromino nextBlock = state.getCurrentBlock();
+        GameState stateAfterHold = new GameState(state.getGrid(), state.getWidth(), block,
+                state.getCurrentBlockLocation(), state.getCurrentBlockOrientation(), nextBlock,
+                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), state.getBlockCounter());
+        return fixStateAfterAction(state, stateAfterHold);
+    }
     
     /**
-     * Fixes the state after a turn action.
+     * Fixes the state after an action that may have left the game in an invalid state.
      * 
      * @param state
      *            original game state
@@ -334,7 +348,7 @@ public class TinusTrisEngine implements GameEngine {
      *            state or a state where the active block is partially or completely out of bounds)
      * @return new game state
      */
-    private GameState fixStateAfterTurn(GameState state, GameState stateAfterTurn) {
+    private GameState fixStateAfterAction(GameState state, GameState stateAfterTurn) {
         GameState result;
         if (!stateAfterTurn.isTopped()) {
             // no problemo!
@@ -350,20 +364,6 @@ public class TinusTrisEngine implements GameEngine {
                 result = state;
             }
         }
-        return result;
-    }
-
-    
-    /**
-     * Executes the hold action.
-     * 
-     * @param state game state
-     * @return updated game state
-     */
-    private GameState executeHold(GameState state) {
-        GameState result;
-        // TODO
-        result = state;
         return result;
     }
 }
