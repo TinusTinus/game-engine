@@ -57,8 +57,8 @@ public class GameState {
     @NonNull
     // TODO replace by a queue of blocks, in case we want to be able to display multiple "next" blocks
     private final Tetromino nextBlock;
-    /** The number of frames since the last tick. */
-    private final int numFramesSinceLastTick;
+    /** The number of frames since the last time the active block was moved down. */
+    private final int numFramesSinceLastDownMove;
     /** Input state history, up until and including the current frame. */
     @NonNull
     private final InputStateHistory inputStateHistory;
@@ -94,7 +94,7 @@ public class GameState {
         this.currentBlockLocation = null;
         this.currentBlockOrientation = null;
         this.nextBlock = Tetromino.I; // TODO determine randomly?
-        this.numFramesSinceLastTick = 0;
+        this.numFramesSinceLastDownMove = 0;
         this.inputStateHistory = new InputStateHistory();
         this.blockCounter = 0;
     }
@@ -163,7 +163,7 @@ public class GameState {
         this.currentBlockLocation = currentBlockLocation;
         this.currentBlockOrientation = currentBlockOrientation;
         this.nextBlock = nextBlock;
-        this.numFramesSinceLastTick = numFramesSinceLastTick;
+        this.numFramesSinceLastDownMove = numFramesSinceLastTick;
         this.inputStateHistory = inputStateHistory;
         this.blockCounter = blockCounter;
     }

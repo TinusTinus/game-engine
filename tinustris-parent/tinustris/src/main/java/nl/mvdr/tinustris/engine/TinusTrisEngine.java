@@ -28,7 +28,7 @@ public class TinusTrisEngine implements GameEngine {
      * thirty frames.
      */
     // TODO come up with a better name for this constant?
-    private static final int INPUT_FRAMES = 15;
+    private static final int INPUT_FRAMES = 10;
 
     /** Tetromino generator. */
     private final TetrominoGenerator generator;
@@ -76,7 +76,7 @@ public class TinusTrisEngine implements GameEngine {
      */
     private List<Action> determineActions(GameState previousState, InputState inputState) {
         List<Action> actions = new ArrayList<>(Action.values().length + 1);
-        if (previousState.getNumFramesSinceLastTick() + 1 == FRAMES_BETWEEN_DROPS) {
+        if (previousState.getNumFramesSinceLastDownMove() + 1 == FRAMES_BETWEEN_DROPS) {
             actions.add(Action.MOVE_DOWN);
         }
         for (Input input: Input.values()) {
@@ -100,7 +100,7 @@ public class TinusTrisEngine implements GameEngine {
      */
     private GameState updateInputStateAndFrameCounter(GameState previousState, InputState inputState) {
         InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
-        int numFramesSinceLastTick = (previousState.getNumFramesSinceLastTick() + 1) % FRAMES_BETWEEN_DROPS;
+        int numFramesSinceLastTick = previousState.getNumFramesSinceLastDownMove() + 1;
         return new GameState(previousState.getGrid(), previousState.getWidth(),
                 previousState.getCurrentBlock(), previousState.getCurrentBlockLocation(),
                 previousState.getCurrentBlockOrientation(), previousState.getNextBlock(),
@@ -138,7 +138,7 @@ public class TinusTrisEngine implements GameEngine {
             blockCounter = state.getBlockCounter() + 1;
         }
         
-        return new GameState(grid, state.getWidth(), block, location, state.getCurrentBlockOrientation(), nextBlock,
-                state.getNumFramesSinceLastTick(), state.getInputStateHistory(), blockCounter);
+        return new GameState(grid, state.getWidth(), block, location, state.getCurrentBlockOrientation(), nextBlock, 0,
+                state.getInputStateHistory(), blockCounter);
     }
 }
