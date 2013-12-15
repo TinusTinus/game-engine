@@ -9,7 +9,6 @@ import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Action;
 import nl.mvdr.tinustris.model.GameState;
-import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
@@ -29,7 +28,7 @@ public class TinusTrisEngine implements GameEngine {
      * thirty frames.
      */
     // TODO come up with a better name for this constant?
-    private static final int INPUT_FRAMES = 30;
+    private static final int INPUT_FRAMES = 15;
 
     /** Tetromino generator. */
     private final TetrominoGenerator generator;
@@ -56,49 +55,16 @@ public class TinusTrisEngine implements GameEngine {
     /** {@inheritDoc} */
     @Override
     public GameState computeNextState(GameState previousState, InputState inputState) {
-        // TODO implement for realsies
-        determineActions(previousState, inputState);
-
-        List<Tetromino> grid;
-        int width = previousState.getWidth();
-        Tetromino block;
-        Point location;
-        Orientation orientation = previousState.getCurrentBlockOrientation();
-        Tetromino nextBlock;
-        int numFramesSinceLastTick = previousState.getNumFramesSinceLastTick() + 1;
-        InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
-        int blockCounter;
-        
-        if (numFramesSinceLastTick == FRAMES_BETWEEN_DROPS) {
-            if (previousState.canMoveDown()) {
-                block = previousState.getCurrentBlock();
-                grid = previousState.getGrid();
-                location = previousState.getCurrentBlockLocation().translate(0, -1);
-                nextBlock = previousState.getNextBlock();
-                blockCounter = previousState.getBlockCounter();
+        List<Action> actions = determineActions(previousState, inputState);
+        GameState result = updateInputStateAndFrameCounter(previousState, inputState);
+        for (Action action: actions) {
+            if (action == Action.MOVE_DOWN) {
+                result = executeMoveDown(result);
             } else {
-                block = previousState.getNextBlock();
-                grid = new ArrayList<>(previousState.getGrid());
-                for (Point point: previousState.getCurrentActiveBlockPoints()) {
-                    int index = previousState.toGridIndex(point);
-                    grid.set(index, previousState.getCurrentBlock());
-                }
-                grid = Collections.unmodifiableList(grid);
-                location = previousState.getBlockSpawnLocation();
-                nextBlock = generator.get(previousState.getBlockCounter() + 2);
-                blockCounter = previousState.getBlockCounter() + 1;
+                // TODO other actions!
             }
-            numFramesSinceLastTick = 0;
-        } else {
-            block = previousState.getCurrentBlock();
-            grid = previousState.getGrid();
-            location = previousState.getCurrentBlockLocation();
-            nextBlock = previousState.getNextBlock();
-            blockCounter = previousState.getBlockCounter();
         }
-        
-        return new GameState(grid, width, block, location, orientation, nextBlock, numFramesSinceLastTick,
-                inputStateHistory, blockCounter);
+        return result;
     }
 
     /**
@@ -120,5 +86,59 @@ public class TinusTrisEngine implements GameEngine {
             }
         }
         return actions;
+    }
+    
+    /**
+     * Returns a new game state based on the given previous state.
+     * 
+     * The input history is updated with the given input state and the number of frames is increased. All other values
+     * are the same as in the given state.
+     * 
+     * @param previousState previous game state
+     * @param inputState input state for the current frame
+     * @return game state with updated input history and frame counter, otherwise unchanged
+     */
+    private GameState updateInputStateAndFrameCounter(GameState previousState, InputState inputState) {
+        InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
+        int numFramesSinceLastTick = (previousState.getNumFramesSinceLastTick() + 1) % FRAMES_BETWEEN_DROPS;
+        return new GameState(previousState.getGrid(), previousState.getWidth(),
+                previousState.getCurrentBlock(), previousState.getCurrentBlockLocation(),
+                previousState.getCurrentBlockOrientation(), previousState.getNextBlock(),
+                numFramesSinceLastTick, inputStateHistory, previousState.getBlockCounter());
+    }
+    
+    /**
+     * Executes the 'down' action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeMoveDown(GameState state) {
+        List<Tetromino> grid;
+        Tetromino block;
+        Point location;
+        Tetromino nextBlock;
+        int blockCounter;
+        if (state.canMoveDown()) {
+            block = state.getCurrentBlock();
+            grid = state.getGrid();
+            location = state.getCurrentBlockLocation().translate(0, -1);
+            nextBlock = state.getNextBlock();
+            blockCounter = state.getBlockCounter();
+        } else {
+            block = state.getNextBlock();
+            grid = new ArrayList<>(state.getGrid());
+            for (Point point : state.getCurrentActiveBlockPoints()) {
+                int index = state.toGridIndex(point);
+                grid.set(index, state.getCurrentBlock());
+            }
+            grid = Collections.unmodifiableList(grid);
+            location = state.getBlockSpawnLocation();
+            nextBlock = generator.get(state.getBlockCounter() + 2);
+            blockCounter = state.getBlockCounter() + 1;
+        }
+        
+        return new GameState(grid, state.getWidth(), block, location, state.getCurrentBlockOrientation(), nextBlock,
+                state.getNumFramesSinceLastTick(), state.getInputStateHistory(), blockCounter);
     }
 }
