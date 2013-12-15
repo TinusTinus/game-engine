@@ -18,6 +18,10 @@ class RandomTetrominoGenerator implements TetrominoGenerator {
     /** Random number generator. */
     private final Random random;
     /** List of tetrominoes returned so far. */
+    // Note that this list can only grow, never shrink, which is a potential memory leak.
+    // In practice games are not expected to go on long enough for this to be a problem.
+    // If that assumption is wrong, this list will probably need to be converted to a linked list where the first part
+    // is cleared when it is no longer required.
     private final List<Tetromino> tetrominoes;
     
     /** Constructor. */
