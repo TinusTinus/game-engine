@@ -28,7 +28,6 @@ public class TinusTrisEngine implements GameEngine {
      * Say this value is 30 and the user is holding the left button. The active block will now move left once every
      * thirty frames.
      */
-    // TODO come up with a better name for this constant?
     private static final int INPUT_FRAMES = 10;
 
     /** Tetromino generator. */
