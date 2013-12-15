@@ -139,32 +139,53 @@ public class TinusTrisEngine implements GameEngine {
      * @return updated game state
      */
     private GameState executeMoveDown(GameState state) {
-        List<Tetromino> grid;
-        Tetromino block;
-        Point location;
-        Tetromino nextBlock;
-        int blockCounter;
+        GameState result;
+        
         if (state.canMoveDown()) {
-            block = state.getCurrentBlock();
-            grid = state.getGrid();
-            location = state.getCurrentBlockLocation().translate(0, -1);
-            nextBlock = state.getNextBlock();
-            blockCounter = state.getBlockCounter();
+            result = moveDown(state);
         } else {
-            block = state.getNextBlock();
-            grid = new ArrayList<>(state.getGrid());
-            for (Point point : state.getCurrentActiveBlockPoints()) {
-                int index = state.toGridIndex(point);
-                grid.set(index, state.getCurrentBlock());
-            }
-            grid = Collections.unmodifiableList(grid);
-            location = state.getBlockSpawnLocation();
-            nextBlock = generator.get(state.getBlockCounter() + 2);
-            blockCounter = state.getBlockCounter() + 1;
+            result = lockBlock(state);
         }
         
-        return new GameState(grid, state.getWidth(), block, location, state.getCurrentBlockOrientation(), nextBlock, 0,
-                state.getInputStateHistory(), blockCounter);
+        return result;
+    }
+
+    /**
+     * Moves the current block down one position on the given state.
+     * 
+     * This method does not check that state.canMoveDown() is true.
+     * 
+     * @param state game state
+     * @return updated state
+     */
+    private GameState moveDown(GameState state) {
+        Point location = state.getCurrentBlockLocation().translate(0, -1);
+        return new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
+                state.getCurrentBlockOrientation(), state.getNextBlock(), 0, state.getInputStateHistory(),
+                state.getBlockCounter());
+    }
+
+    /**
+     * Locks the current block in its current position.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState lockBlock(GameState state) {
+        List<Tetromino>grid = new ArrayList<>(state.getGrid());
+        for (Point point : state.getCurrentActiveBlockPoints()) {
+            int index = state.toGridIndex(point);
+            grid.set(index, state.getCurrentBlock());
+        }
+        grid = Collections.unmodifiableList(grid);
+
+        Tetromino block = state.getNextBlock();
+        Point location = state.getBlockSpawnLocation();
+        Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
+        int blockCounter = state.getBlockCounter() + 1;
+
+        return new GameState(grid, state.getWidth(), block, location, state.getCurrentBlockOrientation(),
+                nextBlock, 0, state.getInputStateHistory(), blockCounter);
     }
     
     /**
@@ -214,9 +235,9 @@ public class TinusTrisEngine implements GameEngine {
     private GameState executeInstantDrop(GameState state) {
         GameState result = state;
         while (result.canMoveDown()) {
-            result = executeMoveDown(result);
+            result = moveDown(result);
         }
-        result = executeMoveDown(result);
+        result = lockBlock(result);
         return result;
     }
     
