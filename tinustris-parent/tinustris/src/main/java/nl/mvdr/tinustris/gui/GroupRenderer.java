@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.Arrays;
+
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
@@ -21,11 +23,37 @@ public class GroupRenderer implements GameRenderer<Group> {
     /** {@inheritDoc} */
     @Override
     public void render(final Group node, final GameState gameState) {
+        int height = gameState.getHeight();
+        
+        final Group grid = new Group();
+        for (int x = 0; x != gameState.getWidth(); x++) {
+            for (int y = 0; y != height; y++) {
+                Tetromino tetromino = gameState.getBlock(x, y);
+                if (tetromino != null) {
+                    Rectangle block = createBlock(x, y, height, tetromino);
+                    grid.getChildren().add(block);
+                }
+            }
+        }
+
+        final Group ghost = new Group();
+        for (Point point: gameState.getGhostPoints()) {
+            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock());
+            block.setOpacity(.1);
+            ghost.getChildren().add(block);
+        }
+        
+        final Group activeBlock = new Group();
+        for (Point point: gameState.getCurrentActiveBlockPoints()) {
+            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock());
+            activeBlock.getChildren().add(block);
+        }
+        
         runOnJavaFXThread(new Runnable() {
             /** {@inheritDoc} */
             @Override
             public void run() {
-                renderOnJavaFXThread(node, gameState);
+                node.getChildren().setAll(Arrays.asList(grid, ghost, activeBlock));
             }
         });
     }
@@ -40,45 +68,6 @@ public class GroupRenderer implements GameRenderer<Group> {
         Platform.runLater(runnable);
     }
 
-    /**
-     * Actually performs the rendering. This method must be run on the JavaFX thread.
-     * 
-     * @param node node
-     * @param gameState game state
-     */
-    private void renderOnJavaFXThread(final Group node, final GameState gameState) {
-        int height = gameState.getHeight();
-        
-        Group grid = new Group();
-        for (int x = 0; x != gameState.getWidth(); x++) {
-            for (int y = 0; y != height; y++) {
-                Tetromino tetromino = gameState.getBlock(x, y);
-                if (tetromino != null) {
-                    Rectangle block = createBlock(x, y, height, tetromino);
-                    grid.getChildren().add(block);
-                }
-            }
-        }
-
-        Group ghost = new Group();
-        for (Point point: gameState.getGhostPoints()) {
-            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock());
-            block.setOpacity(.1);
-            ghost.getChildren().add(block);
-        }
-        
-        Group activeBlock = new Group();
-        for (Point point: gameState.getCurrentActiveBlockPoints()) {
-            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock());
-            activeBlock.getChildren().add(block);
-        }
-        
-        node.getChildren().clear();
-        node.getChildren().add(grid);
-        node.getChildren().add(activeBlock);
-        node.getChildren().add(ghost);
-    }
-    
     /**
      * Creates a block.
      * 
