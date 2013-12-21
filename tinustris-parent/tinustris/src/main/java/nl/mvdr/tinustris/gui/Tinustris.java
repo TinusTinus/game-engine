@@ -1,10 +1,9 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
@@ -46,9 +45,9 @@ public class Tinustris extends Application {
     /** Game engine. */
     private GameEngine gameEngine;
     /** Game renderer. */
-    private GameRenderer<Label> gameRenderer;
-    /** Label in which the game is shown (in ASCII form). */
-    private Label label;
+    private GameRenderer<Group> gameRenderer;
+    /** Group in which the game is shown. */
+    private Group group;
     
     /**
      * Main method.
@@ -82,22 +81,16 @@ public class Tinustris extends Application {
         
         stage.setTitle("Tinustris");
 
-        AnchorPane root = new AnchorPane();
-        label = new Label("This will show the input state");
-        label.setFont(Font.font("monospaced", 12));
-        root.getChildren().add(label);
+        group = new Group();
 
-        stage.setScene(new Scene(root));
+        stage.setScene(new Scene(group, 10 * 30, 20 * 30, Color.GRAY));
 
         stage.show();
 
-//        // Default size should also be the minimum size.
-//        stage.setMinWidth(stage.getWidth());
-//        stage.setMinHeight(stage.getHeight());
+        // Default size should also be the minimum size.
+        stage.setMinWidth(stage.getWidth());
+        stage.setMinHeight(stage.getHeight());
         
-        stage.setMinWidth(640);
-        stage.setMinHeight(480);
-
         log.info("Stage shown.");
         
         startGameLoop();
@@ -142,7 +135,7 @@ public class Tinustris extends Application {
         paused = false;
         
         gameEngine = new TinusTrisEngine();
-        gameRenderer = new LabelRenderer();
+        gameRenderer = new GroupRenderer();
         inputController = new JInputController();
         
         Thread loop = new Thread("Game loop") {
@@ -193,8 +186,8 @@ public class Tinustris extends Application {
                     lastUpdateTime = now - TIME_BETWEEN_UPDATES;
                 }
 
-                // Render. To do so, we need to calculate interpolation for a smooth render.
-                gameRenderer.render(label, gameState);
+                // Render.
+                gameRenderer.render(group, gameState);
                 frameCount++;
                 lastRenderTime = now;
 
