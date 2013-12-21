@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
@@ -31,9 +30,7 @@ public class GroupRenderer implements GameRenderer<Group> {
             for (int y = 0; y != height; y++) {
                 Tetromino tetromino = gameState.getBlock(x, y);
                 if (tetromino != null) {
-                    Rectangle block = createBlock(x, y, height, tetromino);
-                    Color color = (Color) block.getFill();
-                    block.setFill(color.darker());
+                    Rectangle block = createBlock(x, y, height, tetromino, BlockStyle.GRID);
                     grid.getChildren().add(block);
                 }
             }
@@ -41,14 +38,15 @@ public class GroupRenderer implements GameRenderer<Group> {
 
         final Group ghost = new Group();
         for (Point point: gameState.getGhostPoints()) {
-            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock());
-            block.setOpacity(.1);
+            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock(),
+                    BlockStyle.GHOST);
             ghost.getChildren().add(block);
         }
         
         final Group activeBlock = new Group();
         for (Point point: gameState.getCurrentActiveBlockPoints()) {
-            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock());
+            Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock(),
+                    BlockStyle.ACTIVE);
             activeBlock.getChildren().add(block);
         }
         
@@ -82,15 +80,21 @@ public class GroupRenderer implements GameRenderer<Group> {
      *            height of the grid
      * @param tetromino
      *            tetromino to be represented by the block
+     * @param style
+     *            style in which to render the block 
      * @return new block
      */
-    private Rectangle createBlock(int x, int y, int height, Tetromino tetromino) {
+    private Rectangle createBlock(int x, int y, int height, Tetromino tetromino, BlockStyle style) {
         int xCoordinate = x * BLOCK_SIZE;
         int yCoordinate = height * BLOCK_SIZE - 3 * BLOCK_SIZE - y * BLOCK_SIZE;
+        
         Rectangle result = new Rectangle(xCoordinate, yCoordinate, BLOCK_SIZE, BLOCK_SIZE);
-        result.setFill(BlockColors.getColor(tetromino));
+        
         result.setArcWidth(ARC_SIZE);
         result.setArcHeight(ARC_SIZE);
+        
+        style.apply(result, tetromino);
+        
         return result;
     }
 }
