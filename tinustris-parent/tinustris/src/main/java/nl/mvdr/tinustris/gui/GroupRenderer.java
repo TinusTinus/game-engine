@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
@@ -31,6 +32,8 @@ public class GroupRenderer implements GameRenderer<Group> {
                 Tetromino tetromino = gameState.getBlock(x, y);
                 if (tetromino != null) {
                     Rectangle block = createBlock(x, y, height, tetromino);
+                    Color color = (Color) block.getFill();
+                    block.setFill(color.darker());
                     grid.getChildren().add(block);
                 }
             }
