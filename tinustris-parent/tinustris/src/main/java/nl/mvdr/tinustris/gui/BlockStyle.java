@@ -45,8 +45,8 @@ enum BlockStyle {
         }
         Paint fill = new RadialGradient(0,
                 .1,
-                block.getX() + block.getWidth() / 2,
-                block.getY() + block.getHeight() / 2,
+                block.getX() + block.getWidth() / 4,
+                block.getY() + block.getHeight() / 4,
                 20,
                 false,
                 CycleMethod.NO_CYCLE,
