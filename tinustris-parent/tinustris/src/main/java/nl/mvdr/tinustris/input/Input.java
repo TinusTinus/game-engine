@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.input;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.model.Action;
@@ -9,7 +10,7 @@ import nl.mvdr.tinustris.model.Action;
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public enum Input {
     /** Moves the currently active block left. */
