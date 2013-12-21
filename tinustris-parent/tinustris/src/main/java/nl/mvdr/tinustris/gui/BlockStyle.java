@@ -1,6 +1,10 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +43,16 @@ enum BlockStyle {
         if (darker) {
             color = color.darker();
         }
-        block.setFill(color);
+        Paint fill = new RadialGradient(0,
+                .1,
+                block.getX() + block.getWidth() / 2,
+                block.getY() + block.getHeight() / 2,
+                20,
+                false,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, color.brighter()),
+                new Stop(1, color.darker()));
+        block.setFill(fill);
         
         block.setOpacity(opacity);
     }
