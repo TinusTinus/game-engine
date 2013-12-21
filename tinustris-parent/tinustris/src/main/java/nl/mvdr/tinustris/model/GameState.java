@@ -377,7 +377,7 @@ public class GameState {
      * 
      * @return points occupied by the currently active block; empty set if there is no currently active block
      */
-    private Set<Point> getGhostPoints() {
+    public Set<Point> getGhostPoints() {
         return getBlockPoints(currentBlock, currentBlockOrientation, getGhostLocation());
     }
     
