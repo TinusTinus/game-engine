@@ -44,7 +44,7 @@ enum BlockStyle {
             color = color.darker();
         }
         Paint fill = new RadialGradient(0,
-                .1,
+                1,
                 block.getX() + block.getWidth() / 4,
                 block.getY() + block.getHeight() / 4,
                 20,
