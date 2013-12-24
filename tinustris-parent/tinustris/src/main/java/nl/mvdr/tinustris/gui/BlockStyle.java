@@ -37,10 +37,13 @@ enum BlockStyle {
     private final boolean darker;
     
     /**
-     * Applies this style to the given block. This method sets the fill and the opacity of the given block. 
+     * Applies this style to the given block. This method sets the fill, the opacity and stroke properties of the given
+     * block.
      * 
-     * @param block block to be styled
-     * @param tetromino tetromino represented by the given block
+     * @param block
+     *            block to be styled
+     * @param tetromino
+     *            tetromino represented by the given block
      */
     void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino) {
         // opacity
