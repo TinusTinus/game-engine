@@ -6,6 +6,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,12 @@ enum BlockStyle {
         block.setFill(fill);
         
         block.setOpacity(opacity);
+        if (opacity < 1) {
+            // add a stroke to make the ghost block more visible
+            block.setStrokeWidth(3);
+            block.setStroke(Color.WHITE);
+            block.setStrokeType(StrokeType.INSIDE);
+        }
     }
     
     /**
