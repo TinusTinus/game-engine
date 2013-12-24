@@ -12,9 +12,9 @@
 			<outputDirectory>/</outputDirectory>
 		</fileSet>
 		<fileSet>
-            <directory>${project.build.directory}/natives</directory>
-            <outputDirectory>/natives</outputDirectory>
-        </fileSet>
+			<directory>${project.build.directory}/natives</directory>
+			<outputDirectory>/natives</outputDirectory>
+		</fileSet>
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
