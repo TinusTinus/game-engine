@@ -1,7 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -11,6 +10,7 @@ import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.TinusTrisEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
+import nl.mvdr.tinustris.model.GameState;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -25,7 +25,7 @@ import com.sun.javafx.runtime.VersionInfo;
 @Slf4j
 public class Tinustris extends Application {
     /** Game loop. */
-    private GameLoop<Group> gameLoop;
+    private GameLoop<GridGroup> gameLoop;
     
     /**
      * Main method.
@@ -58,7 +58,7 @@ public class Tinustris extends Application {
 
         // construct the user interface
         stage.setTitle("Tinustris");
-        Group group = new Group();
+        GridGroup group = new GridGroup();
         stage.setScene(new Scene(group, 10 * 30, 20 * 30, Color.GRAY));
         stage.show();
         // Default size should also be the minimum size.
@@ -69,7 +69,7 @@ public class Tinustris extends Application {
         // setup necessary components
         InputController inputController = new JInputController();
         GameEngine gameEngine = new TinusTrisEngine();
-        GameRenderer<Group> gameRenderer = new GroupRenderer();
+        GameRenderer<GridGroup> gameRenderer = createRenderer();
         
         // start the game loop
         gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer, group); 
@@ -93,6 +93,22 @@ public class Tinustris extends Application {
             log.debug("  Runtime version: " + VersionInfo.getRuntimeVersion());
             log.debug("  Build timestamp: " + VersionInfo.getBuildTimestamp());
         }
+    }
+    
+    /**
+     * Creates the game renderer.
+     * 
+     * @return renderer
+     */
+    // If this was Java 8, this could be a lambda expression!
+    private GameRenderer<GridGroup> createRenderer() {
+        return new GameRenderer<GridGroup>() {
+            /** {@inheritDoc} */
+            @Override
+            public void render(GridGroup node, GameState gameState) {
+                node.render(gameState);
+            }
+        };
     }
     
     /** {@inheritDoc} */

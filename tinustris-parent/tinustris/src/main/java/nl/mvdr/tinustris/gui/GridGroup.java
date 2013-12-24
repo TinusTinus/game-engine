@@ -2,30 +2,27 @@ package nl.mvdr.tinustris.gui;
 
 import java.util.Arrays;
 
-import javafx.application.Platform;
-import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
+import javafx.application.Platform;
+import javafx.scene.Group;
+import javafx.scene.shape.Rectangle;
 
 /**
- * Implementation of {@link GameRenderer} which renders a graphical representation of the game state to a JavaFX group.
+ * JavaFX node that contains the graphical representation of the grid.
  * 
  * @author Martijn van de Rijdt
- * 
- * @deprecated use GridGroup
  */
-@Deprecated // use GridGroup
-public class GroupRenderer implements GameRenderer<Group> {
+// TODO maintain a copy of the previous game state, to prevent groups from being rerendered when the game state has not changed
+public class GridGroup extends Group {
     /** Size of a tetromino block. */
     private static final int BLOCK_SIZE = 30;
     /** Size for the arc of a tetromino block. */
     private static final int ARC_SIZE = 10;
 
     /** {@inheritDoc} */
-    @Override
-    public void render(final Group node, final GameState gameState) {
+    public void render(final GameState gameState) {
         int height = gameState.getHeight();
         
         final Group grid = new Group();
@@ -57,7 +54,7 @@ public class GroupRenderer implements GameRenderer<Group> {
             /** {@inheritDoc} */
             @Override
             public void run() {
-                node.getChildren().setAll(Arrays.asList(grid, ghost, activeBlock));
+                getChildren().setAll(Arrays.asList(grid, ghost, activeBlock));
             }
         });
     }
