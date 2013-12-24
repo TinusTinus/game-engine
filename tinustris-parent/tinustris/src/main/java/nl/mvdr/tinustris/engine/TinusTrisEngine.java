@@ -181,11 +181,12 @@ public class TinusTrisEngine implements GameEngine {
 
         Tetromino block = state.getNextBlock();
         Point location = state.getBlockSpawnLocation();
+        Orientation orientation = Orientation.getDefault();
         Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
         int blockCounter = state.getBlockCounter() + 1;
 
-        return new GameState(grid, state.getWidth(), block, location, state.getCurrentBlockOrientation(),
-                nextBlock, 0, state.getInputStateHistory(), blockCounter);
+        return new GameState(grid, state.getWidth(), block, location, orientation, nextBlock, 0,
+                state.getInputStateHistory(), blockCounter);
     }
     
     /**
