@@ -25,7 +25,7 @@ import com.sun.javafx.runtime.VersionInfo;
 @Slf4j
 public class Tinustris extends Application {
     /** Game loop. */
-    private GameLoop gameLoop;
+    private GameLoop<Group> gameLoop;
     
     /**
      * Main method.
@@ -72,7 +72,7 @@ public class Tinustris extends Application {
         GameRenderer<Group> gameRenderer = new GroupRenderer();
         
         // start the game loop
-        gameLoop = new GameLoop(inputController, gameEngine, gameRenderer, group); 
+        gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer, group); 
         gameLoop.start();
         log.info("Game loop started.");
     }
