@@ -20,17 +20,19 @@ import nl.mvdr.tinustris.model.Tetromino;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 enum BlockStyle {
     /** Currently active blocks; that is, the tetromino that is currently being controlled by the player. */
-    ACTIVE(1, false), 
+    ACTIVE(1, null, false), 
     /** Blocks that have already been dropped down. */
-    GRID(1, true),
+    GRID(1, null, true),
     /**
      * Ghost blocks, that is, the blocks that indicate where the currently active block would land if dropped
      * straight down.
      */
-    GHOST(.1, false);
+    GHOST(.1, Color.WHITE, false);
 
     /** Opacity. */
     private final double opacity;
+    /** Stroke for the block. May be null (for no stroke). */
+    private final Paint stroke;
     /** Indicates whether the block should be shown a shade darker than normal. */
     private final boolean darker;
     
@@ -41,6 +43,15 @@ enum BlockStyle {
      * @param tetromino tetromino represented by the given block
      */
     void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino) {
+        // opacity
+        block.setOpacity(opacity);
+        
+        //stroke
+        block.setStrokeWidth(3);
+        block.setStrokeType(StrokeType.INSIDE);
+        block.setStroke(stroke);
+        
+        // fill
         Color color = getColor(tetromino);
         if (darker) {
             color = color.darker();
@@ -55,14 +66,6 @@ enum BlockStyle {
                 new Stop(0, color.brighter()),
                 new Stop(1, color.darker()));
         block.setFill(fill);
-        
-        block.setOpacity(opacity);
-        if (opacity < 1) {
-            // add a stroke to make the ghost block more visible
-            block.setStrokeWidth(3);
-            block.setStroke(Color.WHITE);
-            block.setStrokeType(StrokeType.INSIDE);
-        }
     }
     
     /**
