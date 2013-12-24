@@ -38,12 +38,22 @@ public class JInputController implements InputController {
 
     /** Constructor using the default mapping. */
     public JInputController() {
+        Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
+        if (controllersFromEnvironment.length == 0) {
+            throw new IllegalStateException(
+                    "No controllers present."
+                    + " This may mean JInput is not present on java.library.path,"
+                    + " or that JInput could not find any input devices.");
+        }
+        
+        // find the keyboard controller
         Controller keyboard = null;
-        for (Controller controller : ControllerEnvironment.getDefaultEnvironment().getControllers()) {
+        for (Controller controller : controllersFromEnvironment) {
             if (controller instanceof Keyboard) {
                 keyboard = controller;
             }
         }
+        
         if (keyboard == null) {
             throw new IllegalStateException("No keyboard present!");
         }
