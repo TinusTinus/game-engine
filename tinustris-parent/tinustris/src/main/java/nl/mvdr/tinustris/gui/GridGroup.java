@@ -24,7 +24,11 @@ public class GridGroup extends Group {
     /** Previous game state, currently being displayed. Initially null. */
     private GameState previousState = null;
 
-    /** {@inheritDoc} */
+    /**
+     * Renders the given game state. Does NOT need to be called from the JavaFX thread.
+     * 
+     * @param gameState game state to be rendered
+     */
     public void render(final GameState gameState) {
         int height = gameState.getHeight();
 
