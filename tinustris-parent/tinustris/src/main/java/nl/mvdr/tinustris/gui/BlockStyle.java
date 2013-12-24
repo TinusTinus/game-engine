@@ -7,6 +7,7 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import lombok.AccessLevel;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.model.Tetromino;
 
@@ -38,7 +39,7 @@ enum BlockStyle {
      * @param block block to be styled
      * @param tetromino tetromino represented by the given block
      */
-    void apply(Rectangle block, Tetromino tetromino) {
+    void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino) {
         Color color = getColor(tetromino);
         if (darker) {
             color = color.darker();

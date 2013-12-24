@@ -25,4 +25,17 @@ public class BlockStyleTest {
             }
         }
     }
+    
+    /** Tests {@link BlockStyle#apply(Rectangle, Tetromino)} for a null tetromino value. */
+    @Test(expected = NullPointerException.class)
+    public void testApplyNullTetromino() {
+        Rectangle rectangle = new Rectangle(10, 10);
+        BlockStyle.ACTIVE.apply(rectangle, null);
+    }
+    
+    /** Tests {@link BlockStyle#apply(Rectangle, Tetromino)} for a null rectangle value. */
+    @Test(expected = NullPointerException.class)
+    public void testApplyNullRectangle() {
+        BlockStyle.ACTIVE.apply(null, Tetromino.I);
+    }
 }
