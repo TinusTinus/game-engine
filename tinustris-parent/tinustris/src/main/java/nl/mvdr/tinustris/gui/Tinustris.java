@@ -7,11 +7,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
+import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.TinusTrisEngine;
 import nl.mvdr.tinustris.input.InputController;
-import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.JInputController;
-import nl.mvdr.tinustris.model.GameState;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -25,29 +24,8 @@ import com.sun.javafx.runtime.VersionInfo;
 // When testing the application, don't run this class directly from Eclipse. Use TinusTrisTestContext instead.
 @Slf4j
 public class Tinustris extends Application {
-    /** Update rate for the game state. */
-    private final double GAME_HERTZ = 60.0;
-    /** How much time each frame should take for our target frame rate, in ns. */
-    private final double TIME_BETWEEN_UPDATES = 1_000_000_000 / GAME_HERTZ;
-     /** At the very most we will update the game this many times before a new render. **/
-    private final int MAX_UPDATES_BEFORE_RENDER = 5;
-    /** Target frame rate for the game. */
-    private final double TARGET_FPS = 60;
-    /** Target time between renders, in ns. */
-    private final double TARGET_TIME_BETWEEN_RENDERS = 1_000_000_000 / TARGET_FPS;
-    
-    /** Indicates whether the game should be running. */
-    private boolean running;
-    /** Indicates whether the game is paused. */
-    private boolean paused;
-    /** Input controller. */
-    private InputController inputController;
-    /** Game engine. */
-    private GameEngine gameEngine;
-    /** Game renderer. */
-    private GameRenderer<Group> gameRenderer;
-    /** Group in which the game is shown. */
-    private Group group;
+    /** Game loop. */
+    private GameLoop gameLoop;
     
     /**
      * Main method.
@@ -75,34 +53,28 @@ public class Tinustris extends Application {
     /** {@inheritDoc} */
     @Override
     public void start(Stage stage) {
-        logVersionInfo();
-        
         log.info("Starting application.");
-        
+        logVersionInfo();
+
+        // construct the user interface
         stage.setTitle("Tinustris");
-
-        group = new Group();
-
+        Group group = new Group();
         stage.setScene(new Scene(group, 10 * 30, 20 * 30, Color.GRAY));
-
         stage.show();
-
         // Default size should also be the minimum size.
         stage.setMinWidth(stage.getWidth());
         stage.setMinHeight(stage.getHeight());
-        
         log.info("Stage shown.");
         
-        startGameLoop();
+        // setup necessary components
+        InputController inputController = new JInputController();
+        GameEngine gameEngine = new TinusTrisEngine();
+        GameRenderer<Group> gameRenderer = new GroupRenderer();
+        
+        // start the game loop
+        gameLoop = new GameLoop(inputController, gameEngine, gameRenderer, group); 
+        gameLoop.start();
         log.info("Game loop started.");
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public void stop() throws Exception {
-        log.info("Stopping the application.");
-        stopGameLoop();
-        super.stop();
     }
 
     /** Logs some version info. */
@@ -122,107 +94,13 @@ public class Tinustris extends Application {
             log.debug("  Build timestamp: " + VersionInfo.getBuildTimestamp());
         }
     }
-
-    /**
-     * Starts the game loop.
-     * 
-     * @param label
-     *            the label onto which the game state is drawn
-     */
-    // TODO move this logic elsewhere
-    private void startGameLoop() {
-        running = true;
-        paused = false;
-        
-        gameEngine = new TinusTrisEngine();
-        gameRenderer = new GroupRenderer();
-        inputController = new JInputController();
-        
-        Thread loop = new Thread("Game loop") {
-            /** {@inheritDoc} */
-            @Override
-            public void run() {
-                gameLoop();
-            }
-        };
-        loop.start();
-    }
-
-    /** Game loop. Should be run on a dedicated thread. */
-    // based on: Game Loops! by Eli Delventhal (http://www.java-gaming.org/index.php?topic=24220.0)
-    private void gameLoop() {
-        // The moment the game state was last updated.
-        double lastUpdateTime = System.nanoTime();
-        // The moment the game was last rendered.
-        double lastRenderTime = System.nanoTime();
-        
-        int fps = 60;
-        int frameCount = 0;
-
-        // Simple way of finding FPS.
-        int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
-        
-        GameState gameState = gameEngine.initGameState();
-
-        log.info("Starting main game loop.");
-        
-        while (running) {
-            double now = System.nanoTime();
-            int updateCount = 0;
-
-            if (!paused) {
-                // Do as many game updates as we need to, potentially playing catchup.
-                while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                    InputState inputState = inputController.getInputState();
-                    gameState = gameEngine.computeNextState(gameState, inputState);
-                    
-                    lastUpdateTime += TIME_BETWEEN_UPDATES;
-                    updateCount++;
-                }
-
-                // If for some reason an update takes forever, we don't want to do an insane number of catchups.
-                // If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
-                if (now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
-                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-                }
-
-                // Render.
-                gameRenderer.render(group, gameState);
-                frameCount++;
-                lastRenderTime = now;
-
-                // Update the frames we got.
-                int thisSecond = (int) (lastUpdateTime / 1000000000);
-                if (thisSecond > lastSecondTime) {
-                    log.info("New second: " + thisSecond + ", frame count: " + frameCount + ", fps: " + fps);
-                    fps = frameCount;
-                    frameCount = 0;
-                    lastSecondTime = thisSecond;
-                }
-
-                // Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-                while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
-                        && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
-                    Thread.yield();
-
-                    // This stops the app from consuming all your CPU. It makes this slightly less accurate, but is
-                    // worth it. You can remove this line and it will still work (better), your CPU just climbs on
-                    // certain OSes.
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        throw new IllegalStateException("Unexpected interrupt.", e);
-                    }
-
-                    now = System.nanoTime();
-                }
-            }
-        }
-        log.info("Finished main game loop.");
-    }
-
-    /** Stops the game loop. */
-    private void stopGameLoop() {
-        running = false;
+    
+    /** {@inheritDoc} */
+    @Override
+    public void stop() throws Exception {
+        log.info("Stopping the application.");
+        gameLoop.stop();
+        super.stop();
+        log.info("Stopped.");
     }
 }
