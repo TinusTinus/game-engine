@@ -47,7 +47,7 @@ enum BlockStyle {
         block.setOpacity(opacity);
         
         //stroke
-        block.setStrokeWidth(3);
+        block.setStrokeWidth(2);
         block.setStrokeType(StrokeType.INSIDE);
         block.setStroke(stroke);
         
