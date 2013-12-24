@@ -1,5 +1,8 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Paint;
@@ -29,13 +32,25 @@ enum BlockStyle {
      */
     GHOST(.1, Color.WHITE, false);
 
+    /** Color mapping for each type of tetromino. */
+    @SuppressWarnings("serial") // this map is for internal use only, will not be serialised
+    private static final Map<Tetromino, Color> COLORS = new EnumMap<Tetromino, Color>(Tetromino.class) {{
+        put(Tetromino.I, Color.CYAN);
+        put(Tetromino.O, Color.YELLOW);
+        put(Tetromino.T, Color.PURPLE);
+        put(Tetromino.S, Color.GREEN);
+        put(Tetromino.Z, Color.RED);
+        put(Tetromino.J, Color.BLUE);
+        put(Tetromino.L, Color.ORANGE);
+    }};
+    
     /** Opacity. */
     private final double opacity;
     /** Stroke for the block. May be null (for no stroke). */
     private final Paint stroke;
     /** Indicates whether the block should be shown a shade darker than normal. */
     private final boolean darker;
-    
+
     /**
      * Applies this style to the given block. This method sets the fill, the opacity and stroke properties of the given
      * block.
@@ -49,13 +64,13 @@ enum BlockStyle {
         // opacity
         block.setOpacity(opacity);
         
-        //stroke
+        // stroke
         block.setStrokeWidth(2);
         block.setStrokeType(StrokeType.INSIDE);
         block.setStroke(stroke);
         
         // fill
-        Color color = getColor(tetromino);
+        Color color = COLORS.get(tetromino);
         if (darker) {
             color = color.darker();
         }
@@ -69,33 +84,5 @@ enum BlockStyle {
                 new Stop(0, color.brighter()),
                 new Stop(1, color.darker()));
         block.setFill(fill);
-    }
-    
-    /**
-     * Retrieves the color for the given tetromino.
-     * 
-     * @param tetromino tetromino
-     * @return color
-     */
-    private static Color getColor(Tetromino tetromino) {
-        Color result;
-        if (tetromino == Tetromino.I) {
-            result = Color.CYAN;
-        } else if (tetromino == Tetromino.O) {
-            result = Color.YELLOW;
-        } else if (tetromino == Tetromino.T) {
-            result = Color.PURPLE;
-        } else if (tetromino == Tetromino.S) {
-            result = Color.GREEN;
-        } else if (tetromino == Tetromino.Z) {
-            result = Color.RED;
-        } else if (tetromino == Tetromino.J) {
-            result = Color.BLUE;
-        } else if (tetromino == Tetromino.L) {
-            result = Color.ORANGE;
-        } else {
-            throw new IllegalArgumentException("Unexpected Tetromino: " + tetromino);
-        }
-        return result;
     }
 }
