@@ -30,11 +30,9 @@ public class GridGroup extends Group {
      * @param gameState game state to be rendered
      */
     public void render(final GameState gameState) {
-        int height = gameState.getHeight();
-
-        final Group grid = createGridGroup(gameState, height);
-        final Group ghost = createGhostGroup(gameState, height);
-        final Group activeBlock = createActiveBlockGroup(gameState, height);
+        final Group grid = createGridGroup(gameState);
+        final Group ghost = createGhostGroup(gameState);
+        final Group activeBlock = createActiveBlockGroup(gameState);
         
         if (grid != null || ghost != null || activeBlock != null) {
             runOnJavaFXThread(new Runnable() {
@@ -53,10 +51,9 @@ public class GridGroup extends Group {
      * Creates the group representing the static grid (blocks that have already been locked in place.
      * 
      * @param gameState new game state
-     * @param height height of the game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createGridGroup(final GameState gameState, int height) {
+    private Group createGridGroup(final GameState gameState) {
         final Group grid;
         // Use == instead of equals since it's much more efficient and there is a low chance of collisions.
         if (previousState != null && previousState.getGrid() == gameState.getGrid()) {
@@ -67,6 +64,7 @@ public class GridGroup extends Group {
             // In the latter case they might still be equal, but whatever.
             // Render the group.
             grid = new Group();
+            int height = gameState.getHeight();
             for (int x = 0; x != gameState.getWidth(); x++) {
                 for (int y = 0; y != height; y++) {
                     Tetromino tetromino = gameState.getBlock(x, y);
@@ -84,10 +82,9 @@ public class GridGroup extends Group {
      * Creates the group representing the ghost.
      * 
      * @param gameState new game state
-     * @param height height of the game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createGhostGroup(final GameState gameState, int height) {
+    private Group createGhostGroup(final GameState gameState) {
         final Group ghost;
         Set<Point> ghostPoints = gameState.getGhostPoints();
         if (previousState != null && previousState.getGhostPoints().equals(ghostPoints)) {
@@ -97,6 +94,7 @@ public class GridGroup extends Group {
             // This is the first frame, or the ghost has changed.
             // Render the group.
             ghost = new Group();
+            int height = gameState.getHeight();
             for (Point point : ghostPoints) {
                 Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock(),
                         BlockStyle.GHOST);
@@ -110,10 +108,9 @@ public class GridGroup extends Group {
      * Creates the group representing the currently active block.
      * 
      * @param gameState new game state
-     * @param height height of the game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createActiveBlockGroup(final GameState gameState, int height) {
+    private Group createActiveBlockGroup(final GameState gameState) {
         final Group activeBlock;
         Set<Point> currentActiveBlockPoints = gameState.getCurrentActiveBlockPoints();
         if (previousState != null && previousState.getCurrentActiveBlockPoints().equals(currentActiveBlockPoints)) {
@@ -123,6 +120,7 @@ public class GridGroup extends Group {
             // This is the first frame, or the active block's location has changed.
             // Render the group.
             activeBlock = new Group();
+            int height = gameState.getHeight();
             for (Point point : currentActiveBlockPoints) {
                 Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock(),
                         BlockStyle.ACTIVE);
