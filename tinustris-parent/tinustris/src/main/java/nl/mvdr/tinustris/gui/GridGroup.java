@@ -32,6 +32,31 @@ public class GridGroup extends Group {
     public void render(final GameState gameState) {
         int height = gameState.getHeight();
 
+        final Group grid = createGridGroup(gameState, height);
+        final Group ghost = createGhostGroup(gameState, height);
+        final Group activeBlock = createActiveBlockGroup(gameState, height);
+        
+        if (grid != null || ghost != null || activeBlock != null) {
+            runOnJavaFXThread(new Runnable() {
+                /** {@inheritDoc} */
+                @Override
+                public void run() {
+                    update(grid, ghost, activeBlock);
+                }
+            });
+        }
+        
+        previousState = gameState;
+    }
+
+    /**
+     * Creates the group representing the static grid (blocks that have already been locked in place.
+     * 
+     * @param gameState new game state
+     * @param height height of the game state
+     * @return null if the group does not need to be updated; otherwise, the newly created group
+     */
+    private Group createGridGroup(final GameState gameState, int height) {
         final Group grid;
         // Use == instead of equals since it's much more efficient and there is a low chance of collisions.
         if (previousState != null && previousState.getGrid() == gameState.getGrid()) {
@@ -52,7 +77,17 @@ public class GridGroup extends Group {
                 }
             }
         }
+        return grid;
+    }
 
+    /**
+     * Creates the group representing the ghost.
+     * 
+     * @param gameState new game state
+     * @param height height of the game state
+     * @return null if the group does not need to be updated; otherwise, the newly created group
+     */
+    private Group createGhostGroup(final GameState gameState, int height) {
         final Group ghost;
         Set<Point> ghostPoints = gameState.getGhostPoints();
         if (previousState != null && previousState.getGhostPoints().equals(ghostPoints)) {
@@ -68,7 +103,17 @@ public class GridGroup extends Group {
                 ghost.getChildren().add(block);
             }
         }
-        
+        return ghost;
+    }
+
+    /**
+     * Creates the group representing the currently active block.
+     * 
+     * @param gameState new game state
+     * @param height height of the game state
+     * @return null if the group does not need to be updated; otherwise, the newly created group
+     */
+    private Group createActiveBlockGroup(final GameState gameState, int height) {
         final Group activeBlock;
         Set<Point> currentActiveBlockPoints = gameState.getCurrentActiveBlockPoints();
         if (previousState != null && previousState.getCurrentActiveBlockPoints().equals(currentActiveBlockPoints)) {
@@ -84,33 +129,40 @@ public class GridGroup extends Group {
                 activeBlock.getChildren().add(block);
             }
         }
-        
-        if (grid != null || ghost != null || activeBlock != null) {
-            runOnJavaFXThread(new Runnable() {
-                /** {@inheritDoc} */
-                @Override
-                public void run() {
-                    if (getChildren().isEmpty()) {
-                        // first frame
-                        getChildren().addAll(Arrays.asList(grid, ghost, activeBlock));
-                    } else {
-                        // update
-                        if (grid != null) {
-                            getChildren().set(0, grid);
-                        }
-                        if (ghost != null) {
-                            getChildren().set(1, ghost);
-                        }
-                        if (activeBlock != null) {
-                            getChildren().set(2, activeBlock);
-                        }
-                    }
-                }
-            });
-        }
-        
-        previousState = gameState;
+        return activeBlock;
     }
+    
+    /**
+     * Updates the view. This method must be called from the JavaFX thread.
+     * 
+     * @param grid
+     *            group representing the static grid; may be null, which indicates that the grid does not need to be
+     *            updated
+     * @param ghost
+     *            group representing the ghost blocks; may be null, which indicates that the ghost does not need to be
+     *            updated
+     * @param activeBlock
+     *            group representing the active block; may be null, which indicates that the active block does not need
+     *            to be updated
+     */
+    private void update(final Group grid, final Group ghost, final Group activeBlock) {
+        if (getChildren().isEmpty()) {
+            // first frame
+            getChildren().addAll(Arrays.asList(grid, ghost, activeBlock));
+        } else {
+            // update
+            if (grid != null) {
+                getChildren().set(0, grid);
+            }
+            if (ghost != null) {
+                getChildren().set(1, ghost);
+            }
+            if (activeBlock != null) {
+                getChildren().set(2, activeBlock);
+            }
+        }
+    }
+
 
     /**
      * Runs the given runnable on the JavaFX thread.
