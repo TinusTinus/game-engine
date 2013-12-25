@@ -30,11 +30,13 @@ public class GridGroup extends Group {
      * @param gameState game state to be rendered
      */
     public void render(final GameState gameState) {
+        // create groups if state has changed; otherwise these groups may remain null
         final Group grid = createGridGroup(gameState);
         final Group ghost = createGhostGroup(gameState);
         final Group activeBlock = createActiveBlockGroup(gameState);
         
         if (grid != null || ghost != null || activeBlock != null) {
+            // (re-)render
             runOnJavaFXThread(new Runnable() {
                 /** {@inheritDoc} */
                 @Override
