@@ -21,6 +21,9 @@ import nl.mvdr.tinustris.model.Tetromino;
 public class TinusTrisEngine implements GameEngine {
     /** Number of frames between drops. */
     // TODO have this be variable, depending on current level
+    // TODO Refactor. Tetris variants actually allow multiple drops per frame, which this int cannot express properly.
+    // Also, the community generally seems to express this in terms of G (number of cells per frame), rather than frames
+    // per cell.
     private static final int FRAMES_BETWEEN_DROPS = 60;
     /**
      * Number of frames the input is ignored while the user is holding down a button.
