@@ -130,7 +130,7 @@ public enum Tetromino {
      * 
      * @param key
      *            orientation value
-     * @return a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4 grid
+     * @return a set containing the (four) points where the tetrominoes actual blocks are located in a 4*4 grid
      * @see java.util.Map#get(java.lang.Object)
      */
     public Set<Point> getPoints(@NonNull Orientation key) {
