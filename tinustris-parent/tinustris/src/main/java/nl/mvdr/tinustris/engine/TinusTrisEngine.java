@@ -75,6 +75,7 @@ public class TinusTrisEngine implements GameEngine {
      */
     private List<Action> determineActions(GameState previousState, InputState inputState) {
         List<Action> actions = new ArrayList<>(Action.values().length + 1);
+        // TODO differentiate between gravity and lock delay
         if (previousState.getNumFramesSinceLastDownMove() + 1 == FRAMES_BETWEEN_DROPS) {
             actions.add(Action.MOVE_DOWN);
         }
