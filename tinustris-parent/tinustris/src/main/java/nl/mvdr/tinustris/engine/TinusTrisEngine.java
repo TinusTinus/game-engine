@@ -118,7 +118,7 @@ public class TinusTrisEngine implements GameEngine {
             result = executeMoveLeft(state);
         } else if (action == Action.MOVE_RIGHT){
             result = executeMoveRight(state);
-        } else if (action == Action.INSTANT_DROP) {
+        } else if (action == Action.HARD_DROP) {
             result = executeInstantDrop(state);
         } else if (action == Action.TURN_LEFT) {
             result = executeTurnLeft(state);

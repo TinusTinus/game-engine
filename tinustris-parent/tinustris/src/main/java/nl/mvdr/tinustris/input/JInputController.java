@@ -64,8 +64,8 @@ public class JInputController implements InputController {
         this.mapping = new EnumMap<>(Input.class);
         mapping.put(Input.LEFT, getComponent(keyboard, Key.LEFT));
         mapping.put(Input.RIGHT, getComponent(keyboard, Key.RIGHT));
-        mapping.put(Input.FASTER_DROP, getComponent(keyboard, Key.DOWN));
-        mapping.put(Input.INSTANT_DROP, getComponent(keyboard, Key.UP));
+        mapping.put(Input.SOFT_DROP, getComponent(keyboard, Key.DOWN));
+        mapping.put(Input.HARD_DROP, getComponent(keyboard, Key.UP));
         mapping.put(Input.TURN_LEFT, getComponent(keyboard, Key.Z));
         mapping.put(Input.TURN_RIGHT, getComponent(keyboard, Key.X));
         mapping.put(Input.HOLD, getComponent(keyboard, Key.C));

@@ -100,9 +100,9 @@ public class InputStateHistoryTest {
         
         history = history.next(inputState);
         
-        Assert.assertEquals(0, history.getNumberOfFrames(Input.FASTER_DROP));
+        Assert.assertEquals(0, history.getNumberOfFrames(Input.SOFT_DROP));
         Assert.assertEquals(0, history.getNumberOfFrames(Input.HOLD));
-        Assert.assertEquals(0, history.getNumberOfFrames(Input.INSTANT_DROP));
+        Assert.assertEquals(0, history.getNumberOfFrames(Input.HARD_DROP));
         Assert.assertEquals(0, history.getNumberOfFrames(Input.LEFT));
         Assert.assertEquals(0, history.getNumberOfFrames(Input.RIGHT));
         Assert.assertEquals(0, history.getNumberOfFrames(Input.TURN_LEFT));

@@ -18,9 +18,9 @@ public enum Input {
     /** Moves the currently active block right. */
     RIGHT(Action.MOVE_RIGHT),
     /** Accelerates the currently active block's descent. */
-    FASTER_DROP(Action.MOVE_DOWN),
+    SOFT_DROP(Action.MOVE_DOWN),
     /** Instantly drops the currently active block. */
-    INSTANT_DROP(Action.INSTANT_DROP),
+    HARD_DROP(Action.HARD_DROP),
     /** Rotates the currently active block 90 degrees clockwise. */
     TURN_RIGHT(Action.TURN_RIGHT),
     /** Rotates the currently active block 90 degrees counter-clockwise. */

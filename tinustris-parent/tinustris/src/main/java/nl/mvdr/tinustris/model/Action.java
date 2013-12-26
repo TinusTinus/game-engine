@@ -13,7 +13,7 @@ public enum Action {
     /** Moves the currently active block down. */
     MOVE_DOWN,
     /** Instantly drops the currently active block. */
-    INSTANT_DROP,
+    HARD_DROP,
     /** Rotates the currently active block 90 degrees clockwise. */
     TURN_RIGHT,
     /** Rotates the currently active block 90 degrees counter-clockwise. */
