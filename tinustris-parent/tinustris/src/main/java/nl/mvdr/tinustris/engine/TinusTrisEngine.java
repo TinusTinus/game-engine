@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
@@ -18,6 +19,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  * 
  * @author Martijn van de Rijdt
  */
+@Slf4j
 public class TinusTrisEngine implements GameEngine {
     /** Number of frames between drops. */
     // TODO have this be variable, depending on current level
@@ -176,21 +178,81 @@ public class TinusTrisEngine implements GameEngine {
      * @return updated game state
      */
     private GameState lockBlock(GameState state) {
+        int width = state.getWidth();
+        int height = state.getHeight();
+        
+        // Update the grid: old grid plus current location of the active block.
         List<Tetromino>grid = new ArrayList<>(state.getGrid());
         for (Point point : state.getCurrentActiveBlockPoints()) {
             int index = state.toGridIndex(point);
             grid.set(index, state.getCurrentBlock());
         }
+        
+        // Check for newly formed lines and remove them from the grid.
+        int linesScored = removeLines(width, height, grid);
+        log.info("Lines scored: " + linesScored);
+        
+        // Make the new grid unmodifiable.
         grid = Collections.unmodifiableList(grid);
 
+        // Create the new game state.
         Tetromino block = state.getNextBlock();
         Point location = state.getBlockSpawnLocation();
         Orientation orientation = Orientation.getDefault();
         Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
         int blockCounter = state.getBlockCounter() + 1;
 
-        return new GameState(grid, state.getWidth(), block, location, orientation, nextBlock, 0,
+        GameState result = new GameState(grid, width, block, location, orientation, nextBlock, 0,
                 state.getInputStateHistory(), blockCounter);
+        
+        if (linesScored != 0 && log.isDebugEnabled()) {
+            log.debug(result.toString());
+        }
+        
+        return result;
+    }
+
+    /**
+     * Removes any full lines from the grid and drops down the lines above them.
+     * 
+     * @param width
+     *            width of the grid
+     * @param height
+     *            height of the grid
+     * @param grid
+     *            list containing the grid
+     * @return number of lines; between 0 and 4
+     */
+    private int removeLines(int width, int height, List<Tetromino> grid) {
+        int linesScored = 0;
+        for (int line = height - 1; 0 <= line; line--) {
+            boolean filled = true;
+            int x = 0;
+            while (filled && x != width) {
+                filled = grid.get(x + line * width) != null;
+                x++;
+            }
+            
+            if (filled) {
+                // Line found.
+                linesScored++;
+                log.info("Line found: " + line);
+                
+                // Drop all the lines above it down.
+                for (int y = line; y != height - 1; y++) {
+                    for (x = 0; x != width; x++) {
+                        Tetromino tetromino = grid.get(x + (y + 1) * width);
+                        grid.set(x + y * width, tetromino);
+                    }
+                }
+                
+                // Make the top line empty.
+                for (x = 0; x != width; x++) {
+                    grid.set(x + (height - 1) * width, null);
+                }
+            }
+        }
+        return linesScored;
     }
     
     /**
