@@ -64,6 +64,8 @@ public class GameState {
     private final InputStateHistory inputStateHistory;
     /** Block counter. Equals the number of blocks that have been dropped. */
     private final int blockCounter;
+    /** Number of lines that have been scored in this game. */
+    private final int lines;
 
     /** Constructor for a (new) game with a completely empty grid of default size. */
     public GameState() {
@@ -97,6 +99,7 @@ public class GameState {
         this.numFramesSinceLastDownMove = 0;
         this.inputStateHistory = new InputStateHistory();
         this.blockCounter = 0;
+        this.lines = 0;
     }
     
     /**
@@ -118,7 +121,7 @@ public class GameState {
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
         this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0,
-                new InputStateHistory(), 0);
+                new InputStateHistory(), 0, 0);
     }
     
     /**
@@ -142,10 +145,12 @@ public class GameState {
      *            history of the input state; includes the current frame
      * @param blockCounter
      *            number of blocks that have been dropped
+     * @param lines
+     *            number of lines that have been scored in this game
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick,
-            InputStateHistory inputStateHistory, int blockCounter) {
+            InputStateHistory inputStateHistory, int blockCounter, int lines) {
         super();
 
         checkWidth(width);
@@ -166,6 +171,7 @@ public class GameState {
         this.numFramesSinceLastDownMove = numFramesSinceLastTick;
         this.inputStateHistory = inputStateHistory;
         this.blockCounter = blockCounter;
+        this.lines = lines;
     }
     
     /**
@@ -559,6 +565,6 @@ public class GameState {
         return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", currentBlockLocation="
                 + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
                 + nextBlock + ", inputStateHistory=" + inputStateHistory + ", blockCounter = " + blockCounter
-                + ", grid=\n" + gridToAscii() + ")";
+                + ", lines = " + lines + ", grid=\n" + gridToAscii() + ")";
     }
 }
