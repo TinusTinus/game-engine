@@ -34,6 +34,9 @@ public class TinusTrisEngine implements GameEngine {
      * thirty frames.
      */
     private static final int INPUT_FRAMES = 10;
+    
+    /** Number of frames a line stays on screen before it disappears. */
+    private static final int FRAMES_LINES_STAY = 60;
 
     /** Tetromino generator. */
     private final TetrominoGenerator generator;
@@ -60,10 +63,16 @@ public class TinusTrisEngine implements GameEngine {
     /** {@inheritDoc} */
     @Override
     public GameState computeNextState(GameState previousState, InputState inputState) {
-        List<Action> actions = determineActions(previousState, inputState);
-        GameState result = updateInputStateAndFrameCounter(previousState, inputState);
-        for (Action action: actions) {
-            result = executeAction(result, action);
+        GameState result = updateInputStateAndCounters(previousState, inputState);
+        if (previousState.getNumFramesUntilLinesDisappear() == 1) {
+            result = removeLines(result);
+        }
+        
+        if (result.getNumFramesUntilLinesDisappear() == 0) {
+            List<Action> actions = determineActions(previousState, inputState);
+            for (Action action : actions) {
+                result = executeAction(result, action);
+            }
         }
         return result;
     }
@@ -93,20 +102,21 @@ public class TinusTrisEngine implements GameEngine {
     /**
      * Returns a new game state based on the given previous state.
      * 
-     * The input history is updated with the given input state and the number of frames is increased. All other values
+     * The input history is updated with the given input state and the frame counters are updated. All other values
      * are the same as in the given state.
      * 
      * @param previousState previous game state
      * @param inputState input state for the current frame
      * @return game state with updated input history and frame counter, otherwise unchanged
      */
-    private GameState updateInputStateAndFrameCounter(GameState previousState, InputState inputState) {
+    private GameState updateInputStateAndCounters(GameState previousState, InputState inputState) {
         InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
         int numFramesSinceLastTick = previousState.getNumFramesSinceLastDownMove() + 1;
-        return new GameState(previousState.getGrid(), previousState.getWidth(),
-                previousState.getCurrentBlock(), previousState.getCurrentBlockLocation(),
-                previousState.getCurrentBlockOrientation(), previousState.getNextBlock(),
-                numFramesSinceLastTick, inputStateHistory, previousState.getBlockCounter(), previousState.getLines());
+        int numFramesUntilLinesDisappear = Math.max(0, previousState.getNumFramesUntilLinesDisappear() - 1);
+        return new GameState(previousState.getGrid(), previousState.getWidth(), previousState.getCurrentBlock(),
+                previousState.getCurrentBlockLocation(), previousState.getCurrentBlockOrientation(),
+                previousState.getNextBlock(), numFramesSinceLastTick, inputStateHistory,
+                previousState.getBlockCounter(), previousState.getLines(), numFramesUntilLinesDisappear);
     }
     
     /**
@@ -187,30 +197,72 @@ public class TinusTrisEngine implements GameEngine {
             int index = state.toGridIndex(point);
             grid.set(index, state.getCurrentBlock());
         }
+        grid = Collections.unmodifiableList(grid);
         
-        // Check for newly formed lines and remove them from the grid.
-        int linesScored = removeLines(width, height, grid);
+        // Check for newly formed lines.
+        int linesScored = countLines(width, height, grid);
         log.info("Lines scored: " + linesScored);
         
-        // Make the new grid unmodifiable.
-        grid = Collections.unmodifiableList(grid);
-
         // Create the new game state.
-        Tetromino block = state.getNextBlock();
-        Point location = state.getBlockSpawnLocation();
-        Orientation orientation = Orientation.getDefault();
-        Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
-        int blockCounter = state.getBlockCounter() + 1;
+        Tetromino block;
+        Tetromino nextBlock;
+        Point location;
+        Orientation orientation;
+        int blockCounter;
+        int numFramesUntilLinesDisappear;
+        if (0 < linesScored) {
+            block = null;
+            nextBlock = state.getNextBlock();
+            location = null;
+            orientation = null;
+            blockCounter = state.getBlockCounter();
+            numFramesUntilLinesDisappear = FRAMES_LINES_STAY;
+        } else {
+            block = state.getNextBlock();
+            nextBlock = generator.get(state.getBlockCounter() + 2);
+            location = state.getBlockSpawnLocation();
+            orientation = Orientation.getDefault();
+            blockCounter = state.getBlockCounter() + 1;
+            numFramesUntilLinesDisappear = 0;
+        }
         int lines = state.getLines() + linesScored;
 
         GameState result = new GameState(grid, width, block, location, orientation, nextBlock, 0,
-                state.getInputStateHistory(), blockCounter, lines);
+                state.getInputStateHistory(), blockCounter, lines, numFramesUntilLinesDisappear);
         
         if (linesScored != 0 && log.isDebugEnabled()) {
             log.debug(result.toString());
         }
         
         return result;
+    }
+
+    /**
+     * Counts the number of full lines in the grid.
+     * 
+     * @param width
+     *            width of the grid
+     * @param height
+     *            height of the grid
+     * @param grid
+     *            list containing the grid
+     * @return number of lines; between 0 and 4
+     */
+    private int countLines(int width, int height, List<Tetromino> grid) {
+        int linesScored = 0;
+        for (int line = height - 1; 0 <= line; line--) {
+            boolean filled = true;
+            int x = 0;
+            while (filled && x != width) {
+                filled = grid.get(x + line * width) != null;
+                x++;
+            }
+            
+            if (filled) {
+                linesScored++;
+            }
+        }
+        return linesScored;
     }
 
     /**
@@ -222,10 +274,14 @@ public class TinusTrisEngine implements GameEngine {
      *            height of the grid
      * @param grid
      *            list containing the grid
-     * @return number of lines; between 0 and 4
+     * @return updated copy of the game state
      */
-    private int removeLines(int width, int height, List<Tetromino> grid) {
-        int linesScored = 0;
+    private GameState removeLines(GameState state) {
+        int width = state.getWidth();
+        int height = state.getHeight();
+        List<Tetromino> grid = new ArrayList<>(state.getGrid());
+
+        // Update the grid by removing all full lines.
         for (int line = height - 1; 0 <= line; line--) {
             boolean filled = true;
             int x = 0;
@@ -236,9 +292,6 @@ public class TinusTrisEngine implements GameEngine {
             
             if (filled) {
                 // Line found.
-                linesScored++;
-                log.info("Line found: " + line);
-                
                 // Drop all the lines above it down.
                 for (int y = line; y != height - 1; y++) {
                     for (x = 0; x != width; x++) {
@@ -253,7 +306,15 @@ public class TinusTrisEngine implements GameEngine {
                 }
             }
         }
-        return linesScored;
+        
+        Tetromino block = state.getNextBlock();
+        Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
+        Point location = state.getBlockSpawnLocation();
+        Orientation orientation = Orientation.getDefault();
+        int blockCounter = state.getBlockCounter() + 1;
+        
+        return new GameState(grid, width, block, location, orientation, nextBlock,
+                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), blockCounter, state.getLines());
     }
     
     /**

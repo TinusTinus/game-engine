@@ -66,6 +66,14 @@ public class GameState {
     private final int blockCounter;
     /** Number of lines that have been scored in this game. */
     private final int lines;
+    /**
+     * The number of frames until the current lines disappear.
+     * 
+     * After the player completes a line, the game pauses for a short time while the line stays on a the screen for a
+     * short while before it disappears and the next active block appears. This variable indicates the number of frames
+     * that still remain. It is zero if there are currently no full lines in the grid.
+     */
+    private final int numFramesUntilLinesDisappear;
 
     /** Constructor for a (new) game with a completely empty grid of default size. */
     public GameState() {
@@ -100,6 +108,7 @@ public class GameState {
         this.inputStateHistory = new InputStateHistory();
         this.blockCounter = 0;
         this.lines = 0;
+        this.numFramesUntilLinesDisappear = 0;
     }
     
     /**
@@ -121,11 +130,11 @@ public class GameState {
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
         this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0,
-                new InputStateHistory(), 0, 0);
+                new InputStateHistory(), 0, 0, 0);
     }
     
     /**
-     * Constructor.
+     * Convenience constructor.
      * 
      * @param grid
      *            grid
@@ -151,6 +160,39 @@ public class GameState {
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick,
             InputStateHistory inputStateHistory, int blockCounter, int lines) {
+        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock,
+                numFramesSinceLastTick, inputStateHistory, blockCounter, lines, 0);
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param grid
+     *            grid
+     * @param width
+     *            width of the grid
+     * @param currentBlock
+     *            current block
+     * @param currentBlockLocation
+     *            location of the current block
+     * @param currentBlockOrientation
+     *            orientation of the current block
+     * @param nextBlock
+     *            next block
+     * @param numFramesSinceLastTick
+     *            number of frames since the last tick
+     * @param inputStateHistory
+     *            history of the input state; includes the current frame
+     * @param blockCounter
+     *            number of blocks that have been dropped
+     * @param lines
+     *            number of lines that have been scored in this game
+     * @param numFramesUntilLinesDisappear
+     *            number of remaining frames until lines disappear
+     */
+    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick,
+            InputStateHistory inputStateHistory, int blockCounter, int lines, int numFramesUntilLinesDisappear) {
         super();
 
         checkWidth(width);
@@ -172,6 +214,7 @@ public class GameState {
         this.inputStateHistory = inputStateHistory;
         this.blockCounter = blockCounter;
         this.lines = lines;
+        this.numFramesUntilLinesDisappear = numFramesUntilLinesDisappear;
     }
     
     /**
@@ -565,6 +608,7 @@ public class GameState {
         return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", currentBlockLocation="
                 + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
                 + nextBlock + ", inputStateHistory=" + inputStateHistory + ", blockCounter = " + blockCounter
-                + ", lines = " + lines + ", grid=\n" + gridToAscii() + ")";
+                + ", lines = " + lines + ", numFramesUntilLinesDisappear = " + numFramesUntilLinesDisappear
+                + ", grid=\n" + gridToAscii() + ")";
     }
 }
