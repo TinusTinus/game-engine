@@ -67,7 +67,7 @@ public class GridGroup extends Group {
             // Render the group.
             grid = new Group();
             int height = gameState.getHeight();
-            for (int y = 0; y != height; y++) {
+            for (int y = 0; y != height - GameState.VANISH_ZONE_HEIGHT; y++) {
                 BlockStyle style;
                 if (gameState.isFullLine(y)) {
                     style = BlockStyle.DISAPPEARING;
