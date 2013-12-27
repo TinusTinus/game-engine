@@ -3,12 +3,9 @@ package nl.mvdr.tinustris.gui;
 import java.util.Arrays;
 import java.util.Set;
 
-import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
-import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
@@ -23,8 +20,6 @@ public class GridGroup extends Group {
     private static final int BLOCK_SIZE = 30;
     /** Size for the arc of a tetromino block. */
     private static final int ARC_SIZE = 10;
-    /** The number of milliseconds in a second. */
-    private static final int MILLISECONDS_PER_SECOND = 1000;
 
     /** Previous game state, currently being displayed. Initially null. */
     private GameState previousState = null;
@@ -73,22 +68,17 @@ public class GridGroup extends Group {
             grid = new Group();
             int height = gameState.getHeight();
             for (int y = 0; y != height; y++) {
-                boolean isFullLine = gameState.isFullLine(y);
+                BlockStyle style;
+                if (gameState.isFullLine(y)) {
+                    style = BlockStyle.DISAPPEARING;
+                } else {
+                    style = BlockStyle.GRID;
+                }
+                
                 for (int x = 0; x != gameState.getWidth(); x++) {
                     Tetromino tetromino = gameState.getBlock(x, y);
                     if (tetromino != null) {
-                        Rectangle block = createBlock(x, y, height, tetromino, BlockStyle.GRID);
-                        
-                        if (isFullLine) {
-                            // add an animation to make the line disappear slowly
-                            int duration = GameState.FRAMES_LINES_STAY * MILLISECONDS_PER_SECOND
-                                    / (int) GameLoop.GAME_HERTZ;
-                            FadeTransition ft = new FadeTransition(Duration.millis(duration), block);
-                            ft.setFromValue(1);
-                            ft.setToValue(0);
-                            ft.play();
-                        }
-                        
+                        Rectangle block = createBlock(x, y, height, tetromino, style);
                         grid.getChildren().add(block);
                     }
                 }
