@@ -65,34 +65,34 @@ public class Tinustris extends Application {
 
         // construct the user interface
         stage.setTitle("Tinustris");
-        GridGroup group = new GridGroup();
-        group.setTranslateX(10);
-        group.setTranslateY(10);
+        GridGroup gridGroup = new GridGroup();
+        gridGroup.setTranslateX(10);
+        gridGroup.setTranslateY(10);
         
         // Add a bounding red rectangle to the grid.
         // TODO clean up this code
-        Rectangle rectangle = new Rectangle(10, 10, 10 * 30, 20 * 30);
-        rectangle.setFill(null);
+        Rectangle border = new Rectangle(10, 10, 10 * 30, 20 * 30);
+        border.setFill(null);
         
         Paint stroke = new RadialGradient(0,
                 1,
-                rectangle.getX() + rectangle.getWidth() / 2,
-                rectangle.getY() + rectangle.getHeight() / 2,
-                rectangle.getHeight() / 2,
+                border.getX() + border.getWidth() / 2,
+                border.getY() + border.getHeight() / 2,
+                border.getHeight() / 2,
                 false,
                 CycleMethod.NO_CYCLE,
                 new Stop(0, Color.WHITE),
                 new Stop(1, Color.RED));
         
-        rectangle.setStroke(stroke);
-        rectangle.setStrokeWidth(10);
-        rectangle.setStrokeType(StrokeType.OUTSIDE);
-        rectangle.setArcWidth(10);
-        rectangle.setArcHeight(10);
+        border.setStroke(stroke);
+        border.setStrokeWidth(10);
+        border.setStrokeType(StrokeType.OUTSIDE);
+        border.setArcWidth(10);
+        border.setArcHeight(10);
         
         Group parentGroup = new Group();
-        parentGroup.getChildren().add(rectangle);
-        parentGroup.getChildren().add(group);
+        parentGroup.getChildren().add(border);
+        parentGroup.getChildren().add(gridGroup);
         
         stage.setScene(new Scene(parentGroup, 10 * 30 + 20, 20 * 30 + 20, Color.GRAY));
         stage.show();
@@ -107,7 +107,7 @@ public class Tinustris extends Application {
         GameRenderer<GridGroup> gameRenderer = createRenderer();
         
         // start the game loop
-        gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer, group); 
+        gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer, gridGroup); 
         gameLoop.start();
         log.info("Game loop started.");
     }
