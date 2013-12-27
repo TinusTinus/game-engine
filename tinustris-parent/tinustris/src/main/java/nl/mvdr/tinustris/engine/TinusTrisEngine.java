@@ -21,12 +21,10 @@ import nl.mvdr.tinustris.model.Tetromino;
  */
 @Slf4j
 public class TinusTrisEngine implements GameEngine {
-    /** Number of frames between drops. */
+    /** Gravity, expressed in G, that is, cells per frame. Must be at least 0. */
     // TODO have this be variable, depending on current level
-    // TODO Refactor. Tetris variants actually allow multiple drops per frame, which this int cannot express properly.
-    // Also, the community generally seems to express this in terms of G (number of cells per frame), rather than frames
-    // per cell.
-    private static final int FRAMES_BETWEEN_DROPS = 60;
+    // 1 / 60 means the tetromino falls one cell every second
+    private static final float GRAVITY = 1f / 60f;
     /** Number of frames before a block locks into place. Should be greater than the number of frames between drops. */
     // TODO have this be variable, depending on current level
     private static final int LOCK_DELAY = 120;
@@ -85,19 +83,32 @@ public class TinusTrisEngine implements GameEngine {
      * @return actions
      */
     private List<Action> determineActions(GameState previousState, InputState inputState) {
-        List<Action> actions = new ArrayList<>(Action.values().length + 1);
-        if (FRAMES_BETWEEN_DROPS <= previousState.getNumFramesSinceLastDownMove()) {
-            actions.add(Action.GRAVITY_DROP);
+        List<Action> actions = new ArrayList<>();
+        
+        // process gravity
+        if (1f / GRAVITY <= previousState.getNumFramesSinceLastDownMove()) {
+            int cells = Math.round(GRAVITY);
+            if (cells == 0) {
+                cells = 1;
+            }
+            for (int i = 0; i != cells; i++) {
+                actions.add(Action.GRAVITY_DROP);
+            }
         }
+        
+        // process player input
         for (Input input: Input.values()) {
             if (inputState.isPressed(input)
                     && previousState.getInputStateHistory().getNumberOfFrames(input) % INPUT_FRAMES == 0) {
                 actions.add(input.getAction());
             }
         }
+        
+        // process lock delay
         if (LOCK_DELAY <= previousState.getNumFramesSinceLastMove()) {
             actions.add(Action.LOCK);
         }
+        
         return actions;
     }
     
