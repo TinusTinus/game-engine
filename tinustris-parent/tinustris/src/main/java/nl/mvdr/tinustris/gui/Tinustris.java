@@ -1,8 +1,15 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.Paint;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
@@ -59,7 +66,35 @@ public class Tinustris extends Application {
         // construct the user interface
         stage.setTitle("Tinustris");
         GridGroup group = new GridGroup();
-        stage.setScene(new Scene(group, 10 * 30, 20 * 30, Color.GRAY));
+        group.setTranslateX(10);
+        group.setTranslateY(10);
+        
+        // Add a bounding red rectangle to the grid.
+        // TODO clean up this code
+        Rectangle rectangle = new Rectangle(10, 10, 10 * 30, 20 * 30);
+        rectangle.setFill(null);
+        
+        Paint stroke = new RadialGradient(0,
+                1,
+                rectangle.getX() + rectangle.getWidth() / 2,
+                rectangle.getY() + rectangle.getHeight() / 2,
+                rectangle.getHeight() / 2,
+                false,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, Color.WHITE),
+                new Stop(1, Color.RED));
+        
+        rectangle.setStroke(stroke);
+        rectangle.setStrokeWidth(10);
+        rectangle.setStrokeType(StrokeType.OUTSIDE);
+        rectangle.setArcWidth(10);
+        rectangle.setArcHeight(10);
+        
+        Group parentGroup = new Group();
+        parentGroup.getChildren().add(rectangle);
+        parentGroup.getChildren().add(group);
+        
+        stage.setScene(new Scene(parentGroup, 10 * 30 + 20, 20 * 30 + 20, Color.GRAY));
         stage.show();
         // Default size should also be the minimum size.
         stage.setMinWidth(stage.getWidth());
