@@ -560,6 +560,22 @@ public class GameState {
     }
     
     /**
+     * Computes if the line is filled with (non-null) tetrominoes.
+     * 
+     * @param y line number
+     * @return whether the given line is filled
+     */
+    public boolean isFullLine(int y) {
+        boolean filled = true;
+        int x = 0;
+        while (filled && x != width) {
+            filled = getBlock(x, y) != null;
+            x++;
+        }
+        return filled;
+    }
+    
+    /**
      * Creates an ascii representation of the grid.
      * 
      * @return string representation of the grid

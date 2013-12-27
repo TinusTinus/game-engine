@@ -283,25 +283,18 @@ public class TinusTrisEngine implements GameEngine {
 
         // Update the grid by removing all full lines.
         for (int line = height - 1; 0 <= line; line--) {
-            boolean filled = true;
-            int x = 0;
-            while (filled && x != width) {
-                filled = grid.get(x + line * width) != null;
-                x++;
-            }
-            
-            if (filled) {
+            if (state.isFullLine(line)) {
                 // Line found.
                 // Drop all the lines above it down.
                 for (int y = line; y != height - 1; y++) {
-                    for (x = 0; x != width; x++) {
+                    for (int x = 0; x != width; x++) {
                         Tetromino tetromino = grid.get(x + (y + 1) * width);
                         grid.set(x + y * width, tetromino);
                     }
                 }
                 
                 // Make the top line empty.
-                for (x = 0; x != width; x++) {
+                for (int x = 0; x != width; x++) {
                     grid.set(x + (height - 1) * width, null);
                 }
             }
