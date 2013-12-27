@@ -29,6 +29,8 @@ public class GameState {
     public static final int DEFAULT_WIDTH = 10;
     /** Default height of a Tetris grid. */
     public static final int DEFAULT_HEIGHT = 22;
+    /** Number of frames a line stays on screen before it disappears. */
+    public static final int FRAMES_LINES_STAY = 60;
 
     /**
      * The basin of blocks.

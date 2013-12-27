@@ -22,6 +22,8 @@ public class GridGroup extends Group {
     private static final int BLOCK_SIZE = 30;
     /** Size for the arc of a tetromino block. */
     private static final int ARC_SIZE = 10;
+    /** The number of milliseconds in a second. */
+    private static final int MILLISECONDS_PER_SECOND = 1000;
 
     /** Previous game state, currently being displayed. Initially null. */
     private GameState previousState = null;
@@ -78,8 +80,9 @@ public class GridGroup extends Group {
                         
                         if (isFullLine) {
                             // add an animation to make the line disappear slowly
-                            // TODO compute duration based on the same constant used in TinustrisEngine
-                            FadeTransition ft = new FadeTransition(Duration.millis(1000), block);
+                            // TODO get fps from the same constant used in the main game loop
+                            int duration = GameState.FRAMES_LINES_STAY * MILLISECONDS_PER_SECOND / 60;
+                            FadeTransition ft = new FadeTransition(Duration.millis(duration), block);
                             ft.setFromValue(1);
                             ft.setToValue(0);
                             ft.play();

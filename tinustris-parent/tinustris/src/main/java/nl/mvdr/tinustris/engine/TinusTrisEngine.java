@@ -35,9 +35,6 @@ public class TinusTrisEngine implements GameEngine {
      */
     private static final int INPUT_FRAMES = 10;
     
-    /** Number of frames a line stays on screen before it disappears. */
-    private static final int FRAMES_LINES_STAY = 60;
-
     /** Tetromino generator. */
     private final TetrominoGenerator generator;
     
@@ -216,7 +213,7 @@ public class TinusTrisEngine implements GameEngine {
             location = null;
             orientation = null;
             blockCounter = state.getBlockCounter();
-            numFramesUntilLinesDisappear = FRAMES_LINES_STAY;
+            numFramesUntilLinesDisappear = GameState.FRAMES_LINES_STAY;
         } else {
             block = state.getNextBlock();
             nextBlock = generator.get(state.getBlockCounter() + 2);
