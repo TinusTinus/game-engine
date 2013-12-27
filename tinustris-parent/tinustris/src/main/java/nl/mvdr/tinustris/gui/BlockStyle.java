@@ -71,14 +71,33 @@ enum BlockStyle {
      *            tetromino represented by the given block
      */
     void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino) {
-        // opacity
         block.setOpacity(opacity);
-        
-        // stroke
+        applyStroke(block);
+        applyFill(block, tetromino);
+        applyAnimation(block);
+    }
+
+    /**
+     * Sets the block's stroke property.
+     * 
+     * @param block
+     *            block to be styled
+     */
+    private void applyStroke(Rectangle block) {
         block.setStrokeWidth(2);
         block.setStrokeType(StrokeType.INSIDE);
         block.setStroke(stroke);
-        
+    }
+
+    /**
+     * Sets the block's fill property.
+     * 
+     * @param block
+     *            block to be styled
+     * @param tetromino
+     *            tetromino represented by the given block
+     */
+    private void applyFill(Rectangle block, Tetromino tetromino) {
         // fill
         Color color = COLORS.get(tetromino);
         if (darker) {
@@ -94,7 +113,15 @@ enum BlockStyle {
                 new Stop(0, color.brighter()),
                 new Stop(1, color.darker()));
         block.setFill(fill);
-        
+    }
+
+    /**
+     * Adds any needed animation to the block.
+     * 
+     * @param block
+     *            block to be styled
+     */
+    private void applyAnimation(Rectangle block) {
         // animation
         if (disappearingAnimation) {
             int duration = GameState.FRAMES_LINES_STAY * MILLISECONDS_PER_SECOND / (int) GameLoop.GAME_HERTZ;
