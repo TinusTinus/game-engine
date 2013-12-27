@@ -27,7 +27,7 @@ public class TinusTrisEngine implements GameEngine {
     // Also, the community generally seems to express this in terms of G (number of cells per frame), rather than frames
     // per cell.
     private static final int FRAMES_BETWEEN_DROPS = 60;
-    /** Number of frames before a block locks into place. */
+    /** Number of frames before a block locks into place. Should be greater than the number of frames between drops. */
     // TODO have this be variable, depending on current level
     private static final int LOCK_DELAY = 120;
     /**
