@@ -10,8 +10,12 @@ public enum Action {
     MOVE_LEFT,
     /** Moves the currently active block right. */
     MOVE_RIGHT,
-    /** Moves the currently active block down. */
+    /** Moves the currently active block down, or locks it in place if that is impossible. */
     MOVE_DOWN,
+    /** Moves the currently active block down. */
+    GRAVITY_DROP,
+    /** Locks the currently active block in place. */
+    LOCK,
     /** Instantly drops the currently active block. */
     HARD_DROP,
     /** Rotates the currently active block 90 degrees clockwise. */

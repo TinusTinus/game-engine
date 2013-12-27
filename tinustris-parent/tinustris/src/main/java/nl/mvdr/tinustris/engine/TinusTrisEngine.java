@@ -27,6 +27,9 @@ public class TinusTrisEngine implements GameEngine {
     // Also, the community generally seems to express this in terms of G (number of cells per frame), rather than frames
     // per cell.
     private static final int FRAMES_BETWEEN_DROPS = 60;
+    /** Number of frames before a block locks into place. */
+    // TODO have this be variable, depending on current level
+    private static final int LOCK_DELAY = 120;
     /**
      * Number of frames the input is ignored while the user is holding down a button.
      * 
@@ -83,15 +86,17 @@ public class TinusTrisEngine implements GameEngine {
      */
     private List<Action> determineActions(GameState previousState, InputState inputState) {
         List<Action> actions = new ArrayList<>(Action.values().length + 1);
-        // TODO differentiate between gravity and lock delay
-        if (previousState.getNumFramesSinceLastDownMove() + 1 == FRAMES_BETWEEN_DROPS) {
-            actions.add(Action.MOVE_DOWN);
+        if (FRAMES_BETWEEN_DROPS <= previousState.getNumFramesSinceLastDownMove()) {
+            actions.add(Action.GRAVITY_DROP);
         }
         for (Input input: Input.values()) {
             if (inputState.isPressed(input)
                     && previousState.getInputStateHistory().getNumberOfFrames(input) % INPUT_FRAMES == 0) {
                 actions.add(input.getAction());
             }
+        }
+        if (LOCK_DELAY <= previousState.getNumFramesSinceLastMove()) {
+            actions.add(Action.LOCK);
         }
         return actions;
     }
@@ -109,10 +114,11 @@ public class TinusTrisEngine implements GameEngine {
     private GameState updateInputStateAndCounters(GameState previousState, InputState inputState) {
         InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
         int numFramesSinceLastTick = previousState.getNumFramesSinceLastDownMove() + 1;
+        int numFramesSinceLastMove = previousState.getNumFramesSinceLastMove() + 1;
         int numFramesUntilLinesDisappear = Math.max(0, previousState.getNumFramesUntilLinesDisappear() - 1);
         return new GameState(previousState.getGrid(), previousState.getWidth(), previousState.getCurrentBlock(),
                 previousState.getCurrentBlockLocation(), previousState.getCurrentBlockOrientation(),
-                previousState.getNextBlock(), numFramesSinceLastTick, inputStateHistory,
+                previousState.getNextBlock(), numFramesSinceLastTick, numFramesSinceLastMove, inputStateHistory,
                 previousState.getBlockCounter(), previousState.getLines(), numFramesUntilLinesDisappear);
     }
     
@@ -124,9 +130,17 @@ public class TinusTrisEngine implements GameEngine {
      * @return updated game state
      */
     private GameState executeAction(GameState state, Action action) {
+        if (log.isTraceEnabled()) {
+            log.trace("State before executing action {}: {}", action, state);
+        }
+        
         GameState result;
         if (action == Action.MOVE_DOWN) {
             result = executeMoveDown(state);
+        } else if (action == Action.GRAVITY_DROP) {
+            result = executeGravityDrop(state);
+        } else if (action == Action.LOCK) {
+            result = executeLock(state);
         } else if (action == Action.MOVE_LEFT) {
             result = executeMoveLeft(state);
         } else if (action == Action.MOVE_RIGHT){
@@ -142,6 +156,11 @@ public class TinusTrisEngine implements GameEngine {
         } else {
             throw new IllegalArgumentException("Unexpected action: " + action);
         }
+        
+        if (log.isTraceEnabled()) {
+            log.trace("State after executing action {}: {}", action, result);
+        }
+        
         return result;
     }
 
@@ -162,6 +181,40 @@ public class TinusTrisEngine implements GameEngine {
         
         return result;
     }
+    
+    /**
+     * Executes the gravity drop action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeGravityDrop(GameState state) {
+        GameState result;
+        if (state.canMoveDown()) {
+            result = moveDown(state);
+        } else {
+            // do nothing
+            result = state;
+        }
+        return result;
+    }
+    
+    /**
+     * Executes the lock block action.
+     * 
+     * @param state game state
+     * @return updated game state
+     */
+    private GameState executeLock(GameState state) {
+        GameState result;
+        if (!state.canMoveDown()) {
+            result = lockBlock(state);
+        } else {
+            // do nothing
+            result = state;
+        }
+        return result;
+    }
 
     /**
      * Moves the current block down one position on the given state.
@@ -174,7 +227,7 @@ public class TinusTrisEngine implements GameEngine {
     private GameState moveDown(GameState state) {
         Point location = state.getCurrentBlockLocation().translate(0, -1);
         return new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
-                state.getCurrentBlockOrientation(), state.getNextBlock(), 0, state.getInputStateHistory(),
+                state.getCurrentBlockOrientation(), state.getNextBlock(), 0, 0, state.getInputStateHistory(),
                 state.getBlockCounter(), state.getLines());
     }
 
@@ -224,7 +277,7 @@ public class TinusTrisEngine implements GameEngine {
         }
         int lines = state.getLines() + linesScored;
 
-        GameState result = new GameState(grid, width, block, location, orientation, nextBlock, 0,
+        GameState result = new GameState(grid, width, block, location, orientation, nextBlock, 0, 0,
                 state.getInputStateHistory(), blockCounter, lines, numFramesUntilLinesDisappear);
         
         if (linesScored != 0 && log.isDebugEnabled()) {
@@ -303,8 +356,8 @@ public class TinusTrisEngine implements GameEngine {
         Orientation orientation = Orientation.getDefault();
         int blockCounter = state.getBlockCounter() + 1;
         
-        return new GameState(grid, width, block, location, orientation, nextBlock,
-                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), blockCounter, state.getLines());
+        return new GameState(grid, width, block, location, orientation, nextBlock, 0, 0, state.getInputStateHistory(),
+                blockCounter, state.getLines());
     }
     
     /**
@@ -336,7 +389,7 @@ public class TinusTrisEngine implements GameEngine {
         GameState result;
         Point location = state.getCurrentBlockLocation().translate(-1, 0);
         result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
-                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(), 0,
                 state.getInputStateHistory(), state.getBlockCounter(), state.getLines());
         return result;
     }
@@ -370,7 +423,7 @@ public class TinusTrisEngine implements GameEngine {
         GameState result;
         Point location = state.getCurrentBlockLocation().translate(1, 0);
         result = new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(), location,
-                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(), 0,
                 state.getInputStateHistory(), state.getBlockCounter(), state.getLines());
         return result;
     }
@@ -413,7 +466,7 @@ public class TinusTrisEngine implements GameEngine {
         Orientation orientation = state.getCurrentBlockOrientation().getNextCounterClockwise();
         return new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(),
                 state.getCurrentBlockLocation(), orientation, state.getNextBlock(),
-                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), state.getBlockCounter(),
+                state.getNumFramesSinceLastDownMove(), 0, state.getInputStateHistory(), state.getBlockCounter(),
                 state.getLines());
     }
     
@@ -440,7 +493,7 @@ public class TinusTrisEngine implements GameEngine {
         Orientation orientation = state.getCurrentBlockOrientation().getNextClockwise();
         return new GameState(state.getGrid(), state.getWidth(), state.getCurrentBlock(),
                 state.getCurrentBlockLocation(), orientation, state.getNextBlock(),
-                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), state.getBlockCounter(),
+                state.getNumFramesSinceLastDownMove(), 0, state.getInputStateHistory(), state.getBlockCounter(),
                 state.getLines());
     }
 
@@ -455,7 +508,7 @@ public class TinusTrisEngine implements GameEngine {
         Tetromino nextBlock = state.getCurrentBlock();
         GameState stateAfterHold = new GameState(state.getGrid(), state.getWidth(), block,
                 state.getCurrentBlockLocation(), state.getCurrentBlockOrientation(), nextBlock,
-                state.getNumFramesSinceLastDownMove(), state.getInputStateHistory(), state.getBlockCounter(),
+                state.getNumFramesSinceLastDownMove(), 0, state.getInputStateHistory(), state.getBlockCounter(),
                 state.getLines());
         return fixStateAfterAction(state, stateAfterHold);
     }
