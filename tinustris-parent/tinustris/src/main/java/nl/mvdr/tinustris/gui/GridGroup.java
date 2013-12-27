@@ -3,9 +3,11 @@ package nl.mvdr.tinustris.gui;
 import java.util.Arrays;
 import java.util.Set;
 
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
@@ -67,11 +69,22 @@ public class GridGroup extends Group {
             // Render the group.
             grid = new Group();
             int height = gameState.getHeight();
-            for (int x = 0; x != gameState.getWidth(); x++) {
-                for (int y = 0; y != height; y++) {
+            for (int y = 0; y != height; y++) {
+                boolean isFullLine = gameState.isFullLine(y);
+                for (int x = 0; x != gameState.getWidth(); x++) {
                     Tetromino tetromino = gameState.getBlock(x, y);
                     if (tetromino != null) {
                         Rectangle block = createBlock(x, y, height, tetromino, BlockStyle.GRID);
+                        
+                        if (isFullLine) {
+                            // add an animation to make the line disappear slowly
+                            // TODO compute duration based on the same constant used in TinustrisEngine
+                            FadeTransition ft = new FadeTransition(Duration.millis(1000), block);
+                            ft.setFromValue(1);
+                            ft.setToValue(0);
+                            ft.play();
+                        }
+                        
                         grid.getChildren().add(block);
                     }
                 }
