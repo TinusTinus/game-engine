@@ -20,15 +20,16 @@ import nl.mvdr.tinustris.model.GameState;
 @RequiredArgsConstructor
 public class GameLoop<T extends Node> {
     /** Update rate for the game state. */
-    private final double GAME_HERTZ = 60.0;
+    public static final double GAME_HERTZ = 60.0;
+    
     /** How much time each frame should take for our target frame rate, in nanoseconds. */
-    private final double TIME_BETWEEN_UPDATES = 1_000_000_000 / GAME_HERTZ;
+    private static final double TIME_BETWEEN_UPDATES = 1_000_000_000 / GAME_HERTZ;
      /** At the very most we will update the game this many times before a new render. **/
-    private final int MAX_UPDATES_BEFORE_RENDER = 5;
+    private static final int MAX_UPDATES_BEFORE_RENDER = 5;
     /** Target frame rate for the game. */
-    private final double TARGET_FPS = 60;
+    private static final double TARGET_FPS = 60;
     /** Target time between renders, in nanoseconds. */
-    private final double TARGET_TIME_BETWEEN_RENDERS = 1_000_000_000 / TARGET_FPS;
+    private static final double TARGET_TIME_BETWEEN_RENDERS = 1_000_000_000 / TARGET_FPS;
     
     /** Input controller. */
     private final InputController inputController;

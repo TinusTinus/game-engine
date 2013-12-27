@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
@@ -80,8 +81,8 @@ public class GridGroup extends Group {
                         
                         if (isFullLine) {
                             // add an animation to make the line disappear slowly
-                            // TODO get fps from the same constant used in the main game loop
-                            int duration = GameState.FRAMES_LINES_STAY * MILLISECONDS_PER_SECOND / 60;
+                            int duration = GameState.FRAMES_LINES_STAY * MILLISECONDS_PER_SECOND
+                                    / (int) GameLoop.GAME_HERTZ;
                             FadeTransition ft = new FadeTransition(Duration.millis(duration), block);
                             ft.setFromValue(1);
                             ft.setToValue(0);
