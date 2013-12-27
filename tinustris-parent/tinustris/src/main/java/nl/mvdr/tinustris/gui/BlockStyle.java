@@ -54,7 +54,7 @@ enum BlockStyle {
     
     /** Opacity. */
     private final double opacity;
-    /** Stroke for the block. May be null (for no stroke). */
+    /** Stroke for the block. May be null (for a stroke equal to the tetromino's color). */
     private final Paint stroke;
     /** Indicates whether the block should be shown a shade darker than normal. */
     private final boolean darker;
@@ -72,7 +72,7 @@ enum BlockStyle {
      */
     void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino) {
         block.setOpacity(opacity);
-        applyStroke(block);
+        applyStroke(block, tetromino);
         applyFill(block, tetromino);
         applyAnimation(block);
     }
@@ -82,11 +82,17 @@ enum BlockStyle {
      * 
      * @param block
      *            block to be styled
+     * @param tetromino
+     *            tetromino represented by the given block
      */
-    private void applyStroke(Rectangle block) {
+    private void applyStroke(Rectangle block, Tetromino tetromino) {
         block.setStrokeWidth(2);
         block.setStrokeType(StrokeType.INSIDE);
-        block.setStroke(stroke);
+        if (stroke != null) {
+            block.setStroke(stroke);
+        } else {
+            block.setStroke(COLORS.get(tetromino));
+        }
     }
 
     /**
