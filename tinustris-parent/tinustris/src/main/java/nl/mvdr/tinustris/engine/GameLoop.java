@@ -108,7 +108,7 @@ public class GameLoop<T extends Node> {
                 lastRenderTime = now;
 
                 // Update the frames we got.
-                int thisSecond = (int) (lastUpdateTime / 1000000000);
+                int thisSecond = (int) (lastUpdateTime / 1_000_000_000);
                 if (thisSecond > lastSecondTime) {
                     log.info("New second: " + thisSecond + ", frame count: " + frameCount + ", fps: " + fps);
                     fps = frameCount;
