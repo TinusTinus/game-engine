@@ -98,7 +98,9 @@ public class Tinustris extends Application {
         parentGroup.getChildren().add(border);
         parentGroup.getChildren().add(gridGroup);
         
-        stage.setScene(new Scene(parentGroup, 10 * 30 + 20, 20 * 30 + 20, Color.GRAY));
+        stage.setScene(new Scene(parentGroup, 
+                10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH, 20 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
+                Color.GRAY));
         stage.show();
         // Default size should also be the minimum size.
         stage.setMinWidth(stage.getWidth());
