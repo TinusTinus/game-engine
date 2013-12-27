@@ -19,7 +19,7 @@ import nl.mvdr.tinustris.input.InputStateHistory;
 @EqualsAndHashCode
 @Getter
 public class GameState {
-    /** height of the vanish zone. */
+    /** Height of the vanish zone. */
     private static final int VANISH_ZONE_HEIGHT = 2;
     /** Minimum width of a Tetris grid. */
     private static final int MIN_WIDTH = 4;
