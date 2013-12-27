@@ -31,6 +31,9 @@ import com.sun.javafx.runtime.VersionInfo;
 // When testing the application, don't run this class directly from Eclipse. Use TinusTrisTestContext instead.
 @Slf4j
 public class Tinustris extends Application {
+    /** Width of the border around the Tetris grid and other UI components. */
+    private static final int BORDER_WIDTH = 10;
+    
     /** Game loop. */
     private GameLoop<GridGroup> gameLoop;
     
@@ -66,12 +69,13 @@ public class Tinustris extends Application {
         // construct the user interface
         stage.setTitle("Tinustris");
         GridGroup gridGroup = new GridGroup();
-        gridGroup.setTranslateX(10);
-        gridGroup.setTranslateY(10);
+        gridGroup.setTranslateX(BORDER_WIDTH);
+        gridGroup.setTranslateY(BORDER_WIDTH);
         
         // Add a bounding red rectangle to the grid.
         // TODO clean up this code
-        Rectangle border = new Rectangle(10, 10, 10 * 30, 20 * 30);
+        Rectangle border = new Rectangle(BORDER_WIDTH, BORDER_WIDTH, 10 * GridGroup.BLOCK_SIZE,
+                20 * GridGroup.BLOCK_SIZE);
         border.setFill(null);
         
         Paint stroke = new RadialGradient(0,
@@ -85,10 +89,10 @@ public class Tinustris extends Application {
                 new Stop(1, Color.RED));
         
         border.setStroke(stroke);
-        border.setStrokeWidth(10);
+        border.setStrokeWidth(BORDER_WIDTH);
         border.setStrokeType(StrokeType.OUTSIDE);
-        border.setArcWidth(10);
-        border.setArcHeight(10);
+        border.setArcWidth(GridGroup.ARC_SIZE);
+        border.setArcHeight(GridGroup.ARC_SIZE);
         
         Group parentGroup = new Group();
         parentGroup.getChildren().add(border);
