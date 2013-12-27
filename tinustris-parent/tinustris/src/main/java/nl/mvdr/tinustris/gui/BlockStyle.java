@@ -104,7 +104,6 @@ enum BlockStyle {
      *            tetromino represented by the given block
      */
     private void applyFill(Rectangle block, Tetromino tetromino) {
-        // fill
         Color color = COLORS.get(tetromino);
         if (darker) {
             color = color.darker();
@@ -128,7 +127,6 @@ enum BlockStyle {
      *            block to be styled
      */
     private void applyAnimation(Rectangle block) {
-        // animation
         if (disappearingAnimation) {
             int duration = GameState.FRAMES_LINES_STAY * MILLISECONDS_PER_SECOND / (int) GameLoop.GAME_HERTZ;
             FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), block);
