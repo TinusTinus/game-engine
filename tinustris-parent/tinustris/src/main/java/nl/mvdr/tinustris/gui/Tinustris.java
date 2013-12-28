@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.gui;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Paint;
@@ -94,12 +95,13 @@ public class Tinustris extends Application {
         border.setArcWidth(GridGroup.ARC_SIZE);
         border.setArcHeight(GridGroup.ARC_SIZE);
         
-        Group parentGroup = new Group();
-        parentGroup.getChildren().add(border);
-        parentGroup.getChildren().add(gridGroup);
-        
-        stage.setScene(new Scene(parentGroup, 
-                10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH, 20 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
+        Group parent = new Group();
+        parent.getChildren().add(border);
+        parent.getChildren().add(gridGroup);
+                
+        stage.setScene(new Scene(parent, 
+                10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
+                20 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
                 Color.GRAY));
         stage.show();
         // Default size should also be the minimum size.
