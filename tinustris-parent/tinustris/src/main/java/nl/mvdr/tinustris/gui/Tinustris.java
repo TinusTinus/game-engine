@@ -86,7 +86,7 @@ public class Tinustris extends Application {
                 false,
                 CycleMethod.NO_CYCLE,
                 new Stop(0, Color.WHITE),
-                new Stop(1, Color.RED));
+                new Stop(1, Color.DARKRED));
         
         border.setStroke(stroke);
         border.setStrokeWidth(BORDER_WIDTH);
@@ -101,15 +101,19 @@ public class Tinustris extends Application {
         gridBackground.setArcWidth(GridGroup.ARC_SIZE);
         gridBackground.setArcHeight(GridGroup.ARC_SIZE);
         
+        // TODO ImageView backgroundImage = new ImageView("imageurl");
+        
         Group parent = new Group();
+        // parent.getChildren().add(backgroundImage);
         parent.getChildren().add(gridBackground);
         parent.getChildren().add(border);
         parent.getChildren().add(gridGroup);
                 
-        stage.setScene(new Scene(parent, 
+        Scene scene = new Scene(parent, 
                 10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
                 20 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
-                Color.WHITE));
+                Color.WHITE);
+        stage.setScene(scene);
         stage.show();
         // Default size should also be the minimum size.
         stage.setMinWidth(stage.getWidth());
