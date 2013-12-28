@@ -94,14 +94,22 @@ public class Tinustris extends Application {
         border.setArcWidth(GridGroup.ARC_SIZE);
         border.setArcHeight(GridGroup.ARC_SIZE);
         
+        Rectangle gridBackground = new Rectangle(BORDER_WIDTH, BORDER_WIDTH, 10 * GridGroup.BLOCK_SIZE,
+                20 * GridGroup.BLOCK_SIZE);
+        gridBackground.setFill(Color.BLACK);
+        gridBackground.setOpacity(.5);
+        gridBackground.setArcWidth(GridGroup.ARC_SIZE);
+        gridBackground.setArcHeight(GridGroup.ARC_SIZE);
+        
         Group parent = new Group();
+        parent.getChildren().add(gridBackground);
         parent.getChildren().add(border);
         parent.getChildren().add(gridGroup);
                 
         stage.setScene(new Scene(parent, 
                 10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
                 20 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
-                Color.GRAY));
+                Color.WHITE));
         stage.show();
         // Default size should also be the minimum size.
         stage.setMinWidth(stage.getWidth());
