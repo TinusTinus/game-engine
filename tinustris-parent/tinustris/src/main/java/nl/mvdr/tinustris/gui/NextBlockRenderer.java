@@ -2,7 +2,6 @@ package nl.mvdr.tinustris.gui;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
