@@ -175,8 +175,8 @@ class GridGroup extends Group implements GameRenderer {
      * @param runnable
      *            runnable
      */
-    // Protected visibility as an extension point for unit tests.
-    protected void runOnJavaFXThread(Runnable runnable) {
+    // Default visibility as an extension point for unit tests.
+    void runOnJavaFXThread(Runnable runnable) {
         Platform.runLater(runnable);
     }
 

@@ -31,8 +31,8 @@ abstract class LabelRenderer extends Label implements GameRenderer {
      * 
      * @param runnable runnable
      */
-    // protected visibility as an extension point for unit tests
-    protected void runOnJavaFXThread(Runnable runnable) {
+    // default visibility as an extension point for unit tests
+    void runOnJavaFXThread(Runnable runnable) {
         Platform.runLater(runnable);
     }
     
