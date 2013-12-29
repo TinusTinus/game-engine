@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
@@ -20,6 +21,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  * @author Martijn van de Rijdt
  */
 @Slf4j
+@RequiredArgsConstructor
 public class TinusTrisEngine implements GameEngine {
     /** Gravity, expressed in G, that is, cells per frame. Must be at least 0. */
     // TODO have this be variable, depending on current level
