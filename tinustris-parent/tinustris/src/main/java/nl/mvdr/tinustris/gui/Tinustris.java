@@ -82,7 +82,6 @@ public class Tinustris extends Application {
         // construct the user interface
         stage.setTitle("Tinustris");
         
-        // TODO add a background image: new ImageView("imageurl");
         int widthInBlocks = GameState.DEFAULT_WIDTH;
         int heightInBlocks = GameState.DEFAULT_HEIGHT - GameState.VANISH_ZONE_HEIGHT;
         
@@ -90,6 +89,7 @@ public class Tinustris extends Application {
                 heightInBlocks * GridGroup.BLOCK_SIZE);
         Group linesWindow = createWindow(linesRenderer,
                 2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, MARGIN, RIGHT_WINDOW_WIDTH, 20);
+        // TODO also add a background image as the first child: new ImageView("imageurl");
         Group parent = new Group(gridWindow, linesWindow);
 
         Scene scene = new Scene(parent, 
