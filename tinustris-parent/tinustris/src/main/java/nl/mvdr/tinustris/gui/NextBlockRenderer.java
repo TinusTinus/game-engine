@@ -40,7 +40,11 @@ class NextBlockRenderer extends BlockGroupRenderer {
             // Render the group.
             group = new Group();
             for (Point point : nextBlock.getPoints(Orientation.getDefault())) {
-                Rectangle block = createBlock(point.getX(), point.translate(0, -1).getY(), 4, nextBlock,
+                // for aesthetics, center the tetromino
+                if (nextBlock != Tetromino.O) {
+                    point = point.translate(0, -1);
+                }
+                Rectangle block = createBlock(point.getX(), point.getY(), 4, nextBlock,
                         BlockStyle.NEXT);
                 group.getChildren().add(block);
             }
