@@ -6,6 +6,7 @@ import java.util.Set;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
+import lombok.NonNull;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
@@ -24,13 +25,9 @@ public class GridGroup extends Group implements GameRenderer {
     /** Previous game state, currently being displayed. Initially null. */
     private GameState previousState = null;
 
-    /**
-     * Renders the given game state. Does NOT need to be called from the JavaFX thread.
-     * 
-     * @param gameState game state to be rendered
-     */
+    /** {@inheritDoc} */
     @Override
-    public void render(final GameState gameState) {
+    public void render(@NonNull GameState gameState) {
         // create groups if state has changed; otherwise these groups may remain null
         final Group grid = createGridGroup(gameState);
         final Group ghost = createGhostGroup(gameState);
@@ -178,7 +175,8 @@ public class GridGroup extends Group implements GameRenderer {
      * @param runnable
      *            runnable
      */
-    private void runOnJavaFXThread(Runnable runnable) {
+    // Protected visibility as an extension point for unit tests.
+    protected void runOnJavaFXThread(Runnable runnable) {
         Platform.runLater(runnable);
     }
 

@@ -9,7 +9,7 @@ import nl.mvdr.tinustris.model.GameState;
  */
 public interface GameRenderer {
     /**
-     * Renders the game state.
+     * Renders the given game state. Does not need to be called from the JavaFX thread.
      * 
      * @param gameState
      *            game state to be displayed
