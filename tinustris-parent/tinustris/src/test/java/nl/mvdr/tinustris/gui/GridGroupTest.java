@@ -66,6 +66,17 @@ public class GridGroupTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
+    /** Tests {@link GridGroup#render(Label, GameState)} with two different game states. */
+    @Test
+    public void testRenderTwiceWithDifferentStates() {
+        GridGroup renderer = createGridGroup();
+        
+        renderer.render(new GameState());
+        renderer.render(createNontrivialGameState());
+        
+        Assert.assertFalse(renderer.getChildren().isEmpty());
+    }
+    
     /** Tests {@link GridGroup#render(Label, GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
@@ -104,12 +115,11 @@ public class GridGroupTest {
         while (grid.size() != 220) {
             grid.add(null);
         }
-        // add a single block at (2, 5)
-        grid.set(2 + 5 * 10, Tetromino.S);
-        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(1, 2), Orientation.getDefault(),
+        // add a single block at (2, 0)
+        grid.set(2, Tetromino.S);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         log.info(gameState.toString());
         return gameState;
     }
-
 }
