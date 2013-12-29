@@ -83,7 +83,7 @@ public class GameLoop {
 
         log.info("Starting main game loop.");
         
-        while (running) {
+        while (running && !gameState.isTopped()) {
             double now = System.nanoTime();
             int updateCount = 0;
 
@@ -135,7 +135,8 @@ public class GameLoop {
                 }
             }
         }
-        log.info("Finished main game loop.");
+        running = false;
+        log.info("Finished main game loop. Final game state: " + gameState);
     }
 
     /** Stops the game loop. */
