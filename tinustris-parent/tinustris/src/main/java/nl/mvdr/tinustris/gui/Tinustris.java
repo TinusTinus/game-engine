@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Arrays;
-
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -76,7 +74,7 @@ public class Tinustris extends Application {
         // create the game renderers
         GridGroup gridGroup = new GridGroup();
         LinesRenderer linesRenderer = new LinesRenderer();
-        CompositeRenderer gameRenderer = new CompositeRenderer(Arrays.<GameRenderer>asList(gridGroup, linesRenderer));
+        CompositeRenderer gameRenderer = new CompositeRenderer(gridGroup, linesRenderer);
 
         // construct the user interface
         stage.setTitle("Tinustris");

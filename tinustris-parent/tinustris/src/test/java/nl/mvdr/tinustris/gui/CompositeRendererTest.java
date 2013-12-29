@@ -1,8 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import nl.mvdr.tinustris.model.GameState;
 
 import org.junit.Assert;
@@ -17,7 +14,7 @@ public class CompositeRendererTest {
     /** Tests {@link CompositeRenderer#render(GameState)}. */
     @Test
     public void testRenderEmptyList() {
-        CompositeRenderer renderer = new CompositeRenderer(Collections.<GameRenderer>emptyList());
+        CompositeRenderer renderer = new CompositeRenderer();
         GameState state = new GameState();
         
         renderer.render(state);
@@ -27,7 +24,7 @@ public class CompositeRendererTest {
     @Test
     public void testRenderOneRenderer() {
         DummyRenderer dummyRenderer = new DummyRenderer();
-        CompositeRenderer renderer = new CompositeRenderer(Arrays.<GameRenderer>asList(dummyRenderer));
+        CompositeRenderer renderer = new CompositeRenderer(dummyRenderer);
         GameState state = new GameState();
         
         renderer.render(state);
@@ -40,7 +37,7 @@ public class CompositeRendererTest {
     public void testRenderTwoRenderers() {
         DummyRenderer dummyRenderer0 = new DummyRenderer();
         DummyRenderer dummyRenderer1 = new DummyRenderer();
-        CompositeRenderer renderer = new CompositeRenderer(Arrays.<GameRenderer>asList(dummyRenderer0, dummyRenderer1));
+        CompositeRenderer renderer = new CompositeRenderer(dummyRenderer0, dummyRenderer1);
         GameState state = new GameState();
         
         renderer.render(state);
@@ -52,7 +49,7 @@ public class CompositeRendererTest {
     /** Tests {@link LabelRenderer#render(GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
-        CompositeRenderer renderer = new CompositeRenderer(Collections.<GameRenderer>emptyList());
+        CompositeRenderer renderer = new CompositeRenderer();
         
         renderer.render(null);
     }
