@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.Arrays;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -13,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.engine.CompositeRenderer;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.TinusTrisEngine;
@@ -90,7 +93,8 @@ public class Tinustris extends Application {
         GameEngine gameEngine = new TinusTrisEngine();
         
         // start the game loop
-        gameLoop = new GameLoop(inputController, gameEngine, gridGroup); 
+        CompositeRenderer gameRenderer = new CompositeRenderer(Arrays.<GameRenderer>asList(gridGroup));
+        gameLoop = new GameLoop(inputController, gameEngine, gameRenderer); 
         gameLoop.start();
         log.info("Game loop started.");
     }
