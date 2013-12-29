@@ -1,8 +1,14 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.control.Label;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.Orientation;
+import nl.mvdr.tinustris.model.Point;
+import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,6 +43,29 @@ public class GridGroupTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
+    /** Tests {@link GridGroup#render(Label, GameState)}. */
+    @Test
+    public void testRender() {
+        GridGroup renderer = createGridGroup();
+        GameState gameState = createNontrivialGameState();
+        
+        renderer.render(gameState);
+        
+        Assert.assertFalse(renderer.getChildren().isEmpty());
+    }
+
+    /** Tests {@link GridGroup#render(Label, GameState)} with the same game state twice. */
+    @Test
+    public void testRenderTwice() {
+        GridGroup renderer = createGridGroup();
+        GameState state = createNontrivialGameState();
+        
+        renderer.render(state);
+        renderer.render(state);
+        
+        Assert.assertFalse(renderer.getChildren().isEmpty());
+    }
+    
     /** Tests {@link GridGroup#render(Label, GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
@@ -64,4 +93,23 @@ public class GridGroupTest {
             }
         };
     }
+    
+    /**
+     * Creates a nontrivial game state, containing a block in the grid, an active block and a ghost.
+     * 
+     * @return game state
+     */
+    private GameState createNontrivialGameState() {
+        List<Tetromino> grid = new ArrayList<>();
+        while (grid.size() != 220) {
+            grid.add(null);
+        }
+        // add a single block at (2, 5)
+        grid.set(2 + 5 * 10, Tetromino.S);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(1, 2), Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+        return gameState;
+    }
+
 }
