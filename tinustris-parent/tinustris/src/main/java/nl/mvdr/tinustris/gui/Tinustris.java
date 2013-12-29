@@ -29,7 +29,7 @@ import com.sun.javafx.runtime.VersionInfo;
  * 
  * @author Martijn van de Rijdt
  */
-// When testing the application, don't run this class directly from Eclipse. Use TinusTrisTestContext instead.
+// When testing the application, don't run this class directly from Eclipse. Use TinustrisTestContext instead.
 @Slf4j
 public class Tinustris extends Application {
     /** Size of the border around the Tetris grid and other UI components. */
