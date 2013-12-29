@@ -30,24 +30,23 @@ class NextBlockRenderer extends BlockGroupRenderer {
     /** {@inheritDoc} */
     @Override
     List<Group> createGroups(GameState gameState) {
-        Group nextBlock;
+        Group group;
         
-        if (previousValue != null && previousValue == gameState.getNextBlock()) {
+        Tetromino nextBlock = gameState.getNextBlock();
+        if (previousValue != null && previousValue == nextBlock) {
             // Active block location is unchanged; no need to update.
-            nextBlock = null;
+            group = null;
         } else {
             // This is the first frame, or the active block's location has changed.
             // Render the group.
-            nextBlock = new Group();
-            
-            Set<Point> points = gameState.getNextBlock().getPoints(Orientation.getDefault());
-            for (Point point : points) {
-                Rectangle block = createBlock(point.getX(), point.translate(0, -1).getY(), 4, gameState.getNextBlock(), 
+            group = new Group();
+            for (Point point : nextBlock.getPoints(Orientation.getDefault())) {
+                Rectangle block = createBlock(point.getX(), point.translate(0, -1).getY(), 4, nextBlock,
                         BlockStyle.NEXT);
-                nextBlock.getChildren().add(block);
+                group.getChildren().add(block);
             }
         }
         
-        return Arrays.asList(nextBlock);
+        return Arrays.asList(group);
     }
 }
