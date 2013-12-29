@@ -22,7 +22,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class TinusTrisEngine implements GameEngine {
+public class TinustrisEngine implements GameEngine {
     /** Gravity, expressed in G, that is, cells per frame. Must be at least 0. */
     // TODO have this be variable, depending on current level
     // 1 / 60 means the tetromino falls one cell every second
@@ -42,7 +42,7 @@ public class TinusTrisEngine implements GameEngine {
     private final TetrominoGenerator generator;
     
     /**  Constructor. */
-    public TinusTrisEngine() {
+    public TinustrisEngine() {
         super();
         this.generator = new RandomTetrominoGenerator();
     }
