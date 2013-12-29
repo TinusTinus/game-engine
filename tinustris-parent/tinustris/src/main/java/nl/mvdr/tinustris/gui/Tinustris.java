@@ -176,7 +176,7 @@ public class Tinustris extends Application {
                 1,
                 border.getX() + border.getWidth() / 2,
                 border.getY() + border.getHeight() / 2,
-                border.getHeight() / 2,
+                border.getWidth(),
                 false,
                 CycleMethod.NO_CYCLE,
                 new Stop(0, Color.WHITE),
