@@ -38,6 +38,8 @@ public class Tinustris extends Application {
     private static final int MARGIN = 10;
     /** Width of the components in the windows on the right hand side. */
     private static final int RIGHT_WINDOW_WIDTH = 100;
+    /** Width of a text window. */
+    private static final int TEXT_WINDOW_HEIGHT = 50;
     /** Width of the game over label. */
     private static final int GAME_OVER_LABEL_WIDTH = 170;
     
@@ -75,9 +77,11 @@ public class Tinustris extends Application {
         
         // create the game renderers
         GridGroup gridGroup = new GridGroup();
+        NextBlockRenderer nextBlockRenderer = new NextBlockRenderer();
         LinesRenderer linesRenderer = new LinesRenderer();
         GameOverRenderer gameOverRenderer = new GameOverRenderer();
-        CompositeRenderer gameRenderer = new CompositeRenderer(gridGroup, linesRenderer, gameOverRenderer);
+        CompositeRenderer gameRenderer = new CompositeRenderer(gridGroup, nextBlockRenderer, linesRenderer,
+                gameOverRenderer);
 
         // construct the user interface
         stage.setTitle("Tinustris");
@@ -87,16 +91,24 @@ public class Tinustris extends Application {
         
         Group gridWindow = createWindow(gridGroup, MARGIN, MARGIN, widthInBlocks * GridGroup.BLOCK_SIZE, 
                 heightInBlocks * GridGroup.BLOCK_SIZE);
+        Group nextBlockWindow = createWindow(nextBlockRenderer,
+                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, 
+                MARGIN, 
+                RIGHT_WINDOW_WIDTH, 
+                TEXT_WINDOW_HEIGHT);
         Group linesWindow = createWindow(linesRenderer,
-                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, MARGIN, RIGHT_WINDOW_WIDTH, 50);
+                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, 
+                2 * MARGIN + 2 * BORDER_SIZE + TEXT_WINDOW_HEIGHT, 
+                RIGHT_WINDOW_WIDTH, 
+                TEXT_WINDOW_HEIGHT);
         Group gameOverWindow = createWindow(gameOverRenderer,
                 (MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
-                (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - 50 / 2,
+                (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
                 GAME_OVER_LABEL_WIDTH,
-                50);
+                TEXT_WINDOW_HEIGHT);
         gameOverWindow.setVisible(false);
         // TODO also add a background image as the first child: new ImageView("imageurl");
-        Group parent = new Group(gridWindow, linesWindow, gameOverWindow);
+        Group parent = new Group(gridWindow, nextBlockWindow, linesWindow, gameOverWindow);
 
         Scene scene = new Scene(parent, 
                 widthInBlocks * GridGroup.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
