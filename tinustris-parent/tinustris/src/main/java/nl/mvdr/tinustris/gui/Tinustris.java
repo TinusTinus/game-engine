@@ -78,7 +78,7 @@ public class Tinustris extends Application {
         logVersionInfo();
         
         // create the game renderers
-        GridGroup gridGroup = new GridGroup();
+        GridRenderer gridGroup = new GridRenderer();
         NextBlockRenderer nextBlockRenderer = new NextBlockRenderer();
         LinesRenderer linesRenderer = new LinesRenderer();
         GameOverRenderer gameOverRenderer = new GameOverRenderer();
@@ -91,21 +91,21 @@ public class Tinustris extends Application {
         int widthInBlocks = GameState.DEFAULT_WIDTH;
         int heightInBlocks = GameState.DEFAULT_HEIGHT - GameState.VANISH_ZONE_HEIGHT;
         
-        Group gridWindow = createWindow("", gridGroup, MARGIN, MARGIN, widthInBlocks * GridGroup.BLOCK_SIZE, 
-                heightInBlocks * GridGroup.BLOCK_SIZE);
+        Group gridWindow = createWindow("", gridGroup, MARGIN, MARGIN, widthInBlocks * GridRenderer.BLOCK_SIZE, 
+                heightInBlocks * GridRenderer.BLOCK_SIZE);
         Group nextBlockWindow = createWindow("NEXT", nextBlockRenderer,
-                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, 
+                2 * MARGIN + widthInBlocks * GridRenderer.BLOCK_SIZE + 2 * BORDER_SIZE, 
                 MARGIN, 
                 RIGHT_WINDOW_WIDTH, 
                 TEXT_WINDOW_HEIGHT);
         Group linesWindow = createWindow("LINES", linesRenderer,
-                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, 
+                2 * MARGIN + widthInBlocks * GridRenderer.BLOCK_SIZE + 2 * BORDER_SIZE, 
                 2 * MARGIN + 2 * BORDER_SIZE + TEXT_WINDOW_HEIGHT, 
                 RIGHT_WINDOW_WIDTH, 
                 TEXT_WINDOW_HEIGHT);
         Group gameOverWindow = createWindow("", gameOverRenderer,
-                (MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
-                (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
+                (MARGIN + widthInBlocks * GridRenderer.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
+                (MARGIN + heightInBlocks * GridRenderer.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
                 GAME_OVER_LABEL_WIDTH,
                 TEXT_WINDOW_HEIGHT);
         gameOverWindow.setVisible(false);
@@ -113,8 +113,8 @@ public class Tinustris extends Application {
         Group parent = new Group(gridWindow, nextBlockWindow, linesWindow, gameOverWindow);
 
         Scene scene = new Scene(parent, 
-                widthInBlocks * GridGroup.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
-                heightInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
+                widthInBlocks * GridRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
+                heightInBlocks * GridRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
         stage.setScene(scene);
         stage.show();
@@ -208,15 +208,15 @@ public class Tinustris extends Application {
         border.setStroke(stroke);
         border.setStrokeWidth(BORDER_SIZE);
         border.setStrokeType(StrokeType.OUTSIDE);
-        border.setArcWidth(GridGroup.ARC_SIZE);
-        border.setArcHeight(GridGroup.ARC_SIZE);
+        border.setArcWidth(GridRenderer.ARC_SIZE);
+        border.setArcHeight(GridRenderer.ARC_SIZE);
         
         // black, seethrough background, to dim whatever is behind the window
         Rectangle background = new Rectangle(border.getX(), border.getY(), border.getWidth(), border.getHeight());
         background.setFill(Color.BLACK);
         background.setOpacity(.5);
-        background.setArcWidth(GridGroup.ARC_SIZE);
-        background.setArcHeight(GridGroup.ARC_SIZE);
+        background.setArcWidth(GridRenderer.ARC_SIZE);
+        background.setArcHeight(GridRenderer.ARC_SIZE);
         
         contents.setTranslateX(x + BORDER_SIZE);
         contents.setTranslateY(y + BORDER_SIZE);

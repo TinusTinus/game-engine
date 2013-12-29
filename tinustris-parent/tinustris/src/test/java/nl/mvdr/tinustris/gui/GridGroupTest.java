@@ -14,16 +14,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test class for {@link GridGroup}.
+ * Test class for {@link GridRenderer}.
  * 
  * @author Martijn van de Rijdt
  */
 @Slf4j
 public class GridGroupTest {
-    /** Tests {@link GridGroup#render(Label, GameState)}. */
+    /** Tests {@link GridRenderer#render(Label, GameState)}. */
     @Test
     public void testRenderSimpleState() {
-        GridGroup renderer = createGridGroup();
+        GridRenderer renderer = createGridGroup();
         GameState state = new GameState();
         
         renderer.render(state);
@@ -31,10 +31,10 @@ public class GridGroupTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridGroup#render(Label, GameState)} with the same game state twice. */
+    /** Tests {@link GridRenderer#render(Label, GameState)} with the same game state twice. */
     @Test
     public void testRenderSimpleStateTwice() {
-        GridGroup renderer = createGridGroup();
+        GridRenderer renderer = createGridGroup();
         GameState state = new GameState();
         
         renderer.render(state);
@@ -43,10 +43,10 @@ public class GridGroupTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridGroup#render(Label, GameState)}. */
+    /** Tests {@link GridRenderer#render(Label, GameState)}. */
     @Test
     public void testRender() {
-        GridGroup renderer = createGridGroup();
+        GridRenderer renderer = createGridGroup();
         GameState gameState = createNontrivialGameState();
         
         renderer.render(gameState);
@@ -54,10 +54,10 @@ public class GridGroupTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
 
-    /** Tests {@link GridGroup#render(Label, GameState)} with the same game state twice. */
+    /** Tests {@link GridRenderer#render(Label, GameState)} with the same game state twice. */
     @Test
     public void testRenderTwice() {
-        GridGroup renderer = createGridGroup();
+        GridRenderer renderer = createGridGroup();
         GameState state = createNontrivialGameState();
         
         renderer.render(state);
@@ -66,10 +66,10 @@ public class GridGroupTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridGroup#render(Label, GameState)} with two different game states. */
+    /** Tests {@link GridRenderer#render(Label, GameState)} with two different game states. */
     @Test
     public void testRenderTwiceWithDifferentStates() {
-        GridGroup renderer = createGridGroup();
+        GridRenderer renderer = createGridGroup();
         
         renderer.render(new GameState());
         renderer.render(createNontrivialGameState());
@@ -77,10 +77,10 @@ public class GridGroupTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridGroup#render(Label, GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link GridRenderer#render(Label, GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
-        GridGroup renderer = createGridGroup();
+        GridRenderer renderer = createGridGroup();
         
         renderer.render(null);
     }
@@ -90,8 +90,8 @@ public class GridGroupTest {
      * 
      * @return renderer
      */
-    private GridGroup createGridGroup() {
-        return new GridGroup() {
+    private GridRenderer createGridGroup() {
+        return new GridRenderer() {
             /** 
              * Mock implementation which just executes the runnable on the current thread.
              * 
