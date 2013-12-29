@@ -95,7 +95,7 @@ public class Tinustris extends Application {
         Scene scene = new Scene(parent, 
                 widthInBlocks * GridGroup.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
                 heightInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
-                Color.WHITE);
+                Color.GRAY);
         stage.setScene(scene);
         stage.show();
         // Default size should also be the minimum size.
