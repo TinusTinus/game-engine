@@ -38,6 +38,8 @@ public class Tinustris extends Application {
     private static final int MARGIN = 10;
     /** Width of the components in the windows on the right hand side. */
     private static final int RIGHT_WINDOW_WIDTH = 100;
+    /** Width of the game over label. */
+    private static final int GAME_OVER_LABEL_WIDTH = 170;
     
     /** Game loop. */
     private GameLoop gameLoop;
@@ -87,9 +89,11 @@ public class Tinustris extends Application {
                 heightInBlocks * GridGroup.BLOCK_SIZE);
         Group linesWindow = createWindow(linesRenderer,
                 2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, MARGIN, RIGHT_WINDOW_WIDTH, 50);
-        Group gameOverWindow = createWindow(gameOverRenderer, (MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE) / 2
-                - RIGHT_WINDOW_WIDTH / 2, (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - 50 / 2,
-                RIGHT_WINDOW_WIDTH, 50);
+        Group gameOverWindow = createWindow(gameOverRenderer,
+                (MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
+                (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - 50 / 2,
+                GAME_OVER_LABEL_WIDTH,
+                50);
         gameOverWindow.setVisible(false);
         // TODO also add a background image as the first child: new ImageView("imageurl");
         Group parent = new Group(gridWindow, linesWindow, gameOverWindow);
@@ -199,7 +203,7 @@ public class Tinustris extends Application {
         
         contents.setTranslateX(x + BORDER_SIZE);
         contents.setTranslateY(y + BORDER_SIZE);
-
+        
         return new Group(background, border, contents);
     }
     

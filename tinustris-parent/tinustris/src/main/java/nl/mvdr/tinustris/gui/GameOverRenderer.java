@@ -1,7 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.application.Platform;
-import javafx.scene.control.Label;
 import nl.mvdr.tinustris.model.GameState;
 
 /**
@@ -9,7 +8,7 @@ import nl.mvdr.tinustris.model.GameState;
  * 
  * @author Martijn van de Rijdt
  */
-class GameOverRenderer extends Label implements GameRenderer {
+class GameOverRenderer extends GreenTextLabel implements GameRenderer {
     /** Constructor. */
     GameOverRenderer() {
         super("GAME OVER");
