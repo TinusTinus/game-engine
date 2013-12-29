@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.gui;
 import java.util.Arrays;
 import java.util.Collections;
 
-import javafx.scene.control.Label;
 import nl.mvdr.tinustris.model.GameState;
 
 import org.junit.Assert;
@@ -15,7 +14,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class CompositeRendererTest {
-    /** Tests {@link CompositeRenderer#render(Label, GameState)}. */
+    /** Tests {@link CompositeRenderer#render(GameState)}. */
     @Test
     public void testRenderEmptyList() {
         CompositeRenderer renderer = new CompositeRenderer(Collections.<GameRenderer>emptyList());
@@ -24,7 +23,7 @@ public class CompositeRendererTest {
         renderer.render(state);
     }
     
-    /** Tests {@link CompositeRenderer#render(Label, GameState)}. */
+    /** Tests {@link CompositeRenderer#render(GameState)}. */
     @Test
     public void testRenderOneRenderer() {
         DummyRenderer dummyRenderer = new DummyRenderer();
@@ -36,7 +35,7 @@ public class CompositeRendererTest {
         Assert.assertEquals(state, dummyRenderer.getLastRenderedState());
     }
     
-    /** Tests {@link CompositeRenderer#render(Label, GameState)}. */
+    /** Tests {@link CompositeRenderer#render(GameState)}. */
     @Test
     public void testRenderTwoRenderers() {
         DummyRenderer dummyRenderer0 = new DummyRenderer();
@@ -50,7 +49,7 @@ public class CompositeRendererTest {
         Assert.assertEquals(state, dummyRenderer1.getLastRenderedState());
     }
     
-    /** Tests {@link LabelRenderer#render(Label, GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LabelRenderer#render(GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         CompositeRenderer renderer = new CompositeRenderer(Collections.<GameRenderer>emptyList());

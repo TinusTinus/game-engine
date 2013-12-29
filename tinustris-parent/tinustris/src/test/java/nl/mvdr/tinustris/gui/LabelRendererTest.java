@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import javafx.scene.control.Label;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.GameState;
 
@@ -14,7 +13,7 @@ import org.junit.Test;
  */
 @Slf4j
 public class LabelRendererTest {
-    /** Tests {@link LabelRenderer#render(Label, GameState)}. */
+    /** Tests {@link LabelRenderer#render(GameState)}. */
     @Test
     public void testRender() {
         LabelRenderer renderer = createLabelRenderer();
@@ -28,7 +27,7 @@ public class LabelRendererTest {
         Assert.assertNotEquals("", text);
     }
     
-    /** Tests {@link LabelRenderer#render(Label, GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LabelRenderer#render(GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         LabelRenderer renderer = createLabelRenderer();

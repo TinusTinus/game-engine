@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import javafx.scene.control.Label;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Tetromino;
@@ -14,7 +13,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class LinesRendererTest {
-    /** Tests {@link LinesRenderer#render(Label, GameState)}. */
+    /** Tests {@link LinesRenderer#render(GameState)}. */
     @Test
     public void testRender() {
         LinesRenderer renderer = createLinesRenderer();
@@ -25,7 +24,7 @@ public class LinesRendererTest {
         Assert.assertEquals("0", renderer.getText());
     }
     
-    /** Tests {@link LinesRenderer#render(Label, GameState)}. */
+    /** Tests {@link LinesRenderer#render(GameState)}. */
     @Test
     public void testRenderPositiveLines() {
         LinesRenderer renderer = createLinesRenderer();
@@ -37,7 +36,7 @@ public class LinesRendererTest {
         Assert.assertEquals("365", renderer.getText());
     }
     
-    /** Tests {@link LinesRenderer#render(Label, GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LinesRenderer#render(GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         LabelRenderer renderer = createLinesRenderer();
