@@ -111,7 +111,6 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
      */
     Rectangle createBlock(int x, int y, int height, Tetromino tetromino, BlockStyle style) {
         int xCoordinate = x * BLOCK_SIZE;
-        // TODO where does the - 1 come from?
         int yCoordinate = (height - y - 1) * BLOCK_SIZE;
         
         Rectangle result = new Rectangle(xCoordinate, yCoordinate, BLOCK_SIZE, BLOCK_SIZE);
