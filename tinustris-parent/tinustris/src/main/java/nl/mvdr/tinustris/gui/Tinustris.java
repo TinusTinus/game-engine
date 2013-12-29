@@ -15,7 +15,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.tinustris.engine.CompositeRenderer;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.TinusTrisEngine;

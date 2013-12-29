@@ -1,10 +1,9 @@
-package nl.mvdr.tinustris.engine;
+package nl.mvdr.tinustris.gui;
 
 import java.util.List;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import nl.mvdr.tinustris.gui.GameRenderer;
 import nl.mvdr.tinustris.model.GameState;
 
 /**
@@ -13,7 +12,7 @@ import nl.mvdr.tinustris.model.GameState;
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
-public class CompositeRenderer implements GameRenderer {
+class CompositeRenderer implements GameRenderer {
     /** Renderers. */
     private final List<GameRenderer> renderers;
     

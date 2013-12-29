@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import javafx.scene.control.Label;
-import nl.mvdr.tinustris.engine.CompositeRenderer;
 import nl.mvdr.tinustris.model.GameState;
 
 import org.junit.Assert;
