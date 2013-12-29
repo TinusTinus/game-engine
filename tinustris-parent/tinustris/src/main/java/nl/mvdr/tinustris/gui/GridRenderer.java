@@ -55,8 +55,8 @@ class GridRenderer extends BlockGroupRenderer {
             // In the latter case they might still be equal, but whatever.
             // Render the group.
             grid = new Group();
-            int height = gameState.getHeight();
-            for (int y = 0; y != height - GameState.VANISH_ZONE_HEIGHT; y++) {
+            int height = gameState.getHeight() - GameState.VANISH_ZONE_HEIGHT;
+            for (int y = 0; y != height; y++) {
                 BlockStyle style;
                 if (gameState.isFullLine(y)) {
                     style = BlockStyle.DISAPPEARING;
@@ -92,7 +92,7 @@ class GridRenderer extends BlockGroupRenderer {
             // This is the first frame, or the ghost has changed.
             // Render the group.
             ghost = new Group();
-            int height = gameState.getHeight();
+            int height = gameState.getHeight() - GameState.VANISH_ZONE_HEIGHT;
             for (Point point : ghostPoints) {
                 Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock(),
                         BlockStyle.GHOST);
@@ -118,7 +118,7 @@ class GridRenderer extends BlockGroupRenderer {
             // This is the first frame, or the active block's location has changed.
             // Render the group.
             activeBlock = new Group();
-            int height = gameState.getHeight();
+            int height = gameState.getHeight() - GameState.VANISH_ZONE_HEIGHT;
             for (Point point : currentActiveBlockPoints) {
                 Rectangle block = createBlock(point.getX(), point.getY(), height, gameState.getCurrentBlock(),
                         BlockStyle.ACTIVE);

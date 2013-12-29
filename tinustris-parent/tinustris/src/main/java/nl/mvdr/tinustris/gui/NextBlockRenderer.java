@@ -42,8 +42,8 @@ class NextBlockRenderer extends BlockGroupRenderer {
             
             Set<Point> points = gameState.getNextBlock().getPoints(Orientation.getDefault());
             for (Point point : points) {
-                // TODO the 7 is kind of a hack, refactor this
-                Rectangle block = createBlock(point.getX(), point.getY(), 7, gameState.getNextBlock(), BlockStyle.NEXT);
+                // TODO why 5 instead of 4?
+                Rectangle block = createBlock(point.getX(), point.getY(), 5, gameState.getNextBlock(), BlockStyle.NEXT);
                 nextBlock.getChildren().add(block);
             }
         }
