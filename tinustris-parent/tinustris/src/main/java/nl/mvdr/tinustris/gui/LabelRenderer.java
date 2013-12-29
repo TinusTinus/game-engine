@@ -2,6 +2,8 @@ package nl.mvdr.tinustris.gui;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import lombok.NonNull;
 import nl.mvdr.tinustris.model.GameState;
 
@@ -11,6 +13,14 @@ import nl.mvdr.tinustris.model.GameState;
  * @author Martijn van de Rijdt
  */
 abstract class LabelRenderer extends Label implements GameRenderer {
+    /** Constructor. */
+    LabelRenderer() {
+        super();
+
+        setFont(new Font(30));
+        setTextFill(Color.LIGHTGREEN);
+    }
+    
     /** {@inheritDoc} */
     @Override
     public void render(@NonNull GameState gameState) {

@@ -86,10 +86,10 @@ public class Tinustris extends Application {
         Group gridWindow = createWindow(gridGroup, MARGIN, MARGIN, widthInBlocks * GridGroup.BLOCK_SIZE, 
                 heightInBlocks * GridGroup.BLOCK_SIZE);
         Group linesWindow = createWindow(linesRenderer,
-                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, MARGIN, RIGHT_WINDOW_WIDTH, 20);
+                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, MARGIN, RIGHT_WINDOW_WIDTH, 50);
         Group gameOverWindow = createWindow(gameOverRenderer, (MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE) / 2
-                - RIGHT_WINDOW_WIDTH / 2, (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - 20 / 2,
-                RIGHT_WINDOW_WIDTH, 20);
+                - RIGHT_WINDOW_WIDTH / 2, (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - 50 / 2,
+                RIGHT_WINDOW_WIDTH, 50);
         gameOverWindow.setVisible(false);
         // TODO also add a background image as the first child: new ImageView("imageurl");
         Group parent = new Group(gridWindow, linesWindow, gameOverWindow);
@@ -110,7 +110,7 @@ public class Tinustris extends Application {
         GameEngine gameEngine = new TinustrisEngine();
         
         // start the game loop
-        gameLoop = new GameLoop(inputController, gameEngine, gameRenderer); 
+        gameLoop = new GameLoop(inputController, gameEngine, gameRenderer);
         gameLoop.start();
         log.info("Game loop started.");
     }
@@ -199,7 +199,7 @@ public class Tinustris extends Application {
         
         contents.setTranslateX(x + BORDER_SIZE);
         contents.setTranslateY(y + BORDER_SIZE);
-        
+
         return new Group(background, border, contents);
     }
     
