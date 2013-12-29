@@ -70,8 +70,6 @@ public class Tinustris extends Application {
         // construct the user interface
         stage.setTitle("Tinustris");
         GridGroup gridGroup = new GridGroup();
-        gridGroup.setTranslateX(BORDER_WIDTH);
-        gridGroup.setTranslateY(BORDER_WIDTH);
         
         Group parent = new Group();
         // TODO add background image: parent.getChildren().add(new ImageView("imageurl"));
@@ -134,6 +132,9 @@ public class Tinustris extends Application {
         background.setOpacity(.5);
         background.setArcWidth(GridGroup.ARC_SIZE);
         background.setArcHeight(GridGroup.ARC_SIZE);
+        
+        contents.setTranslateX(BORDER_WIDTH);
+        contents.setTranslateY(BORDER_WIDTH);
         
         Group group = new Group();
         group.getChildren().add(background);
