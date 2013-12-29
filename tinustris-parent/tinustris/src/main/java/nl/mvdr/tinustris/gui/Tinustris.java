@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.gui;
 
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -72,42 +73,9 @@ public class Tinustris extends Application {
         gridGroup.setTranslateX(BORDER_WIDTH);
         gridGroup.setTranslateY(BORDER_WIDTH);
         
-        // Add a bounding red rectangle to the grid.
-        // TODO clean up this code
-        Rectangle border = new Rectangle(BORDER_WIDTH, BORDER_WIDTH, 10 * GridGroup.BLOCK_SIZE,
-                20 * GridGroup.BLOCK_SIZE);
-        border.setFill(null);
-        
-        Paint stroke = new RadialGradient(0,
-                1,
-                border.getX() + border.getWidth() / 2,
-                border.getY() + border.getHeight() / 2,
-                border.getHeight() / 2,
-                false,
-                CycleMethod.NO_CYCLE,
-                new Stop(0, Color.WHITE),
-                new Stop(1, Color.DARKRED));
-        
-        border.setStroke(stroke);
-        border.setStrokeWidth(BORDER_WIDTH);
-        border.setStrokeType(StrokeType.OUTSIDE);
-        border.setArcWidth(GridGroup.ARC_SIZE);
-        border.setArcHeight(GridGroup.ARC_SIZE);
-        
-        Rectangle gridBackground = new Rectangle(BORDER_WIDTH, BORDER_WIDTH, 10 * GridGroup.BLOCK_SIZE,
-                20 * GridGroup.BLOCK_SIZE);
-        gridBackground.setFill(Color.BLACK);
-        gridBackground.setOpacity(.5);
-        gridBackground.setArcWidth(GridGroup.ARC_SIZE);
-        gridBackground.setArcHeight(GridGroup.ARC_SIZE);
-        
-        // TODO ImageView backgroundImage = new ImageView("imageurl");
-        
         Group parent = new Group();
-        // parent.getChildren().add(backgroundImage);
-        parent.getChildren().add(gridBackground);
-        parent.getChildren().add(border);
-        parent.getChildren().add(gridGroup);
+        // TODO add background image: parent.getChildren().add(new ImageView("imageurl"));
+        parent.getChildren().add(createWindow(gridGroup));
                 
         Scene scene = new Scene(parent, 
                 10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
@@ -129,6 +97,49 @@ public class Tinustris extends Application {
         gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer, gridGroup); 
         gameLoop.start();
         log.info("Game loop started.");
+    }
+
+    /**
+     * Creates a red-bordered window containing the given component.
+     * 
+     * @param contents
+     *            contents of the window
+     * @return group containing the window and the contents
+     */
+    private Group createWindow(Node contents) {
+        // bounding red rectangle
+        Rectangle border = new Rectangle(BORDER_WIDTH, BORDER_WIDTH, 10 * GridGroup.BLOCK_SIZE,
+                20 * GridGroup.BLOCK_SIZE);
+        border.setFill(null);
+        
+        Paint stroke = new RadialGradient(0,
+                1,
+                border.getX() + border.getWidth() / 2,
+                border.getY() + border.getHeight() / 2,
+                border.getHeight() / 2,
+                false,
+                CycleMethod.NO_CYCLE,
+                new Stop(0, Color.WHITE),
+                new Stop(1, Color.DARKRED));
+        
+        border.setStroke(stroke);
+        border.setStrokeWidth(BORDER_WIDTH);
+        border.setStrokeType(StrokeType.OUTSIDE);
+        border.setArcWidth(GridGroup.ARC_SIZE);
+        border.setArcHeight(GridGroup.ARC_SIZE);
+        
+        // black, seethrough background, to dim whatever is behind the window
+        Rectangle background = new Rectangle(border.getX(), border.getY(), border.getWidth(), border.getHeight());
+        background.setFill(Color.BLACK);
+        background.setOpacity(.5);
+        background.setArcWidth(GridGroup.ARC_SIZE);
+        background.setArcHeight(GridGroup.ARC_SIZE);
+        
+        Group group = new Group();
+        group.getChildren().add(background);
+        group.getChildren().add(border);
+        group.getChildren().add(contents);
+        return group;
     }
 
     /** Logs some version info. */
