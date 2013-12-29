@@ -80,6 +80,8 @@ public class GameLoop<T extends Node> {
         int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
         
         GameState gameState = gameEngine.initGameState();
+        
+        gameRenderer.render(node, gameState);
 
         log.info("Starting main game loop.");
         
