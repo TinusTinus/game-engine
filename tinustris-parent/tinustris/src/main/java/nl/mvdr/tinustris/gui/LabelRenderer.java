@@ -14,13 +14,13 @@ public abstract class LabelRenderer extends Label implements GameRenderer {
     /** {@inheritDoc} */
     @Override
     public void render(@NonNull GameState gameState) {
-        final String text = toText(gameState);
-        if (!text.equals(getText())) {
+        final String newText = toText(gameState);
+        if (!newText.equals(getText())) {
             runOnJavaFXThread(new Runnable() {
                 /** {@inheritDoc} */
                 @Override
                 public void run() {
-                    setText(text);
+                    setText(newText);
                 }
             });
         }
@@ -40,7 +40,7 @@ public abstract class LabelRenderer extends Label implements GameRenderer {
      * Creates the text for this label based on the given game state.
      * 
      * @param state game state to be represented
-     * @return string representation of the given state
+     * @return string representation of the given state; may not be null
      */
     protected abstract String toText(GameState state);
 }
