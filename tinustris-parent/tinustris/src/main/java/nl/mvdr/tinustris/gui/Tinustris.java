@@ -21,6 +21,7 @@ import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.TinusTrisEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
+import nl.mvdr.tinustris.model.GameState;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -36,9 +37,10 @@ import com.sun.javafx.runtime.VersionInfo;
 public class Tinustris extends Application {
     /** Size of the border around the Tetris grid and other UI components. */
     private static final int BORDER_SIZE = 10;
-    
     /** Size of the margin between windows. */
     private static final int MARGIN = 10;
+    /** Width of the components in the windows on the right hand side. */
+    private static final int RIGHT_WINDOW_WIDTH = 100;
     
     /** Game loop. */
     private GameLoop gameLoop;
@@ -81,14 +83,18 @@ public class Tinustris extends Application {
         stage.setTitle("Tinustris");
         
         // TODO add a background image: new ImageView("imageurl");
-        Group gridWindow = createWindow(gridGroup, MARGIN, MARGIN, 10 * GridGroup.BLOCK_SIZE, 20 * GridGroup.BLOCK_SIZE);
-        Group linesWindow = createWindow(linesRenderer, 2 * MARGIN + 10 * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE,
-                MARGIN, 100, 20);
+        int widthInBlocks = GameState.DEFAULT_WIDTH;
+        int heightInBlocks = GameState.DEFAULT_HEIGHT - GameState.VANISH_ZONE_HEIGHT;
+        
+        Group gridWindow = createWindow(gridGroup, MARGIN, MARGIN, widthInBlocks * GridGroup.BLOCK_SIZE, 
+                heightInBlocks * GridGroup.BLOCK_SIZE);
+        Group linesWindow = createWindow(linesRenderer,
+                2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, MARGIN, RIGHT_WINDOW_WIDTH, 20);
         Group parent = new Group(gridWindow, linesWindow);
 
         Scene scene = new Scene(parent, 
-                10 * GridGroup.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 100,
-                20 * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
+                widthInBlocks * GridGroup.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
+                heightInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.WHITE);
         stage.setScene(scene);
         stage.show();
