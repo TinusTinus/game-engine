@@ -34,8 +34,11 @@ import com.sun.javafx.runtime.VersionInfo;
 // When testing the application, don't run this class directly from Eclipse. Use TinusTrisTestContext instead.
 @Slf4j
 public class Tinustris extends Application {
-    /** Width of the border around the Tetris grid and other UI components. */
-    private static final int BORDER_WIDTH = 10;
+    /** Size of the border around the Tetris grid and other UI components. */
+    private static final int BORDER_SIZE = 10;
+    
+    /** Size of the margin between windows. */
+    private static final int MARGIN = 10;
     
     /** Game loop. */
     private GameLoop gameLoop;
@@ -77,14 +80,15 @@ public class Tinustris extends Application {
         // construct the user interface
         stage.setTitle("Tinustris");
         
-        Group parent = new Group();
-        // TODO add background image: parent.getChildren().add(new ImageView("imageurl"));
-        parent.getChildren().add(createWindow(gridGroup, 0, 0, 10 * GridGroup.BLOCK_SIZE, 20 * GridGroup.BLOCK_SIZE));
-        parent.getChildren().add(createWindow(linesRenderer, 350, 0, 100, 20));
+        // TODO add a background image: new ImageView("imageurl");
+        Group gridWindow = createWindow(gridGroup, MARGIN, MARGIN, 10 * GridGroup.BLOCK_SIZE, 20 * GridGroup.BLOCK_SIZE);
+        Group linesWindow = createWindow(linesRenderer, 2 * MARGIN + 10 * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE,
+                MARGIN, 100, 20);
+        Group parent = new Group(gridWindow, linesWindow);
 
         Scene scene = new Scene(parent, 
-                10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
-                20 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
+                10 * GridGroup.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 100,
+                20 * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.WHITE);
         stage.setScene(scene);
         stage.show();
@@ -159,7 +163,7 @@ public class Tinustris extends Application {
      */
     private Group createWindow(Node contents, double x, double y, double contentsWidth, double contentsHeight) {
         // bounding red rectangle
-        Rectangle border = new Rectangle(x + BORDER_WIDTH, y + BORDER_WIDTH, contentsWidth, contentsHeight);
+        Rectangle border = new Rectangle(x + BORDER_SIZE, y + BORDER_SIZE, contentsWidth, contentsHeight);
         border.setFill(null);
         
         Paint stroke = new RadialGradient(0,
@@ -173,7 +177,7 @@ public class Tinustris extends Application {
                 new Stop(1, Color.DARKRED));
         
         border.setStroke(stroke);
-        border.setStrokeWidth(BORDER_WIDTH);
+        border.setStrokeWidth(BORDER_SIZE);
         border.setStrokeType(StrokeType.OUTSIDE);
         border.setArcWidth(GridGroup.ARC_SIZE);
         border.setArcHeight(GridGroup.ARC_SIZE);
@@ -185,8 +189,8 @@ public class Tinustris extends Application {
         background.setArcWidth(GridGroup.ARC_SIZE);
         background.setArcHeight(GridGroup.ARC_SIZE);
         
-        contents.setTranslateX(x + BORDER_WIDTH);
-        contents.setTranslateY(y + BORDER_WIDTH);
+        contents.setTranslateX(x + BORDER_SIZE);
+        contents.setTranslateY(y + BORDER_SIZE);
         
         return new Group(background, border, contents);
     }
