@@ -16,6 +16,24 @@ import org.junit.Test;
  */
 @Slf4j
 public class TinustrisEngineTest {
+    /** Tests the constructor. */
+    @Test
+    public void testDefaultConstructor() {
+        new TinustrisEngine();
+    }
+    
+    /** Tests the constructor. */
+    @Test
+    public void testConstructor() {
+        new TinustrisEngine(new DummyTetrominoGenerator());
+    }
+    
+    /** Tests the constructor. */
+    @Test(expected = NullPointerException.class)
+    public void testConstructorNullValue() {
+        new TinustrisEngine(null);
+    }
+    
     /** Tests the {@link TinustrisEngine#initGameState()} method. */
     @Test
     public void testInitGameState() {

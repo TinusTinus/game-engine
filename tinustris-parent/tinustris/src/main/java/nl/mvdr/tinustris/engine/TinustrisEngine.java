@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.input.Input;
@@ -39,6 +40,7 @@ public class TinustrisEngine implements GameEngine {
     private static final int INPUT_FRAMES = 10;
     
     /** Tetromino generator. */
+    @NonNull
     private final TetrominoGenerator generator;
     
     /**  Constructor. */
