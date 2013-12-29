@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Arrays;
 import java.util.Set;
 
 import javafx.application.Platform;
@@ -153,7 +152,7 @@ class GridRenderer extends Group implements GameRenderer {
     private void update(final Group grid, final Group ghost, final Group activeBlock) {
         if (getChildren().isEmpty()) {
             // first frame
-            getChildren().addAll(Arrays.asList(grid, ghost, activeBlock));
+            getChildren().addAll(grid, ghost, activeBlock);
         } else {
             // update
             if (grid != null) {
