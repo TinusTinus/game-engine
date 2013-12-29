@@ -63,6 +63,7 @@
 	<build>
 		<plugins>
 			<plugin>
+				<!-- generate a jar with a manifest and main class -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
