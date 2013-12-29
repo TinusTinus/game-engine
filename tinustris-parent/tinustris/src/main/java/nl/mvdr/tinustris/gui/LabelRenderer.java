@@ -10,7 +10,7 @@ import nl.mvdr.tinustris.model.GameState;
  * 
  * @author Martijn van de Rijdt
  */
-public abstract class LabelRenderer extends Label implements GameRenderer {
+abstract class LabelRenderer extends Label implements GameRenderer {
     /** {@inheritDoc} */
     @Override
     public void render(@NonNull GameState gameState) {

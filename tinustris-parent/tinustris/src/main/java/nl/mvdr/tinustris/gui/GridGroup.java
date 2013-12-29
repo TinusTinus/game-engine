@@ -16,11 +16,11 @@ import nl.mvdr.tinustris.model.Tetromino;
  * 
  * @author Martijn van de Rijdt
  */
-public class GridGroup extends Group implements GameRenderer {
+class GridGroup extends Group implements GameRenderer {
     /** Size of a tetromino block. */
-    public static final int BLOCK_SIZE = 30;
+    static final int BLOCK_SIZE = 30;
     /** Size for the arc of a tetromino block. */
-    public static final int ARC_SIZE = 10;
+    static final int ARC_SIZE = 10;
 
     /** Previous game state, currently being displayed. Initially null. */
     private GameState previousState = null;

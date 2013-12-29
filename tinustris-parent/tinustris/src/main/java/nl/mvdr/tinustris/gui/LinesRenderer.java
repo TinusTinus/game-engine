@@ -7,7 +7,7 @@ import nl.mvdr.tinustris.model.GameState;
  * 
  * @author Martijn van de Rijdt
  */
-public class LinesRenderer extends LabelRenderer {
+class LinesRenderer extends LabelRenderer {
     /** {@inheritDoc} */
     @Override
     protected String toText(GameState state) {
