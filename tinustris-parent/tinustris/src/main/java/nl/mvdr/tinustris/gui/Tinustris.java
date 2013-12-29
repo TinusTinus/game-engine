@@ -73,7 +73,7 @@ public class Tinustris extends Application {
         
         Group parent = new Group();
         // TODO add background image: parent.getChildren().add(new ImageView("imageurl"));
-        parent.getChildren().add(createWindow(gridGroup));
+        parent.getChildren().add(createWindow(gridGroup, 0, 0, 10 * GridGroup.BLOCK_SIZE, 20 * GridGroup.BLOCK_SIZE));
                 
         Scene scene = new Scene(parent, 
                 10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
@@ -142,12 +142,19 @@ public class Tinustris extends Application {
      * 
      * @param contents
      *            contents of the window
+     * @param x
+     *            x coordinate
+     * @param y
+     *            coordinate
+     * @param contentsWidth
+     *            width of the contents
+     * @param contentsHeight
+     *            height of the contents
      * @return group containing the window and the contents
      */
-    private Group createWindow(Node contents) {
+    private Group createWindow(Node contents, double x, double y, double contentsWidth, double contentsHeight) {
         // bounding red rectangle
-        Rectangle border = new Rectangle(BORDER_WIDTH, BORDER_WIDTH, 10 * GridGroup.BLOCK_SIZE,
-                20 * GridGroup.BLOCK_SIZE);
+        Rectangle border = new Rectangle(x + BORDER_WIDTH, y + BORDER_WIDTH, contentsWidth, contentsHeight);
         border.setFill(null);
         
         Paint stroke = new RadialGradient(0,
@@ -173,8 +180,8 @@ public class Tinustris extends Application {
         background.setArcWidth(GridGroup.ARC_SIZE);
         background.setArcHeight(GridGroup.ARC_SIZE);
         
-        contents.setTranslateX(BORDER_WIDTH);
-        contents.setTranslateY(BORDER_WIDTH);
+        contents.setTranslateX(x + BORDER_WIDTH);
+        contents.setTranslateY(y + BORDER_WIDTH);
         
         Group group = new Group();
         group.getChildren().addAll(background, border, contents);
