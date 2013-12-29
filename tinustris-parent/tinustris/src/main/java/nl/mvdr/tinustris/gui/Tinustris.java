@@ -98,7 +98,7 @@ public class Tinustris extends Application {
     }
 
     /**
-     * Creates a red-bordered window containing the given component.
+     * Creates a red-bordered window containing the given node.
      * 
      * @param contents
      *            contents of the window
