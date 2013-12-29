@@ -143,20 +143,41 @@ public class Tinustris extends Application {
 
     /** Logs some version info. */
     private void logVersionInfo() {
-        log.info("Classpath: " + System.getProperty("java.class.path"));
-        log.info("Library path: " + System.getProperty("java.library.path"));
-        log.info("Java vendor: " + System.getProperty("java.vendor"));
-        log.info("Java version: " + System.getProperty("java.version"));
-        log.info("OS name: " + System.getProperty("os.name"));
-        log.info("OS version: " + System.getProperty("os.version"));
-        log.info("OS architecture: " + System.getProperty("os.arch"));
-        log.info("Using JavaFX runtime version: " + VersionInfo.getRuntimeVersion());
-        if (log.isDebugEnabled()) {
-            log.debug("Detailed JavaFX version info: ");
-            log.debug("  Version: " + VersionInfo.getVersion());
-            log.debug("  Runtime version: " + VersionInfo.getRuntimeVersion());
-            log.debug("  Build timestamp: " + VersionInfo.getBuildTimestamp());
+        if (log.isInfoEnabled()) {
+            String version = retrieveVersion();
+            if (version != null) {
+                log.info("Application version: " + version);
+            } else {
+                log.info("Äpplication version unknown.");
+            }
+
+            log.info("Classpath: " + System.getProperty("java.class.path"));
+            log.info("Library path: " + System.getProperty("java.library.path"));
+            log.info("Java vendor: " + System.getProperty("java.vendor"));
+            log.info("Java version: " + System.getProperty("java.version"));
+            log.info("OS name: " + System.getProperty("os.name"));
+            log.info("OS version: " + System.getProperty("os.version"));
+            log.info("OS architecture: " + System.getProperty("os.arch"));
+            log.info("JavaFX version: " + VersionInfo.getVersion());
+            log.info("JavaFX runtime version: " + VersionInfo.getRuntimeVersion());
+            log.info("JavaFX build timestamp: " + VersionInfo.getBuildTimestamp());
         }
+    }
+    
+    /**
+     * Returns the version number from the jar manifest file.
+     * 
+     * @return version number, or null if it cannot be determined
+     */
+    private String retrieveVersion() {
+        String result;
+        Package p = Tinustris.class.getPackage();
+        if (p != null) {
+            result = p.getImplementationVersion();
+        } else {
+            result = null;
+        }
+        return result;
     }
     
     /**
