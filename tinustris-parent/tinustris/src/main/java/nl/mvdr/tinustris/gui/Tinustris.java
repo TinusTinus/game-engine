@@ -68,15 +68,20 @@ public class Tinustris extends Application {
     public void start(Stage stage) {
         log.info("Starting application.");
         logVersionInfo();
+        
+        // create the game renderers
+        GridGroup gridGroup = new GridGroup();
+        LinesRenderer linesRenderer = new LinesRenderer();
+        CompositeRenderer gameRenderer = new CompositeRenderer(Arrays.<GameRenderer>asList(gridGroup, linesRenderer));
 
         // construct the user interface
         stage.setTitle("Tinustris");
-        GridGroup gridGroup = new GridGroup();
         
         Group parent = new Group();
         // TODO add background image: parent.getChildren().add(new ImageView("imageurl"));
         parent.getChildren().add(createWindow(gridGroup, 0, 0, 10 * GridGroup.BLOCK_SIZE, 20 * GridGroup.BLOCK_SIZE));
-                
+        parent.getChildren().add(createWindow(linesRenderer, 350, 0, 100, 20));
+
         Scene scene = new Scene(parent, 
                 10 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
                 20 * GridGroup.BLOCK_SIZE + 2 * BORDER_WIDTH,
@@ -93,7 +98,6 @@ public class Tinustris extends Application {
         GameEngine gameEngine = new TinusTrisEngine();
         
         // start the game loop
-        CompositeRenderer gameRenderer = new CompositeRenderer(Arrays.<GameRenderer>asList(gridGroup));
         gameLoop = new GameLoop(inputController, gameEngine, gameRenderer); 
         gameLoop.start();
         log.info("Game loop started.");
