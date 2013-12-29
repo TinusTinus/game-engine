@@ -18,7 +18,6 @@ import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.TinusTrisEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
-import nl.mvdr.tinustris.model.GameState;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -36,7 +35,7 @@ public class Tinustris extends Application {
     private static final int BORDER_WIDTH = 10;
     
     /** Game loop. */
-    private GameLoop<GridGroup> gameLoop;
+    private GameLoop gameLoop;
     
     /**
      * Main method.
@@ -89,10 +88,9 @@ public class Tinustris extends Application {
         // setup necessary components
         InputController inputController = new JInputController();
         GameEngine gameEngine = new TinusTrisEngine();
-        GameRenderer<GridGroup> gameRenderer = createRenderer();
         
         // start the game loop
-        gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer, gridGroup); 
+        gameLoop = new GameLoop(inputController, gameEngine, gridGroup); 
         gameLoop.start();
         log.info("Game loop started.");
     }
@@ -183,22 +181,6 @@ public class Tinustris extends Application {
         contents.setTranslateY(y + BORDER_WIDTH);
         
         return new Group(background, border, contents);
-    }
-    
-    /**
-     * Creates the game renderer.
-     * 
-     * @return renderer
-     */
-    // If this was Java 8, this could be a lambda expression!
-    private GameRenderer<GridGroup> createRenderer() {
-        return new GameRenderer<GridGroup>() {
-            /** {@inheritDoc} */
-            @Override
-            public void render(GridGroup node, GameState gameState) {
-                node.render(gameState);
-            }
-        };
     }
     
     /** {@inheritDoc} */

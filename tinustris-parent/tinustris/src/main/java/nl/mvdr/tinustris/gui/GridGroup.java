@@ -15,7 +15,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  * 
  * @author Martijn van de Rijdt
  */
-public class GridGroup extends Group {
+public class GridGroup extends Group implements GameRenderer {
     /** Size of a tetromino block. */
     public static final int BLOCK_SIZE = 30;
     /** Size for the arc of a tetromino block. */
@@ -29,6 +29,7 @@ public class GridGroup extends Group {
      * 
      * @param gameState game state to be rendered
      */
+    @Override
     public void render(final GameState gameState) {
         // create groups if state has changed; otherwise these groups may remain null
         final Group grid = createGridGroup(gameState);

@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.engine;
 
-import javafx.scene.Node;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.GameRenderer;
@@ -12,13 +11,10 @@ import nl.mvdr.tinustris.model.GameState;
  * Offers functionality for starting and stopping the game loop.
  * 
  * @author Martijn van de Rijdt
- * 
- * @param <T>
- *            JavaFX node type for the game renderer
  */
 @Slf4j
 @RequiredArgsConstructor
-public class GameLoop<T extends Node> {
+public class GameLoop {
     /** Update rate for the game state. */
     public static final double GAME_HERTZ = 60.0;
     
@@ -36,9 +32,7 @@ public class GameLoop<T extends Node> {
     /** Game engine. */
     private final GameEngine gameEngine;
     /** Game renderer. */
-    private final GameRenderer<T> gameRenderer;
-    /** JavaFX component in which the game is shown. */
-    private final T node;
+    private final GameRenderer gameRenderer;
 
     /** Indicates whether the game should be running. */
     private boolean running;
@@ -81,7 +75,7 @@ public class GameLoop<T extends Node> {
         
         GameState gameState = gameEngine.initGameState();
         
-        gameRenderer.render(node, gameState);
+        gameRenderer.render(gameState);
 
         log.info("Starting main game loop.");
         
@@ -106,7 +100,7 @@ public class GameLoop<T extends Node> {
                 }
 
                 // Render.
-                gameRenderer.render(node, gameState);
+                gameRenderer.render(gameState);
                 frameCount++;
                 lastRenderTime = now;
 

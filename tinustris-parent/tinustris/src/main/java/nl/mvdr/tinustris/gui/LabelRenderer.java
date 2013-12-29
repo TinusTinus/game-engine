@@ -6,28 +6,21 @@ import lombok.NonNull;
 import nl.mvdr.tinustris.model.GameState;
 
 /**
- * Implementation of GameRenderer which renders the game state as ASCII art into a given label.
+ * Label containing (part of) the game state.
  * 
  * @author Martijn van de Rijdt
  */
-public class LabelRenderer implements GameRenderer<Label> {
-    /**
-     * Renders the game state in the given label.
-     * 
-     * @param label
-     *            the label which will display the game state as ASCII art; should have a monospaced font
-     * @param gameState
-     *            game state to be displayed
-     */
+public abstract class LabelRenderer extends Label implements GameRenderer {
+    /** {@inheritDoc} */
     @Override
-    public void render(@NonNull final Label label, @NonNull GameState gameState) {
-        final String text = gameState.toString();
-        if (!text.equals(label.getText())) {
+    public void render(@NonNull GameState gameState) {
+        final String text = toText(gameState);
+        if (!text.equals(getText())) {
             runOnJavaFXThread(new Runnable() {
                 /** {@inheritDoc} */
                 @Override
                 public void run() {
-                    label.setText(text);
+                    setText(text);
                 }
             });
         }
@@ -42,4 +35,12 @@ public class LabelRenderer implements GameRenderer<Label> {
     protected void runOnJavaFXThread(Runnable runnable) {
         Platform.runLater(runnable);
     }
+    
+    /**
+     * Creates the text for this label based on the given game state.
+     * 
+     * @param state game state to be represented
+     * @return string representation of the given state
+     */
+    protected abstract String toText(GameState state);
 }

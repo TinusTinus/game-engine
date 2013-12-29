@@ -18,12 +18,11 @@ public class LabelRendererTest {
     @Test
     public void testRender() {
         LabelRenderer renderer = createLabelRenderer();
-        Label label = new Label();
         GameState state = new GameState();
         
-        renderer.render(label, state);
+        renderer.render(state);
         
-        String text = label.getText();
+        String text = renderer.getText();
         log.info(text);
         Assert.assertNotNull(text);
         Assert.assertNotEquals("", text);
@@ -34,17 +33,9 @@ public class LabelRendererTest {
     public void testNullState() {
         LabelRenderer renderer = createLabelRenderer();
         
-        renderer.render(new Label(), null);
+        renderer.render(null);
     }
     
-    /** Tests {@link LabelRenderer#render(Label, GameState)} when a null value of Label is passed in. */
-    @Test(expected = NullPointerException.class)
-    public void testNullLabel() {
-        LabelRenderer renderer = createLabelRenderer();
-        
-        renderer.render(null, new GameState());
-    }
-
     /**
      * Creates a new label renderer.
      * 
@@ -60,6 +51,16 @@ public class LabelRendererTest {
             @Override
             protected void runOnJavaFXThread(Runnable runnable) {
                 runnable.run();
+            }
+
+            /**
+             * Mock implementation which returns the state's toString.
+             * 
+             * @return string representation of the state
+             */
+            @Override
+            protected String toText(GameState state) {
+                return state.toString();
             }
         };
     }
