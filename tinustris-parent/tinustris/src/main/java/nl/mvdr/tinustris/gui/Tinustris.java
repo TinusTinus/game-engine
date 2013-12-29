@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Paint;
@@ -11,6 +12,7 @@ import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
@@ -89,19 +91,19 @@ public class Tinustris extends Application {
         int widthInBlocks = GameState.DEFAULT_WIDTH;
         int heightInBlocks = GameState.DEFAULT_HEIGHT - GameState.VANISH_ZONE_HEIGHT;
         
-        Group gridWindow = createWindow(gridGroup, MARGIN, MARGIN, widthInBlocks * GridGroup.BLOCK_SIZE, 
+        Group gridWindow = createWindow("", gridGroup, MARGIN, MARGIN, widthInBlocks * GridGroup.BLOCK_SIZE, 
                 heightInBlocks * GridGroup.BLOCK_SIZE);
-        Group nextBlockWindow = createWindow(nextBlockRenderer,
+        Group nextBlockWindow = createWindow("NEXT", nextBlockRenderer,
                 2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, 
                 MARGIN, 
                 RIGHT_WINDOW_WIDTH, 
                 TEXT_WINDOW_HEIGHT);
-        Group linesWindow = createWindow(linesRenderer,
+        Group linesWindow = createWindow("LINES", linesRenderer,
                 2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, 
                 2 * MARGIN + 2 * BORDER_SIZE + TEXT_WINDOW_HEIGHT, 
                 RIGHT_WINDOW_WIDTH, 
                 TEXT_WINDOW_HEIGHT);
-        Group gameOverWindow = createWindow(gameOverRenderer,
+        Group gameOverWindow = createWindow("", gameOverRenderer,
                 (MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
                 (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
                 GAME_OVER_LABEL_WIDTH,
@@ -173,6 +175,8 @@ public class Tinustris extends Application {
     /**
      * Creates a red-bordered window containing the given node.
      * 
+     * @param title
+     *            window title
      * @param contents
      *            contents of the window
      * @param x
@@ -185,7 +189,8 @@ public class Tinustris extends Application {
      *            height of the contents
      * @return group containing the window and the contents
      */
-    private Group createWindow(Node contents, double x, double y, double contentsWidth, double contentsHeight) {
+    private Group createWindow(String title, Node contents, double x, double y, double contentsWidth,
+            double contentsHeight) {
         // bounding red rectangle
         Rectangle border = new Rectangle(x + BORDER_SIZE, y + BORDER_SIZE, contentsWidth, contentsHeight);
         border.setFill(null);
@@ -216,7 +221,13 @@ public class Tinustris extends Application {
         contents.setTranslateX(x + BORDER_SIZE);
         contents.setTranslateY(y + BORDER_SIZE);
         
-        return new Group(background, border, contents);
+        Label label = new Label(title);
+        label.setTextFill(Color.WHITE);
+        label.setFont(new Font(10));
+        label.setLayoutX(border.getX() + 2);
+        label.setLayoutY(border.getY() - BORDER_SIZE - 2);
+        
+        return new Group(background, border, contents, label);
     }
     
     /** {@inheritDoc} */
