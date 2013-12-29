@@ -15,7 +15,6 @@ public class DummyInputController implements InputController {
      */
     @Override
     public InputState getInputState() {
-        
         return new InputStateImpl(Collections.<Input>emptySet());
     }
 }
