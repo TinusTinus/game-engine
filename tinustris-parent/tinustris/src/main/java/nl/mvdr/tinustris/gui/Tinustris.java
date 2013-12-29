@@ -74,7 +74,8 @@ public class Tinustris extends Application {
         // create the game renderers
         GridGroup gridGroup = new GridGroup();
         LinesRenderer linesRenderer = new LinesRenderer();
-        CompositeRenderer gameRenderer = new CompositeRenderer(gridGroup, linesRenderer);
+        GameOverRenderer gameOverRenderer = new GameOverRenderer();
+        CompositeRenderer gameRenderer = new CompositeRenderer(gridGroup, linesRenderer, gameOverRenderer);
 
         // construct the user interface
         stage.setTitle("Tinustris");
@@ -86,8 +87,12 @@ public class Tinustris extends Application {
                 heightInBlocks * GridGroup.BLOCK_SIZE);
         Group linesWindow = createWindow(linesRenderer,
                 2 * MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE + 2 * BORDER_SIZE, MARGIN, RIGHT_WINDOW_WIDTH, 20);
+        Group gameOverWindow = createWindow(gameOverRenderer, (MARGIN + widthInBlocks * GridGroup.BLOCK_SIZE) / 2
+                - RIGHT_WINDOW_WIDTH / 2, (MARGIN + heightInBlocks * GridGroup.BLOCK_SIZE) / 2 - 20 / 2,
+                RIGHT_WINDOW_WIDTH, 20);
+        gameOverWindow.setVisible(false);
         // TODO also add a background image as the first child: new ImageView("imageurl");
-        Group parent = new Group(gridWindow, linesWindow);
+        Group parent = new Group(gridWindow, linesWindow, gameOverWindow);
 
         Scene scene = new Scene(parent, 
                 widthInBlocks * GridGroup.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
