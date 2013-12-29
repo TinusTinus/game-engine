@@ -97,7 +97,6 @@ public class Tinustris extends Application {
         log.info("Game loop started.");
     }
 
-
     /** Logs some version info. */
     private void logVersionInfo() {
         if (log.isInfoEnabled()) {
