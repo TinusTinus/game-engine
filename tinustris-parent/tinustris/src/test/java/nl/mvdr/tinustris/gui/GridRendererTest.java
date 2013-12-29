@@ -19,7 +19,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-public class GridGroupTest {
+public class GridRendererTest {
     /** Tests {@link GridRenderer#render(Label, GameState)}. */
     @Test
     public void testRenderSimpleState() {
@@ -48,6 +48,7 @@ public class GridGroupTest {
     public void testRender() {
         GridRenderer renderer = createGridGroup();
         GameState gameState = createNontrivialGameState();
+        log.info(gameState.toString());
         
         renderer.render(gameState);
         
@@ -59,6 +60,7 @@ public class GridGroupTest {
     public void testRenderTwice() {
         GridRenderer renderer = createGridGroup();
         GameState state = createNontrivialGameState();
+        log.info(state.toString());
         
         renderer.render(state);
         renderer.render(state);
@@ -119,7 +121,6 @@ public class GridGroupTest {
         grid.set(2, Tetromino.S);
         GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
-        log.info(gameState.toString());
         return gameState;
     }
 }

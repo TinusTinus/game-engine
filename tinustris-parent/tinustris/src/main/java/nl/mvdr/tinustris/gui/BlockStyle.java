@@ -36,7 +36,9 @@ enum BlockStyle {
      */
     GHOST(.1, Color.WHITE, false, false),
     /** Grid block that is part of a line and about to disappear. */
-    DISAPPEARING(1, null, false, true);
+    DISAPPEARING(1, null, false, true),
+    /** Next block to appear. */
+    NEXT(1, null, false, false);
 
     /** The number of milliseconds in a second. */
     private static final int MILLISECONDS_PER_SECOND = 1000;

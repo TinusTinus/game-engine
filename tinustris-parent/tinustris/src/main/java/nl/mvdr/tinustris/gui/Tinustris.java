@@ -92,20 +92,20 @@ public class Tinustris extends Application {
         int heightInBlocks = GameState.DEFAULT_HEIGHT - GameState.VANISH_ZONE_HEIGHT;
         
         Group gridWindow = createWindow("", gridGroup, MARGIN, MARGIN, widthInBlocks * GridRenderer.BLOCK_SIZE, 
-                heightInBlocks * GridRenderer.BLOCK_SIZE);
+                heightInBlocks * BlockGroupRenderer.BLOCK_SIZE);
         Group nextBlockWindow = createWindow("NEXT", nextBlockRenderer,
-                2 * MARGIN + widthInBlocks * GridRenderer.BLOCK_SIZE + 2 * BORDER_SIZE, 
-                MARGIN, 
-                RIGHT_WINDOW_WIDTH, 
-                TEXT_WINDOW_HEIGHT);
+                2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
+                MARGIN,
+                4 * GridRenderer.BLOCK_SIZE,
+                4 * GridRenderer.BLOCK_SIZE);
         Group linesWindow = createWindow("LINES", linesRenderer,
-                2 * MARGIN + widthInBlocks * GridRenderer.BLOCK_SIZE + 2 * BORDER_SIZE, 
-                2 * MARGIN + 2 * BORDER_SIZE + TEXT_WINDOW_HEIGHT, 
-                RIGHT_WINDOW_WIDTH, 
+                2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
+                2 * MARGIN + 2 * BORDER_SIZE + 4 * GridRenderer.BLOCK_SIZE,
+                4 * GridRenderer.BLOCK_SIZE,
                 TEXT_WINDOW_HEIGHT);
         Group gameOverWindow = createWindow("", gameOverRenderer,
-                (MARGIN + widthInBlocks * GridRenderer.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
-                (MARGIN + heightInBlocks * GridRenderer.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
+                (MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
+                (MARGIN + heightInBlocks * BlockGroupRenderer.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
                 GAME_OVER_LABEL_WIDTH,
                 TEXT_WINDOW_HEIGHT);
         gameOverWindow.setVisible(false);
@@ -113,8 +113,8 @@ public class Tinustris extends Application {
         Group parent = new Group(gridWindow, nextBlockWindow, linesWindow, gameOverWindow);
 
         Scene scene = new Scene(parent, 
-                widthInBlocks * GridRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
-                heightInBlocks * GridRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
+                widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
+                heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
         stage.setScene(scene);
         stage.show();
