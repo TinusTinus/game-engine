@@ -38,8 +38,6 @@ public class Tinustris extends Application {
     private static final int BORDER_SIZE = 10;
     /** Size of the margin between windows. */
     private static final int MARGIN = 10;
-    /** Width of the components in the windows on the right hand side. */
-    private static final int RIGHT_WINDOW_WIDTH = 100;
     /** Width of a text window. */
     private static final int TEXT_WINDOW_HEIGHT = 50;
     /** Width of the game over label. */
@@ -113,7 +111,8 @@ public class Tinustris extends Application {
         Group parent = new Group(gridWindow, nextBlockWindow, linesWindow, gameOverWindow);
 
         Scene scene = new Scene(parent, 
-                widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + RIGHT_WINDOW_WIDTH,
+                widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 
+                    4 * GridRenderer.BLOCK_SIZE,
                 heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
         stage.setScene(scene);
