@@ -46,7 +46,7 @@ public class LinesRendererTest {
     }
     
     /**
-     * Creates a new label renderer.
+     * Creates a new renderer.
      * 
      * @return renderer
      */
