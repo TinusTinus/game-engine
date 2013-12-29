@@ -1,6 +1,8 @@
 package nl.mvdr.tinustris.engine;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.input.DummyInputController;
+import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Tetromino;
 
@@ -29,5 +31,19 @@ public class TinustrisEngineTest {
         Assert.assertEquals(GameState.DEFAULT_HEIGHT, state.getHeight());
         Assert.assertEquals(Tetromino.I, state.getCurrentBlock());
         Assert.assertEquals(Tetromino.T, state.getNextBlock());
+    }
+    
+    /** Tests the {@link TinustrisEngine#computeNextState(GameState, nl.mvdr.tinustris.input.InputState)} method. */
+    @Test
+    public void testNextState() {
+        TetrominoGenerator generator = new DummyTetrominoGenerator();
+        TinustrisEngine engine = new TinustrisEngine(generator);
+        GameState state = new GameState();
+        InputState inputState = new DummyInputController().getInputState();
+        
+        state = engine.computeNextState(state, inputState);
+
+        log.info(state.toString());
+        Assert.assertNotNull(state);
     }
 }
