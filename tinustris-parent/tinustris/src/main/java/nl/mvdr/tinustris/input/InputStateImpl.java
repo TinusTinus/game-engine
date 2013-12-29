@@ -11,6 +11,8 @@ import lombok.ToString;
 /**
  * Implementation of {@link InputState}.
  * 
+ * This class is not public. Use an {@link InputController} to obtain an instance of this class.
+ * 
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
