@@ -27,6 +27,21 @@ public class LabelRendererTest {
         Assert.assertNotEquals("", text);
     }
     
+    /** Tests {@link LabelRenderer#render(GameState)} in case the text stays the same. */
+    @Test
+    public void testRenderSameValue() {
+        LabelRenderer renderer = createLabelRenderer();
+        GameState state = new GameState();
+        renderer.setText(state.toString());
+        
+        renderer.render(state);
+        
+        String text = renderer.getText();
+        log.info(text);
+        Assert.assertNotNull(text);
+        Assert.assertNotEquals("", text);
+    }
+    
     /** Tests {@link LabelRenderer#render(GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
@@ -49,6 +64,7 @@ public class LabelRendererTest {
              */
             @Override
             protected void runOnJavaFXThread(Runnable runnable) {
+                log.info("Executing runnable: " + runnable);
                 runnable.run();
             }
 
