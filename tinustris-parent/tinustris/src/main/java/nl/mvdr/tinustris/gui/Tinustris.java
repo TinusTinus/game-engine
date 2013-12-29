@@ -183,9 +183,7 @@ public class Tinustris extends Application {
         contents.setTranslateX(x + BORDER_WIDTH);
         contents.setTranslateY(y + BORDER_WIDTH);
         
-        Group group = new Group();
-        group.getChildren().addAll(background, border, contents);
-        return group;
+        return new Group(background, border, contents);
     }
     
     /**
