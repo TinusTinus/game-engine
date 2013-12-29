@@ -28,4 +28,23 @@ public class GameLoopTest {
         // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
         Thread.sleep(500);
     }
+    
+    /** Tests the constructor with a null value for the input controller. */
+    @Test(expected = NullPointerException.class)
+    public void testNullController() {
+        new GameLoop(null, new DummyGameEngine(), new DummyRenderer());
+    }
+    
+    /** Tests the constructor with a null value for the game engine. */
+    @Test(expected = NullPointerException.class)
+    public void testNullEngine() {
+        new GameLoop(new DummyInputController(), null, new DummyRenderer());
+    }
+
+    
+    /** Tests the constructor with a null value for the renderer. */
+    @Test(expected = NullPointerException.class)
+    public void testNullRenderer() {
+        new GameLoop(new DummyInputController(), new DummyGameEngine(), null);
+    }
 }

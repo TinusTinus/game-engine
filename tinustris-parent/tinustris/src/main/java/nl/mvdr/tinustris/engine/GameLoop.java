@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.engine;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.GameRenderer;
@@ -28,10 +29,13 @@ public class GameLoop {
     private static final double TARGET_TIME_BETWEEN_RENDERS = 1_000_000_000 / TARGET_FPS;
     
     /** Input controller. */
+    @NonNull
     private final InputController inputController;
     /** Game engine. */
+    @NonNull
     private final GameEngine gameEngine;
     /** Game renderer. */
+    @NonNull
     private final GameRenderer gameRenderer;
 
     /** Indicates whether the game should be running. */
