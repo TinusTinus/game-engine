@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.scene.control.Label;
+import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.GameState;
 
 import org.junit.Assert;
@@ -11,13 +12,26 @@ import org.junit.Test;
  * 
  * @author Martijn van de Rijdt
  */
+@Slf4j
 public class GridGroupTest {
     /** Tests {@link GridGroup#render(Label, GameState)}. */
     @Test
-    public void testRender() {
+    public void testRenderSimpleState() {
         GridGroup renderer = createGridGroup();
         GameState state = new GameState();
         
+        renderer.render(state);
+        
+        Assert.assertFalse(renderer.getChildren().isEmpty());
+    }
+    
+    /** Tests {@link GridGroup#render(Label, GameState)} with the same game state twice. */
+    @Test
+    public void testRenderSimpleStateTwice() {
+        GridGroup renderer = createGridGroup();
+        GameState state = new GameState();
+        
+        renderer.render(state);
         renderer.render(state);
         
         Assert.assertFalse(renderer.getChildren().isEmpty());
@@ -45,6 +59,7 @@ public class GridGroupTest {
              */
             @Override
             protected void runOnJavaFXThread(Runnable runnable) {
+                log.info("Executing runnable: " + runnable);
                 runnable.run();
             }
         };
