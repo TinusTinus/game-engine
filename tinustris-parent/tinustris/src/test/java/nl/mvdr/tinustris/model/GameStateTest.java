@@ -670,7 +670,59 @@ public class GameStateTest {
         Assert.assertEquals(blockLocation, gameState.getGhostLocation());
     }
     
+    /** Tests the {@link GameState#isFullLine(int)} method in case of a fully empty grid. */
+    @Test
+    public void testIsFullLineEmptyGrid() {
+        GameState gameState = new GameState();
+        
+        for (int y = 0; y != gameState.getHeight(); y++) {
+            Assert.assertFalse("Full line found at index " + y, gameState.isFullLine(y));
+        }
+    }
+    
+    /** Tests the {@link GameState#isFullLine(int)} method in case of a full line. */
+    @Test
+    public void testIsFullLineAtBottom() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a line at 0
+        for (int x = 0; x != 10; x++) {
+            grid.set(x, Tetromino.values()[x % Tetromino.values().length]);
+        }
+        GameState gameState = new GameState(grid, 10, null, null, null, Tetromino.I);
+        log.info(gameState.toString());
 
+        Assert.assertTrue(gameState.isFullLine(0));
+    }
+    
+    /** Tests the {@link GameState#isFullLine(int)} method in case of a full line. */
+    @Test
+    public void testIsFullLineAboveBottom() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        // add a line at 1
+        for (int x = 10; x != 20; x++) {
+            grid.set(x, Tetromino.values()[x % Tetromino.values().length]);
+        }
+        GameState gameState = new GameState(grid, 10, null, null, null, Tetromino.I);
+        log.info(gameState.toString());
+
+        Assert.assertFalse(gameState.isFullLine(0));
+        Assert.assertTrue(gameState.isFullLine(1));
+    }
+    
+    /** Tests the {@link GameState#isFullLine(int)} method in case of a partially filled line. */
+    @Test
+    public void testIsFullPartialLineAtBottom() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        grid.set(0, Tetromino.L);
+        grid.set(2, Tetromino.L);
+        grid.set(3, Tetromino.L);
+        grid.set(5, Tetromino.L);
+        grid.set(6, Tetromino.L);
+        GameState gameState = new GameState(grid, 10, null, null, null, Tetromino.I);
+        log.info(gameState.toString());
+
+        Assert.assertFalse(gameState.isFullLine(0));
+    }
     
     /**
      * Creates a list of tetrominoes.
