@@ -28,7 +28,7 @@ public class TinustrisEngine implements GameEngine {
     // TODO have this be variable, depending on current level
     // 1 / 60 means the tetromino falls one cell every second
     private static final float GRAVITY = 1f / 60f;
-    /** Number of frames before a block locks into place. Should be greater than the number of frames between drops. */
+    /** Number of frames before a block locks into place. */
     // TODO have this be variable, depending on current level
     private static final int LOCK_DELAY = 120;
     /**
