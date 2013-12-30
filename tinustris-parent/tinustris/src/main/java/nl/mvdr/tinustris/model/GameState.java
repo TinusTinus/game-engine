@@ -633,6 +633,11 @@ public class GameState {
         return result.toString();
     }
     
+    /** @return current level */
+    public int computeLevel() {
+        return getLines() / 10;
+    }
+    
     /** 
      * {@inheritDoc} 
      * 
