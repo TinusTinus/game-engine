@@ -46,4 +46,12 @@ public class TetrominoTest {
     public void testGetPointsNull() {
         Tetromino.I.getPoints(null);
     }
+    
+    /** Tests that the result of {@link Tetromino#getPoints(Orientation)} is unmodifiable. */
+    @Test(expected = UnsupportedOperationException.class)
+    public void testUnmodifiableSet() {
+        Set<Point> points = Tetromino.J.getPoints(Orientation.getDefault());
+        
+        points.add(new Point(3, 3));
+    }
 }
