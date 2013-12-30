@@ -656,8 +656,9 @@ public class GameState {
         return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", currentBlockLocation="
                 + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
                 + nextBlock + ", numFramesSinceLastDownMove = " + numFramesSinceLastDownMove
-                + ", numFramesSinceLastMove = " + numFramesSinceLastMove + ", inputStateHistory=" + inputStateHistory
-                + ", blockCounter = " + blockCounter + ", lines = " + lines + ", numFramesUntilLinesDisapzzpear = "
+                + ", numFramesSinceLastLock = " + numFramesSinceLastLock + ", numFramesSinceLastMove = "
+                + numFramesSinceLastMove + ", inputStateHistory=" + inputStateHistory + ", blockCounter = "
+                + blockCounter + ", lines = " + lines + ", numFramesUntilLinesDisappear = "
                 + numFramesUntilLinesDisappear + ", grid=\n" + gridToAscii() + ")";
     }
 }
