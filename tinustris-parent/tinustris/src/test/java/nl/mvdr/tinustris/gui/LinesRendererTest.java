@@ -39,7 +39,7 @@ public class LinesRendererTest {
     /** Tests {@link LinesRenderer#render(GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
-        LabelRenderer renderer = createLinesRenderer();
+        LinesRenderer renderer = createLinesRenderer();
         
         renderer.render(null);
     }
