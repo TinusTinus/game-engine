@@ -37,5 +37,13 @@ public interface SpeedCurve {
      */
     int computeARE(GameState state);
     
-    // TODO add DAS and line clear delay?
+    /**
+     * Determines the line clear delay in frames.
+     * 
+     * @param state state
+     * @return line clear delay in frames
+     */
+    int computeLineClearDelay(GameState state);
+    
+    // TODO add delayed auto shift (DAS)?
 }

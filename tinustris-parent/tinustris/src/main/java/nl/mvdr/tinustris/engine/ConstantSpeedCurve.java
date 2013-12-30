@@ -18,10 +18,12 @@ public class ConstantSpeedCurve implements SpeedCurve {
     private final int lockDelay;
     /** ARE in frames. */
     private final int are;
+    /** Line clear delay in frames. */
+    private final int lineClearDelay;
     
     /** Convenience constructor. */
     public ConstantSpeedCurve() {
-        this(4, 120, 2);
+        this(4, 120, 2, 25);
     }
     
     /** {@inheritDoc} */
@@ -40,5 +42,11 @@ public class ConstantSpeedCurve implements SpeedCurve {
     @Override
     public int computeARE(GameState state) {
         return are;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public int computeLineClearDelay(GameState state) {
+        return lineClearDelay;
     }
 }

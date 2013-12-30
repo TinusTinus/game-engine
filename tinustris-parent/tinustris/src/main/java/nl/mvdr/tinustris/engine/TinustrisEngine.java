@@ -286,7 +286,7 @@ public class TinustrisEngine implements GameEngine {
             orientation = null;
             blockCounter = state.getBlockCounter();
             if (0 < linesScored) {
-                numFramesUntilLinesDisappear = GameState.FRAMES_LINES_STAY;
+                numFramesUntilLinesDisappear = curve.computeLineClearDelay(state);
             } else {
                 numFramesUntilLinesDisappear = 0;
             }
