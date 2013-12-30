@@ -23,10 +23,10 @@ public class GameLoopTest {
         GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
         
         gameLoop.start();
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         gameLoop.stop();
         // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
-        Thread.sleep(500);
+        Thread.sleep(50);
     }
     
     /** Tests the constructor with a null value for the input controller. */
