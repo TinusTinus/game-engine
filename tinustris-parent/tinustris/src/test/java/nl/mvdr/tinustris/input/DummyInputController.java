@@ -25,7 +25,7 @@ public class DummyInputController implements InputController {
     /** 
      * {@inheritDoc}
      * 
-     * Dummy implementation which always returns an input state without any pressed buttons.
+     * Dummy implementation which returns an input state based on the value of the inputs field.
      */
     @Override
     public InputState getInputState() {
