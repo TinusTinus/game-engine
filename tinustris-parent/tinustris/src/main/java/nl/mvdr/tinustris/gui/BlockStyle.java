@@ -134,11 +134,21 @@ enum BlockStyle {
      */
     private void applyAnimation(Rectangle block, int numFramesUntilLinesDisappear) {
         if (disappearingAnimation) {
-            int duration = numFramesUntilLinesDisappear * MILLISECONDS_PER_SECOND / (int) GameLoop.GAME_HERTZ;
+            int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
             FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), block);
             fadeTransition.setFromValue(1);
             fadeTransition.setToValue(0);
             fadeTransition.play();
         }
+    }
+
+    /**
+     * Converts a number of frames to milliseconds.
+     * 
+     * @param frames frames
+     * @return time in seconds
+     */
+    private int framesToMilliseconds(int frames) {
+        return frames * MILLISECONDS_PER_SECOND / (int) GameLoop.GAME_HERTZ;
     }
 }
