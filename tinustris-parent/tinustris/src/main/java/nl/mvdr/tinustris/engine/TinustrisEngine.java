@@ -24,13 +24,6 @@ import nl.mvdr.tinustris.model.Tetromino;
 @Slf4j
 @RequiredArgsConstructor
 public class TinustrisEngine implements GameEngine {
-    /** Gravity, expressed in G, that is, cells per frame. Must be at least 0. */
-    // TODO have this be variable, depending on current level
-    // 1 / 60 means the tetromino falls one cell every second
-    private static final float GRAVITY = 1f / 60f;
-    /** Number of frames before a block locks into place. */
-    // TODO have this be variable, depending on current level
-    private static final int LOCK_DELAY = 120;
     /**
      * Number of frames the input is ignored while the user is holding down a button.
      * 
@@ -42,11 +35,13 @@ public class TinustrisEngine implements GameEngine {
     /** Tetromino generator. */
     @NonNull
     private final TetrominoGenerator generator;
+    /** Speed curve. */
+    @NonNull
+    private final SpeedCurve curve;
     
     /**  Constructor. */
     public TinustrisEngine() {
-        super();
-        this.generator = new RandomTetrominoGenerator();
+        this(new RandomTetrominoGenerator(), new ConstantSpeedCurve(4, 120));
     }
     
     /** {@inheritDoc} */
@@ -90,8 +85,9 @@ public class TinustrisEngine implements GameEngine {
         List<Action> actions = new ArrayList<>();
         
         // process gravity
-        if (1f / GRAVITY <= previousState.getNumFramesSinceLastDownMove()) {
-            int cells = Math.round(GRAVITY);
+        int internalGravity = curve.computeInternalGravity(previousState);
+        if (256 / internalGravity <= previousState.getNumFramesSinceLastDownMove()) {
+            int cells = Math.round(internalGravity / 256);
             if (cells == 0) {
                 cells = 1;
             }
@@ -109,7 +105,8 @@ public class TinustrisEngine implements GameEngine {
         }
         
         // process lock delay
-        if (LOCK_DELAY <= previousState.getNumFramesSinceLastMove()) {
+        int lockDelay = curve.computeLockDelay(previousState);
+        if (lockDelay <= previousState.getNumFramesSinceLastMove()) {
             actions.add(Action.LOCK);
         }
         
