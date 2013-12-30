@@ -26,9 +26,9 @@ public class LevelRendererTest {
     
     /** Tests {@link LinesRenderer#render(GameState)}. */
     @Test
-    public void testRenderPositiveLines() {
+    public void testRenderPositiveLevel() {
         LevelRenderer renderer = createLevelRenderer();
-        GameState state = new GameState(new GameState().getGrid(), 4, null, null, null, Tetromino.L, 0, 0,
+        GameState state = new GameState(new GameState().getGrid(), 4, null, null, null, Tetromino.L, 0, 0, 0,
                 new InputStateHistory(), 0, 365);
         
         renderer.render(state);

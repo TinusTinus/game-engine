@@ -60,6 +60,8 @@ public class GameState {
     private final Tetromino nextBlock;
     /** The number of frames since the last time the active block was moved down. */
     private final int numFramesSinceLastDownMove;
+    /** The number of frames since the last time the active block was locked in place. */
+    private final int numFramesSinceLastLock;
     /**
      * The number of frames since the last time the active block was moved (through gravity or player action), or
      * rotated.
@@ -115,6 +117,7 @@ public class GameState {
         this.currentBlockOrientation = null;
         this.nextBlock = Tetromino.I;
         this.numFramesSinceLastDownMove = 0;
+        this.numFramesSinceLastLock = 0;
         this.numFramesSinceLastMove = 0;
         this.inputStateHistory = new InputStateHistory();
         this.blockCounter = 0;
@@ -140,7 +143,7 @@ public class GameState {
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
-        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0, 0,
+        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0, 0, 0,
                 new InputStateHistory(), 0, 0, 0);
     }
     
@@ -161,6 +164,8 @@ public class GameState {
      *            next block
      * @param numFramesSinceLastTick
      *            number of frames since the last tick
+     * @param numFramesSinceLastLock
+     *            number of frames since the last time the active block was locked in place
      * @param numFramesSinceLastMove
      *            number of frames since the last time the active block was moved (through gravity or player action), or
      *            rotated
@@ -172,10 +177,12 @@ public class GameState {
      *            number of lines that have been scored in this game
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick,
-            int numFramesSinceLastMove, InputStateHistory inputStateHistory, int blockCounter, int lines) {
+            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
+            int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
+            int blockCounter, int lines) {
         this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock,
-                numFramesSinceLastTick, numFramesSinceLastMove, inputStateHistory, blockCounter, lines, 0);
+                numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, inputStateHistory,
+                blockCounter, lines, 0);
     }
     
     /**
@@ -195,6 +202,8 @@ public class GameState {
      *            next block
      * @param numFramesSinceLastTick
      *            number of frames since the last tick
+     * @param numFramesSinceLastLock
+     *            number of frames since the last time the active block was locked in place
      * @param numFramesSinceLastMove
      *            number of frames since the last time the active block was moved (through gravity or player action), or
      *            rotated
@@ -208,9 +217,9 @@ public class GameState {
      *            number of remaining frames until lines disappear
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick,
-            int numFramesSinceLastMove, InputStateHistory inputStateHistory, int blockCounter, int lines,
-            int numFramesUntilLinesDisappear) {
+            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
+            int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
+            int blockCounter, int lines, int numFramesUntilLinesDisappear) {
         super();
 
         checkWidth(width);
@@ -229,6 +238,7 @@ public class GameState {
         this.currentBlockOrientation = currentBlockOrientation;
         this.nextBlock = nextBlock;
         this.numFramesSinceLastDownMove = numFramesSinceLastTick;
+        this.numFramesSinceLastLock = numFramesSinceLastLock;
         this.numFramesSinceLastMove = numFramesSinceLastMove;
         this.inputStateHistory = inputStateHistory;
         this.blockCounter = blockCounter;
