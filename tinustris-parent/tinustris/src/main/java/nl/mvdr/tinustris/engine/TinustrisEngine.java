@@ -111,7 +111,7 @@ public class TinustrisEngine implements GameEngine {
         
         // process lock delay
         int lockDelay = curve.computeLockDelay(previousState);
-        if (lockDelay <= previousState.getNumFramesSinceLastMove()) {
+        if (lockDelay < previousState.getNumFramesSinceLastMove()) {
             actions.add(Action.LOCK);
         }
         
