@@ -70,70 +70,75 @@ public class GameLoop {
         double lastUpdateTime = System.nanoTime();
         // The moment the game was last rendered.
         double lastRenderTime = System.nanoTime();
-        
+
         int fps = 60;
         int frameCount = 0;
 
         // Simple way of finding FPS.
         int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
-        
+
         GameState gameState = gameEngine.initGameState();
-        
+
         gameRenderer.render(gameState);
 
         log.info("Starting main game loop.");
-        
-        while (running && !gameState.isTopped()) {
-            double now = System.nanoTime();
-            int updateCount = 0;
 
-            if (!paused) {
-                // Do as many game updates as we need to, potentially playing catchup.
-                while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                    InputState inputState = inputController.getInputState();
-                    gameState = gameEngine.computeNextState(gameState, inputState);
-                    
-                    lastUpdateTime += TIME_BETWEEN_UPDATES;
-                    updateCount++;
-                }
+        try {
+            while (running && !gameState.isTopped()) {
+                double now = System.nanoTime();
+                int updateCount = 0;
 
-                // If for some reason an update takes forever, we don't want to do an insane number of catchups.
-                // If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
-                if (now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
-                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-                }
+                if (!paused) {
+                    // Do as many game updates as we need to, potentially playing catchup.
+                    while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
+                        InputState inputState = inputController.getInputState();
+                        gameState = gameEngine.computeNextState(gameState, inputState);
 
-                // Render.
-                gameRenderer.render(gameState);
-                frameCount++;
-                lastRenderTime = now;
-
-                // Update the frames we got.
-                int thisSecond = (int) (lastUpdateTime / 1_000_000_000);
-                if (thisSecond > lastSecondTime) {
-                    log.info("New second: " + thisSecond + ", frame count: " + frameCount + ", fps: " + fps);
-                    fps = frameCount;
-                    frameCount = 0;
-                    lastSecondTime = thisSecond;
-                }
-
-                // Yield until it has been at least the target time between renders. This saves the CPU from hogging.
-                while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
-                        && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
-                    Thread.yield();
-
-                    // This stops the app from consuming all your CPU. It makes this slightly less accurate, but is
-                    // worth it. You can remove this line and it will still work (better), your CPU just climbs on
-                    // certain OSes.
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        throw new IllegalStateException("Unexpected interrupt.", e);
+                        lastUpdateTime += TIME_BETWEEN_UPDATES;
+                        updateCount++;
                     }
 
-                    now = System.nanoTime();
+                    // If for some reason an update takes forever, we don't want to do an insane number of catchups.
+                    // If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
+                    if (now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
+                        lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+                    }
+
+                    // Render.
+                    gameRenderer.render(gameState);
+                    frameCount++;
+                    lastRenderTime = now;
+
+                    // Update the frames we got.
+                    int thisSecond = (int) (lastUpdateTime / 1_000_000_000);
+                    if (thisSecond > lastSecondTime) {
+                        log.info("New second: " + thisSecond + ", frame count: " + frameCount + ", fps: " + fps);
+                        fps = frameCount;
+                        frameCount = 0;
+                        lastSecondTime = thisSecond;
+                    }
+
+                    // Yield until it has been at least the target time between renders. This saves the CPU from
+                    // hogging.
+                    while (now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS
+                            && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
+                        Thread.yield();
+
+                        // This stops the app from consuming all your CPU. It makes this slightly less accurate, but is
+                        // worth it. You can remove this line and it will still work (better), your CPU just climbs on
+                        // certain OSes.
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            throw new IllegalStateException("Unexpected interrupt.", e);
+                        }
+
+                        now = System.nanoTime();
+                    }
                 }
             }
+        } catch (RuntimeException e) {
+            log.error("Fatal exception encountered in game loop.", e);
         }
         running = false;
         log.info("Finished main game loop. Final game state: " + gameState);
