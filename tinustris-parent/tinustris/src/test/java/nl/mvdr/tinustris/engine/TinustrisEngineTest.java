@@ -15,7 +15,6 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -121,7 +120,6 @@ public class TinustrisEngineTest {
      * Tests the {@link TinustrisEngine#computeNextState(GameState, nl.mvdr.tinustris.input.InputState)} method with a
      * hard drop input and a Game Boy speed curve.
      */
-    @Ignore // TODO fix this test case!
     @Test
     public void testNextStateHardDropGameBoyCurve() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();

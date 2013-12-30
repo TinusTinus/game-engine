@@ -226,7 +226,7 @@ public class TinustrisEngine implements GameEngine {
      */
     private GameState executeLock(GameState state) {
         GameState result;
-        if (!state.canMoveDown()) {
+        if (state.getCurrentBlock() != null && !state.canMoveDown()) {
             result = lockBlock(state);
         } else {
             // do nothing
