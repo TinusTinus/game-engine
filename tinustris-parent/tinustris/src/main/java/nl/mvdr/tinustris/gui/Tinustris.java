@@ -79,9 +79,10 @@ public class Tinustris extends Application {
         GridRenderer gridGroup = new GridRenderer();
         NextBlockRenderer nextBlockRenderer = new NextBlockRenderer();
         LinesRenderer linesRenderer = new LinesRenderer();
+        LevelRenderer levelRenderer = new LevelRenderer();
         GameOverRenderer gameOverRenderer = new GameOverRenderer();
         CompositeRenderer gameRenderer = new CompositeRenderer(gridGroup, nextBlockRenderer, linesRenderer,
-                gameOverRenderer);
+                levelRenderer, gameOverRenderer);
 
         // construct the user interface
         stage.setTitle("Tinustris");
@@ -101,6 +102,11 @@ public class Tinustris extends Application {
                 2 * MARGIN + 2 * BORDER_SIZE + 4 * GridRenderer.BLOCK_SIZE,
                 4 * GridRenderer.BLOCK_SIZE,
                 TEXT_WINDOW_HEIGHT);
+        Group levelWindow = createWindow("LEVEL", levelRenderer,
+                2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
+                3 * MARGIN + 4 * BORDER_SIZE + 4 * GridRenderer.BLOCK_SIZE + TEXT_WINDOW_HEIGHT,
+                4 * GridRenderer.BLOCK_SIZE,
+                TEXT_WINDOW_HEIGHT);
         Group gameOverWindow = createWindow("", gameOverRenderer,
                 (MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
                 (MARGIN + heightInBlocks * BlockGroupRenderer.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
@@ -108,7 +114,7 @@ public class Tinustris extends Application {
                 TEXT_WINDOW_HEIGHT);
         gameOverWindow.setVisible(false);
         // TODO also add a background image as the first child: new ImageView("imageurl");
-        Group parent = new Group(gridWindow, nextBlockWindow, linesWindow, gameOverWindow);
+        Group parent = new Group(gridWindow, nextBlockWindow, linesWindow, levelWindow, gameOverWindow);
 
         Scene scene = new Scene(parent, 
                 widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 
