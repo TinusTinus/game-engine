@@ -81,20 +81,24 @@ public class GameState {
      */
     private final int numFramesUntilLinesDisappear;
 
-    /** Constructor for a (new) game with a completely empty grid of default size. */
+    /**
+     * Constructor for a (new) game with a completely empty grid of default size, no active block and I as the next
+     * block. This constructor is not particularly useful for production code, but may be useful in unit tests.
+     */
     public GameState() {
         this(DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
     /**
-     * Constructor for a (new) game with a completely empty grid.
+     * Constructor for a (new) game with a completely empty grid, no active block and I as the next block. This
+     * constructor is not particularly useful for production code, but may be useful in unit tests.
      * 
      * @param width
      *            width of the basin, should be at least 1
      * @param height
      *            height of the basin, should be at least 3
      */
-    public GameState(int width, int height) {
+    GameState(int width, int height) {
         super();
 
         checkWidth(width);
@@ -109,7 +113,7 @@ public class GameState {
         this.currentBlock = null;
         this.currentBlockLocation = null;
         this.currentBlockOrientation = null;
-        this.nextBlock = Tetromino.I; // TODO determine randomly? or remove this constructor entirely?
+        this.nextBlock = Tetromino.I;
         this.numFramesSinceLastDownMove = 0;
         this.numFramesSinceLastMove = 0;
         this.inputStateHistory = new InputStateHistory();
