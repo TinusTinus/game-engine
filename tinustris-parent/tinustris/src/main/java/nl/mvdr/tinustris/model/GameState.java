@@ -57,7 +57,6 @@ public class GameState {
     private final Orientation currentBlockOrientation;
     /** The next block in line. */
     @NonNull
-    // TODO replace by a queue of blocks, in case we want to be able to display multiple "next" blocks
     private final Tetromino nextBlock;
     /** The number of frames since the last time the active block was moved down. */
     private final int numFramesSinceLastDownMove;
