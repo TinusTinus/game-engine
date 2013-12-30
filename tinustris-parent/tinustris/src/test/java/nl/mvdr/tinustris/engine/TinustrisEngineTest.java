@@ -25,13 +25,13 @@ public class TinustrisEngineTest {
     /** Tests the constructor. */
     @Test
     public void testConstructor() {
-        new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(4, 120));
+        new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullGenerator() {
-        new TinustrisEngine(null, new ConstantSpeedCurve(4, 120));
+        new TinustrisEngine(null, new ConstantSpeedCurve());
     }
     
     /** Tests the constructor. */
@@ -44,7 +44,7 @@ public class TinustrisEngineTest {
     @Test
     public void testInitGameState() {
         TetrominoGenerator generator = new DummyTetrominoGenerator(Tetromino.I, Tetromino.T);
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(4, 120));
+        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve());
         
         GameState state = engine.initGameState();
         
@@ -61,7 +61,7 @@ public class TinustrisEngineTest {
     @Test
     public void testNextState() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(4, 120));
+        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve());
         GameState state = new GameState();
         InputState inputState = new DummyInputController().getInputState();
         

@@ -41,7 +41,7 @@ public class TinustrisEngine implements GameEngine {
     
     /**  Constructor. */
     public TinustrisEngine() {
-        this(new RandomTetrominoGenerator(), new ConstantSpeedCurve(4, 120));
+        this(new RandomTetrominoGenerator(), new ConstantSpeedCurve());
     }
     
     /** {@inheritDoc} */

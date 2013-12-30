@@ -15,7 +15,13 @@ public class ConstantSpeedCurveTest {
     @Test
     public void testConstructor() {
         new ConstantSpeedCurve(1, 2);
-    }    
+    }
+    
+    /** Test case which tests {@link ConstantSpeedCurve#ConstantSpeedCurve()}. */
+    @Test
+    public void testDefaultConstructor() {
+        new ConstantSpeedCurve();
+    }   
     
     /** Test case which calls {@link ConstantSpeedCurve#computeInternalGravity(nl.mvdr.tinustris.model.GameState)}. */
     @Test

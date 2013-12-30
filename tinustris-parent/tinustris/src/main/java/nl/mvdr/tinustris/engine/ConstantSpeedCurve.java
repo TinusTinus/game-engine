@@ -17,6 +17,11 @@ public class ConstantSpeedCurve implements SpeedCurve {
     /** Lock delay in frames. */
     private final int lockDelay;
     
+    /** Convenience constructor. */
+    public ConstantSpeedCurve() {
+        this(4, 120);
+    }
+    
     /** {@inheritDoc} */
     @Override
     public int computeInternalGravity(GameState state) {
