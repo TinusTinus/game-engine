@@ -16,7 +16,6 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.engine.GameLoop;
-import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Tetromino;
 
 /**
@@ -71,12 +70,15 @@ enum BlockStyle {
      *            block to be styled
      * @param tetromino
      *            tetromino represented by the given block
+     * @param numFramesUntilLinesDisappear
+     *            the numFramesUntilLinesDisappear property from the game state; used for the block disappearing
+     *            animation
      */
-    void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino) {
+    void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino, int numFramesUntilLinesDisappear) {
         block.setOpacity(opacity);
         applyStroke(block, tetromino);
         applyFill(block, tetromino);
-        applyAnimation(block);
+        applyAnimation(block, numFramesUntilLinesDisappear);
     }
 
     /**
@@ -127,10 +129,12 @@ enum BlockStyle {
      * 
      * @param block
      *            block to be styled
+     * @param numFramesUntilLinesDisappear
+     *            number of frames until the block should be fully invisible
      */
-    private void applyAnimation(Rectangle block) {
+    private void applyAnimation(Rectangle block, int numFramesUntilLinesDisappear) {
         if (disappearingAnimation) {
-            int duration = GameState.FRAMES_LINES_STAY * MILLISECONDS_PER_SECOND / (int) GameLoop.GAME_HERTZ;
+            int duration = numFramesUntilLinesDisappear * MILLISECONDS_PER_SECOND / (int) GameLoop.GAME_HERTZ;
             FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), block);
             fadeTransition.setFromValue(1);
             fadeTransition.setToValue(0);

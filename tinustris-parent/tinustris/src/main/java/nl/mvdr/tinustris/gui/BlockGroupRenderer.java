@@ -106,10 +106,13 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
      * @param tetromino
      *            tetromino to be represented by the block
      * @param style
-     *            style in which to render the block 
+     *            style in which to render the block
+     * @param numFramesUntilLinesDisappear
+     *            the numFramesUntilLinesDisappear property from the game state
      * @return new block
      */
-    Rectangle createBlock(int x, int y, int height, Tetromino tetromino, BlockStyle style) {
+    Rectangle createBlock(int x, int y, int height, Tetromino tetromino, BlockStyle style,
+            int numFramesUntilLinesDisappear) {
         int xCoordinate = x * BLOCK_SIZE;
         int yCoordinate = (height - y - 1) * BLOCK_SIZE;
         
@@ -118,7 +121,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
         result.setArcWidth(ARC_SIZE);
         result.setArcHeight(ARC_SIZE);
         
-        style.apply(result, tetromino);
+        style.apply(result, tetromino, numFramesUntilLinesDisappear);
         
         return result;
     }

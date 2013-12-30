@@ -45,7 +45,7 @@ class NextBlockRenderer extends BlockGroupRenderer {
                     point = point.translate(0, -1);
                 }
                 Rectangle block = createBlock(point.getX(), point.getY(), 4, nextBlock,
-                        BlockStyle.NEXT);
+                        BlockStyle.NEXT, gameState.getNumFramesUntilLinesDisappear());
                 group.getChildren().add(block);
             }
         }
