@@ -21,7 +21,7 @@ public class BlockStyleTest {
         for (BlockStyle style: BlockStyle.values()) {
             for (Tetromino tetromino: Tetromino.values()) {
                 log.info("Applying style {} for tetromino {}.", style, tetromino);
-                style.apply(rectangle, tetromino, 25);
+                style.apply(rectangle, tetromino, 25, 0);
             }
         }
     }
@@ -30,12 +30,12 @@ public class BlockStyleTest {
     @Test(expected = NullPointerException.class)
     public void testApplyNullTetromino() {
         Rectangle rectangle = new Rectangle(10, 10);
-        BlockStyle.ACTIVE.apply(rectangle, null, 25);
+        BlockStyle.ACTIVE.apply(rectangle, null, 25, 0);
     }
     
     /** Tests {@link BlockStyle#apply(Rectangle, Tetromino)} for a null rectangle value. */
     @Test(expected = NullPointerException.class)
     public void testApplyNullRectangle() {
-        BlockStyle.ACTIVE.apply(null, Tetromino.I, 25);
+        BlockStyle.ACTIVE.apply(null, Tetromino.I, 25, 0);
     }
 }

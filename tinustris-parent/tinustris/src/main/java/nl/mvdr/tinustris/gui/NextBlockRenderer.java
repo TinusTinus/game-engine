@@ -44,8 +44,8 @@ class NextBlockRenderer extends BlockGroupRenderer {
                 if (nextBlock != Tetromino.O) {
                     point = point.translate(0, -1);
                 }
-                Rectangle block = createBlock(point.getX(), point.getY(), 4, nextBlock,
-                        BlockStyle.NEXT, gameState.getNumFramesUntilLinesDisappear());
+                Rectangle block = createBlock(point.getX(), point.getY(), 4, nextBlock, BlockStyle.NEXT,
+                        gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                 group.getChildren().add(block);
             }
         }

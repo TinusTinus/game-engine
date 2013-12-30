@@ -73,12 +73,15 @@ enum BlockStyle {
      * @param numFramesUntilLinesDisappear
      *            the numFramesUntilLinesDisappear property from the game state; used for the block disappearing
      *            animation
+     * @param numFramesSinceLastLock
+     *            the numFramesSinceLastLock property from the game state; used for the block disappearing animation
      */
-    void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino, int numFramesUntilLinesDisappear) {
+    void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino, int numFramesUntilLinesDisappear,
+            int numFramesSinceLastLock) {
         block.setOpacity(opacity);
         applyStroke(block, tetromino);
         applyFill(block, tetromino);
-        applyAnimation(block, numFramesUntilLinesDisappear);
+        applyAnimation(block, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 
     /**
@@ -131,12 +134,15 @@ enum BlockStyle {
      *            block to be styled
      * @param numFramesUntilLinesDisappear
      *            number of frames until the block should be fully invisible
-     */
-    private void applyAnimation(Rectangle block, int numFramesUntilLinesDisappear) {
+     * @param numFramesSinceLastLock
+     *            number of frames since the time the block started disappearing
+    */
+    private void applyAnimation(Rectangle block, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         if (disappearingAnimation) {
             int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
             FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), block);
-            fadeTransition.setFromValue(1);
+            fadeTransition.setFromValue((double) numFramesUntilLinesDisappear
+                    / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock));
             fadeTransition.setToValue(0);
             fadeTransition.play();
         }
