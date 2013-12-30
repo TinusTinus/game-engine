@@ -15,6 +15,7 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -115,4 +116,43 @@ public class TinustrisEngineTest {
         log.info("After: " + state);
         Assert.assertNotNull(state);
     }
+    
+    /**
+     * Tests the {@link TinustrisEngine#computeNextState(GameState, nl.mvdr.tinustris.input.InputState)} method with a
+     * hard drop input and a Game Boy speed curve.
+     */
+    @Ignore // TODO fix this test case!
+    @Test
+    public void testNextStateHardDropGameBoyCurve() {
+        TetrominoGenerator generator = new DummyTetrominoGenerator();
+        TinustrisEngine engine = new TinustrisEngine(generator, new GameBoySpeedCurve());
+        List<Tetromino> grid = new ArrayList<>();
+        for (int i = 0; i != 220; i++) {
+            grid.add(null);
+        }
+        grid.set(1, Tetromino.O);
+        grid.set(2, Tetromino.O);
+        grid.set(3, Tetromino.S);
+        grid.set(4, Tetromino.Z);
+        grid.set(5, Tetromino.O);
+        grid.set(6, Tetromino.O);
+        grid.set(7, Tetromino.J);
+        grid.set(8, Tetromino.J);
+        grid.set(9, Tetromino.L);
+        grid.set(12, Tetromino.S);
+        grid.set(13, Tetromino.S);
+        grid.set(18, Tetromino.J);
+        grid.set(22, Tetromino.S);
+        grid.set(28, Tetromino.J);
+        GameState state = new GameState(grid, 10, Tetromino.O, new Point(5, 13), Orientation.FLAT_DOWN, Tetromino.I,
+                11, 0, 11, new InputStateHistory(), 236, 93, 0);
+        log.info("Before: " + state);
+        InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
+        
+        state = engine.computeNextState(state, inputState);
+
+        log.info("After: " + state);
+        Assert.assertNotNull(state);
+    }
+
 }
