@@ -65,7 +65,12 @@ public class TinustrisEngine implements GameEngine {
             result = removeLines(result);
         }
         
-        if (result.getNumFramesUntilLinesDisappear() == 0) {
+        if (previousState.getCurrentBlock() == null && previousState.getNumFramesUntilLinesDisappear() <= 1
+                && curve.computeARE(previousState) < previousState.getNumFramesSinceLastLock()) {
+            result = spawnNextBlock(result);
+        }
+        
+        if (result.getCurrentBlock() != null) {
             List<Action> actions = determineActions(previousState, inputState);
             for (Action action : actions) {
                 result = executeAction(result, action);
@@ -274,13 +279,17 @@ public class TinustrisEngine implements GameEngine {
         Orientation orientation;
         int blockCounter;
         int numFramesUntilLinesDisappear;
-        if (0 < linesScored) {
+        if (0 < linesScored || 0 < curve.computeARE(state)) {
             block = null;
             nextBlock = state.getNextBlock();
             location = null;
             orientation = null;
             blockCounter = state.getBlockCounter();
-            numFramesUntilLinesDisappear = GameState.FRAMES_LINES_STAY;
+            if (0 < linesScored) {
+                numFramesUntilLinesDisappear = GameState.FRAMES_LINES_STAY;
+            } else {
+                numFramesUntilLinesDisappear = 0;
+            }
         } else {
             block = state.getNextBlock();
             nextBlock = generator.get(state.getBlockCounter() + 2);
@@ -364,13 +373,25 @@ public class TinustrisEngine implements GameEngine {
             }
         }
         
-        Tetromino block = state.getNextBlock();
-        Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
-        Point location = state.getBlockSpawnLocation();
-        Orientation orientation = Orientation.getDefault();
-        int blockCounter = state.getBlockCounter() + 1;
-        
-        return new GameState(grid, width, block, location, orientation, nextBlock, 0,
+        return new GameState(grid, width, state.getCurrentBlock(), state.getCurrentBlockLocation(),
+                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(), state.getNumFramesSinceLastLock(), state.getNumFramesSinceLastMove(),
+                state.getInputStateHistory(), state.getBlockCounter(), state.getLines());
+    }
+    
+    /**
+     * Spawns a new block.
+     * 
+     * @param state state
+     * @return new state
+     */
+    private GameState spawnNextBlock(GameState state) {
+      Tetromino block = state.getNextBlock();
+      Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
+      Point location = state.getBlockSpawnLocation();
+      Orientation orientation = Orientation.getDefault();
+      int blockCounter = state.getBlockCounter() + 1;
+      
+        return new GameState(state.getGrid(), state.getWidth(), block, location, orientation, nextBlock, 0,
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), blockCounter, state.getLines());
     }
     

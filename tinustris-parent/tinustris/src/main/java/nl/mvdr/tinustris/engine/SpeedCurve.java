@@ -29,5 +29,13 @@ public interface SpeedCurve {
      */
     int computeLockDelay(GameState state);
     
-    // TODO add ARE, DAS and line clear delay?
+    /**
+     * Determines the ARE (also known as entry delay, appearance delay or spawn delay) in frames.
+     * 
+     * @param state state
+     * @return ARE in frames
+     */
+    int computeARE(GameState state);
+    
+    // TODO add DAS and line clear delay?
 }
