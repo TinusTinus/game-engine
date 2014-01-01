@@ -1,14 +1,5 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import nl.mvdr.tinustris.engine.speedcurve.GameBoySpeedCurve;
-import nl.mvdr.tinustris.input.InputStateHistory;
-import nl.mvdr.tinustris.model.GameState;
-import nl.mvdr.tinustris.model.Tetromino;
-
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -16,13 +7,7 @@ import org.junit.Test;
  * 
  * @author Martijn van de Rijdt
  */
-public class GameBoySpeedCurveTest {
-    /** Test case which tests {@link GameBoySpeedCurve#GameBoySpeedCurve())}. */
-    @Test
-    public void testConstructor() {
-        new GameBoySpeedCurve();
-    }
-    
+public class GameBoySpeedCurveTest extends SpeedCurveTester {
     /** Test case which tests {@link GameBoySpeedCurve#computeInternalGravity(nl.mvdr.tinustris.model.GameState)}. */
     @Test
     public void testLevel0() {
@@ -166,22 +151,10 @@ public class GameBoySpeedCurveTest {
     public void testLevel1984() {
         testLevel(1984, 85);
     }
-    
-    /**
-     * Checks whether the curve has the expected internal gravity for the given level.
-     * 
-     * @param level level
-     * @param expectedInternalGravity expected internal gravity
-     */
-    private void testLevel(int level, int expectedInternalGravity) {
-        GameBoySpeedCurve curve = new GameBoySpeedCurve();
-        List<Tetromino> grid = new ArrayList<>(220);
-        for (int i = 0; i != 220; i++) {
-            grid.add(null);
-        }
-        GameState state = new GameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0, new InputStateHistory(), 0,
-                level * 10);
-        
-        Assert.assertEquals(expectedInternalGravity, curve.computeInternalGravity(state));
+
+    /** {@inheritDoc} */
+    @Override
+    SpeedCurve createSpeedCurve() {
+        return new GameBoySpeedCurve();        
     }
 }
