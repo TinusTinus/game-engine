@@ -139,7 +139,8 @@ public class Tinustris extends Application {
     }
 
     /** Logs some version info. */
-    private void logVersionInfo() {
+    // default visibility for unit tests
+    void logVersionInfo() {
         if (log.isInfoEnabled()) {
             String version = retrieveVersion();
             if (version != null) {
