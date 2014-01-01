@@ -724,6 +724,7 @@ public class GameStateTest {
         Assert.assertFalse(gameState.isFullLine(0));
     }
     
+    /** Test method for {@link GameState#getBlockSpawnLocation()}. */
     @Test
     public void testGetBlockSpawnLocation() {
         GameState gameState = new GameState(10, 22);
@@ -732,6 +733,19 @@ public class GameStateTest {
         
         Assert.assertEquals(new Point(3, 16), point);
     }
+    
+    /** Test case for {@link GameState#isCurrentBlockWithinBounds()}. */
+    @Test
+    public void test() {
+        List<Tetromino> grid = createEmptyGrid(220);
+        Point blockLocation = new Point(1, 15);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, blockLocation, Orientation.getDefault(),
+                Tetromino.I);
+        log.info(gameState.toString());
+
+        Assert.assertTrue(gameState.isCurrentBlockWithinBounds());
+    }
+    
     
     /**
      * Creates a list of tetrominoes.
