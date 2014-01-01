@@ -70,7 +70,7 @@ public class TinustrisEngine implements GameEngine {
         }
         
         if (result.getCurrentBlock() != null) {
-            List<Action> actions = determineActions(previousState, inputState);
+            List<Action> actions = determineActions(previousState, result, inputState);
             for (Action action : actions) {
                 result = executeAction(result, action);
             }
@@ -82,15 +82,16 @@ public class TinustrisEngine implements GameEngine {
      * Determines which actions should be performed.
      * 
      * @param previousState previous game state
+     * @param resultState result state
      * @param inputState input state
      * @return actions
      */
-    private List<Action> determineActions(GameState previousState, InputState inputState) {
+    private List<Action> determineActions(GameState previousState, GameState resultState, InputState inputState) {
         List<Action> actions = new ArrayList<>();
         
         // process gravity
-        int internalGravity = curve.computeInternalGravity(previousState);
-        if (256 / internalGravity <= previousState.getNumFramesSinceLastDownMove()) {
+        int internalGravity = curve.computeInternalGravity(resultState);
+        if (256 / internalGravity <= resultState.getNumFramesSinceLastDownMove()) {
             int cells = Math.round(internalGravity / 256);
             if (cells == 0) {
                 cells = 1;
@@ -109,8 +110,8 @@ public class TinustrisEngine implements GameEngine {
         }
         
         // process lock delay
-        int lockDelay = curve.computeLockDelay(previousState);
-        if (lockDelay < previousState.getNumFramesSinceLastMove()) {
+        int lockDelay = curve.computeLockDelay(resultState);
+        if (lockDelay < resultState.getNumFramesSinceLastMove()) {
             actions.add(Action.LOCK);
         }
         
