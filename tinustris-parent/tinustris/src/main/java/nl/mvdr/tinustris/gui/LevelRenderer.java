@@ -11,6 +11,6 @@ class LevelRenderer extends LabelRenderer {
     /** {@inheritDoc} */
     @Override
     protected String toText(GameState state) {
-        return "" + state.computeLevel();
+        return "" + state.getLevel();
     }
 }

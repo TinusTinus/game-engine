@@ -80,28 +80,28 @@ public class TheGrandMaster2MasterSpeedCurve implements SpeedCurve {
     /** {@inheritDoc} */
     @Override
     public int computeInternalGravity(GameState state) {
-        int level = state.computeLevel();
+        int level = state.getLevel();
         return internalGravityCurve.getValue(level);
     }
 
     /** {@inheritDoc} */
     @Override
     public int computeLockDelay(GameState state) {
-        int level = state.computeLevel();
+        int level = state.getLevel();
         return lockDelayCurve.getValue(level);
     }
 
     /** {@inheritDoc} */
     @Override
     public int computeARE(GameState state) {
-        int level = state.computeLevel();
+        int level = state.getLevel();
         return areCurve.getValue(level);
     }
 
     /** {@inheritDoc} */
     @Override
     public int computeLineClearDelay(GameState state) {
-        int level = state.computeLevel();
+        int level = state.getLevel();
         return lineClearCurve.getValue(level);
     }
 }

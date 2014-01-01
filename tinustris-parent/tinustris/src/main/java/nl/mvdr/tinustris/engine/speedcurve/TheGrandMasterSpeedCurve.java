@@ -57,7 +57,7 @@ public class TheGrandMasterSpeedCurve implements SpeedCurve {
     /** {@inheritDoc} */
     @Override
     public int computeInternalGravity(GameState state) {
-        int level = state.computeLevel();
+        int level = state.getLevel();
         return internalGravityCurve.getValue(level);
     }
 

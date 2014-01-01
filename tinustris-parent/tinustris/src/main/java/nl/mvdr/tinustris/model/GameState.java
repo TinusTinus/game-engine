@@ -649,12 +649,6 @@ public class GameState {
         return result.toString();
     }
     
-    /** @return current level */
-    @Deprecated // use getLevel()
-    public int computeLevel() {
-        return getLevel();
-    }
-    
     /** 
      * {@inheritDoc} 
      * 
