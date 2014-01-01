@@ -1,8 +1,14 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyGameEngine;
 import nl.mvdr.tinustris.input.DummyInputController;
+import nl.mvdr.tinustris.input.InputState;
+import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Test;
 
@@ -25,6 +31,34 @@ public class GameLoopTest {
         gameLoop.start();
         Thread.sleep(2000);
         gameLoop.stop();
+        // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
+        Thread.sleep(50);
+    }
+    
+    /**
+     * Starts the game loop with a game engine that immediately triggers a game over.
+     * 
+     * @throws InterruptedException
+     *             unexpected exception
+     */
+    @Test
+    public void testToppedState() throws InterruptedException {
+        DummyGameEngine engine = new DummyGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public GameState computeNextState(GameState previousState, InputState inputState) {
+                // return game state with a full grid
+                List<Tetromino> grid = new ArrayList<>(220);
+                for (int i = 0; i != 220; i++) {
+                    grid.add(Tetromino.S);
+                }
+                return new GameState(grid, 10, null, Tetromino.T);
+            }
+        };
+        
+        GameLoop gameLoop = new GameLoop(new DummyInputController(), engine, new DummyRenderer());
+        
+        gameLoop.start();
         // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
         Thread.sleep(50);
     }
