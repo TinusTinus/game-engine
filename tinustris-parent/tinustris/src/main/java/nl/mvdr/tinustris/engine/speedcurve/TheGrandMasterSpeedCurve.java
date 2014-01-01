@@ -12,7 +12,7 @@ import nl.mvdr.tinustris.model.GameState;
  */
 public class TheGrandMasterSpeedCurve implements SpeedCurve {
     /** Internal gravity curve. */
-    private RangedCurve internalGravityCurve;
+    private final RangedCurve internalGravityCurve;
 
     /** Constructor. */
     public TheGrandMasterSpeedCurve() {
