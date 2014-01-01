@@ -724,6 +724,15 @@ public class GameStateTest {
         Assert.assertFalse(gameState.isFullLine(0));
     }
     
+    @Test
+    public void testGetBlockSpawnLocation() {
+        GameState gameState = new GameState(10, 22);
+        
+        Point point = gameState.getBlockSpawnLocation();
+        
+        Assert.assertEquals(new Point(3, 16), point);
+    }
+    
     /**
      * Creates a list of tetrominoes.
      * 
