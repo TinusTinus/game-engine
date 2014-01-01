@@ -50,7 +50,8 @@ public class GameBoySpeedCurve implements SpeedCurve {
     /** {@inheritDoc} */
     @Override
     public int computeInternalGravity(GameState state) {
-        return internalGravityCurve.getValue(state.computeLevel());
+        int level = state.computeLevel();
+        return internalGravityCurve.getValue(level);
     }
 
     /** {@inheritDoc} */
