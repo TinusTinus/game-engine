@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 import nl.mvdr.tinustris.model.GameState;
@@ -25,7 +24,7 @@ public class TheGrandMaster2MasterSpeedCurve implements SpeedCurve {
     public TheGrandMaster2MasterSpeedCurve() {
         super();
         
-        SortedMap<Integer, Integer> map = new TreeMap<Integer, Integer>() {{
+        this.internalGravityCurve = new RangedCurve(new TreeMap<Integer, Integer>() {{
             put(Integer.valueOf(0), Integer.valueOf(4));
             put(Integer.valueOf(30), Integer.valueOf(6));
             put(Integer.valueOf(35), Integer.valueOf(8));
@@ -56,30 +55,26 @@ public class TheGrandMaster2MasterSpeedCurve implements SpeedCurve {
             put(Integer.valueOf(420), Integer.valueOf(1024)); //  4G
             put(Integer.valueOf(450), Integer.valueOf(768));  //  3G
             put(Integer.valueOf(500), Integer.valueOf(5120)); // 20G
-        }};
-        this.internalGravityCurve = new RangedCurve(map);
+        }});
         
-        map = new TreeMap<Integer, Integer>() {{
+        this.lockDelayCurve = new RangedCurve(new TreeMap<Integer, Integer>() {{
             put(Integer.valueOf(0), Integer.valueOf(30));
             put(Integer.valueOf(900), Integer.valueOf(17));
-        }};
-        this.lockDelayCurve = new RangedCurve(map);
+        }});
 
-        map = new TreeMap<Integer, Integer>() {{
+        this.areCurve = new RangedCurve(new TreeMap<Integer, Integer>() {{
             put(Integer.valueOf(0), Integer.valueOf(25));
             put(Integer.valueOf(700), Integer.valueOf(16));
             put(Integer.valueOf(800), Integer.valueOf(12));
-        }};
-        this.areCurve = new RangedCurve(map);
+        }});
         
-        map = new TreeMap<Integer, Integer>() {{
+        this.lineClearCurve = new RangedCurve(new TreeMap<Integer, Integer>() {{
             put(Integer.valueOf(0), Integer.valueOf(40));
             put(Integer.valueOf(500), Integer.valueOf(25));
             put(Integer.valueOf(600), Integer.valueOf(16));
             put(Integer.valueOf(700), Integer.valueOf(12));
             put(Integer.valueOf(800), Integer.valueOf(6));
-        }};
-        this.lineClearCurve = new RangedCurve(map);
+        }});
     }
     
     /** {@inheritDoc} */
