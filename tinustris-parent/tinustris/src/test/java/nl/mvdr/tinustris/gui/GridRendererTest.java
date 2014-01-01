@@ -79,6 +79,16 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
+    /** Tests {@link GridRenderer#render(Label, GameState)} with a full line. */
+    @Test
+    public void testRenderWithFullLine() {
+        GridRenderer renderer = createGridGroup();
+        
+        renderer.render(createGameStateWithFullLine());
+        
+        Assert.assertFalse(renderer.getChildren().isEmpty());
+    }
+    
     /** Tests {@link GridRenderer#render(Label, GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
@@ -119,6 +129,24 @@ public class GridRendererTest {
         }
         // add a single block at (2, 0)
         grid.set(2, Tetromino.S);
+        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
+                Tetromino.I);
+        return gameState;
+    }
+    
+    /**
+     * Creates a game state, containing a full line in the grid.
+     * 
+     * @return game state
+     */
+    private GameState createGameStateWithFullLine() {
+        List<Tetromino> grid = new ArrayList<>(220);
+        for (int i = 0; i != 10; i++) {
+            grid.add(Tetromino.S);
+        }
+        while (grid.size() != 220) {
+            grid.add(null);
+        }
         GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         return gameState;
