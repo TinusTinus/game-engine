@@ -14,6 +14,7 @@ public class GameBoySpeedCurve implements SpeedCurve {
     /** Internal gravity curve. */
     private RangedCurve internalGravityCurve;
     
+    /** Constructor. */
     public GameBoySpeedCurve() {
         super();
         
@@ -42,7 +43,6 @@ public class GameBoySpeedCurve implements SpeedCurve {
             put(Integer.valueOf(18), Integer.valueOf(64)); //  4 frames per cell
             put(Integer.valueOf(19), Integer.valueOf(64)); //  4 frames per cell
             put(Integer.valueOf(20), Integer.valueOf(85)); //  3 frames per cell
-            
         }};
         this.internalGravityCurve = new RangedCurve(map);
     }
