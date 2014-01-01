@@ -19,6 +19,16 @@ public class NextBlockRendererTest {
         renderer.render(state);
     }
     
+    /** Tests {@link NextBlockRenderer#render(GameState)}. */
+    @Test
+    public void testRenderTwice() {
+        NextBlockRenderer renderer = createNextBlockRenderer();
+        GameState state = new GameState();
+        
+        renderer.render(state);
+        renderer.render(state);
+    }
+    
     /** Tests {@link NextBlockRenderer#render(GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
