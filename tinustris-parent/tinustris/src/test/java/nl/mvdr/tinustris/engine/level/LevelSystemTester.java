@@ -38,6 +38,7 @@ public abstract class LevelSystemTester {
      * Creates a game state with the given parameters.
      * 
      * @param blockCounter block counter
+     * @param lines lines
      * @param level level
      * @return game state
      */
