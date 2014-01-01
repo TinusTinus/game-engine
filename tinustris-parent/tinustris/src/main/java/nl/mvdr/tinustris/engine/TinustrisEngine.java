@@ -7,6 +7,8 @@ import java.util.List;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.engine.speedcurve.SpeedCurve;
+import nl.mvdr.tinustris.engine.speedcurve.TheGrandMasterSpeedCurve;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;

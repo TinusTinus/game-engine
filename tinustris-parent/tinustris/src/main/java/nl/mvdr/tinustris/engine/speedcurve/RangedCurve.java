@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.engine;
+package nl.mvdr.tinustris.engine.speedcurve;
 
 import java.util.Iterator;
 import java.util.SortedMap;

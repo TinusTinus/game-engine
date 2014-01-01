@@ -1,8 +1,9 @@
-package nl.mvdr.tinustris.engine;
+package nl.mvdr.tinustris.engine.speedcurve;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.mvdr.tinustris.engine.speedcurve.GameBoySpeedCurve;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Tetromino;
