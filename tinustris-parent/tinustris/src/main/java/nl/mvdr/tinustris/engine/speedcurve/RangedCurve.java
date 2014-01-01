@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class RangedCurve {
     /**
-     * Map that represents the ranges. Each range (i, j) is represented by its lower bound i, where the upper bound is
+     * Map that represents the ranges. Each range (i, j) is represented by its lower bound i, where the upper bound j is
      * the next range's lower bound, or infinity if it is the last one.
      * 
      * Should not be null or empty.
@@ -23,8 +23,7 @@ class RangedCurve {
     private final SortedMap<Integer, Integer> map;
 
     /**
-     * Finds the range (i, j) where i <= key < j and returns the corresponding value; returns the default value if none
-     * of the ranges match.
+     * Finds the range (i, j) where i <= key < j and returns the corresponding value.
      * 
      * @param key key; may not be less than the lower bound of the first range
      * @return value
