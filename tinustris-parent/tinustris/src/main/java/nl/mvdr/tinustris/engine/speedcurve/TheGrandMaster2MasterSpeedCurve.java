@@ -56,7 +56,6 @@ public class TheGrandMaster2MasterSpeedCurve implements SpeedCurve {
             put(Integer.valueOf(420), Integer.valueOf(1024)); //  4G
             put(Integer.valueOf(450), Integer.valueOf(768));  //  3G
             put(Integer.valueOf(500), Integer.valueOf(5120)); // 20G
-            
         }};
         this.internalGravityCurve = new RangedCurve(map);
         

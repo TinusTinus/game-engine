@@ -52,7 +52,6 @@ public class TheGrandMaster2NormalSpeedCurve implements SpeedCurve {
             put(Integer.valueOf(287), Integer.valueOf(224));
             put(Integer.valueOf(295), Integer.valueOf(240));
             put(Integer.valueOf(300), Integer.valueOf(5120)); // 20G
-            
         }};
         this.internalGravityCurve = new RangedCurve(map);
     }
