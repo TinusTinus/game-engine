@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.engine.level.DummyLevelSystem;
 import nl.mvdr.tinustris.engine.speedcurve.ConstantSpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.GameBoySpeedCurve;
 import nl.mvdr.tinustris.input.DummyInputController;
@@ -35,26 +36,32 @@ public class TinustrisEngineTest {
     /** Tests the constructor. */
     @Test
     public void testConstructor() {
-        new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve());
+        new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullGenerator() {
-        new TinustrisEngine(null, new ConstantSpeedCurve());
+        new TinustrisEngine(null, new ConstantSpeedCurve(), new DummyLevelSystem());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullCurve() {
-        new TinustrisEngine(new DummyTetrominoGenerator(), null);
+        new TinustrisEngine(new DummyTetrominoGenerator(), null, new DummyLevelSystem());
+    }
+    
+    /** Tests the constructor. */
+    @Test(expected = NullPointerException.class)
+    public void testConstructorNullLevelSystem() {
+        new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), null);
     }
     
     /** Tests the {@link TinustrisEngine#initGameState()} method. */
     @Test
     public void testInitGameState() {
         TetrominoGenerator generator = new DummyTetrominoGenerator(Tetromino.I, Tetromino.T);
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve());
+        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         
         GameState state = engine.initGameState();
         
@@ -71,7 +78,7 @@ public class TinustrisEngineTest {
     @Test
     public void testNextState() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve());
+        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         GameState state = new GameState();
         InputState inputState = new DummyInputController().getInputState();
         
@@ -88,7 +95,7 @@ public class TinustrisEngineTest {
     @Test
     public void testNextStateHardDrop() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve());
+        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         List<Tetromino> grid = new ArrayList<>();
         for (int i = 0; i != 220; i++) {
             grid.add(null);
@@ -125,7 +132,7 @@ public class TinustrisEngineTest {
     @Test
     public void testNextStateHardDropGameBoyCurve() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new GameBoySpeedCurve());
+        TinustrisEngine engine = new TinustrisEngine(generator, new GameBoySpeedCurve(), new DummyLevelSystem());
         List<Tetromino> grid = new ArrayList<>();
         for (int i = 0; i != 220; i++) {
             grid.add(null);

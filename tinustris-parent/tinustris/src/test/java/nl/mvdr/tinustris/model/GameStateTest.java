@@ -724,13 +724,6 @@ public class GameStateTest {
         Assert.assertFalse(gameState.isFullLine(0));
     }
     
-    /** Tests the {@link GameState#computeLevel()} method. */
-    @Test
-    public void testComputeLevel() {
-        GameState state = new GameState();
-        Assert.assertEquals(0, state.computeLevel());
-    }
-    
     /**
      * Creates a list of tetrominoes.
      * 

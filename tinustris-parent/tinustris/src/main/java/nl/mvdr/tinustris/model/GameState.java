@@ -80,6 +80,8 @@ public class GameState {
      * that still remain. It is zero if there are currently no full lines in the grid.
      */
     private final int numFramesUntilLinesDisappear;
+    /** Current level, which may determine the results of a speed curve. */
+    private final int level;
 
     /**
      * Constructor for a (new) game with a completely empty grid of default size, no active block and I as the next
@@ -121,6 +123,7 @@ public class GameState {
         this.blockCounter = 0;
         this.lines = 0;
         this.numFramesUntilLinesDisappear = 0;
+        this.level = 0;
     }
     
     /**
@@ -173,14 +176,16 @@ public class GameState {
      *            number of blocks that have been dropped
      * @param lines
      *            number of lines that have been scored in this game
+     * @param level
+     *            level
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
-            int blockCounter, int lines) {
+            int blockCounter, int lines, int level) {
         this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock,
                 numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, inputStateHistory,
-                blockCounter, lines, 0);
+                blockCounter, lines, 0, level);
     }
     
     /**
@@ -213,11 +218,13 @@ public class GameState {
      *            number of lines that have been scored in this game
      * @param numFramesUntilLinesDisappear
      *            number of remaining frames until lines disappear
+     * @param level
+     *            level
      */
     public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
-            int blockCounter, int lines, int numFramesUntilLinesDisappear) {
+            int blockCounter, int lines, int numFramesUntilLinesDisappear, int level) {
         super();
 
         checkWidth(width);
@@ -242,6 +249,7 @@ public class GameState {
         this.blockCounter = blockCounter;
         this.lines = lines;
         this.numFramesUntilLinesDisappear = numFramesUntilLinesDisappear;
+        this.level = level;
     }
     
     /**
@@ -642,8 +650,9 @@ public class GameState {
     }
     
     /** @return current level */
+    @Deprecated // use getLevel()
     public int computeLevel() {
-        return getLines() / 10;
+        return getLevel();
     }
     
     /** 
@@ -659,6 +668,6 @@ public class GameState {
                 + ", numFramesSinceLastLock = " + numFramesSinceLastLock + ", numFramesSinceLastMove = "
                 + numFramesSinceLastMove + ", inputStateHistory=" + inputStateHistory + ", blockCounter = "
                 + blockCounter + ", lines = " + lines + ", numFramesUntilLinesDisappear = "
-                + numFramesUntilLinesDisappear + ", grid=\n" + gridToAscii() + ")";
+                + numFramesUntilLinesDisappear + ", level = " + level + ", grid=\n" + gridToAscii() + ")";
     }
 }
