@@ -55,7 +55,6 @@ public class TinustrisEngine implements GameEngine {
         GameState gameState = new GameState(grid, GameState.DEFAULT_WIDTH, generator.get(0), generator.get(1));
         return gameState;
     }
-
     
     /** {@inheritDoc} */
     @Override
