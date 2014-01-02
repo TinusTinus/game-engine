@@ -36,6 +36,70 @@ public class GameLoopTest {
     }
     
     /**
+     * Starts, pauses, unpauses then stops the game loop.
+     * 
+     * @throws InterruptedException
+     *             unexpected exception
+     */
+    @Test
+    public void testStartPauseUnpauseStop() throws InterruptedException {
+        GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
+        
+        gameLoop.start();
+        // sleep to give the game loop thread a chance to get started
+        Thread.sleep(50);
+        gameLoop.pause();
+        Thread.sleep(50);
+        gameLoop.unpause();
+        Thread.sleep(50);
+        gameLoop.stop();
+        // sleep to give the game loop thread time to clean up and log that it is finished
+        Thread.sleep(50);
+    }
+    
+    /**
+     * Starts, pauses, unpauses then stops the game loop.
+     * 
+     * @throws InterruptedException
+     *             unexpected exception
+     */
+    @Test
+    public void testStartToggleToggleStop() throws InterruptedException {
+        GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
+        
+        gameLoop.start();
+        // sleep to give the game loop thread a chance to get started
+        Thread.sleep(50);
+        gameLoop.togglePaused();
+        Thread.sleep(50);
+        gameLoop.togglePaused();
+        Thread.sleep(50);
+        gameLoop.stop();
+        // sleep to give the game loop thread time to clean up and log that it is finished
+        Thread.sleep(50);
+    }
+    
+    /**
+     * Starts, pauses, then stops the game loop.
+     * 
+     * @throws InterruptedException
+     *             unexpected exception
+     */
+    @Test
+    public void testStopGameWhilePaused() throws InterruptedException {
+        GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
+        
+        gameLoop.start();
+        // sleep to give the game loop thread a chance to get started
+        Thread.sleep(50);
+        gameLoop.pause();
+        Thread.sleep(50);
+        gameLoop.stop();
+        // sleep to give the game loop thread time to clean up and log that it is finished
+        Thread.sleep(50);
+    }
+    
+    /**
      * Starts the game loop with a game engine that immediately triggers a game over.
      * 
      * @throws InterruptedException
@@ -59,7 +123,7 @@ public class GameLoopTest {
         GameLoop gameLoop = new GameLoop(new DummyInputController(), engine, new DummyRenderer());
         
         gameLoop.start();
-        // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
+        // sleep to give the game loop thread time to clean up and log that it is finished
         Thread.sleep(50);
     }
     
