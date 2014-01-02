@@ -146,21 +146,26 @@ public class GameLoop {
 
     /** Stops the game loop. */
     public void stop() {
+        log.info("Stopping the game.");
         running = false;
     }
     
     /** Pauses the game. */
     public void pause() {
+        log.info("Pausing the game.");
         paused = true;
     }
     
     /** Unpauses the game. */
     public void unpause() {
+        log.info("Unpausing the game.");
         paused = false;
     }
     
     /** Pauses or unpauses the game. */
     public void togglePaused() {
+        log.info("Toggling the pause.");
         paused = !paused;
+        log.info("Game paused: " + paused);
     }
 }
