@@ -148,4 +148,19 @@ public class GameLoop {
     public void stop() {
         running = false;
     }
+    
+    /** Pauses the game. */
+    public void pause() {
+        paused = true;
+    }
+    
+    /** Unpauses the game. */
+    public void unpause() {
+        paused = false;
+    }
+    
+    /** Pauses or unpauses the game. */
+    public void togglePaused() {
+        paused = !paused;
+    }
 }
