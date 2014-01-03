@@ -75,6 +75,8 @@ public class Tinustris extends Application {
         log.info("Starting application.");
         logVersionInfo();
         
+        // TODO configuration screen to select speed curve, level system and button configuration
+        
         // create the game renderers
         GridRenderer gridGroup = new GridRenderer();
         NextBlockRenderer nextBlockRenderer = new NextBlockRenderer();
