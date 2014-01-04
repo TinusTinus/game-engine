@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
+import org.junit.Test;
+
 /**
  * Test class for {@link TheGrandMasterSpeedCurve}.
  * 
@@ -10,5 +12,15 @@ public class TheGrandMasterSpeedCurveTest extends SpeedCurveTester {
     @Override
     SpeedCurve createSpeedCurve() {
         return new TheGrandMasterSpeedCurve();
+    }
+    
+    /**
+     * Test case which tests whether
+     * {@link TheGrandMasterSpeedCurve#computeInternalGravity(nl.mvdr.tinustris.model.GameState)} results in a
+     * 20G speed at the highest level.
+     */
+    @Test
+    public void testMaxLevel() {
+        testLevel(Integer.MAX_VALUE, 256 * 20);
     }
 }
