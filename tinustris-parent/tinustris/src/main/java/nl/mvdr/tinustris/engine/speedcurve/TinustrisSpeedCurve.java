@@ -56,7 +56,7 @@ public class TinustrisSpeedCurve implements SpeedCurve {
     /** {@inheritDoc} */
     @Override
     public int computeLockDelay(GameState state) {
-        return 30;
+        return Math.max(30, 256 / computeInternalGravity(state));
     }
 
     /** {@inheritDoc} */
