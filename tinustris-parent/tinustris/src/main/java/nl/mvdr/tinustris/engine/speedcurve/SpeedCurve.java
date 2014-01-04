@@ -16,7 +16,7 @@ public interface SpeedCurve {
      * 
      * @param state
      *            game state
-     * @return internal gravity in 1 / 256 G
+     * @return internal gravity in 1 / 256 G, must be positive
      */
     int computeInternalGravity(GameState state);
     
@@ -25,7 +25,7 @@ public interface SpeedCurve {
      * 
      * @param state
      *            game state
-     * @return lock delay in frames
+     * @return lock delay in frames, must be 0 or more
      */
     int computeLockDelay(GameState state);
     
@@ -33,7 +33,7 @@ public interface SpeedCurve {
      * Determines the ARE (also known as entry delay, appearance delay or spawn delay) in frames.
      * 
      * @param state state
-     * @return ARE in frames
+     * @return ARE in frames, must be 0 or more
      */
     int computeARE(GameState state);
     
@@ -41,7 +41,7 @@ public interface SpeedCurve {
      * Determines the line clear delay in frames.
      * 
      * @param state state
-     * @return line clear delay in frames
+     * @return line clear delay in frames, must be positive
      */
     int computeLineClearDelay(GameState state);
     
