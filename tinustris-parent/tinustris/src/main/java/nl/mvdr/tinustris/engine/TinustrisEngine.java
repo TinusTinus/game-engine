@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.level.ClassicLevelSystem;
 import nl.mvdr.tinustris.engine.level.LevelSystem;
-import nl.mvdr.tinustris.engine.speedcurve.NESSpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.SpeedCurve;
+import nl.mvdr.tinustris.engine.speedcurve.TinustrisSpeedCurve;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
@@ -48,7 +48,7 @@ public class TinustrisEngine implements GameEngine {
     
     /**  Constructor. */
     public TinustrisEngine() {
-        this(new RandomTetrominoGenerator(), new NESSpeedCurve(), new ClassicLevelSystem());
+        this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem());
     }
     
     /** {@inheritDoc} */
