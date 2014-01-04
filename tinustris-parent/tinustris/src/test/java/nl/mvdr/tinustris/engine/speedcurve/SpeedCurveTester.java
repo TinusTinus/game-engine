@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Abstract superclass for classes that implement {@link SpeedCurve}.
+ * Abstract superclass for test for classes that implement {@link SpeedCurve}.
  * 
  * @author Martijn van de Rijdt
  */
