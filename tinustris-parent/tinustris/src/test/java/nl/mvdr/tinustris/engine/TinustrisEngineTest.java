@@ -96,26 +96,7 @@ public class TinustrisEngineTest {
     public void testNextStateHardDrop() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
         TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
-        List<Tetromino> grid = new ArrayList<>();
-        for (int i = 0; i != 220; i++) {
-            grid.add(null);
-        }
-        grid.set(1, Tetromino.O);
-        grid.set(2, Tetromino.O);
-        grid.set(3, Tetromino.S);
-        grid.set(4, Tetromino.Z);
-        grid.set(5, Tetromino.O);
-        grid.set(6, Tetromino.O);
-        grid.set(7, Tetromino.J);
-        grid.set(8, Tetromino.J);
-        grid.set(9, Tetromino.L);
-        grid.set(12, Tetromino.S);
-        grid.set(13, Tetromino.S);
-        grid.set(18, Tetromino.J);
-        grid.set(22, Tetromino.S);
-        grid.set(28, Tetromino.J);
-        GameState state = new GameState(grid, 10, Tetromino.O, new Point(5, 13), Orientation.FLAT_DOWN, Tetromino.I,
-                11, 0, 11, new InputStateHistory(), 236, 93, 0);
+        GameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
         InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
         
@@ -133,6 +114,22 @@ public class TinustrisEngineTest {
     public void testNextStateHardDropGameBoyCurve() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
         TinustrisEngine engine = new TinustrisEngine(generator, new GameBoySpeedCurve(), new DummyLevelSystem());
+        GameState state = createGameStateForHardDropTest();
+        log.info("Before: " + state);
+        InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
+        
+        state = engine.computeNextState(state, inputState);
+
+        log.info("After: " + state);
+        Assert.assertNotNull(state);
+    }
+
+    /**
+     * Creates the game state for the hard drop test cases.
+     * 
+     * @return newly created game state
+     */
+    private GameState createGameStateForHardDropTest() {
         List<Tetromino> grid = new ArrayList<>();
         for (int i = 0; i != 220; i++) {
             grid.add(null);
@@ -153,13 +150,6 @@ public class TinustrisEngineTest {
         grid.set(28, Tetromino.J);
         GameState state = new GameState(grid, 10, Tetromino.O, new Point(5, 13), Orientation.FLAT_DOWN, Tetromino.I,
                 11, 0, 11, new InputStateHistory(), 236, 93, 0);
-        log.info("Before: " + state);
-        InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
-        
-        state = engine.computeNextState(state, inputState);
-
-        log.info("After: " + state);
-        Assert.assertNotNull(state);
+        return state;
     }
-
 }
