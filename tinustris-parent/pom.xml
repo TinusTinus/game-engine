@@ -118,4 +118,14 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<distributionManagement>
+		<!-- As of right now there is no public Maven repository for this project; 
+			just deploy to a temporary directory. -->
+		<repository>
+			<id>internal.repo</id>
+			<name>Temporary Staging Repository</name>
+			<url>file://${project.build.directory}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
 </project>
