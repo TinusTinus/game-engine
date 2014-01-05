@@ -130,8 +130,8 @@ public class TinustrisEngineTest {
      * @return newly created game state
      */
     private GameState createGameStateForHardDropTest() {
-        List<Tetromino> grid = new ArrayList<>();
-        for (int i = 0; i != 220; i++) {
+        List<Tetromino> grid = new ArrayList<>(220);
+        while (grid.size() != 220) {
             grid.add(null);
         }
         grid.set(1, Tetromino.O);
