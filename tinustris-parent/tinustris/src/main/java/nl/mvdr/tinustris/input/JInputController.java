@@ -50,7 +50,10 @@ public class JInputController implements InputController {
         Controller keyboard = null;
         for (Controller controller : controllersFromEnvironment) {
             if (controller instanceof Keyboard) {
+                log.info("Keyboard controller found: " + controller);
                 keyboard = controller;
+            } else {
+                log.info("Non-keyboard controller found: " + controller);
             }
         }
         
