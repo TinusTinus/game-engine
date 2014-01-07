@@ -121,7 +121,7 @@
 
 	<scm>
 		<connection>scm:git:https://github.com/TinusTinus/tinustris.git</connection>
-		<developerConnection>scm:git:https://github.com/TinusTinus/tinustris.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:TinusTinus/tinustris.git</developerConnection>
 		<url>https://github.com/TinusTinus/tinustris</url>
 		<tag>HEAD</tag>
 	</scm>
