@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>nl.mvdr.tinustris</groupId>
 		<artifactId>tinustris-parent</artifactId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>tinustris</artifactId>
