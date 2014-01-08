@@ -1,6 +1,9 @@
 package nl.mvdr.tinustris.input;
 
 import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Component;
@@ -63,7 +66,11 @@ public class JInputControllerIntegrationTest {
     /** Tests the getInputState method, using the default button mapping. */
     @Test
     public void testNoInputs() {
-        JInputController inputController = new JInputController(Collections.<Input, Component> emptyMap(),
+        Map<Input, Set<Component>> mapping = new EnumMap<>(Input.class);
+        for (Input input: Input.values()) {
+            mapping.put(input, Collections.<Component>emptySet());
+        }
+        JInputController inputController = new JInputController(mapping,
                 Collections.<Controller> emptySet());
         log.info("Controller: " + inputController);
 

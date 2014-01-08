@@ -1,8 +1,8 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,11 +26,11 @@ import net.java.games.input.Keyboard;
 @Slf4j
 public class JInputController implements InputController {
     /**
-     * Key / button mapping. Not every input needs to be mapped; if an input is not mapped it will simply never get
-     * pressed.
+     * Key / button mapping. Not every input needs to be mapped, which is to say: values in this map may be empty sets;
+     * if an input is not mapped it will simply never get pressed. The mapping should contain values for all valid keys.
      */
     @NonNull
-    private final Map<Input, Component> mapping;
+    private final Map<Input, Set<Component>> mapping;
 
     /** All relevant controllers. All of the components in mapping must belong to one of these controllers. */
     @NonNull
@@ -46,32 +46,34 @@ public class JInputController implements InputController {
                     + " or that JInput could not find any input devices.");
         }
         
-        // find the keyboard controller
-        Controller keyboard = null;
+        // find the keyboard controller(s)
+        controllers = new HashSet<>();
         for (Controller controller : controllersFromEnvironment) {
             if (controller instanceof Keyboard) {
                 log.info("Keyboard controller found: " + controller);
-                keyboard = controller;
+                controllers.add(controller);
             } else {
                 log.info("Non-keyboard controller found: " + controller);
             }
         }
-        
-        if (keyboard == null) {
+        if (controllers.isEmpty()) {
             throw new IllegalStateException("No keyboard present!");
         }
+        log.info("Using keyboard controllers: " + controllers);
         
-        log.info("Using keyboard controller: " + keyboard.getName());
-        this.controllers = Collections.singleton(keyboard);
-        
-        this.mapping = new EnumMap<>(Input.class);
-        mapping.put(Input.LEFT, getComponent(keyboard, Key.LEFT));
-        mapping.put(Input.RIGHT, getComponent(keyboard, Key.RIGHT));
-        mapping.put(Input.SOFT_DROP, getComponent(keyboard, Key.DOWN));
-        mapping.put(Input.HARD_DROP, getComponent(keyboard, Key.UP));
-        mapping.put(Input.TURN_LEFT, getComponent(keyboard, Key.Z));
-        mapping.put(Input.TURN_RIGHT, getComponent(keyboard, Key.X));
-        mapping.put(Input.HOLD, getComponent(keyboard, Key.C));
+        mapping = new EnumMap<>(Input.class);
+        for (Input input: Input.values()) {
+            mapping.put(input, new HashSet<Component>());
+        }
+        for (Controller keyboard : controllers) {
+            mapping.get(Input.LEFT).add(getComponent(keyboard, Key.LEFT));
+            mapping.get(Input.RIGHT).add(getComponent(keyboard, Key.RIGHT));
+            mapping.get(Input.SOFT_DROP).add(getComponent(keyboard, Key.DOWN));
+            mapping.get(Input.HARD_DROP).add(getComponent(keyboard, Key.UP));
+            mapping.get(Input.TURN_LEFT).add(getComponent(keyboard, Key.Z));
+            mapping.get(Input.TURN_RIGHT).add(getComponent(keyboard, Key.X));
+            mapping.get(Input.HOLD).add(getComponent(keyboard, Key.C));
+        }
         log.info("Using default input mapping: " + mapping);
     }
 
@@ -103,11 +105,12 @@ public class JInputController implements InputController {
         
         Set<Input> pressedInputs = EnumSet.noneOf(Input.class);
         for (Input input: Input.values()) {
-            Component component = mapping.get(input);
-            if (component != null) {
-                float pollData = component.getPollData();
-                if (pollData != 0.0f) {
-                    pressedInputs.add(input);
+            for (Component component: mapping.get(input)) {
+                if (component != null) {
+                    float pollData = component.getPollData();
+                    if (pollData != 0.0f) {
+                        pressedInputs.add(input);
+                    }
                 }
             }
         }
