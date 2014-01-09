@@ -1,5 +1,15 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
@@ -11,6 +21,9 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class RandomTetrominoGeneratorTest {
+    /** The number of threads in the executor service used for concurrency tests. */
+    int NUM_THREADS = 5;
+    
     /** Invokes the get method a few times and checks that it returns non-null values. */
     @Test
     public void testGet() {
@@ -97,5 +110,39 @@ public class RandomTetrominoGeneratorTest {
         Assert.assertEquals(Tetromino.O, generator.get(7));
         Assert.assertEquals(Tetromino.Z, generator.get(8));
         Assert.assertEquals(Tetromino.T, generator.get(9));
+    }
+
+    /**
+     * Test case where {@link RandomTetrominoGenerator#get(int)} is called from several different threads. We expect
+     * each call to return the same tetromino.
+     * 
+     * @throws ExecutionException
+     *             unexpected exception
+     * @throws InterruptedException
+     *             unexpected exception
+     */
+    @Test
+    public void testGetMultiThreaded() throws ExecutionException, InterruptedException {
+        final RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
+        Callable<Tetromino> getTetrominoTask = new Callable<Tetromino>() {
+            /** {@inheritDoc} */
+            @Override
+            public Tetromino call() {
+                return generator.get(10_000);
+            }
+        };
+        List<Future<Tetromino>> futures = new LinkedList<>();
+        ExecutorService service = Executors.newFixedThreadPool(NUM_THREADS);
+        for (int i = 0; i != NUM_THREADS; i++) {
+            futures.add(service.submit(getTetrominoTask));
+        }
+        
+        Set<Tetromino> results = EnumSet.noneOf(Tetromino.class);
+        for (Future<Tetromino> future: futures) {
+            Tetromino result = future.get();
+            results.add(result);
+        }
+        
+        Assert.assertEquals("more than one unique tetromino returned", 1, results.size());
     }
 }
