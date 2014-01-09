@@ -16,7 +16,7 @@ class CompositeRenderer implements GameRenderer {
     private final List<GameRenderer> renderers;
     
     /**
-     * Convenience constructor.
+     * Constructor.
      * 
      * @param gameRenderers renderers
      */
