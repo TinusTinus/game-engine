@@ -43,19 +43,21 @@ class RandomTetrominoGenerator implements TetrominoGenerator {
         this.tetrominoes = new ArrayList<>();
     }
     
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc} 
+     * 
+     * This implementation is thread-safe.
+     */
     @Override
     public Tetromino get(int i) {
-        // TODO make this method thread-safe?
-        // Right now it isn't, which should be fine for single player and local multiplayer,
-        // but it might not be for online multiplayer if the networking library uses multithreading.
-        
-        while (tetrominoes.size() <= i) {
-            int ord = random.nextInt(Tetromino.values().length);
-            Tetromino tetromino = Tetromino.values()[ord];
-            tetrominoes.add(tetromino);
-            if (log.isInfoEnabled()) {
-                log.info("Block {}: {}", Integer.valueOf(tetrominoes.size()), tetromino);
+        synchronized (tetrominoes) {
+            while (tetrominoes.size() <= i) {
+                int ord = random.nextInt(Tetromino.values().length);
+                Tetromino tetromino = Tetromino.values()[ord];
+                tetrominoes.add(tetromino);
+                if (log.isInfoEnabled()) {
+                    log.info("Block {}: {}", Integer.valueOf(tetrominoes.size()), tetromino);
+                }
             }
         }
         

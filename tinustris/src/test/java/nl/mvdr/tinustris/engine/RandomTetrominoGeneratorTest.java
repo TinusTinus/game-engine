@@ -13,7 +13,6 @@ import java.util.concurrent.Future;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -137,7 +136,6 @@ public class RandomTetrominoGeneratorTest {
      *             unexpected exception
      */
     @Test
-    @Ignore // TODO make RandomTetrominoGenerator.get(int) threadsafe first!
     public void testGetMultiThreaded() throws ExecutionException, InterruptedException {
         // repeat the test a few times, to increase the likelyhood of failure in case of synchronisation bugs
         for (int i = 0; i != 100; i++) {
@@ -155,7 +153,6 @@ public class RandomTetrominoGeneratorTest {
      *             unexpected exception
      */
     @Test
-    @Ignore // TODO make RandomTetrominoGenerator.get(int) threadsafe first!
     public void testRepeatableMultithreaded() throws InterruptedException, ExecutionException {
         // repeat the test a few times, to increase the likelyhood of failure in case of synchronisation bugs
         for (int i = 0; i != 100; i++){
