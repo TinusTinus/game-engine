@@ -55,7 +55,7 @@ class RandomTetrominoGenerator implements TetrominoGenerator {
             Tetromino tetromino = Tetromino.values()[ord];
             tetrominoes.add(tetromino);
             if (log.isInfoEnabled()) {
-                log.info("Block {}: {}", Integer.valueOf(i), tetromino);
+                log.info("Block {}: {}", Integer.valueOf(tetrominoes.size()), tetromino);
             }
         }
         
