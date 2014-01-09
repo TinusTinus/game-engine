@@ -137,10 +137,14 @@ public class RandomTetrominoGeneratorTest {
      *             unexpected exception
      */
     @Test
+    @Ignore // TODO make RandomTetrominoGenerator.get(int) threadsafe first!
     public void testGetMultiThreaded() throws ExecutionException, InterruptedException {
-        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
-        
-        testMultithreaded(generator);
+        // repeat the test a few times, to increase the likelyhood of failure in case of synchronisation bugs
+        for (int i = 0; i != 100; i++) {
+            RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
+
+            testMultithreaded(generator);
+        }
     }
     
     /**
@@ -151,15 +155,18 @@ public class RandomTetrominoGeneratorTest {
      *             unexpected exception
      */
     @Test
-    @Ignore // may fail as long as the get method is not thread-safe!
+    @Ignore // TODO make RandomTetrominoGenerator.get(int) threadsafe first!
     public void testRepeatableMultithreaded() throws InterruptedException, ExecutionException {
-        RandomTetrominoGenerator generator0 = new RandomTetrominoGenerator(SEED);
-        RandomTetrominoGenerator generator1 = new RandomTetrominoGenerator(SEED);
+        // repeat the test a few times, to increase the likelyhood of failure in case of synchronisation bugs
+        for (int i = 0; i != 100; i++){
+            RandomTetrominoGenerator generator0 = new RandomTetrominoGenerator(SEED);
+            RandomTetrominoGenerator generator1 = new RandomTetrominoGenerator(SEED);
 
-        Tetromino tetromino0 = testMultithreaded(generator0);
-        Tetromino tetromino1 = testMultithreaded(generator1);
+            Tetromino tetromino0 = testMultithreaded(generator0);
+            Tetromino tetromino1 = testMultithreaded(generator1);
 
-        Assert.assertEquals(tetromino0, tetromino1);
+            Assert.assertEquals("Failed at iteration " + 0, tetromino0, tetromino1);
+        }
     }
 
     /**
@@ -179,7 +186,7 @@ public class RandomTetrominoGeneratorTest {
             /** {@inheritDoc} */
             @Override
             public Tetromino call() {
-                return generator.get(10_000);
+                return generator.get(10);
             }
         };
         List<Future<Tetromino>> futures = new LinkedList<>();
