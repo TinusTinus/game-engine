@@ -13,6 +13,7 @@ import java.util.concurrent.Future;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -21,6 +22,8 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class RandomTetrominoGeneratorTest {
+    /** Random seed. */
+    private static final long SEED = 693741264L;
     /** The number of threads in the executor service used for concurrency tests. */
     int NUM_THREADS = 5;
     
@@ -111,6 +114,18 @@ public class RandomTetrominoGeneratorTest {
         Assert.assertEquals(Tetromino.Z, generator.get(8));
         Assert.assertEquals(Tetromino.T, generator.get(9));
     }
+    
+    /** Tests whether generators with the same random seed also result in the same value. */
+    @Test
+    public void testRepeatable() {
+        RandomTetrominoGenerator generator0 = new RandomTetrominoGenerator(SEED);
+        RandomTetrominoGenerator generator1 = new RandomTetrominoGenerator(SEED);
+        
+        Tetromino tetromino0 = generator0.get(10_000);
+        Tetromino tetromino1 = generator1.get(10_000);
+        
+        Assert.assertEquals(tetromino0, tetromino1);
+    }
 
     /**
      * Test case where {@link RandomTetrominoGenerator#get(int)} is called from several different threads. We expect
@@ -123,7 +138,43 @@ public class RandomTetrominoGeneratorTest {
      */
     @Test
     public void testGetMultiThreaded() throws ExecutionException, InterruptedException {
-        final RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
+        
+        testMultithreaded(generator);
+    }
+    
+    /**
+     * Tests whether generators with the same random seed also result in the same value, in a multithreaded environment.
+     * @throws ExecutionException
+     *             unexpected exception
+     * @throws InterruptedException
+     *             unexpected exception
+     */
+    @Test
+    @Ignore // may fail as long as the get method is not thread-safe!
+    public void testRepeatableMultithreaded() throws InterruptedException, ExecutionException {
+        RandomTetrominoGenerator generator0 = new RandomTetrominoGenerator(SEED);
+        RandomTetrominoGenerator generator1 = new RandomTetrominoGenerator(SEED);
+
+        Tetromino tetromino0 = testMultithreaded(generator0);
+        Tetromino tetromino1 = testMultithreaded(generator1);
+
+        Assert.assertEquals(tetromino0, tetromino1);
+    }
+
+    /**
+     * Calls {@link RandomTetrominoGenerator#get(int)} with the same value from several different threads. Checks that
+     * each thread results in the same tetromino value.
+     * 
+     * @param generator generator
+     * @throws ExecutionException
+     *             unexpected exception
+     * @throws InterruptedException
+     *             unexpected exception
+     * @return tetromino value
+     */
+    private Tetromino testMultithreaded(final RandomTetrominoGenerator generator) throws InterruptedException,
+            ExecutionException {
         Callable<Tetromino> getTetrominoTask = new Callable<Tetromino>() {
             /** {@inheritDoc} */
             @Override
@@ -137,12 +188,17 @@ public class RandomTetrominoGeneratorTest {
             futures.add(service.submit(getTetrominoTask));
         }
         
+        // wait for all threads to complete and combine the results into a Set
         Set<Tetromino> results = EnumSet.noneOf(Tetromino.class);
         for (Future<Tetromino> future: futures) {
             Tetromino result = future.get();
             results.add(result);
         }
         
+        // check that each thread resulted in the same value
         Assert.assertEquals("more than one unique tetromino returned", 1, results.size());
+        
+        // return the tetromino
+        return results.iterator().next();
     }
 }
