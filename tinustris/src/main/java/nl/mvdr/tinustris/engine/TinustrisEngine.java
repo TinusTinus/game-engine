@@ -15,6 +15,7 @@ import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Action;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
@@ -54,7 +55,7 @@ public class TinustrisEngine implements GameEngine {
     /** {@inheritDoc} */
     @Override
     public GameState initGameState() {
-        List<Tetromino> grid = new ArrayList<>(GameState.DEFAULT_WIDTH * GameState.DEFAULT_HEIGHT);
+        List<Block> grid = new ArrayList<>(GameState.DEFAULT_WIDTH * GameState.DEFAULT_HEIGHT);
         while (grid.size() != GameState.DEFAULT_WIDTH * GameState.DEFAULT_HEIGHT) {
             grid.add(null);
         }
@@ -264,7 +265,7 @@ public class TinustrisEngine implements GameEngine {
     /**
      * Locks the current block in its current position.
      * 
-     * @param state game state
+     * @param state game state; must have an active block
      * @return updated game state
      */
     private GameState lockBlock(GameState state) {
@@ -272,10 +273,10 @@ public class TinustrisEngine implements GameEngine {
         int height = state.getHeight();
         
         // Update the grid: old grid plus current location of the active block.
-        List<Tetromino>grid = new ArrayList<>(state.getGrid());
+        List<Block> grid = new ArrayList<>(state.getGrid());
         for (Point point : state.getCurrentActiveBlockPoints()) {
             int index = state.toGridIndex(point);
-            grid.set(index, state.getCurrentBlock());
+            grid.set(index, state.getCurrentBlock().getBlock());
         }
         grid = Collections.unmodifiableList(grid);
         
@@ -332,7 +333,7 @@ public class TinustrisEngine implements GameEngine {
      *            list containing the grid
      * @return number of lines; between 0 and 4
      */
-    private int countLines(int width, int height, List<Tetromino> grid) {
+    private int countLines(int width, int height, List<Block> grid) {
         int linesScored = 0;
         for (int line = height - 1; 0 <= line; line--) {
             boolean filled = true;
@@ -363,7 +364,7 @@ public class TinustrisEngine implements GameEngine {
     private GameState removeLines(GameState state) {
         int width = state.getWidth();
         int height = state.getHeight();
-        List<Tetromino> grid = new ArrayList<>(state.getGrid());
+        List<Block> grid = new ArrayList<>(state.getGrid());
 
         // Update the grid by removing all full lines.
         for (int line = height - 1; 0 <= line; line--) {
@@ -372,8 +373,8 @@ public class TinustrisEngine implements GameEngine {
                 // Drop all the lines above it down.
                 for (int y = line; y != height - 1; y++) {
                     for (int x = 0; x != width; x++) {
-                        Tetromino tetromino = grid.get(x + (y + 1) * width);
-                        grid.set(x + y * width, tetromino);
+                        Block block = grid.get(x + (y + 1) * width);
+                        grid.set(x + y * width, block);
                     }
                 }
                 

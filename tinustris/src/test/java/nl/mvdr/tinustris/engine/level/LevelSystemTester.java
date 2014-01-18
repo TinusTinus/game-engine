@@ -3,11 +3,12 @@ package nl.mvdr.tinustris.engine.level;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
 import nl.mvdr.tinustris.input.InputStateHistory;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Tetromino;
+
+import org.junit.Test;
 
 /**
  * Abstract superclass for test cases for implementations of {@link LevelSystem}.
@@ -43,7 +44,7 @@ public abstract class LevelSystemTester {
      * @return game state
      */
     GameState createGameState(int blockCounter, int lines, int level) {
-        List<Tetromino> grid = new ArrayList<>(220);
+        List<Block> grid = new ArrayList<>(220);
         for (int i = 0; i != 220; i++) {
             grid.add(null);
         }

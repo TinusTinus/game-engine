@@ -44,7 +44,7 @@ public class GameState {
      * The value of this field is not modified; in fact it should preferably be an unmodifiable list.
      */
     @NonNull
-    private final List<Tetromino> grid;
+    private final List<Block> grid;
     /** Width of the grid. */
     private final int width;
     /** Current block. May be null, if the game is in the process of showing a cutscene (like a disappearing line). */
@@ -107,7 +107,7 @@ public class GameState {
         checkHeight(height);
 
         this.width = width;
-        ArrayList<Tetromino> tempGrid = new ArrayList<>(width * height);
+        ArrayList<Block> tempGrid = new ArrayList<>(width * height);
         while (tempGrid.size() != width * height) {
             tempGrid.add(null);
         }
@@ -142,7 +142,7 @@ public class GameState {
      * @param nextBlock
      *            next block
      */
-    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
         this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0, 0, 0,
                 new InputStateHistory(), 0, 0, 0);
@@ -179,7 +179,7 @@ public class GameState {
      * @param level
      *            level
      */
-    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
             int blockCounter, int lines, int level) {
@@ -221,7 +221,7 @@ public class GameState {
      * @param level
      *            level
      */
-    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
             int blockCounter, int lines, int numFramesUntilLinesDisappear, int level) {
@@ -266,7 +266,7 @@ public class GameState {
      * @param nextBlock
      *            next block
      */
-    public GameState(@NonNull List<Tetromino> grid, int width, Tetromino currentBlock, @NonNull Tetromino nextBlock) {
+    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, @NonNull Tetromino nextBlock) {
         this(grid, width, currentBlock, 
                 currentBlock == null ? null : getBlockSpawnLocation(width, computeHeight(grid, width)),
                 Orientation.getDefault(), nextBlock);
@@ -334,7 +334,7 @@ public class GameState {
      *            width of the grid
      * @return the grind's height
      */
-    private static int computeHeight(List<Tetromino> grid, int width) {
+    private static int computeHeight(List<Block> grid, int width) {
         if (width == 0) {
             throw new IllegalArgumentException("Width must be more than zero.");
         }
@@ -359,14 +359,7 @@ public class GameState {
                             Integer.valueOf(0), Integer.valueOf(getHeight())));
         }
         
-        Tetromino tetromino = this.grid.get(toGridIndex(x, y));
-        Block result;
-        if (tetromino != null) {
-            result = tetromino.getBlock();
-        } else {
-            result = null;
-        }
-        return result;
+        return this.grid.get(toGridIndex(x, y));
     }
 
     /**

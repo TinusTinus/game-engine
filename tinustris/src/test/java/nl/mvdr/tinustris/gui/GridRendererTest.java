@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.control.Label;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
@@ -123,12 +124,12 @@ public class GridRendererTest {
      * @return game state
      */
     private GameState createNontrivialGameState() {
-        List<Tetromino> grid = new ArrayList<>();
+        List<Block> grid = new ArrayList<>();
         while (grid.size() != 220) {
             grid.add(null);
         }
         // add a single block at (2, 0)
-        grid.set(2, Tetromino.S);
+        grid.set(2, Block.S);
         GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         return gameState;
@@ -140,9 +141,9 @@ public class GridRendererTest {
      * @return game state
      */
     private GameState createGameStateWithFullLine() {
-        List<Tetromino> grid = new ArrayList<>(220);
+        List<Block> grid = new ArrayList<>(220);
         for (int i = 0; i != 10; i++) {
-            grid.add(Tetromino.S);
+            grid.add(Block.S);
         }
         while (grid.size() != 220) {
             grid.add(null);

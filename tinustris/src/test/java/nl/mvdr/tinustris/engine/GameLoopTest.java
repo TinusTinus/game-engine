@@ -7,6 +7,7 @@ import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyGameEngine;
 import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.InputState;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Tetromino;
 
@@ -112,9 +113,9 @@ public class GameLoopTest {
             @Override
             public GameState computeNextState(GameState previousState, InputState inputState) {
                 // return game state with a full grid
-                List<Tetromino> grid = new ArrayList<>(220);
+                List<Block> grid = new ArrayList<>(220);
                 for (int i = 0; i != 220; i++) {
-                    grid.add(Tetromino.S);
+                    grid.add(Block.S);
                 }
                 return new GameState(grid, 10, null, Tetromino.T);
             }

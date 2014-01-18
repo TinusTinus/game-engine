@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nl.mvdr.tinustris.input.InputStateHistory;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Tetromino;
 
@@ -67,7 +68,7 @@ public abstract class SpeedCurveTester {
      */
     void testLevel(int level, int expectedInternalGravity) {
         SpeedCurve curve = createSpeedCurve();
-        List<Tetromino> grid = new ArrayList<>(220);
+        List<Block> grid = new ArrayList<>(220);
         for (int i = 0; i != 220; i++) {
             grid.add(null);
         }

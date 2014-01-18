@@ -12,6 +12,7 @@ import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
@@ -130,24 +131,24 @@ public class TinustrisEngineTest {
      * @return newly created game state
      */
     private GameState createGameStateForHardDropTest() {
-        List<Tetromino> grid = new ArrayList<>(220);
+        List<Block> grid = new ArrayList<>(220);
         while (grid.size() != 220) {
             grid.add(null);
         }
-        grid.set(1, Tetromino.O);
-        grid.set(2, Tetromino.O);
-        grid.set(3, Tetromino.S);
-        grid.set(4, Tetromino.Z);
-        grid.set(5, Tetromino.O);
-        grid.set(6, Tetromino.O);
-        grid.set(7, Tetromino.J);
-        grid.set(8, Tetromino.J);
-        grid.set(9, Tetromino.L);
-        grid.set(12, Tetromino.S);
-        grid.set(13, Tetromino.S);
-        grid.set(18, Tetromino.J);
-        grid.set(22, Tetromino.S);
-        grid.set(28, Tetromino.J);
+        grid.set(1, Block.O);
+        grid.set(2, Block.O);
+        grid.set(3, Block.S);
+        grid.set(4, Block.Z);
+        grid.set(5, Block.O);
+        grid.set(6, Block.O);
+        grid.set(7, Block.J);
+        grid.set(8, Block.J);
+        grid.set(9, Block.L);
+        grid.set(12, Block.S);
+        grid.set(13, Block.S);
+        grid.set(18, Block.J);
+        grid.set(22, Block.S);
+        grid.set(28, Block.J);
         GameState state = new GameState(grid, 10, Tetromino.O, new Point(5, 13), Orientation.FLAT_DOWN, Tetromino.I,
                 11, 0, 11, new InputStateHistory(), 236, 93, 0);
         return state;
