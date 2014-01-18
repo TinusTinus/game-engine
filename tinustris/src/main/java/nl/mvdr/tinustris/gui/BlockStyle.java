@@ -66,7 +66,7 @@ enum BlockStyle {
      * Applies this style to the given block. This method sets the fill, the opacity and stroke properties of the given
      * block.
      * 
-     * @param block
+     * @param rectangle
      *            block to be styled
      * @param tetromino
      *            tetromino represented by the given block
@@ -76,71 +76,71 @@ enum BlockStyle {
      * @param numFramesSinceLastLock
      *            the numFramesSinceLastLock property from the game state; used for the block disappearing animation
      */
-    void apply(@NonNull Rectangle block, @NonNull Tetromino tetromino, int numFramesUntilLinesDisappear,
+    void apply(@NonNull Rectangle rectangle, @NonNull Tetromino tetromino, int numFramesUntilLinesDisappear,
             int numFramesSinceLastLock) {
-        block.setOpacity(opacity);
-        applyStroke(block, tetromino);
-        applyFill(block, tetromino);
-        applyAnimation(block, numFramesUntilLinesDisappear, numFramesSinceLastLock);
+        rectangle.setOpacity(opacity);
+        applyStroke(rectangle, tetromino);
+        applyFill(rectangle, tetromino);
+        applyAnimation(rectangle, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 
     /**
      * Sets the block's stroke property.
      * 
-     * @param block
+     * @param rectangle
      *            block to be styled
      * @param tetromino
      *            tetromino represented by the given block
      */
-    private void applyStroke(Rectangle block, Tetromino tetromino) {
-        block.setStrokeWidth(2);
-        block.setStrokeType(StrokeType.INSIDE);
+    private void applyStroke(Rectangle rectangle, Tetromino tetromino) {
+        rectangle.setStrokeWidth(2);
+        rectangle.setStrokeType(StrokeType.INSIDE);
         if (stroke != null) {
-            block.setStroke(stroke);
+            rectangle.setStroke(stroke);
         } else {
-            block.setStroke(COLORS.get(tetromino));
+            rectangle.setStroke(COLORS.get(tetromino));
         }
     }
 
     /**
      * Sets the block's fill property.
      * 
-     * @param block
+     * @param rectangle
      *            block to be styled
      * @param tetromino
      *            tetromino represented by the given block
      */
-    private void applyFill(Rectangle block, Tetromino tetromino) {
+    private void applyFill(Rectangle rectangle, Tetromino tetromino) {
         Color color = COLORS.get(tetromino);
         if (darker) {
             color = color.darker();
         }
         Paint fill = new RadialGradient(0,
                 1,
-                block.getX() + block.getWidth() / 4,
-                block.getY() + block.getHeight() / 4,
+                rectangle.getX() + rectangle.getWidth() / 4,
+                rectangle.getY() + rectangle.getHeight() / 4,
                 20,
                 false,
                 CycleMethod.NO_CYCLE,
                 new Stop(0, color.brighter()),
                 new Stop(1, color.darker()));
-        block.setFill(fill);
+        rectangle.setFill(fill);
     }
 
     /**
      * Adds any needed animation to the block.
      * 
-     * @param block
+     * @param rectangle
      *            block to be styled
      * @param numFramesUntilLinesDisappear
      *            number of frames until the block should be fully invisible
      * @param numFramesSinceLastLock
      *            number of frames since the time the block started disappearing
     */
-    private void applyAnimation(Rectangle block, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
+    private void applyAnimation(Rectangle rectangle, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         if (disappearingAnimation) {
             int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), block);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), rectangle);
             fadeTransition.setFromValue((double) numFramesUntilLinesDisappear
                     / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock));
             fadeTransition.setToValue(0);
