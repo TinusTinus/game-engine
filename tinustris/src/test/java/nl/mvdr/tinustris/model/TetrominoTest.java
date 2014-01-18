@@ -54,4 +54,16 @@ public class TetrominoTest {
         
         points.add(new Point(3, 3));
     }
+    
+    /** Tests the blocks. */
+    @Test
+    public void testBlocks() {
+        for (Tetromino tetromino: Tetromino.values()) {
+            Block block = tetromino.getBlock();
+            
+            Assert.assertNotNull(block);
+            // toString is the single-letter representation of the block for both classes
+            Assert.assertEquals(tetromino.toString(), block.toString());
+        }
+    }
 }

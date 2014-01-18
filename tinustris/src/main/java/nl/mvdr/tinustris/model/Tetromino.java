@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import lombok.Getter;
 import lombok.NonNull;
 
 /**
@@ -21,7 +22,7 @@ public enum Tetromino {
      * ++++
      * </pre>
      */
-    I(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)),
+    I(Block.I, createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(3, 2)),
             createSet(new Point(2, 0), new Point(2, 1), new Point(2, 2), new Point(2, 3)),
             createSet(new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(3, 1)),
             createSet(new Point(1, 0), new Point(1, 1), new Point(1, 2), new Point(1, 3))),
@@ -33,7 +34,7 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    O(createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
+    O(Block.O, createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(2, 1), new Point(2, 2))),
@@ -45,7 +46,7 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    T(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 3)),
+    T(Block.T, createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 3)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 2)),
             createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(1, 1)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 2))),
@@ -57,7 +58,7 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    J(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 3)),
+    J(Block.J, createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 3)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
             createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 1)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 1))),
@@ -69,7 +70,7 @@ public enum Tetromino {
      * +++
      * </pre>
      */
-    L(createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
+    L(Block.L, createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(2, 1)),
             createSet(new Point(0, 2), new Point(1, 2), new Point(2, 2), new Point(0, 1)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(1, 3), new Point(0, 3))),
@@ -81,7 +82,7 @@ public enum Tetromino {
      * ++
      * </pre>
      */
-    S(createSet(new Point(0, 2), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
+    S(Block.S, createSet(new Point(0, 2), new Point(1, 2), new Point(1, 3), new Point(2, 3)),
             createSet(new Point(1, 3), new Point(1, 2), new Point(2, 2), new Point(2, 1)),
             createSet(new Point(0, 1), new Point(1, 1), new Point(1, 2), new Point(2, 2)),
             createSet(new Point(0, 3), new Point(0, 2), new Point(1, 2), new Point(1, 1))),
@@ -93,11 +94,15 @@ public enum Tetromino {
      *  ++
      * </pre>
      */
-    Z(createSet(new Point(0, 3), new Point(1, 3), new Point(1, 2), new Point(2, 2)),
+    Z(Block.Z, createSet(new Point(0, 3), new Point(1, 3), new Point(1, 2), new Point(2, 2)),
             createSet(new Point(1, 1), new Point(1, 2), new Point(2, 2), new Point(2, 3)),
             createSet(new Point(0, 2), new Point(1, 2), new Point(1, 1), new Point(2, 1)),
             createSet(new Point(0, 1), new Point(0, 2), new Point(1, 2), new Point(1, 3)));
 
+    /** Block type corresponding to this Tetromino. */
+    @Getter
+    private final Block block;
+    
     /**
      * Per orientation: a list containing the (four) points where the tetrominoes actual blocks are located in a 4*4
      * grid.
@@ -107,6 +112,8 @@ public enum Tetromino {
     /**
      * Constructor.
      * 
+     * @param block
+     *            block type corresponding to this tetromino
      * @param pointsFlatDown
      *            list containing the points for the Flat Down orientation
      * @param pointsFlatLeft
@@ -116,8 +123,10 @@ public enum Tetromino {
      * @param pointsFlatRight
      *            list containing the points for the Flat Right orientation
      */
-    private Tetromino(Set<Point> pointsFlatDown, Set<Point> pointsFlatLeft, Set<Point> pointsFlatUp,
+    private Tetromino(Block block, Set<Point> pointsFlatDown, Set<Point> pointsFlatLeft, Set<Point> pointsFlatUp,
             Set<Point> pointsFlatRight) {
+        this.block = block;
+        
         this.points = new EnumMap<>(Orientation.class);
         this.points.put(Orientation.FLAT_DOWN,  pointsFlatDown);
         this.points.put(Orientation.FLAT_LEFT,  pointsFlatLeft);
