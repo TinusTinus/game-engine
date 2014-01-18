@@ -71,7 +71,7 @@ public class TinustrisEngineTest {
         Assert.assertFalse(state.isTopped());
         Assert.assertEquals(GameState.DEFAULT_WIDTH, state.getWidth());
         Assert.assertEquals(GameState.DEFAULT_HEIGHT, state.getHeight());
-        Assert.assertEquals(Tetromino.I, state.getCurrentBlock());
+        Assert.assertEquals(Tetromino.I, state.getActiveTetromino());
         Assert.assertEquals(Tetromino.T, state.getNextBlock());
     }
     

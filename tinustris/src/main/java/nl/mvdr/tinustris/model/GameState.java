@@ -48,7 +48,7 @@ public class GameState {
     /** Width of the grid. */
     private final int width;
     /** Current block. May be null, if the game is in the process of showing a cutscene (like a disappearing line). */
-    private final Tetromino currentBlock;
+    private final Tetromino activeTetromino;
     /** The current block's location. May be null if currentBlock is null as well. */
     private final Point currentBlockLocation;
     /** The current block's orientation. May be null if currentBlock is null as well. */
@@ -112,7 +112,7 @@ public class GameState {
             tempGrid.add(null);
         }
         this.grid = Collections.unmodifiableList(tempGrid);
-        this.currentBlock = null;
+        this.activeTetromino = null;
         this.currentBlockLocation = null;
         this.currentBlockOrientation = null;
         this.nextBlock = Tetromino.I;
@@ -238,7 +238,7 @@ public class GameState {
 
         checkHeight(getHeight());
 
-        this.currentBlock = currentBlock;
+        this.activeTetromino = currentBlock;
         this.currentBlockLocation = currentBlockLocation;
         this.currentBlockOrientation = currentBlockOrientation;
         this.nextBlock = nextBlock;
@@ -435,7 +435,7 @@ public class GameState {
      * @return points occupied by the currently active block; empty set if there is no currently active block
      */
     public Set<Point> getCurrentActiveBlockPoints() {
-        return getBlockPoints(currentBlock, currentBlockOrientation, currentBlockLocation);
+        return getBlockPoints(activeTetromino, currentBlockOrientation, currentBlockLocation);
     }
     
     /**
@@ -462,7 +462,7 @@ public class GameState {
      * @return points occupied by the currently active block; empty set if there is no currently active block
      */
     public Set<Point> getGhostPoints() {
-        return getBlockPoints(currentBlock, currentBlockOrientation, getGhostLocation());
+        return getBlockPoints(activeTetromino, currentBlockOrientation, getGhostLocation());
     }
     
     /**
@@ -508,7 +508,7 @@ public class GameState {
      *             if there is no active block
      */
     private boolean canMove(int deltaX, int deltaY) {
-        if (currentBlock == null) {
+        if (activeTetromino == null) {
             throw new IllegalStateException("no active block");
         }
         
@@ -582,7 +582,7 @@ public class GameState {
     public Point getGhostLocation() {
         Point result;
         
-        if (currentBlock != null) {
+        if (activeTetromino != null) {
             int deltaY = 0;
             while (canMove(0, deltaY - 1)) {
                 deltaY = deltaY - 1;
@@ -625,7 +625,7 @@ public class GameState {
             result.append('|');
             for (int x = 0; x != width; x++) {
                 if (currentBlockPoints.contains(new Point(x, y))) {
-                    result.append(currentBlock);
+                    result.append(activeTetromino);
                 } else if (ghostPoints.contains(new Point(x, y))) {
                     result.append('_');
                 } else {
@@ -656,7 +656,7 @@ public class GameState {
      */
     @Override
     public String toString() {
-        return "GameState (width=" + width + ", currentBlock=" + currentBlock + ", currentBlockLocation="
+        return "GameState (width=" + width + ", currentBlock=" + activeTetromino + ", currentBlockLocation="
                 + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
                 + nextBlock + ", numFramesSinceLastDownMove = " + numFramesSinceLastDownMove
                 + ", numFramesSinceLastLock = " + numFramesSinceLastLock + ", numFramesSinceLastMove = "

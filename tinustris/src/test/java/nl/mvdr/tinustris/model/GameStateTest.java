@@ -106,7 +106,7 @@ public class GameStateTest {
         Assert.assertEquals(8, gameState.getWidth());
         Assert.assertEquals(8, gameState.getHeight());
         Assert.assertEquals(grid, gameState.getGrid());
-        Assert.assertEquals(Tetromino.L, gameState.getCurrentBlock());
+        Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino());
         Assert.assertEquals(Tetromino.Z, gameState.getNextBlock());
     }
 
@@ -121,7 +121,7 @@ public class GameStateTest {
         Assert.assertEquals(4, gameState.getWidth());
         Assert.assertEquals(6, gameState.getHeight());
         Assert.assertEquals(grid, gameState.getGrid());
-        Assert.assertEquals(Tetromino.L, gameState.getCurrentBlock());
+        Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino());
         Assert.assertEquals(Tetromino.Z, gameState.getNextBlock());
     }
 
@@ -176,9 +176,9 @@ public class GameStateTest {
     public void testConstructorCopy() {
         GameState gameState0 = new GameState();
 
-        GameState gameState1 = new GameState(gameState0.getGrid(), gameState0.getWidth(), gameState0.getCurrentBlock(),
-                gameState0.getCurrentBlockLocation(), gameState0.getCurrentBlockOrientation(),
-                gameState0.getNextBlock());
+        GameState gameState1 = new GameState(gameState0.getGrid(), gameState0.getWidth(),
+                gameState0.getActiveTetromino(), gameState0.getCurrentBlockLocation(),
+                gameState0.getCurrentBlockOrientation(), gameState0.getNextBlock());
 
         Assert.assertEquals(gameState0, gameState1);
     }
