@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.engine.GameLoop;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.Tetromino;
 
 /**
@@ -43,14 +44,15 @@ enum BlockStyle {
     private static final int MILLISECONDS_PER_SECOND = 1000;
     /** Color mapping for each type of tetromino. */
     @SuppressWarnings("serial") // this map is for internal use only, will not be serialised
-    private static final Map<Tetromino, Color> COLORS = new EnumMap<Tetromino, Color>(Tetromino.class) {{
-        put(Tetromino.I, Color.CYAN);
-        put(Tetromino.O, Color.YELLOW);
-        put(Tetromino.T, Color.PURPLE);
-        put(Tetromino.S, Color.GREEN);
-        put(Tetromino.Z, Color.RED);
-        put(Tetromino.J, Color.BLUE);
-        put(Tetromino.L, Color.ORANGE);
+    private static final Map<Block, Color> COLORS = new EnumMap<Block, Color>(Block.class) {{
+        put(Block.I, Color.CYAN);
+        put(Block.O, Color.YELLOW);
+        put(Block.T, Color.PURPLE);
+        put(Block.S, Color.GREEN);
+        put(Block.Z, Color.RED);
+        put(Block.J, Color.BLUE);
+        put(Block.L, Color.ORANGE);
+        put(Block.GARBAGE, Color.GRAY);
     }};
     
     /** Opacity. */
@@ -98,7 +100,7 @@ enum BlockStyle {
         if (stroke != null) {
             rectangle.setStroke(stroke);
         } else {
-            rectangle.setStroke(COLORS.get(tetromino));
+            rectangle.setStroke(COLORS.get(tetromino.getBlock()));
         }
     }
 
@@ -111,7 +113,7 @@ enum BlockStyle {
      *            tetromino represented by the given block
      */
     private void applyFill(Rectangle rectangle, Tetromino tetromino) {
-        Color color = COLORS.get(tetromino);
+        Color color = COLORS.get(tetromino.getBlock());
         if (darker) {
             color = color.darker();
         }
