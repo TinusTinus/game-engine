@@ -17,7 +17,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.model.Block;
-import nl.mvdr.tinustris.model.Tetromino;
 
 /**
  * Graphical styles of blocks.
@@ -70,19 +69,19 @@ enum BlockStyle {
      * 
      * @param rectangle
      *            block to be styled
-     * @param tetromino
-     *            tetromino represented by the given block
+     * @param block
+     *            block
      * @param numFramesUntilLinesDisappear
      *            the numFramesUntilLinesDisappear property from the game state; used for the block disappearing
      *            animation
      * @param numFramesSinceLastLock
      *            the numFramesSinceLastLock property from the game state; used for the block disappearing animation
      */
-    void apply(@NonNull Rectangle rectangle, @NonNull Tetromino tetromino, int numFramesUntilLinesDisappear,
+    void apply(@NonNull Rectangle rectangle, @NonNull Block block, int numFramesUntilLinesDisappear,
             int numFramesSinceLastLock) {
         rectangle.setOpacity(opacity);
-        applyStroke(rectangle, tetromino);
-        applyFill(rectangle, tetromino);
+        applyStroke(rectangle, block);
+        applyFill(rectangle, block);
         applyAnimation(rectangle, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 
@@ -91,16 +90,16 @@ enum BlockStyle {
      * 
      * @param rectangle
      *            block to be styled
-     * @param tetromino
-     *            tetromino represented by the given block
+     * @param block
+     *            block
      */
-    private void applyStroke(Rectangle rectangle, Tetromino tetromino) {
+    private void applyStroke(Rectangle rectangle, Block block) {
         rectangle.setStrokeWidth(2);
         rectangle.setStrokeType(StrokeType.INSIDE);
         if (stroke != null) {
             rectangle.setStroke(stroke);
         } else {
-            rectangle.setStroke(COLORS.get(tetromino.getBlock()));
+            rectangle.setStroke(COLORS.get(block));
         }
     }
 
@@ -109,11 +108,11 @@ enum BlockStyle {
      * 
      * @param rectangle
      *            block to be styled
-     * @param tetromino
-     *            tetromino represented by the given block
+     * @param block
+     *            block
      */
-    private void applyFill(Rectangle rectangle, Tetromino tetromino) {
-        Color color = COLORS.get(tetromino.getBlock());
+    private void applyFill(Rectangle rectangle, Block block) {
+        Color color = COLORS.get(block);
         if (darker) {
             color = color.darker();
         }

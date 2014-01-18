@@ -123,7 +123,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
         result.setArcWidth(ARC_SIZE);
         result.setArcHeight(ARC_SIZE);
         
-        style.apply(result, tetromino, numFramesUntilLinesDisappear, numFramesSinceLastLock);
+        style.apply(result, tetromino.getBlock(), numFramesUntilLinesDisappear, numFramesSinceLastLock);
         
         return result;
     }
