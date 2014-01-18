@@ -47,11 +47,11 @@ public class GameState {
     private final List<Block> grid;
     /** Width of the grid. */
     private final int width;
-    /** Current block. May be null, if the game is in the process of showing a cutscene (like a disappearing line). */
+    /** Active tetromino. May be null, if the game is in the process of showing a cutscene (like a disappearing line). */
     private final Tetromino activeTetromino;
-    /** The current block's location. May be null if currentBlock is null as well. */
+    /** The active tetromino's location. May be null if activeTetromino is null as well. */
     private final Point currentBlockLocation;
-    /** The current block's orientation. May be null if currentBlock is null as well. */
+    /** The current block's orientation. May be null if activeTetromino is null as well. */
     private final Orientation currentBlockOrientation;
     /** The next block in line. */
     @NonNull
@@ -133,7 +133,7 @@ public class GameState {
      *            grid
      * @param width
      *            width of the grid
-     * @param currentBlock
+     * @param activeTetromino
      *            current block
      * @param currentBlockLocation
      *            location of the current block
@@ -142,9 +142,9 @@ public class GameState {
      * @param nextBlock
      *            next block
      */
-    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+    public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
-        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock, 0, 0, 0,
+        this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, nextBlock, 0, 0, 0,
                 new InputStateHistory(), 0, 0, 0);
     }
     
@@ -155,7 +155,7 @@ public class GameState {
      *            grid
      * @param width
      *            width of the grid
-     * @param currentBlock
+     * @param activeTetromino
      *            current block
      * @param currentBlockLocation
      *            location of the current block
@@ -179,11 +179,11 @@ public class GameState {
      * @param level
      *            level
      */
-    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+    public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
             int blockCounter, int lines, int level) {
-        this(grid, width, currentBlock, currentBlockLocation, currentBlockOrientation, nextBlock,
+        this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, nextBlock,
                 numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, inputStateHistory,
                 blockCounter, lines, 0, level);
     }
@@ -195,7 +195,7 @@ public class GameState {
      *            grid
      * @param width
      *            width of the grid
-     * @param currentBlock
+     * @param activeTetromino
      *            current block
      * @param currentBlockLocation
      *            location of the current block
@@ -221,7 +221,7 @@ public class GameState {
      * @param level
      *            level
      */
-    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, Point currentBlockLocation,
+    public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
             int blockCounter, int lines, int numFramesUntilLinesDisappear, int level) {
@@ -238,7 +238,7 @@ public class GameState {
 
         checkHeight(getHeight());
 
-        this.activeTetromino = currentBlock;
+        this.activeTetromino = activeTetromino;
         this.currentBlockLocation = currentBlockLocation;
         this.currentBlockOrientation = currentBlockOrientation;
         this.nextBlock = nextBlock;
@@ -266,9 +266,9 @@ public class GameState {
      * @param nextBlock
      *            next block
      */
-    public GameState(@NonNull List<Block> grid, int width, Tetromino currentBlock, @NonNull Tetromino nextBlock) {
-        this(grid, width, currentBlock, 
-                currentBlock == null ? null : getBlockSpawnLocation(width, computeHeight(grid, width)),
+    public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, @NonNull Tetromino nextBlock) {
+        this(grid, width, activeTetromino, 
+                activeTetromino == null ? null : getBlockSpawnLocation(width, computeHeight(grid, width)),
                 Orientation.getDefault(), nextBlock);
     }
 
