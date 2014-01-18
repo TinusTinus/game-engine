@@ -139,12 +139,12 @@ public class GameState {
      *            location of the current block
      * @param currentBlockOrientation
      *            orientation of the current block
-     * @param nextBlock
-     *            next block
+     * @param next
+     *            next tetromino
      */
     public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock) {
-        this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, nextBlock, 0, 0, 0,
+            Orientation currentBlockOrientation, @NonNull Tetromino next) {
+        this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next, 0, 0, 0,
                 new InputStateHistory(), 0, 0, 0);
     }
     
@@ -161,8 +161,8 @@ public class GameState {
      *            location of the current block
      * @param currentBlockOrientation
      *            orientation of the current block
-     * @param nextBlock
-     *            next block
+     * @param next
+     *            next tetromino
      * @param numFramesSinceLastTick
      *            number of frames since the last tick
      * @param numFramesSinceLastLock
@@ -180,10 +180,10 @@ public class GameState {
      *            level
      */
     public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
+            Orientation currentBlockOrientation, @NonNull Tetromino next, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
             int blockCounter, int lines, int level) {
-        this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, nextBlock,
+        this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next,
                 numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, inputStateHistory,
                 blockCounter, lines, 0, level);
     }
@@ -201,8 +201,8 @@ public class GameState {
      *            location of the current block
      * @param currentBlockOrientation
      *            orientation of the current block
-     * @param nextBlock
-     *            next block
+     * @param next
+     *            next tetromino
      * @param numFramesSinceLastTick
      *            number of frames since the last tick
      * @param numFramesSinceLastLock
@@ -222,7 +222,7 @@ public class GameState {
      *            level
      */
     public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino nextBlock, int numFramesSinceLastTick, 
+            Orientation currentBlockOrientation, @NonNull Tetromino next, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
             int blockCounter, int lines, int numFramesUntilLinesDisappear, int level) {
         super();
@@ -241,7 +241,7 @@ public class GameState {
         this.activeTetromino = activeTetromino;
         this.currentBlockLocation = currentBlockLocation;
         this.currentBlockOrientation = currentBlockOrientation;
-        this.next = nextBlock;
+        this.next = next;
         this.numFramesSinceLastDownMove = numFramesSinceLastTick;
         this.numFramesSinceLastLock = numFramesSinceLastLock;
         this.numFramesSinceLastMove = numFramesSinceLastMove;
@@ -263,13 +263,13 @@ public class GameState {
      *            width of the grid
      * @param currentBlock
      *            current block
-     * @param nextBlock
-     *            next block
+     * @param next
+     *            next tetromino
      */
-    public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, @NonNull Tetromino nextBlock) {
+    public GameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, @NonNull Tetromino next) {
         this(grid, width, activeTetromino, 
                 activeTetromino == null ? null : getBlockSpawnLocation(width, computeHeight(grid, width)),
-                Orientation.getDefault(), nextBlock);
+                Orientation.getDefault(), next);
     }
 
     /**
