@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
+import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.Point;
-import nl.mvdr.tinustris.model.Tetromino;
 
 /**
  * JavaFX node that contains the graphical representation of the grid.
@@ -65,11 +65,11 @@ class GridRenderer extends BlockGroupRenderer {
                 }
                 
                 for (int x = 0; x != gameState.getWidth(); x++) {
-                    Tetromino tetromino = gameState.getBlock(x, y);
-                    if (tetromino != null) {
-                        Rectangle block = createBlock(x, y, height, tetromino.getBlock(), style,
+                    Block block = gameState.getBlock(x, y);
+                    if (block != null) {
+                        Rectangle rectangle = createBlock(x, y, height, block, style,
                                 gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                        grid.getChildren().add(block);
+                        grid.getChildren().add(rectangle);
                     }
                 }
             }

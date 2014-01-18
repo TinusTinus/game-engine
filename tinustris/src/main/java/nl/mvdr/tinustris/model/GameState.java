@@ -350,7 +350,7 @@ public class GameState {
      *            y coordinate
      * @return block at x, y; null if there is no block there
      */
-    public Tetromino getBlock(int x, int y) {
+    public Block getBlock(int x, int y) {
         if (!isWithinBounds(x, y)) {
             throw new IndexOutOfBoundsException(
                     String.format(
@@ -359,7 +359,14 @@ public class GameState {
                             Integer.valueOf(0), Integer.valueOf(getHeight())));
         }
         
-        return this.grid.get(toGridIndex(x, y));
+        Tetromino tetromino = this.grid.get(toGridIndex(x, y));
+        Block result;
+        if (tetromino != null) {
+            result = tetromino.getBlock();
+        } else {
+            result = null;
+        }
+        return result;
     }
 
     /**
@@ -629,7 +636,7 @@ public class GameState {
                 } else if (ghostPoints.contains(new Point(x, y))) {
                     result.append('_');
                 } else {
-                    Tetromino block = getBlock(x, y);
+                    Block block = getBlock(x, y);
                     if (block == null) {
                         result.append(' ');
                     } else {
