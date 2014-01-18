@@ -13,7 +13,7 @@ abstract class AbstractLevelSystem implements LevelSystem {
     public GameState fillLevel(GameState previousState, GameState newState) {
         int level = computeLevel(previousState, newState);
         return new GameState(newState.getGrid(), newState.getWidth(), newState.getActiveTetromino(),
-                newState.getCurrentBlockLocation(), newState.getCurrentBlockOrientation(), newState.getNextBlock(),
+                newState.getCurrentBlockLocation(), newState.getCurrentBlockOrientation(), newState.getNext(),
                 newState.getNumFramesSinceLastDownMove(), newState.getNumFramesSinceLastLock(),
                 newState.getNumFramesSinceLastMove(), newState.getInputStateHistory(), newState.getBlockCounter(),
                 newState.getLines(), newState.getNumFramesUntilLinesDisappear(), level);

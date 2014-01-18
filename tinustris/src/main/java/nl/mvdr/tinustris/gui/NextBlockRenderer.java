@@ -23,7 +23,7 @@ class NextBlockRenderer extends BlockGroupRenderer {
     @Override
     public void render(GameState gameState) {
         super.render(gameState);
-        previousValue = gameState.getNextBlock();
+        previousValue = gameState.getNext();
     }
     
     /** {@inheritDoc} */
@@ -31,7 +31,7 @@ class NextBlockRenderer extends BlockGroupRenderer {
     List<Group> createGroups(GameState gameState) {
         Group group;
         
-        Tetromino nextBlock = gameState.getNextBlock();
+        Tetromino nextBlock = gameState.getNext();
         if (previousValue != null && previousValue == nextBlock) {
             // Active block location is unchanged; no need to update.
             group = null;

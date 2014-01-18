@@ -28,7 +28,7 @@ public class GameStateTest {
         for (Block block : gameState.getGrid()) {
             Assert.assertNull(block);
         }
-        Assert.assertNotNull(gameState.getNextBlock());
+        Assert.assertNotNull(gameState.getNext());
     }
 
     /** Test case for the constructor with custom width and height values. */
@@ -42,7 +42,7 @@ public class GameStateTest {
         for (Block block : gameState.getGrid()) {
             Assert.assertNull(block);
         }
-        Assert.assertNotNull(gameState.getNextBlock());
+        Assert.assertNotNull(gameState.getNext());
     }
 
     /** Test case for the constructor with custom width and height values. */
@@ -56,7 +56,7 @@ public class GameStateTest {
         for (Block block : gameState.getGrid()) {
             Assert.assertNull(block);
         }
-        Assert.assertNotNull(gameState.getNextBlock());
+        Assert.assertNotNull(gameState.getNext());
     }
 
     /** Test case for the constructor with custom width and height values. */
@@ -107,7 +107,7 @@ public class GameStateTest {
         Assert.assertEquals(8, gameState.getHeight());
         Assert.assertEquals(grid, gameState.getGrid());
         Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino());
-        Assert.assertEquals(Tetromino.Z, gameState.getNextBlock());
+        Assert.assertEquals(Tetromino.Z, gameState.getNext());
     }
 
     /** Test case for the constructor where all required fields are simply passed in. */
@@ -122,7 +122,7 @@ public class GameStateTest {
         Assert.assertEquals(6, gameState.getHeight());
         Assert.assertEquals(grid, gameState.getGrid());
         Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino());
-        Assert.assertEquals(Tetromino.Z, gameState.getNextBlock());
+        Assert.assertEquals(Tetromino.Z, gameState.getNext());
     }
 
     /** Test case for the constructor where all required fields are simply passed in. */
@@ -178,7 +178,7 @@ public class GameStateTest {
 
         GameState gameState1 = new GameState(gameState0.getGrid(), gameState0.getWidth(),
                 gameState0.getActiveTetromino(), gameState0.getCurrentBlockLocation(),
-                gameState0.getCurrentBlockOrientation(), gameState0.getNextBlock());
+                gameState0.getCurrentBlockOrientation(), gameState0.getNext());
 
         Assert.assertEquals(gameState0, gameState1);
     }

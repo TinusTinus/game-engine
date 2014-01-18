@@ -72,7 +72,7 @@ public class TinustrisEngineTest {
         Assert.assertEquals(GameState.DEFAULT_WIDTH, state.getWidth());
         Assert.assertEquals(GameState.DEFAULT_HEIGHT, state.getHeight());
         Assert.assertEquals(Tetromino.I, state.getActiveTetromino());
-        Assert.assertEquals(Tetromino.T, state.getNextBlock());
+        Assert.assertEquals(Tetromino.T, state.getNext());
     }
     
     /** Tests the {@link TinustrisEngine#computeNextState(GameState, nl.mvdr.tinustris.input.InputState)} method. */

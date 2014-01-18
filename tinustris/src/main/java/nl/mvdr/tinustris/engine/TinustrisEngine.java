@@ -148,7 +148,7 @@ public class TinustrisEngine implements GameEngine {
         int numFramesUntilLinesDisappear = Math.max(0, previousState.getNumFramesUntilLinesDisappear() - 1);
         return new GameState(previousState.getGrid(), previousState.getWidth(), previousState.getActiveTetromino(),
                 previousState.getCurrentBlockLocation(), previousState.getCurrentBlockOrientation(),
-                previousState.getNextBlock(), numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, 
+                previousState.getNext(), numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, 
                 inputStateHistory, previousState.getBlockCounter(), previousState.getLines(),
                 numFramesUntilLinesDisappear, previousState.getLevel());
     }
@@ -258,7 +258,7 @@ public class TinustrisEngine implements GameEngine {
     private GameState moveDown(GameState state) {
         Point location = state.getCurrentBlockLocation().translate(0, -1);
         return new GameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(), location,
-                state.getCurrentBlockOrientation(), state.getNextBlock(), 0, state.getNumFramesSinceLastLock(), 0,
+                state.getCurrentBlockOrientation(), state.getNext(), 0, state.getNumFramesSinceLastLock(), 0,
                 state.getInputStateHistory(), state.getBlockCounter(), state.getLines(), state.getLevel());
     }
 
@@ -293,7 +293,7 @@ public class TinustrisEngine implements GameEngine {
         int numFramesUntilLinesDisappear;
         if (0 < linesScored || 0 < curve.computeARE(state)) {
             block = null;
-            nextBlock = state.getNextBlock();
+            nextBlock = state.getNext();
             location = null;
             orientation = null;
             blockCounter = state.getBlockCounter();
@@ -303,7 +303,7 @@ public class TinustrisEngine implements GameEngine {
                 numFramesUntilLinesDisappear = 0;
             }
         } else {
-            block = state.getNextBlock();
+            block = state.getNext();
             nextBlock = generator.get(state.getBlockCounter() + 2);
             location = state.getBlockSpawnLocation();
             orientation = Orientation.getDefault();
@@ -386,7 +386,7 @@ public class TinustrisEngine implements GameEngine {
         }
         
         return new GameState(grid, width, state.getActiveTetromino(), state.getCurrentBlockLocation(),
-                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                state.getCurrentBlockOrientation(), state.getNext(), state.getNumFramesSinceLastDownMove(),
                 state.getNumFramesSinceLastLock(), state.getNumFramesSinceLastMove(), state.getInputStateHistory(),
                 state.getBlockCounter(), state.getLines(), state.getLevel());
     }
@@ -398,7 +398,7 @@ public class TinustrisEngine implements GameEngine {
      * @return new state
      */
     private GameState spawnNextBlock(GameState state) {
-      Tetromino block = state.getNextBlock();
+      Tetromino block = state.getNext();
       Tetromino nextBlock = generator.get(state.getBlockCounter() + 2);
       Point location = state.getBlockSpawnLocation();
       Orientation orientation = Orientation.getDefault();
@@ -438,7 +438,7 @@ public class TinustrisEngine implements GameEngine {
         GameState result;
         Point location = state.getCurrentBlockLocation().translate(-1, 0);
         result = new GameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(), location,
-                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                state.getCurrentBlockOrientation(), state.getNext(), state.getNumFramesSinceLastDownMove(),
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), state.getBlockCounter(),
                 state.getLines(), state.getLevel());
         return result;
@@ -473,7 +473,7 @@ public class TinustrisEngine implements GameEngine {
         GameState result;
         Point location = state.getCurrentBlockLocation().translate(1, 0);
         result = new GameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(), location,
-                state.getCurrentBlockOrientation(), state.getNextBlock(), state.getNumFramesSinceLastDownMove(),
+                state.getCurrentBlockOrientation(), state.getNext(), state.getNumFramesSinceLastDownMove(),
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), state.getBlockCounter(),
                 state.getLines(), state.getLevel());
         return result;
@@ -516,7 +516,7 @@ public class TinustrisEngine implements GameEngine {
     private GameState turnLeft(GameState state) {
         Orientation orientation = state.getCurrentBlockOrientation().getNextCounterClockwise();
         return new GameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(),
-                state.getCurrentBlockLocation(), orientation, state.getNextBlock(),
+                state.getCurrentBlockLocation(), orientation, state.getNext(),
                 state.getNumFramesSinceLastDownMove(), state.getNumFramesSinceLastLock(), 0,
                 state.getInputStateHistory(), state.getBlockCounter(), state.getLines(), state.getLevel());
     }
@@ -543,7 +543,7 @@ public class TinustrisEngine implements GameEngine {
     private GameState turnRight(GameState state) {
         Orientation orientation = state.getCurrentBlockOrientation().getNextClockwise();
         return new GameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(),
-                state.getCurrentBlockLocation(), orientation, state.getNextBlock(),
+                state.getCurrentBlockLocation(), orientation, state.getNext(),
                 state.getNumFramesSinceLastDownMove(), state.getNumFramesSinceLastLock(), 0,
                 state.getInputStateHistory(), state.getBlockCounter(), state.getLines(), state.getLevel());
     }
@@ -555,7 +555,7 @@ public class TinustrisEngine implements GameEngine {
      * @return updated game state
      */
     private GameState executeHold(GameState state) {
-        Tetromino block = state.getNextBlock();
+        Tetromino block = state.getNext();
         Tetromino nextBlock = state.getActiveTetromino();
         GameState stateAfterHold = new GameState(state.getGrid(), state.getWidth(), block,
                 state.getCurrentBlockLocation(), state.getCurrentBlockOrientation(), nextBlock,

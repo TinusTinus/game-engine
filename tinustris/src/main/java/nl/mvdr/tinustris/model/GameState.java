@@ -53,9 +53,9 @@ public class GameState {
     private final Point currentBlockLocation;
     /** The current block's orientation. May be null if activeTetromino is null as well. */
     private final Orientation currentBlockOrientation;
-    /** The next block in line. */
+    /** The next tetromino. */
     @NonNull
-    private final Tetromino nextBlock;
+    private final Tetromino next;
     /** The number of frames since the last time the active block was moved down. */
     private final int numFramesSinceLastDownMove;
     /** The number of frames since the last time the active block was locked in place. */
@@ -115,7 +115,7 @@ public class GameState {
         this.activeTetromino = null;
         this.currentBlockLocation = null;
         this.currentBlockOrientation = null;
-        this.nextBlock = Tetromino.I;
+        this.next = Tetromino.I;
         this.numFramesSinceLastDownMove = 0;
         this.numFramesSinceLastLock = 0;
         this.numFramesSinceLastMove = 0;
@@ -241,7 +241,7 @@ public class GameState {
         this.activeTetromino = activeTetromino;
         this.currentBlockLocation = currentBlockLocation;
         this.currentBlockOrientation = currentBlockOrientation;
-        this.nextBlock = nextBlock;
+        this.next = nextBlock;
         this.numFramesSinceLastDownMove = numFramesSinceLastTick;
         this.numFramesSinceLastLock = numFramesSinceLastLock;
         this.numFramesSinceLastMove = numFramesSinceLastMove;
@@ -658,7 +658,7 @@ public class GameState {
     public String toString() {
         return "GameState (width=" + width + ", currentBlock=" + activeTetromino + ", currentBlockLocation="
                 + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
-                + nextBlock + ", numFramesSinceLastDownMove = " + numFramesSinceLastDownMove
+                + next + ", numFramesSinceLastDownMove = " + numFramesSinceLastDownMove
                 + ", numFramesSinceLastLock = " + numFramesSinceLastLock + ", numFramesSinceLastMove = "
                 + numFramesSinceLastMove + ", inputStateHistory=" + inputStateHistory + ", blockCounter = "
                 + blockCounter + ", lines = " + lines + ", numFramesUntilLinesDisappear = "
