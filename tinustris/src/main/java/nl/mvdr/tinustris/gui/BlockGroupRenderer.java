@@ -3,12 +3,12 @@ package nl.mvdr.tinustris.gui;
 import java.util.Iterator;
 import java.util.List;
 
-import nl.mvdr.tinustris.model.GameState;
-import nl.mvdr.tinustris.model.Tetromino;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import lombok.NonNull;
+import nl.mvdr.tinustris.model.Block;
+import nl.mvdr.tinustris.model.GameState;
 
 /**
  * JavaFX node that contains a group of blocks.
@@ -103,8 +103,8 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
      *            y coordinate in the grid
      * @param height
      *            height of the (visible part of the) grid
-     * @param tetromino
-     *            tetromino to be represented by the block
+     * @param block
+     *            block to be drawn
      * @param style
      *            style in which to render the block
      * @param numFramesUntilLinesDisappear
@@ -113,7 +113,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
      *            the numFramesSinceLastLock property from the game state
      * @return new block
      */
-    Rectangle createBlock(int x, int y, int height, Tetromino tetromino, BlockStyle style,
+    Rectangle createBlock(int x, int y, int height, Block block, BlockStyle style,
             int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         int xCoordinate = x * BLOCK_SIZE;
         int yCoordinate = (height - y - 1) * BLOCK_SIZE;
@@ -123,7 +123,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
         result.setArcWidth(ARC_SIZE);
         result.setArcHeight(ARC_SIZE);
         
-        style.apply(result, tetromino.getBlock(), numFramesUntilLinesDisappear, numFramesSinceLastLock);
+        style.apply(result, block, numFramesUntilLinesDisappear, numFramesSinceLastLock);
         
         return result;
     }
