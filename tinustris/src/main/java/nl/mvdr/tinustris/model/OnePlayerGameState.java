@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Wither;
 import nl.mvdr.tinustris.input.InputStateHistory;
-import nl.mvdr.tinustris.input.InputStateHistoryImpl;
 
 /**
  * Representation of the game state for a single Tetris player.
@@ -134,7 +133,7 @@ public class OnePlayerGameState implements GameState {
         this.numFramesSinceLastDownMove = 0;
         this.numFramesSinceLastLock = 0;
         this.numFramesSinceLastMove = 0;
-        this.inputStateHistory = InputStateHistoryImpl.NEW;
+        this.inputStateHistory = InputStateHistory.NEW;
         this.blockCounter = 0;
         this.lines = 0;
         this.numFramesUntilLinesDisappear = 0;
@@ -160,7 +159,7 @@ public class OnePlayerGameState implements GameState {
     public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino next) {
         this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next, 0, 0, 0,
-                InputStateHistoryImpl.NEW, 0, 0, 0);
+                InputStateHistory.NEW, 0, 0, 0);
     }
     
     /**

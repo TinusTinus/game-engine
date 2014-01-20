@@ -15,10 +15,10 @@ import org.junit.Test;
  */
 @Slf4j
 public class InputStateHistoryTest {
-    /** Test method for {@link InputStateHistoryImpl#InputStateHistory()}. */
+    /** Test method for {@link InputStateHistory#NEW}. */
     @Test
-    public void testConstructor() {
-        InputStateHistory history = InputStateHistoryImpl.NEW;
+    public void testNew() {
+        InputStateHistory history = InputStateHistory.NEW;
         
         for (Input input: Input.values()) {
             Assert.assertEquals(input.toString(), 0, history.getNumberOfFrames(input));
@@ -30,17 +30,17 @@ public class InputStateHistoryTest {
     public void testGetNumberOfFramesNothingPressed() {
         InputState inputState = new InputStateImpl(Collections.<Input>emptySet());
         
-        InputStateHistory history = InputStateHistoryImpl.NEW.next(inputState);
+        InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
         for (Input input: Input.values()) {
             Assert.assertEquals(input.toString(), 0, history.getNumberOfFrames(input));
         }
     }
     
-    /** Test method for {@link InputStateHistoryImpl#next(InputState)} in case nothing is pressed. */
+    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case nothing is pressed. */
     @Test
     public void testGetNumberOfFramesNothingPressedTwice() {
-        InputStateHistory history = InputStateHistoryImpl.NEW;
+        InputStateHistory history = InputStateHistory.NEW;
         InputState inputState = new InputStateImpl(Collections.<Input>emptySet());
         
         history = history.next(inputState);
@@ -51,22 +51,22 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link InputStateHistoryImpl#next(InputState)} in case every button is pressed. */
+    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case every button is pressed. */
     @Test
     public void testGetNumberOfFramesEverythingPressed() {
         InputState inputState = new InputStateImpl(EnumSet.allOf(Input.class));
         
-        InputStateHistory history = InputStateHistoryImpl.NEW.next(inputState);
+        InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
         for (Input input: Input.values()) {
             Assert.assertEquals(input.toString(), 1, history.getNumberOfFrames(input));
         }
     }
     
-    /** Test method for {@link InputStateHistoryImpl#next(InputState)} in case every button is pressed. */
+    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case every button is pressed. */
     @Test
     public void testGetNumberOfFramesEverythingPressedTwice() {
-        InputStateHistory history = InputStateHistoryImpl.NEW;
+        InputStateHistory history = InputStateHistory.NEW;
         InputState inputState = new InputStateImpl(EnumSet.allOf(Input.class));
         
         history = history.next(inputState);
@@ -77,10 +77,10 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link InputStateHistoryImpl#next(InputState)} in case every button is pressed, then let go. */
+    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case every button is pressed, then let go. */
     @Test
     public void testGetNumberOfFramesEverythingPressedThenLetGo() {
-        InputStateHistory history = InputStateHistoryImpl.NEW;
+        InputStateHistory history = InputStateHistory.NEW;
         
         history = history.next(new InputStateImpl(EnumSet.allOf(Input.class)));
         history = history.next(new InputStateImpl(Collections.<Input>emptySet()));
@@ -90,12 +90,12 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link InputStateHistoryImpl#next(InputState)} in case a single button is pressed. */
+    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case a single button is pressed. */
     @Test
     public void testGetNumberOfFramesOneButtonPressed() {
         InputState inputState = new InputStateImpl(EnumSet.of(Input.TURN_RIGHT));
         
-        InputStateHistory history = InputStateHistoryImpl.NEW.next(inputState);
+        InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
         Assert.assertEquals(0, history.getNumberOfFrames(Input.SOFT_DROP));
         Assert.assertEquals(0, history.getNumberOfFrames(Input.HOLD));
@@ -106,10 +106,23 @@ public class InputStateHistoryTest {
         Assert.assertEquals(1, history.getNumberOfFrames(Input.TURN_RIGHT));
     }
     
+    /** Test method for {@link InputStateHistory#toString()}. */
+    @Test
+    public void testNewToString() {
+        String string = InputStateHistory.NEW.toString();
+        
+        log.info(string);
+        Assert.assertNotNull(string);
+        Assert.assertNotEquals("", string);        
+    }
+    
     /** Test method for {@link InputStateHistoryImpl#toString()}. */
     @Test
     public void testToString() {
-        String string = InputStateHistoryImpl.NEW.toString();
+        InputState inputState = new InputStateImpl(EnumSet.allOf(Input.class));
+        InputStateHistory history = InputStateHistory.NEW.next(inputState);
+        
+        String string = history.toString();
         
         log.info(string);
         Assert.assertNotNull(string);

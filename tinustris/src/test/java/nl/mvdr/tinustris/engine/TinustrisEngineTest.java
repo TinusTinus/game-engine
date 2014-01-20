@@ -11,7 +11,7 @@ import nl.mvdr.tinustris.engine.speedcurve.GameBoySpeedCurve;
 import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
-import nl.mvdr.tinustris.input.InputStateHistoryImpl;
+import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Orientation;
@@ -150,7 +150,7 @@ public class TinustrisEngineTest {
         grid.set(22, Block.S);
         grid.set(28, Block.J);
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13), Orientation.FLAT_DOWN, Tetromino.I,
-                11, 0, 11, InputStateHistoryImpl.NEW, 236, 93, 0);
+                11, 0, 11, InputStateHistory.NEW, 236, 93, 0);
         return state;
     }
 }
