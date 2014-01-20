@@ -45,6 +45,7 @@ public class OnePlayerGameState implements GameState {
      * The value of this field is not modified; in fact it should preferably be an unmodifiable list.
      */
     @NonNull
+    @Wither
     private final List<Block> grid;
     /** Width of the grid. */
     private final int width;

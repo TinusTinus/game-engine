@@ -381,10 +381,7 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
             }
         }
         
-        return new OnePlayerGameState(grid, width, state.getActiveTetromino(), state.getCurrentBlockLocation(),
-                state.getCurrentBlockOrientation(), state.getNext(), state.getNumFramesSinceLastDownMove(),
-                state.getNumFramesSinceLastLock(), state.getNumFramesSinceLastMove(), state.getInputStateHistory(),
-                state.getBlockCounter(), state.getLines(), state.getLevel());
+        return state.withGrid(grid);
     }
     
     /**
