@@ -16,7 +16,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public abstract class LevelSystemTester {
-    /** Test method that symply invokes {@link LevelSystem#computeLevel(OnePlayerGameState, OnePlayerGameState)}. */
+    /** Test method that simply invokes {@link LevelSystem#computeLevel(OnePlayerGameState, OnePlayerGameState)}. */
     @Test
     public void testSameState() {
         OnePlayerGameState state = createGameState(0, 0, 0);
@@ -25,7 +25,7 @@ public abstract class LevelSystemTester {
         levelSystem.computeLevel(state, state);
     }
     
-    /** Test method that symply invokes {@link LevelSystem#computeLevel(OnePlayerGameState, OnePlayerGameState)}. */
+    /** Test method that simply invokes {@link LevelSystem#computeLevel(OnePlayerGameState, OnePlayerGameState)}. */
     @Test
     public void testDifferentStates() {
         OnePlayerGameState previousState = createGameState(0, 0, 0);
