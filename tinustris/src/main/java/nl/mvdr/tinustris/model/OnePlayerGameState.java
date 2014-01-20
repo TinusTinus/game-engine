@@ -9,6 +9,7 @@ import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.Wither;
 import nl.mvdr.tinustris.input.InputStateHistory;
 
 /**
@@ -57,16 +58,20 @@ public class OnePlayerGameState implements GameState {
     @NonNull
     private final Tetromino next;
     /** The number of frames since the last time the active block was moved down. */
+    @Wither
     private final int numFramesSinceLastDownMove;
     /** The number of frames since the last time the active block was locked in place. */
+    @Wither
     private final int numFramesSinceLastLock;
     /**
      * The number of frames since the last time the active block was moved (through gravity or player action), or
      * rotated.
      */
+    @Wither
     private final int numFramesSinceLastMove;
     /** Input state history, up until and including the current frame. */
     @NonNull
+    @Wither
     private final InputStateHistory inputStateHistory;
     /** Block counter. Equals the number of blocks that have been dropped. */
     private final int blockCounter;
@@ -79,6 +84,7 @@ public class OnePlayerGameState implements GameState {
      * short while before it disappears and the next active block appears. This variable indicates the number of frames
      * that still remain. It is zero if there are currently no full lines in the grid.
      */
+    @Wither
     private final int numFramesUntilLinesDisappear;
     /** Current level, which may determine the results of a speed curve. */
     private final int level;

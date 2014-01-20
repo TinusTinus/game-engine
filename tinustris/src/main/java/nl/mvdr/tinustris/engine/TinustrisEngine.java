@@ -13,7 +13,6 @@ import nl.mvdr.tinustris.engine.speedcurve.SpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.TinustrisSpeedCurve;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
-import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Action;
 import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -143,16 +142,11 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @return game state with updated input history and frame counter, otherwise unchanged
      */
     private OnePlayerGameState updateInputStateAndCounters(OnePlayerGameState previousState, InputState inputState) {
-        InputStateHistory inputStateHistory = previousState.getInputStateHistory().next(inputState);
-        int numFramesSinceLastTick = previousState.getNumFramesSinceLastDownMove() + 1;
-        int numFramesSinceLastLock = previousState.getNumFramesSinceLastLock() + 1;
-        int numFramesSinceLastMove = previousState.getNumFramesSinceLastMove() + 1;
-        int numFramesUntilLinesDisappear = Math.max(0, previousState.getNumFramesUntilLinesDisappear() - 1);
-        return new OnePlayerGameState(previousState.getGrid(), previousState.getWidth(),
-                previousState.getActiveTetromino(), previousState.getCurrentBlockLocation(),
-                previousState.getCurrentBlockOrientation(), previousState.getNext(), numFramesSinceLastTick,
-                numFramesSinceLastLock, numFramesSinceLastMove, inputStateHistory, previousState.getBlockCounter(),
-                previousState.getLines(), numFramesUntilLinesDisappear, previousState.getLevel());
+        return previousState.withInputStateHistory(previousState.getInputStateHistory().next(inputState))
+                .withNumFramesSinceLastDownMove(previousState.getNumFramesSinceLastDownMove() + 1)
+                .withNumFramesSinceLastLock(previousState.getNumFramesSinceLastLock() + 1)
+                .withNumFramesSinceLastMove(previousState.getNumFramesSinceLastMove() + 1)
+                .withNumFramesUntilLinesDisappear(Math.max(0, previousState.getNumFramesUntilLinesDisappear() - 1));
     }
     
     /**
