@@ -252,10 +252,9 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @return updated state
      */
     private OnePlayerGameState moveDown(OnePlayerGameState state) {
-        Point location = state.getCurrentBlockLocation().translate(0, -1);
-        return new OnePlayerGameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(), location,
-                state.getCurrentBlockOrientation(), state.getNext(), 0, state.getNumFramesSinceLastLock(), 0,
-                state.getInputStateHistory(), state.getBlockCounter(), state.getLines(), state.getLevel());
+        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().translate(0, -1))
+                .withNumFramesSinceLastDownMove(0)
+                .withNumFramesSinceLastMove(0);
     }
 
     /**

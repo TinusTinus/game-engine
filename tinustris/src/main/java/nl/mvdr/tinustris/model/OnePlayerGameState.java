@@ -51,6 +51,7 @@ public class OnePlayerGameState implements GameState {
     /** Active tetromino. May be null, if the game is in the process of showing a cutscene (like a disappearing line). */
     private final Tetromino activeTetromino;
     /** The active tetromino's location. May be null if activeTetromino is null as well. */
+    @Wither
     private final Point currentBlockLocation;
     /** The current block's orientation. May be null if activeTetromino is null as well. */
     private final Orientation currentBlockOrientation;
