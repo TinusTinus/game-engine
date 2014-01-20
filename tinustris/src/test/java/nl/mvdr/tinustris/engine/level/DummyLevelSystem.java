@@ -9,7 +9,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
-public class DummyLevelSystem extends AbstractLevelSystem {
+public class DummyLevelSystem implements LevelSystem {
     /** Level value. */
     private final int level;
     
@@ -20,7 +20,7 @@ public class DummyLevelSystem extends AbstractLevelSystem {
     
     /** {@inheritDoc} */
     @Override
-    int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
+    public int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
         return level;
     }
 }

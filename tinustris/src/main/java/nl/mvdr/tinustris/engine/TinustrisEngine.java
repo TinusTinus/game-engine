@@ -61,7 +61,7 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
         grid = Collections.unmodifiableList(grid);
         OnePlayerGameState gameState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, generator.get(0),
                 generator.get(1));
-        gameState = levelSystem.fillLevel(gameState, gameState);
+        gameState = gameState.withLevel(this.levelSystem.computeLevel(gameState, gameState));
         return gameState;
     }
     
@@ -85,7 +85,7 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
             }
         }
         
-        result = this.levelSystem.fillLevel(previousState, result);
+        result = result.withLevel(this.levelSystem.computeLevel(previousState, result));
         
         return result;
     }

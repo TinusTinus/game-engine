@@ -108,7 +108,7 @@ public class TheGrandMasterLevelSystemTest extends LevelSystemTester {
     
     /** {@inheritDoc} */
     @Override
-    AbstractLevelSystem createLevelSystem() {
+    LevelSystem createLevelSystem() {
         return new TheGrandMasterLevelSystem();
     }
 }

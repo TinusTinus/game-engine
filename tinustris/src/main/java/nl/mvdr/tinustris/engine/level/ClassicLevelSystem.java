@@ -9,7 +9,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
-public class ClassicLevelSystem extends AbstractLevelSystem {
+public class ClassicLevelSystem implements LevelSystem {
     /** Starting level. */
     private final int startLevel;
     
@@ -20,7 +20,7 @@ public class ClassicLevelSystem extends AbstractLevelSystem {
     
     /** {@inheritDoc} */
     @Override
-    int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
+    public int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
         return Math.max(startLevel, newState.getLines() / 10);
     }
 }

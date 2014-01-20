@@ -7,10 +7,10 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * 
  * @author Martijn van de Rijdt
  */
-public class TheGrandMasterLevelSystem extends AbstractLevelSystem {
+public class TheGrandMasterLevelSystem implements LevelSystem {
     /** {@inheritDoc} */
     @Override
-    int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
+    public int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
         int level = previousState.getLevel();
         
         if (previousState.getLevel() % 100 != 99) {

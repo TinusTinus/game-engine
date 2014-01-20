@@ -20,7 +20,7 @@ public abstract class LevelSystemTester {
     @Test
     public void testSameState() {
         OnePlayerGameState state = createGameState(0, 0, 0);
-        AbstractLevelSystem levelSystem = createLevelSystem();
+        LevelSystem levelSystem = createLevelSystem();
         
         levelSystem.computeLevel(state, state);
     }
@@ -30,7 +30,7 @@ public abstract class LevelSystemTester {
     public void testDifferentStates() {
         OnePlayerGameState previousState = createGameState(0, 0, 0);
         OnePlayerGameState newState = createGameState(0, 0, 0);
-        AbstractLevelSystem levelSystem = createLevelSystem();
+        LevelSystem levelSystem = createLevelSystem();
         
         levelSystem.computeLevel(previousState, newState);
     }
@@ -58,5 +58,5 @@ public abstract class LevelSystemTester {
      * 
      * @return level system
      */
-    abstract AbstractLevelSystem createLevelSystem();
+    abstract LevelSystem createLevelSystem();
 }

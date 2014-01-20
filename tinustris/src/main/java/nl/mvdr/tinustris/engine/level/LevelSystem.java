@@ -9,11 +9,11 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  */
 public interface LevelSystem {
     /**
-     * Computes the new level value and fills it in.
+     * Computes the new level value.
      * 
      * @param previousState previous game state
      * @param newState next game state; all fields should be filled except for level
-     * @return copy of newState with the level filled in
+     * @return level value
      */
-    OnePlayerGameState fillLevel(OnePlayerGameState previousState, OnePlayerGameState newState);
+    int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState);
 }

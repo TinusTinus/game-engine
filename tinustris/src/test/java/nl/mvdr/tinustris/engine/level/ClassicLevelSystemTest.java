@@ -148,7 +148,7 @@ public class ClassicLevelSystemTest extends LevelSystemTester {
     
     /** {@inheritDoc} */
     @Override
-    AbstractLevelSystem createLevelSystem() {
+    LevelSystem createLevelSystem() {
         return new ClassicLevelSystem();
     }
 }
