@@ -18,7 +18,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#InputStateHistory()}. */
     @Test
     public void testConstructor() {
-        InputStateHistory history = new InputStateHistory();
+        InputStateHistory history = InputStateHistory.NEW;
         
         for (Input input: Input.values()) {
             Assert.assertEquals(input.toString(), 0, history.getNumberOfFrames(input));
@@ -28,10 +28,9 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case nothing is pressed. */
     @Test
     public void testGetNumberOfFramesNothingPressed() {
-        InputStateHistory history = new InputStateHistory();
         InputState inputState = new InputStateImpl(Collections.<Input>emptySet());
         
-        history = history.next(inputState);
+        InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
         for (Input input: Input.values()) {
             Assert.assertEquals(input.toString(), 0, history.getNumberOfFrames(input));
@@ -41,7 +40,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case nothing is pressed. */
     @Test
     public void testGetNumberOfFramesNothingPressedTwice() {
-        InputStateHistory history = new InputStateHistory();
+        InputStateHistory history = InputStateHistory.NEW;
         InputState inputState = new InputStateImpl(Collections.<Input>emptySet());
         
         history = history.next(inputState);
@@ -55,10 +54,9 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case every button is pressed. */
     @Test
     public void testGetNumberOfFramesEverythingPressed() {
-        InputStateHistory history = new InputStateHistory();
         InputState inputState = new InputStateImpl(EnumSet.allOf(Input.class));
         
-        history = history.next(inputState);
+        InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
         for (Input input: Input.values()) {
             Assert.assertEquals(input.toString(), 1, history.getNumberOfFrames(input));
@@ -68,7 +66,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case every button is pressed. */
     @Test
     public void testGetNumberOfFramesEverythingPressedTwice() {
-        InputStateHistory history = new InputStateHistory();
+        InputStateHistory history = InputStateHistory.NEW;
         InputState inputState = new InputStateImpl(EnumSet.allOf(Input.class));
         
         history = history.next(inputState);
@@ -82,7 +80,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case every button is pressed, then let go. */
     @Test
     public void testGetNumberOfFramesEverythingPressedThenLetGo() {
-        InputStateHistory history = new InputStateHistory();
+        InputStateHistory history = InputStateHistory.NEW;
         
         history = history.next(new InputStateImpl(EnumSet.allOf(Input.class)));
         history = history.next(new InputStateImpl(Collections.<Input>emptySet()));
@@ -95,10 +93,9 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case a single button is pressed. */
     @Test
     public void testGetNumberOfFramesOneButtonPressed() {
-        InputStateHistory history = new InputStateHistory();
         InputState inputState = new InputStateImpl(EnumSet.of(Input.TURN_RIGHT));
         
-        history = history.next(inputState);
+        InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
         Assert.assertEquals(0, history.getNumberOfFrames(Input.SOFT_DROP));
         Assert.assertEquals(0, history.getNumberOfFrames(Input.HOLD));
@@ -112,9 +109,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#toString()}. */
     @Test
     public void testToString() {
-        InputStateHistory history = new InputStateHistory();
-        
-        String string = history.toString();
+        String string = InputStateHistory.NEW.toString();
         
         log.info(string);
         Assert.assertNotNull(string);

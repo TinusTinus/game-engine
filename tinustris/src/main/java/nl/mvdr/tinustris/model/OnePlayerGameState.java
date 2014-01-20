@@ -133,7 +133,7 @@ public class OnePlayerGameState implements GameState {
         this.numFramesSinceLastDownMove = 0;
         this.numFramesSinceLastLock = 0;
         this.numFramesSinceLastMove = 0;
-        this.inputStateHistory = new InputStateHistory();
+        this.inputStateHistory = InputStateHistory.NEW;
         this.blockCounter = 0;
         this.lines = 0;
         this.numFramesUntilLinesDisappear = 0;
@@ -159,7 +159,7 @@ public class OnePlayerGameState implements GameState {
     public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino next) {
         this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next, 0, 0, 0,
-                new InputStateHistory(), 0, 0, 0);
+                InputStateHistory.NEW, 0, 0, 0);
     }
     
     /**

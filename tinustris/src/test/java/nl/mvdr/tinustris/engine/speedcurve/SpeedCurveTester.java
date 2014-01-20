@@ -72,8 +72,8 @@ public abstract class SpeedCurveTester {
         for (int i = 0; i != 220; i++) {
             grid.add(null);
         }
-        OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0, new InputStateHistory(), 0,
-                level * 10, level);
+        OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
+                InputStateHistory.NEW, 0, level * 10, level);
         
         Assert.assertEquals(expectedInternalGravity, curve.computeInternalGravity(state));
     }

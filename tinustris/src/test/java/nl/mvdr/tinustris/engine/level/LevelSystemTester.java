@@ -48,8 +48,8 @@ public abstract class LevelSystemTester {
         for (int i = 0; i != 220; i++) {
             grid.add(null);
         }
-        OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0, new InputStateHistory(),
-                blockCounter, lines, level);
+        OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
+                InputStateHistory.NEW, blockCounter, lines, level);
         return state;
     }
     

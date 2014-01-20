@@ -19,12 +19,15 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString(includeFieldNames = false)
 public class InputStateHistory {
+    /** Input state history where no button has been pressed. */
+    public static final InputStateHistory NEW = new InputStateHistory();
+    
     /** Contains, per input, the number of frames it has been pressed. */
     @NonNull
     private final Map<Input, Integer> frames;
     
     /** Constructor. */
-    public InputStateHistory() {
+    private InputStateHistory() {
         Map<Input, Integer> tempFrames = new EnumMap<>(Input.class);
         for (Input input: Input.values()) {
             tempFrames.put(input, Integer.valueOf(0));
