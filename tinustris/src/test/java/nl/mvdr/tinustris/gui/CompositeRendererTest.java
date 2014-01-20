@@ -19,23 +19,20 @@ public class CompositeRendererTest {
     @Test
     public void testRenderEmptyList() {
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>();
-        DummyGameState state = new DummyGameState();
         
-        renderer.render(state);
+        renderer.render(DummyGameState.GAME_NOT_OVER);
     }
     
     /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderOneRenderer() {
         DummyRenderer<DummyGameState> dummyRenderer = new DummyRenderer<>();
-        List<GameRenderer<DummyGameState>> renderers = Arrays
-                .<GameRenderer<DummyGameState>> asList(dummyRenderer);
+        List<GameRenderer<DummyGameState>> renderers = Arrays.<GameRenderer<DummyGameState>> asList(dummyRenderer);
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(renderers);
-        DummyGameState state = new DummyGameState();
         
-        renderer.render(state);
+        renderer.render(DummyGameState.GAME_NOT_OVER);
         
-        Assert.assertEquals(state, dummyRenderer.getLastRenderedState());
+        Assert.assertSame(DummyGameState.GAME_NOT_OVER, dummyRenderer.getLastRenderedState());
     }
     
     /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
@@ -46,12 +43,11 @@ public class CompositeRendererTest {
         List<GameRenderer<DummyGameState>> renderers = Arrays.<GameRenderer<DummyGameState>> asList(dummyRenderer0,
                 dummyRenderer1);
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(renderers);
-        DummyGameState state = new DummyGameState();
         
-        renderer.render(state);
+        renderer.render(DummyGameState.GAME_NOT_OVER);
         
-        Assert.assertEquals(state, dummyRenderer0.getLastRenderedState());
-        Assert.assertEquals(state, dummyRenderer1.getLastRenderedState());
+        Assert.assertSame(DummyGameState.GAME_NOT_OVER, dummyRenderer0.getLastRenderedState());
+        Assert.assertSame(DummyGameState.GAME_NOT_OVER, dummyRenderer1.getLastRenderedState());
     }
     
     /** Tests {@link LabelRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */

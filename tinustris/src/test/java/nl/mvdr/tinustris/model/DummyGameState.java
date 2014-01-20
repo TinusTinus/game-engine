@@ -1,23 +1,22 @@
 package nl.mvdr.tinustris.model;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 /**
  * Dummy implementation of {@link GameState}.
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor
-@ToString
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class DummyGameState implements GameState {
+public enum DummyGameState implements GameState {
+    /** Dummy game state where the game is not yet over. */
+    GAME_NOT_OVER(false),
+    /** Dummy game state where the game is over. */
+    GAME_OVER(true);
+    
     /** Whether the game is over. */
     private final boolean gameOver;
-    
-    /** Constructor. */
-    public DummyGameState() {
-        this(false);
-    }
 }

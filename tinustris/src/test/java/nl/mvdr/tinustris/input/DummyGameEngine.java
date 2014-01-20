@@ -12,7 +12,7 @@ public class DummyGameEngine implements GameEngine<DummyGameState> {
     /** {@inheritDoc} */
     @Override
     public DummyGameState initGameState() {
-        return new DummyGameState();
+        return DummyGameState.GAME_NOT_OVER;
     }
 
     /** {@inheritDoc} */

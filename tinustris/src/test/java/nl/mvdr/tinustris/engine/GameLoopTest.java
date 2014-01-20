@@ -111,7 +111,7 @@ public class GameLoopTest {
             @Override
             public DummyGameState computeNextState(DummyGameState previousState, InputState inputState) {
                 // return game state that is game over
-                return new DummyGameState(true);
+                return DummyGameState.GAME_OVER;
             }
         };
         

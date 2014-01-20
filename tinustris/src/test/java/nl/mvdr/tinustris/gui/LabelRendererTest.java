@@ -18,9 +18,8 @@ public class LabelRendererTest {
     @Test
     public void testRender() {
         LabelRenderer<DummyGameState> renderer = createLabelRenderer();
-        DummyGameState state = new DummyGameState();
         
-        renderer.render(state);
+        renderer.render(DummyGameState.GAME_NOT_OVER);
         
         String text = renderer.getText();
         log.info(text);
@@ -32,7 +31,7 @@ public class LabelRendererTest {
     @Test
     public void testRenderSameValue() {
         LabelRenderer<DummyGameState> renderer = createLabelRenderer();
-        DummyGameState state = new DummyGameState();
+        DummyGameState state = DummyGameState.GAME_NOT_OVER;
         renderer.setText(state.toString());
         
         renderer.render(state);
