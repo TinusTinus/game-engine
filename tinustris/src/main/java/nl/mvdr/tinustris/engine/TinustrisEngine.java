@@ -60,7 +60,8 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
             grid.add(null);
         }
         grid = Collections.unmodifiableList(grid);
-        OnePlayerGameState gameState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, generator.get(0), generator.get(1));
+        OnePlayerGameState gameState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, generator.get(0),
+                generator.get(1));
         gameState = levelSystem.fillLevel(gameState, gameState);
         return gameState;
     }
@@ -98,7 +99,8 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @param inputState input state
      * @return actions
      */
-    private List<Action> determineActions(OnePlayerGameState previousState, OnePlayerGameState resultState, InputState inputState) {
+    private List<Action> determineActions(OnePlayerGameState previousState, OnePlayerGameState resultState,
+            InputState inputState) {
         List<Action> actions = new ArrayList<>();
         
         // process gravity
@@ -146,11 +148,11 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
         int numFramesSinceLastLock = previousState.getNumFramesSinceLastLock() + 1;
         int numFramesSinceLastMove = previousState.getNumFramesSinceLastMove() + 1;
         int numFramesUntilLinesDisappear = Math.max(0, previousState.getNumFramesUntilLinesDisappear() - 1);
-        return new OnePlayerGameState(previousState.getGrid(), previousState.getWidth(), previousState.getActiveTetromino(),
-                previousState.getCurrentBlockLocation(), previousState.getCurrentBlockOrientation(),
-                previousState.getNext(), numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, 
-                inputStateHistory, previousState.getBlockCounter(), previousState.getLines(),
-                numFramesUntilLinesDisappear, previousState.getLevel());
+        return new OnePlayerGameState(previousState.getGrid(), previousState.getWidth(),
+                previousState.getActiveTetromino(), previousState.getCurrentBlockLocation(),
+                previousState.getCurrentBlockOrientation(), previousState.getNext(), numFramesSinceLastTick,
+                numFramesSinceLastLock, numFramesSinceLastMove, inputStateHistory, previousState.getBlockCounter(),
+                previousState.getLines(), numFramesUntilLinesDisappear, previousState.getLevel());
     }
     
     /**
@@ -312,8 +314,9 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
         }
         int lines = state.getLines() + linesScored;
 
-        OnePlayerGameState result = new OnePlayerGameState(grid, width, activeTetromino, location, orientation, next, 0, 0, 0,
-                state.getInputStateHistory(), blockCounter, lines, numFramesUntilLinesDisappear, state.getLevel());
+        OnePlayerGameState result = new OnePlayerGameState(grid, width, activeTetromino, location, orientation, next,
+                0, 0, 0, state.getInputStateHistory(), blockCounter, lines, numFramesUntilLinesDisappear,
+                state.getLevel());
         
         if (linesScored != 0 && log.isDebugEnabled()) {
             log.debug(result.toString());
@@ -574,7 +577,8 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      *            over state or a state where the active block is partially or completely out of bounds)
      * @return new game state
      */
-    private OnePlayerGameState fixStateAfterAction(OnePlayerGameState originalState, OnePlayerGameState stateAfterAction) {
+    private OnePlayerGameState fixStateAfterAction(OnePlayerGameState originalState,
+            OnePlayerGameState stateAfterAction) {
         OnePlayerGameState result;
         if (stateAfterAction.isCurrentBlockWithinBounds() && !stateAfterAction.isTopped()) {
             // no problemo!
