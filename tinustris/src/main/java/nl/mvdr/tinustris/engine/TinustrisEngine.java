@@ -428,13 +428,8 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @return updated state
      */
     private OnePlayerGameState moveLeft(OnePlayerGameState state) {
-        OnePlayerGameState result;
-        Point location = state.getCurrentBlockLocation().translate(-1, 0);
-        result = new OnePlayerGameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(), location,
-                state.getCurrentBlockOrientation(), state.getNext(), state.getNumFramesSinceLastDownMove(),
-                state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), state.getBlockCounter(),
-                state.getLines(), state.getLevel());
-        return result;
+        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().translate(-1, 0))
+                .withNumFramesSinceLastMove(0);
     }
 
     /**
@@ -463,13 +458,8 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @return updated state
      */
     private OnePlayerGameState moveRight(OnePlayerGameState state) {
-        OnePlayerGameState result;
-        Point location = state.getCurrentBlockLocation().translate(1, 0);
-        result = new OnePlayerGameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(), location,
-                state.getCurrentBlockOrientation(), state.getNext(), state.getNumFramesSinceLastDownMove(),
-                state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), state.getBlockCounter(),
-                state.getLines(), state.getLevel());
-        return result;
+        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().translate(1, 0))
+                .withNumFramesSinceLastMove(0);
     }
     
     /**
