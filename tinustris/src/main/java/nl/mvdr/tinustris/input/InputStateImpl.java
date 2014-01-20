@@ -28,4 +28,10 @@ class InputStateImpl implements InputState {
     public boolean isPressed(Input input) {
         return pressedInputs.contains(input);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean anyInputsPressed() {
+        return !pressedInputs.isEmpty();
+    }
 }

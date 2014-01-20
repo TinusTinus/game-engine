@@ -42,19 +42,26 @@ public class InputStateHistory {
      * @return new input state history
      */
     public InputStateHistory next(InputState inputState) {
-        Map<Input, Integer> tempFrames = new EnumMap<>(Input.class);
-        for (Input input: Input.values()) {
-            int value;
-            if (inputState.isPressed(input)) {
-                value = getNumberOfFrames(input) + 1;
-            } else {
-                value = 0;
+        InputStateHistory result;
+
+        if (inputState.anyInputsPressed()) {
+            Map<Input, Integer> tempFrames = new EnumMap<>(Input.class);
+            for (Input input : Input.values()) {
+                int value;
+                if (inputState.isPressed(input)) {
+                    value = getNumberOfFrames(input) + 1;
+                } else {
+                    value = 0;
+                }
+                tempFrames.put(input, Integer.valueOf(value));
             }
-            tempFrames.put(input, Integer.valueOf(value));
+            result = new InputStateHistory(Collections.unmodifiableMap(tempFrames));
+        } else {
+            // no inputs pressed
+            result = NEW;
         }
-        tempFrames = Collections.unmodifiableMap(tempFrames);
         
-        return new InputStateHistory(tempFrames);
+        return result;
     }
     
     /**
