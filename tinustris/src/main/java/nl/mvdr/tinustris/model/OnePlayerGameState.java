@@ -49,7 +49,10 @@ public class OnePlayerGameState implements GameState {
     private final List<Block> grid;
     /** Width of the grid. */
     private final int width;
-    /** Active tetromino. May be null, if the game is in the process of showing a cutscene (like a disappearing line). */
+    /** 
+     * Active tetromino. May be null, if the game is in the process of showing a cutscene (like a disappearing line). 
+     */
+    @Wither
     private final Tetromino activeTetromino;
     /** The active tetromino's location. May be null if activeTetromino is null as well. */
     @Wither
@@ -59,6 +62,7 @@ public class OnePlayerGameState implements GameState {
     private final Orientation currentBlockOrientation;
     /** The next tetromino. */
     @NonNull
+    @Wither
     private final Tetromino next;
     /** The number of frames since the last time the active block was moved down. */
     @Wither

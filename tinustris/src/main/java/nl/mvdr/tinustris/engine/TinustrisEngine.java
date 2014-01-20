@@ -532,13 +532,22 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @return updated game state
      */
     private OnePlayerGameState executeHold(OnePlayerGameState state) {
-        Tetromino activeTetromino = state.getNext();
-        Tetromino next = state.getActiveTetromino();
-        OnePlayerGameState stateAfterHold = new OnePlayerGameState(state.getGrid(), state.getWidth(), activeTetromino,
-                state.getCurrentBlockLocation(), state.getCurrentBlockOrientation(), next,
-                state.getNumFramesSinceLastDownMove(), state.getNumFramesSinceLastLock(), 0,
-                state.getInputStateHistory(), state.getBlockCounter(), state.getLines(), state.getLevel());
+        OnePlayerGameState stateAfterHold = hold(state);
         return fixStateAfterAction(state, stateAfterHold);
+    }
+
+    /**
+     * Performs a hold (swaps active and next tetrominoes).
+     * 
+     * This method does not check whether the resulting game state is valid! 
+     * 
+     * @param state state
+     * @returnupdated game state (may be invalid)
+     */
+    private OnePlayerGameState hold(OnePlayerGameState state) {
+        return state.withActiveTetromino(state.getNext())
+                .withNext(state.getActiveTetromino())
+                .withNumFramesSinceLastMove(0);
     }
     
     /**
