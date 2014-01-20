@@ -94,6 +94,7 @@ public class OnePlayerGameState implements GameState {
     @Wither
     private final int numFramesUntilLinesDisappear;
     /** Current level, which may determine the results of a speed curve. */
+    @Wither
     private final int level;
 
     /**
