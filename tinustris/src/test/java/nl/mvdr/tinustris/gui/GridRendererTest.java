@@ -6,7 +6,7 @@ import java.util.List;
 import javafx.scene.control.Label;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.Block;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
@@ -21,22 +21,22 @@ import org.junit.Test;
  */
 @Slf4j
 public class GridRendererTest {
-    /** Tests {@link GridRenderer#render(Label, GameState)}. */
+    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)}. */
     @Test
     public void testRenderSimpleState() {
         GridRenderer renderer = createGridGroup();
-        GameState state = new GameState();
+        OnePlayerGameState state = new OnePlayerGameState();
         
         renderer.render(state);
         
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, GameState)} with the same game state twice. */
+    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with the same game state twice. */
     @Test
     public void testRenderSimpleStateTwice() {
         GridRenderer renderer = createGridGroup();
-        GameState state = new GameState();
+        OnePlayerGameState state = new OnePlayerGameState();
         
         renderer.render(state);
         renderer.render(state);
@@ -44,11 +44,11 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, GameState)}. */
+    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)}. */
     @Test
     public void testRender() {
         GridRenderer renderer = createGridGroup();
-        GameState gameState = createNontrivialGameState();
+        OnePlayerGameState gameState = createNontrivialGameState();
         log.info(gameState.toString());
         
         renderer.render(gameState);
@@ -56,11 +56,11 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
 
-    /** Tests {@link GridRenderer#render(Label, GameState)} with the same game state twice. */
+    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with the same game state twice. */
     @Test
     public void testRenderTwice() {
         GridRenderer renderer = createGridGroup();
-        GameState state = createNontrivialGameState();
+        OnePlayerGameState state = createNontrivialGameState();
         log.info(state.toString());
         
         renderer.render(state);
@@ -69,18 +69,18 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, GameState)} with two different game states. */
+    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with two different game states. */
     @Test
     public void testRenderTwiceWithDifferentStates() {
         GridRenderer renderer = createGridGroup();
         
-        renderer.render(new GameState());
+        renderer.render(new OnePlayerGameState());
         renderer.render(createNontrivialGameState());
         
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, GameState)} with a full line. */
+    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with a full line. */
     @Test
     public void testRenderWithFullLine() {
         GridRenderer renderer = createGridGroup();
@@ -90,7 +90,7 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         GridRenderer renderer = createGridGroup();
@@ -123,14 +123,14 @@ public class GridRendererTest {
      * 
      * @return game state
      */
-    private GameState createNontrivialGameState() {
+    private OnePlayerGameState createNontrivialGameState() {
         List<Block> grid = new ArrayList<>();
         while (grid.size() != 220) {
             grid.add(null);
         }
         // add a single block at (2, 0)
         grid.set(2, Block.S);
-        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
+        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         return gameState;
     }
@@ -140,7 +140,7 @@ public class GridRendererTest {
      * 
      * @return game state
      */
-    private GameState createGameStateWithFullLine() {
+    private OnePlayerGameState createGameStateWithFullLine() {
         List<Block> grid = new ArrayList<>(220);
         for (int i = 0; i != 10; i++) {
             grid.add(Block.S);
@@ -148,7 +148,7 @@ public class GridRendererTest {
         while (grid.size() != 220) {
             grid.add(null);
         }
-        GameState gameState = new GameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
+        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         return gameState;
     }

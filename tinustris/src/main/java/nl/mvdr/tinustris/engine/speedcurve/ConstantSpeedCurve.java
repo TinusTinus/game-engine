@@ -2,7 +2,7 @@ package nl.mvdr.tinustris.engine.speedcurve;
 
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * A curve where all values are constant.
@@ -28,25 +28,25 @@ public class ConstantSpeedCurve implements SpeedCurve {
     
     /** {@inheritDoc} */
     @Override
-    public int computeInternalGravity(GameState state) {
+    public int computeInternalGravity(OnePlayerGameState state) {
         return gravity;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int computeLockDelay(GameState state) {
+    public int computeLockDelay(OnePlayerGameState state) {
         return lockDelay;
     }
     
     /** {@inheritDoc} */
     @Override
-    public int computeARE(GameState state) {
+    public int computeARE(OnePlayerGameState state) {
         return are;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int computeLineClearDelay(GameState state) {
+    public int computeLineClearDelay(OnePlayerGameState state) {
         return lineClearDelay;
     }
 }

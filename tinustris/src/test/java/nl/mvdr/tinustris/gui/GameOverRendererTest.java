@@ -2,7 +2,7 @@ package nl.mvdr.tinustris.gui;
 
 import javafx.scene.Group;
 import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class GameOverRendererTest {
     /** Test case where the game is not over. */
     @Test
     public void testNotTopped() {
-        GameState state = new GameState();
+        OnePlayerGameState state = new OnePlayerGameState();
         GameOverRenderer renderer = createRenderer();
         Group group = new Group(renderer);
         group.setVisible(false);
@@ -30,7 +30,7 @@ public class GameOverRendererTest {
     /** Test case where the parent is already visibly. */
     @Test
     public void testNotToppedVisible() {
-        GameState state = new GameState();
+        OnePlayerGameState state = new OnePlayerGameState();
         GameOverRenderer renderer = createRenderer();
         Group group = new Group(renderer);
         group.setVisible(true);
@@ -43,7 +43,7 @@ public class GameOverRendererTest {
     /** Test case where the game is over. */
     @Test
     public void testTopped() {
-        GameState state = createToppedGameState();
+        OnePlayerGameState state = createToppedGameState();
         GameOverRenderer renderer = createRenderer();
         Group group = new Group(renderer);
         group.setVisible(false);
@@ -56,7 +56,7 @@ public class GameOverRendererTest {
     /** Test case where the parent is already visibly. */
     @Test
     public void testToppedVisible() {
-        GameState state = createToppedGameState();
+        OnePlayerGameState state = createToppedGameState();
         GameOverRenderer renderer = createRenderer();
         Group group = new Group(renderer);
         group.setVisible(true);
@@ -91,8 +91,8 @@ public class GameOverRendererTest {
      * 
      * @return game state
      */
-    private GameState createToppedGameState() {
-        return new GameState() {
+    private OnePlayerGameState createToppedGameState() {
+        return new OnePlayerGameState() {
             /** Dummy implementation which returns true. */
             @Override
             public boolean isTopped() {

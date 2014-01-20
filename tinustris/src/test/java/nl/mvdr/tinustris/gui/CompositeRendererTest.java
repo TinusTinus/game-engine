@@ -1,6 +1,10 @@
 package nl.mvdr.tinustris.gui;
 
-import nl.mvdr.tinustris.model.GameState;
+import java.util.Arrays;
+import java.util.List;
+
+import nl.mvdr.tinustris.model.DummyGameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,34 +15,38 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class CompositeRendererTest {
-    /** Tests {@link CompositeRenderer#render(GameState)}. */
+    /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderEmptyList() {
-        CompositeRenderer renderer = new CompositeRenderer();
-        GameState state = new GameState();
+        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>();
+        DummyGameState state = new DummyGameState();
         
         renderer.render(state);
     }
     
-    /** Tests {@link CompositeRenderer#render(GameState)}. */
+    /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderOneRenderer() {
-        DummyRenderer dummyRenderer = new DummyRenderer();
-        CompositeRenderer renderer = new CompositeRenderer(dummyRenderer);
-        GameState state = new GameState();
+        DummyRenderer<DummyGameState> dummyRenderer = new DummyRenderer<>();
+        List<GameRenderer<DummyGameState>> renderers = Arrays
+                .<GameRenderer<DummyGameState>> asList(dummyRenderer);
+        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(renderers);
+        DummyGameState state = new DummyGameState();
         
         renderer.render(state);
         
         Assert.assertEquals(state, dummyRenderer.getLastRenderedState());
     }
     
-    /** Tests {@link CompositeRenderer#render(GameState)}. */
+    /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderTwoRenderers() {
-        DummyRenderer dummyRenderer0 = new DummyRenderer();
-        DummyRenderer dummyRenderer1 = new DummyRenderer();
-        CompositeRenderer renderer = new CompositeRenderer(dummyRenderer0, dummyRenderer1);
-        GameState state = new GameState();
+        DummyRenderer<DummyGameState> dummyRenderer0 = new DummyRenderer<>();
+        DummyRenderer<DummyGameState> dummyRenderer1 = new DummyRenderer<>();
+        List<GameRenderer<DummyGameState>> renderers = Arrays.<GameRenderer<DummyGameState>> asList(dummyRenderer0,
+                dummyRenderer1);
+        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(renderers);
+        DummyGameState state = new DummyGameState();
         
         renderer.render(state);
         
@@ -46,10 +54,10 @@ public class CompositeRendererTest {
         Assert.assertEquals(state, dummyRenderer1.getLastRenderedState());
     }
     
-    /** Tests {@link LabelRenderer#render(GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LabelRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
-        CompositeRenderer renderer = new CompositeRenderer();
+        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>();
         
         renderer.render(null);
     }

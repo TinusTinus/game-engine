@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Determines numeric speed values for a game of Tetris.
@@ -18,7 +18,7 @@ public interface SpeedCurve {
      *            game state
      * @return internal gravity in 1 / 256 G, must be positive
      */
-    int computeInternalGravity(GameState state);
+    int computeInternalGravity(OnePlayerGameState state);
     
     /**
      * Determines the lock delay based on the given game state. The lock delay is expressed in frames.
@@ -27,7 +27,7 @@ public interface SpeedCurve {
      *            game state
      * @return lock delay in frames, must be 0 or more
      */
-    int computeLockDelay(GameState state);
+    int computeLockDelay(OnePlayerGameState state);
     
     /**
      * Determines the ARE (also known as entry delay, appearance delay or spawn delay) in frames.
@@ -35,7 +35,7 @@ public interface SpeedCurve {
      * @param state state
      * @return ARE in frames, must be 0 or more
      */
-    int computeARE(GameState state);
+    int computeARE(OnePlayerGameState state);
     
     /**
      * Determines the line clear delay in frames.
@@ -43,7 +43,7 @@ public interface SpeedCurve {
      * @param state state
      * @return line clear delay in frames, must be positive
      */
-    int computeLineClearDelay(GameState state);
+    int computeLineClearDelay(OnePlayerGameState state);
     
     // TODO add delayed auto shift (DAS)?
 }

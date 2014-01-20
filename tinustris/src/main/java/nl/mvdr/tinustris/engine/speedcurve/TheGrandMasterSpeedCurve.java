@@ -3,7 +3,7 @@ package nl.mvdr.tinustris.engine.speedcurve;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Speed curve based on Tetris: The Grand Master.
@@ -56,26 +56,26 @@ public class TheGrandMasterSpeedCurve implements SpeedCurve {
     
     /** {@inheritDoc} */
     @Override
-    public int computeInternalGravity(GameState state) {
+    public int computeInternalGravity(OnePlayerGameState state) {
         int level = state.getLevel();
         return internalGravityCurve.getValue(level);
     }
 
     /** {@inheritDoc} */
     @Override
-    public int computeLockDelay(GameState state) {
+    public int computeLockDelay(OnePlayerGameState state) {
         return 30;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int computeARE(GameState state) {
+    public int computeARE(OnePlayerGameState state) {
         return 30;
     }
 
     /** {@inheritDoc} */
     @Override
-    public int computeLineClearDelay(GameState state) {
+    public int computeLineClearDelay(OnePlayerGameState state) {
         return 41;
     }
 }

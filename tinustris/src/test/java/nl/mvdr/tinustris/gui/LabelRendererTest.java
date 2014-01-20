@@ -1,7 +1,8 @@
 package nl.mvdr.tinustris.gui;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.DummyGameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,11 +14,11 @@ import org.junit.Test;
  */
 @Slf4j
 public class LabelRendererTest {
-    /** Tests {@link LabelRenderer#render(GameState)}. */
+    /** Tests {@link LabelRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRender() {
-        LabelRenderer renderer = createLabelRenderer();
-        GameState state = new GameState();
+        LabelRenderer<DummyGameState> renderer = createLabelRenderer();
+        DummyGameState state = new DummyGameState();
         
         renderer.render(state);
         
@@ -27,11 +28,11 @@ public class LabelRendererTest {
         Assert.assertNotEquals("", text);
     }
     
-    /** Tests {@link LabelRenderer#render(GameState)} in case the text stays the same. */
+    /** Tests {@link LabelRenderer#render(OnePlayerGameState)} in case the text stays the same. */
     @Test
     public void testRenderSameValue() {
-        LabelRenderer renderer = createLabelRenderer();
-        GameState state = new GameState();
+        LabelRenderer<DummyGameState> renderer = createLabelRenderer();
+        DummyGameState state = new DummyGameState();
         renderer.setText(state.toString());
         
         renderer.render(state);
@@ -42,10 +43,10 @@ public class LabelRendererTest {
         Assert.assertNotEquals("", text);
     }
     
-    /** Tests {@link LabelRenderer#render(GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LabelRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
-        LabelRenderer renderer = createLabelRenderer();
+        LabelRenderer<DummyGameState> renderer = createLabelRenderer();
         
         renderer.render(null);
     }
@@ -55,8 +56,8 @@ public class LabelRendererTest {
      * 
      * @return renderer
      */
-    private LabelRenderer createLabelRenderer() {
-        return new LabelRenderer() {
+    private LabelRenderer<DummyGameState> createLabelRenderer() {
+        return new LabelRenderer<DummyGameState>() {
             /** 
              * Mock implementation which just executes the runnable on the current thread.
              * 
@@ -74,7 +75,7 @@ public class LabelRendererTest {
              * @return string representation of the state
              */
             @Override
-            protected String toText(GameState state) {
+            protected String toText(DummyGameState state) {
                 return state.toString();
             }
         };

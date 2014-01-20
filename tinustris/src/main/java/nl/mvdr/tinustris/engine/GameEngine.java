@@ -6,15 +6,17 @@ import nl.mvdr.tinustris.model.GameState;
 /**
  * Game engine interface.
  * 
+ * @param <S> game state type
+ * 
  * @author Martijn van de Rijdt
  */
-public interface GameEngine {
+public interface GameEngine<S extends GameState> {
     /**
      * Initialises the game state.
      * 
      * @return new game state
      */
-    public GameState initGameState();
+    public S initGameState();
     
     /**
      * Computes the next game state based on the previous one and the state of the controls.
@@ -25,5 +27,5 @@ public interface GameEngine {
      *            input state
      * @return new game state
      */
-    GameState computeNextState(GameState previousState, InputState inputState);
+    S computeNextState(S previousState, InputState inputState);
 }

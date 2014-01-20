@@ -7,7 +7,7 @@ import java.util.Set;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import nl.mvdr.tinustris.model.Block;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Point;
 
 /**
@@ -17,18 +17,18 @@ import nl.mvdr.tinustris.model.Point;
  */
 class GridRenderer extends BlockGroupRenderer {
     /** Previous game state, currently being displayed. Initially null. */
-    private GameState previousState = null;
+    private OnePlayerGameState previousState = null;
 
     /** {@inheritDoc} */
     @Override
-    public void render(GameState gameState) {
+    public void render(OnePlayerGameState gameState) {
         super.render(gameState);
         previousState = gameState;
     }
     
     /** {@inheritDoc} */
     @Override
-    List<Group> createGroups(GameState gameState) {
+    List<Group> createGroups(OnePlayerGameState gameState) {
         // create groups if state has changed; otherwise these groups may remain null
         Group grid = createGridGroup(gameState);
         Group ghost = createGhostGroup(gameState);
@@ -44,7 +44,7 @@ class GridRenderer extends BlockGroupRenderer {
      * @param gameState new game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createGridGroup(final GameState gameState) {
+    private Group createGridGroup(final OnePlayerGameState gameState) {
         Group grid;
         // Use == instead of equals since it's much more efficient and there is a low chance of collisions.
         if (previousState != null && previousState.getGrid() == gameState.getGrid()) {
@@ -55,7 +55,7 @@ class GridRenderer extends BlockGroupRenderer {
             // In the latter case they might still be equal, but whatever.
             // Render the group.
             grid = new Group();
-            int height = gameState.getHeight() - GameState.VANISH_ZONE_HEIGHT;
+            int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (int y = 0; y != height; y++) {
                 BlockStyle style;
                 if (gameState.isFullLine(y)) {
@@ -83,7 +83,7 @@ class GridRenderer extends BlockGroupRenderer {
      * @param gameState new game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createGhostGroup(final GameState gameState) {
+    private Group createGhostGroup(final OnePlayerGameState gameState) {
         Group ghost;
         Set<Point> ghostPoints = gameState.getGhostPoints();
         if (previousState != null && previousState.getGhostPoints().equals(ghostPoints)) {
@@ -93,7 +93,7 @@ class GridRenderer extends BlockGroupRenderer {
             // This is the first frame, or the ghost has changed.
             // Render the group.
             ghost = new Group();
-            int height = gameState.getHeight() - GameState.VANISH_ZONE_HEIGHT;
+            int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : ghostPoints) {
                 Rectangle block = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().getBlock(), BlockStyle.GHOST,
@@ -110,7 +110,7 @@ class GridRenderer extends BlockGroupRenderer {
      * @param gameState new game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createActiveBlockGroup(final GameState gameState) {
+    private Group createActiveBlockGroup(final OnePlayerGameState gameState) {
         Group activeBlock;
         Set<Point> currentActiveBlockPoints = gameState.getCurrentActiveBlockPoints();
         if (previousState != null && previousState.getCurrentActiveBlockPoints().equals(currentActiveBlockPoints)) {
@@ -120,7 +120,7 @@ class GridRenderer extends BlockGroupRenderer {
             // This is the first frame, or the active block's location has changed.
             // Render the group.
             activeBlock = new Group();
-            int height = gameState.getHeight() - GameState.VANISH_ZONE_HEIGHT;
+            int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : currentActiveBlockPoints) {
                 Rectangle block = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().getBlock(), BlockStyle.ACTIVE,

@@ -8,14 +8,14 @@ import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import lombok.NonNull;
 import nl.mvdr.tinustris.model.Block;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * JavaFX node that contains a group of blocks.
  * 
  * @author Martijn van de Rijdt
  */
-abstract class BlockGroupRenderer extends Group implements GameRenderer {
+abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlayerGameState> {
     /** Size of a tetromino block. */
     static final int BLOCK_SIZE = 30;
     /** Size for the arc of a tetromino block. */
@@ -23,7 +23,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
     
     /** {@inheritDoc} */
     @Override
-    public void render(@NonNull GameState gameState) {
+    public void render(@NonNull OnePlayerGameState gameState) {
         final List<Group> groups = createGroups(gameState);
         
         if (!containsAllNullValues(groups)) {
@@ -45,7 +45,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer {
      * @param gameState new game state
      * @return list of groups; may contain null values
      */
-    abstract List<Group> createGroups(GameState gameState);
+    abstract List<Group> createGroups(OnePlayerGameState gameState);
     
     /**
      * Checks wheter the list contains only null values.

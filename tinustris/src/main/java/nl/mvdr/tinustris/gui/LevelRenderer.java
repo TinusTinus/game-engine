@@ -1,16 +1,16 @@
 package nl.mvdr.tinustris.gui;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Component showing the current level.
  * 
  * @author Martijn van de Rijdt
  */
-class LevelRenderer extends LabelRenderer {
+class LevelRenderer extends LabelRenderer<OnePlayerGameState> {
     /** {@inheritDoc} */
     @Override
-    protected String toText(GameState state) {
+    protected String toText(OnePlayerGameState state) {
         return "" + state.getLevel();
     }
 }

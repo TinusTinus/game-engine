@@ -1,14 +1,14 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.application.Platform;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Component showing whether the game is over. Should be part of an invisible group by default.
  * 
  * @author Martijn van de Rijdt
  */
-class GameOverRenderer extends GreenTextLabel implements GameRenderer {
+class GameOverRenderer extends GreenTextLabel implements GameRenderer<OnePlayerGameState> {
     /** Constructor. */
     GameOverRenderer() {
         super("GAME OVER");
@@ -16,7 +16,7 @@ class GameOverRenderer extends GreenTextLabel implements GameRenderer {
     
     /** {@inheritDoc} */
     @Override
-    public void render(GameState gameState) {
+    public void render(OnePlayerGameState gameState) {
         if (!getParent().isVisible() && gameState.isTopped()) {
             runOnJavaFXThread(new Runnable() {
                 /** {@inheritDoc} */

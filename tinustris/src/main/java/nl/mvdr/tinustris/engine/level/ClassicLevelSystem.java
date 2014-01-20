@@ -1,7 +1,7 @@
 package nl.mvdr.tinustris.engine.level;
 
 import lombok.RequiredArgsConstructor;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Classic leveling system as seen in most Tetris games.
@@ -20,7 +20,7 @@ public class ClassicLevelSystem extends AbstractLevelSystem {
     
     /** {@inheritDoc} */
     @Override
-    int computeLevel(GameState previousState, GameState newState) {
+    int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
         return Math.max(startLevel, newState.getLines() / 10);
     }
 }

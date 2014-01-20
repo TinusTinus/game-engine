@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.engine.level;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Abstract superclass for implementations of {@link LevelSystem}.
@@ -10,9 +10,9 @@ import nl.mvdr.tinustris.model.GameState;
 abstract class AbstractLevelSystem implements LevelSystem {
     /** {@inheritDoc} */
     @Override
-    public GameState fillLevel(GameState previousState, GameState newState) {
+    public OnePlayerGameState fillLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
         int level = computeLevel(previousState, newState);
-        return new GameState(newState.getGrid(), newState.getWidth(), newState.getActiveTetromino(),
+        return new OnePlayerGameState(newState.getGrid(), newState.getWidth(), newState.getActiveTetromino(),
                 newState.getCurrentBlockLocation(), newState.getCurrentBlockOrientation(), newState.getNext(),
                 newState.getNumFramesSinceLastDownMove(), newState.getNumFramesSinceLastLock(),
                 newState.getNumFramesSinceLastMove(), newState.getInputStateHistory(), newState.getBlockCounter(),
@@ -26,5 +26,5 @@ abstract class AbstractLevelSystem implements LevelSystem {
      * @param newState next game state; all fields should be filled except for level
      * @return level value
      */
-    abstract int computeLevel(GameState previousState, GameState newState);
+    abstract int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState);
 }

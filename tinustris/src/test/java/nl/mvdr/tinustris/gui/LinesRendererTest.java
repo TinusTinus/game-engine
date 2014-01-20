@@ -1,7 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import nl.mvdr.tinustris.input.InputStateHistory;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
@@ -13,22 +13,22 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class LinesRendererTest {
-    /** Tests {@link LinesRenderer#render(GameState)}. */
+    /** Tests {@link LinesRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRender() {
         LinesRenderer renderer = createLinesRenderer();
-        GameState state = new GameState();
+        OnePlayerGameState state = new OnePlayerGameState();
         
         renderer.render(state);
         
         Assert.assertEquals("0", renderer.getText());
     }
     
-    /** Tests {@link LinesRenderer#render(GameState)}. */
+    /** Tests {@link LinesRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderPositiveLines() {
         LinesRenderer renderer = createLinesRenderer();
-        GameState state = new GameState(new GameState().getGrid(), 4, null, null, null, Tetromino.L, 0, 0, 0,
+        OnePlayerGameState state = new OnePlayerGameState(new OnePlayerGameState().getGrid(), 4, null, null, null, Tetromino.L, 0, 0, 0,
                 new InputStateHistory(), 0, 365, 36);
         
         renderer.render(state);
@@ -36,7 +36,7 @@ public class LinesRendererTest {
         Assert.assertEquals("365", renderer.getText());
     }
     
-    /** Tests {@link LinesRenderer#render(GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LinesRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         LinesRenderer renderer = createLinesRenderer();

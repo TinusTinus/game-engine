@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.engine.level;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Level system based on the Tetris: The Grand Master series.
@@ -10,7 +10,7 @@ import nl.mvdr.tinustris.model.GameState;
 public class TheGrandMasterLevelSystem extends AbstractLevelSystem {
     /** {@inheritDoc} */
     @Override
-    int computeLevel(GameState previousState, GameState newState) {
+    int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
         int level = previousState.getLevel();
         
         if (previousState.getLevel() % 100 != 99) {

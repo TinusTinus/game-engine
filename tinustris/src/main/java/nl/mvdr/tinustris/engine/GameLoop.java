@@ -11,11 +11,13 @@ import nl.mvdr.tinustris.model.GameState;
 /**
  * Offers functionality for starting and stopping the game loop.
  * 
+ * @param <S> game state type
+ * 
  * @author Martijn van de Rijdt
  */
 @Slf4j
 @RequiredArgsConstructor
-public class GameLoop {
+public class GameLoop<S extends GameState> {
     /** Update rate for the game state. */
     public static final double GAME_HERTZ = 60.0;
     
@@ -33,10 +35,10 @@ public class GameLoop {
     private final InputController inputController;
     /** Game engine. */
     @NonNull
-    private final GameEngine gameEngine;
+    private final GameEngine<S> gameEngine;
     /** Game renderer. */
     @NonNull
-    private final GameRenderer gameRenderer;
+    private final GameRenderer<S> gameRenderer;
 
     /** Indicates whether the game should be running. */
     private boolean running;
@@ -77,14 +79,14 @@ public class GameLoop {
         // Simple way of finding FPS.
         int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
 
-        GameState gameState = gameEngine.initGameState();
+        S gameState = gameEngine.initGameState();
 
         gameRenderer.render(gameState);
 
         log.info("Starting main game loop.");
 
         try {
-            while (running && !gameState.isTopped()) {
+            while (running && !gameState.isGameOver()) {
                 double now = System.nanoTime();
                 int updateCount = 0;
 

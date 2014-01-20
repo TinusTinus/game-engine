@@ -1,7 +1,7 @@
 package nl.mvdr.tinustris.engine.level;
 
 import lombok.RequiredArgsConstructor;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Dummy subclass of AbstractLevelSystem.
@@ -20,7 +20,7 @@ public class DummyLevelSystem extends AbstractLevelSystem {
     
     /** {@inheritDoc} */
     @Override
-    int computeLevel(GameState previousState, GameState newState) {
+    int computeLevel(OnePlayerGameState previousState, OnePlayerGameState newState) {
         return level;
     }
 }

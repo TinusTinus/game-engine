@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.engine.level;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Determines the leveling system for a game.
@@ -15,5 +15,5 @@ public interface LevelSystem {
      * @param newState next game state; all fields should be filled except for level
      * @return copy of newState with the level filled in
      */
-    GameState fillLevel(GameState previousState, GameState newState);
+    OnePlayerGameState fillLevel(OnePlayerGameState previousState, OnePlayerGameState newState);
 }

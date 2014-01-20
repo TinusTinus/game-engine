@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Test;
 
@@ -10,26 +10,26 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class NextBlockRendererTest {
-    /** Tests {@link NextBlockRenderer#render(GameState)}. */
+    /** Tests {@link NextBlockRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRender() {
         NextBlockRenderer renderer = createNextBlockRenderer();
-        GameState state = new GameState();
+        OnePlayerGameState state = new OnePlayerGameState();
         
         renderer.render(state);
     }
     
-    /** Tests {@link NextBlockRenderer#render(GameState)}. */
+    /** Tests {@link NextBlockRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderTwice() {
         NextBlockRenderer renderer = createNextBlockRenderer();
-        GameState state = new GameState();
+        OnePlayerGameState state = new OnePlayerGameState();
         
         renderer.render(state);
         renderer.render(state);
     }
     
-    /** Tests {@link NextBlockRenderer#render(GameState)} when a null value of GameState is passed in. */
+    /** Tests {@link NextBlockRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         NextBlockRenderer renderer = createNextBlockRenderer();

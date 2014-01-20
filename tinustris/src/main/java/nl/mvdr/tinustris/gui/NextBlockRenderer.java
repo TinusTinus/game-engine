@@ -5,7 +5,7 @@ import java.util.List;
 
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
@@ -21,14 +21,14 @@ class NextBlockRenderer extends BlockGroupRenderer {
     
     /** {@inheritDoc} */
     @Override
-    public void render(GameState gameState) {
+    public void render(OnePlayerGameState gameState) {
         super.render(gameState);
         previousValue = gameState.getNext();
     }
     
     /** {@inheritDoc} */
     @Override
-    List<Group> createGroups(GameState gameState) {
+    List<Group> createGroups(OnePlayerGameState gameState) {
         Group group;
         
         Tetromino nextBlock = gameState.getNext();

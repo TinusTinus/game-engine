@@ -7,12 +7,14 @@ import nl.mvdr.tinustris.model.GameState;
 /**
  * Label containing (part of) the game state.
  * 
+ * @param <S> game state type
+ * 
  * @author Martijn van de Rijdt
  */
-abstract class LabelRenderer extends GreenTextLabel implements GameRenderer {
+abstract class LabelRenderer<S extends GameState> extends GreenTextLabel implements GameRenderer<S> {
     /** {@inheritDoc} */
     @Override
-    public void render(@NonNull GameState gameState) {
+    public void render(@NonNull S gameState) {
         final String newText = toText(gameState);
         if (!newText.equals(getText())) {
             runOnJavaFXThread(new Runnable() {
@@ -41,5 +43,5 @@ abstract class LabelRenderer extends GreenTextLabel implements GameRenderer {
      * @param state game state to be represented
      * @return string representation of the given state; may not be null
      */
-    protected abstract String toText(GameState state);
+    protected abstract String toText(S state);
 }

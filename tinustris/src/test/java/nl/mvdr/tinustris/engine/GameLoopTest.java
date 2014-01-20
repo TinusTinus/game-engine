@@ -1,15 +1,10 @@
 package nl.mvdr.tinustris.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyGameEngine;
 import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.InputState;
-import nl.mvdr.tinustris.model.Block;
-import nl.mvdr.tinustris.model.GameState;
-import nl.mvdr.tinustris.model.Tetromino;
+import nl.mvdr.tinustris.model.DummyGameState;
 
 import org.junit.Test;
 
@@ -27,7 +22,8 @@ public class GameLoopTest {
      */
     @Test
     public void testStartAndStop() throws InterruptedException {
-        GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(),
+                new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
         Thread.sleep(2000);
@@ -44,7 +40,8 @@ public class GameLoopTest {
      */
     @Test
     public void testStartPauseUnpauseStop() throws InterruptedException {
-        GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(),
+                new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -66,7 +63,8 @@ public class GameLoopTest {
      */
     @Test
     public void testStartToggleToggleStop() throws InterruptedException {
-        GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(),
+                new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -88,7 +86,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStopGameWhilePaused() throws InterruptedException {
-        GameLoop gameLoop = new GameLoop(new DummyInputController(), new DummyGameEngine(), new DummyRenderer());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(), new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -111,17 +109,14 @@ public class GameLoopTest {
         DummyGameEngine engine = new DummyGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public GameState computeNextState(GameState previousState, InputState inputState) {
-                // return game state with a full grid
-                List<Block> grid = new ArrayList<>(220);
-                for (int i = 0; i != 220; i++) {
-                    grid.add(Block.S);
-                }
-                return new GameState(grid, 10, null, Tetromino.T);
+            public DummyGameState computeNextState(DummyGameState previousState, InputState inputState) {
+                // return game state that is game over
+                return new DummyGameState(true);
             }
         };
         
-        GameLoop gameLoop = new GameLoop(new DummyInputController(), engine, new DummyRenderer());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), engine,
+                new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
         // sleep to give the game loop thread time to clean up and log that it is finished
@@ -131,19 +126,19 @@ public class GameLoopTest {
     /** Tests the constructor with a null value for the input controller. */
     @Test(expected = NullPointerException.class)
     public void testNullController() {
-        new GameLoop(null, new DummyGameEngine(), new DummyRenderer());
+        new GameLoop<>(null, new DummyGameEngine(), new DummyRenderer<DummyGameState>());
     }
     
     /** Tests the constructor with a null value for the game engine. */
     @Test(expected = NullPointerException.class)
     public void testNullEngine() {
-        new GameLoop(new DummyInputController(), null, new DummyRenderer());
+        new GameLoop<>(new DummyInputController(), null, new DummyRenderer<DummyGameState>());
     }
 
     
     /** Tests the constructor with a null value for the renderer. */
     @Test(expected = NullPointerException.class)
     public void testNullRenderer() {
-        new GameLoop(new DummyInputController(), new DummyGameEngine(), null);
+        new GameLoop<>(new DummyInputController(), new DummyGameEngine(), null);
     }
 }

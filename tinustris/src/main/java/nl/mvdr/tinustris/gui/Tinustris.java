@@ -1,5 +1,8 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -20,7 +23,7 @@ import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.TinustrisEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -44,7 +47,7 @@ public class Tinustris extends Application {
     private static final int GAME_OVER_LABEL_WIDTH = 170;
     
     /** Game loop. */
-    private GameLoop gameLoop;
+    private GameLoop<OnePlayerGameState> gameLoop;
     
     /**
      * Main method.
@@ -83,14 +86,15 @@ public class Tinustris extends Application {
         LinesRenderer linesRenderer = new LinesRenderer();
         LevelRenderer levelRenderer = new LevelRenderer();
         GameOverRenderer gameOverRenderer = new GameOverRenderer();
-        CompositeRenderer gameRenderer = new CompositeRenderer(gridGroup, nextBlockRenderer, linesRenderer,
-                levelRenderer, gameOverRenderer);
+        List<GameRenderer<OnePlayerGameState>> renderers = Arrays.<GameRenderer<OnePlayerGameState>> asList(gridGroup,
+                nextBlockRenderer, linesRenderer, levelRenderer, gameOverRenderer);
+        CompositeRenderer<OnePlayerGameState> gameRenderer = new CompositeRenderer<>(renderers);
 
         // construct the user interface
         stage.setTitle("Tinustris");
         
-        int widthInBlocks = GameState.DEFAULT_WIDTH;
-        int heightInBlocks = GameState.DEFAULT_HEIGHT - GameState.VANISH_ZONE_HEIGHT;
+        int widthInBlocks = OnePlayerGameState.DEFAULT_WIDTH;
+        int heightInBlocks = OnePlayerGameState.DEFAULT_HEIGHT - OnePlayerGameState.VANISH_ZONE_HEIGHT;
         
         Group gridWindow = createWindow("", gridGroup, MARGIN, MARGIN, widthInBlocks * GridRenderer.BLOCK_SIZE, 
                 heightInBlocks * BlockGroupRenderer.BLOCK_SIZE);
@@ -132,10 +136,10 @@ public class Tinustris extends Application {
         
         // setup necessary components
         InputController inputController = new JInputController();
-        GameEngine gameEngine = new TinustrisEngine();
+        GameEngine<OnePlayerGameState> gameEngine = new TinustrisEngine();
         
         // start the game loop
-        gameLoop = new GameLoop(inputController, gameEngine, gameRenderer);
+        gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer);
         gameLoop.start();
         log.info("Game loop started.");
     }
