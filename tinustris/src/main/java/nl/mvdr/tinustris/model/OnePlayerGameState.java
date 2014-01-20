@@ -55,6 +55,7 @@ public class OnePlayerGameState implements GameState {
     @Wither
     private final Point currentBlockLocation;
     /** The current block's orientation. May be null if activeTetromino is null as well. */
+    @Wither
     private final Orientation currentBlockOrientation;
     /** The next tetromino. */
     @NonNull

@@ -497,11 +497,8 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @return updated game state (may be invalid)
      */
     private OnePlayerGameState turnLeft(OnePlayerGameState state) {
-        Orientation orientation = state.getCurrentBlockOrientation().getNextCounterClockwise();
-        return new OnePlayerGameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(),
-                state.getCurrentBlockLocation(), orientation, state.getNext(),
-                state.getNumFramesSinceLastDownMove(), state.getNumFramesSinceLastLock(), 0,
-                state.getInputStateHistory(), state.getBlockCounter(), state.getLines(), state.getLevel());
+        return state.withCurrentBlockOrientation(state.getCurrentBlockOrientation().getNextCounterClockwise())
+                .withNumFramesSinceLastMove(0);
     }
     
     /**
@@ -524,11 +521,8 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
      * @return updated game state (may be invalid)
      */
     private OnePlayerGameState turnRight(OnePlayerGameState state) {
-        Orientation orientation = state.getCurrentBlockOrientation().getNextClockwise();
-        return new OnePlayerGameState(state.getGrid(), state.getWidth(), state.getActiveTetromino(),
-                state.getCurrentBlockLocation(), orientation, state.getNext(),
-                state.getNumFramesSinceLastDownMove(), state.getNumFramesSinceLastLock(), 0,
-                state.getInputStateHistory(), state.getBlockCounter(), state.getLines(), state.getLevel());
+        return state.withCurrentBlockOrientation(state.getCurrentBlockOrientation().getNextClockwise())
+                .withNumFramesSinceLastMove(0);
     }
 
     /**
