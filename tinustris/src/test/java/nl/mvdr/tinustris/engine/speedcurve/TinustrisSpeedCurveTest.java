@@ -15,9 +15,8 @@ public class TinustrisSpeedCurveTest extends SpeedCurveTester {
     }
     
     /**
-     * Test case which tests whether
-     * {@link TinustrisSpeedCurve#computeInternalGravity(nl.mvdr.tinustris.model.GameState)} results in a 20G speed at
-     * the highest level.
+     * Test case which tests whether {@link TinustrisSpeedCurve#computeInternalGravity(OnePlayerGameState)} results in a
+     * 20G speed at the highest level.
      */
     @Test
     public void testMaxLevel() {

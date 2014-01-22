@@ -75,7 +75,7 @@ public class TinustrisEngineTest {
         Assert.assertEquals(Tetromino.T, state.getNext());
     }
     
-    /** Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, nl.mvdr.tinustris.input.InputState)} method. */
+    /** Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method. */
     @Test
     public void testNextState() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
@@ -90,8 +90,8 @@ public class TinustrisEngineTest {
     }
     
     /**
-     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, nl.mvdr.tinustris.input.InputState)} method with a
-     * hard drop input.
+     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method
+     * with a hard drop input.
      */
     @Test
     public void testNextStateHardDrop() {
@@ -108,8 +108,8 @@ public class TinustrisEngineTest {
     }
     
     /**
-     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, nl.mvdr.tinustris.input.InputState)} method with a
-     * hard drop input and a Game Boy speed curve.
+     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method with a hard drop input
+     * and a Game Boy speed curve.
      */
     @Test
     public void testNextStateHardDropGameBoyCurve() {
@@ -149,8 +149,8 @@ public class TinustrisEngineTest {
         grid.set(18, Block.J);
         grid.set(22, Block.S);
         grid.set(28, Block.J);
-        OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13), Orientation.FLAT_DOWN, Tetromino.I,
-                11, 0, 11, InputStateHistory.NEW, 236, 93, 0);
+        OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13), 
+                Orientation.FLAT_DOWN, Tetromino.I, 11, 0, 11, InputStateHistory.NEW, 236, 93, 0);
         return state;
     }
 }

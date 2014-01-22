@@ -24,7 +24,7 @@ public class ConstantSpeedCurveTest {
         new ConstantSpeedCurve();
     }   
     
-    /** Test case which calls {@link ConstantSpeedCurve#computeInternalGravity(nl.mvdr.tinustris.model.OnePlayerGameState)}. */
+    /** Test case which calls {@link ConstantSpeedCurve#computeInternalGravity(OnePlayerGameState)}. */
     @Test
     public void testGravity() {
         ConstantSpeedCurve curve = new ConstantSpeedCurve(1, 2, 3, 4);
@@ -32,7 +32,7 @@ public class ConstantSpeedCurveTest {
         Assert.assertEquals(1, curve.computeInternalGravity(new OnePlayerGameState()));
     }
     
-    /** Test case which calls {@link ConstantSpeedCurve#computeLockDelay(nl.mvdr.tinustris.model.OnePlayerGameState)}. */
+    /** Test case which calls {@link ConstantSpeedCurve#computeLockDelay(OnePlayerGameState)}. */
     @Test
     public void testLockDelay() {
         ConstantSpeedCurve curve = new ConstantSpeedCurve(1, 2, 3, 4);
@@ -40,7 +40,7 @@ public class ConstantSpeedCurveTest {
         Assert.assertEquals(2, curve.computeLockDelay(new OnePlayerGameState()));
     }
     
-    /** Test case which calls {@link ConstantSpeedCurve#computeARE(nl.mvdr.tinustris.model.OnePlayerGameState)}. */
+    /** Test case which calls {@link ConstantSpeedCurve#computeARE(OnePlayerGameState)}. */
     @Test
     public void testARE() {
         ConstantSpeedCurve curve = new ConstantSpeedCurve(1, 2, 3, 4);
@@ -48,7 +48,7 @@ public class ConstantSpeedCurveTest {
         Assert.assertEquals(3, curve.computeARE(new OnePlayerGameState()));
     }
     
-    /** Test case which calls {@link ConstantSpeedCurve#computeLockDelay(nl.mvdr.tinustris.model.OnePlayerGameState)}. */
+    /** Test case which calls {@link ConstantSpeedCurve#computeLockDelay(OnePlayerGameState)}. */
     @Test
     public void testLineClear() {
         ConstantSpeedCurve curve = new ConstantSpeedCurve(1, 2, 3, 4);
