@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.model;
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -158,7 +157,6 @@ public class MultiplayerGameStateTest {
     
     /** Test case for {@link MultiplayerGameState#isGameOver()}. */
     @Test
-    @Ignore // TODO fix the implementation!
     public void testGameOverTwoActiveOneToppedPlayers() {
         OnePlayerGameState activeState = new OnePlayerGameState();
         OnePlayerGameState toppedState = createToppedState();

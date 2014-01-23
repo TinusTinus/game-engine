@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.model;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import lombok.NonNull;
@@ -43,11 +44,15 @@ public class MultiplayerGameState implements GameState {
     /** {@inheritDoc} */
     @Override
     public boolean isGameOver() {
-        // TODO add test cases for 3+ players; fix this method
-        boolean result = false;
-        for (OnePlayerGameState state : states) {
-            result = result || state.isGameOver();
+        // The game is not over as long as there are at least two players still playing.
+        int numberOfActivePlayers = 0;
+        Iterator<OnePlayerGameState> iterator = states.iterator();
+        
+        while (numberOfActivePlayers < 2 && iterator.hasNext()) {
+            if (!iterator.next().isGameOver()) {
+                numberOfActivePlayers++;
+            }
         }
-        return result;
+        return numberOfActivePlayers < 2;
     }
 }
