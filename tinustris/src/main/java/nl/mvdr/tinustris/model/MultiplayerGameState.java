@@ -55,4 +55,9 @@ public class MultiplayerGameState implements GameState {
         }
         return numberOfActivePlayers < 2;
     }
+    
+    /** @return the number of players in the game represented by this game state*/
+    public int getNumberOfPlayers() {
+        return this.states.size();
+    }
 }

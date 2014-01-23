@@ -184,4 +184,22 @@ public class MultiplayerGameStateTest {
             }
         };
     }
+    
+    /** Test case for {@link MultiplayerGameState#getNumberOfPlayers()}. */
+    @Test
+    public void testgetNumberOfPlayers2() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+
+        Assert.assertEquals(2, mulitplayerState.getNumberOfPlayers());
+    }
+    
+    /** Test case for {@link MultiplayerGameState#getNumberOfPlayers()}. */
+    @Test
+    public void testgetNumberOfPlayers3() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state, state);
+
+        Assert.assertEquals(3, mulitplayerState.getNumberOfPlayers());
+    }
 }
