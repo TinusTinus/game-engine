@@ -79,8 +79,7 @@ public class TinustrisEngineTest {
     /** Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method. */
     @Test
     public void testNextState() {
-        TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
+        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = new DummyInputController().getInputState();
         
@@ -119,8 +118,7 @@ public class TinustrisEngineTest {
      */
     @Test
     public void testNextStateHardDrop() {
-        TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
+        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
         InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
@@ -137,8 +135,7 @@ public class TinustrisEngineTest {
      */
     @Test
     public void testNextStateHardDropGameBoyCurve() {
-        TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new GameBoySpeedCurve(), new DummyLevelSystem());
+        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new GameBoySpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
         InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
