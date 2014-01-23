@@ -93,7 +93,11 @@ public class GameOverRendererTest {
      */
     private OnePlayerGameState createToppedGameState() {
         return new OnePlayerGameState() {
-            /** Dummy implementation which returns true. */
+            /** 
+             * {@inheritDoc}
+             * 
+             * Dummy implementation which always returns true.
+             */
             @Override
             public boolean isTopped() {
                 return true;
