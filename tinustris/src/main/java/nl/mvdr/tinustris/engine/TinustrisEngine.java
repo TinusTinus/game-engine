@@ -67,7 +67,12 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
     
     /** {@inheritDoc} */
     @Override
-    public OnePlayerGameState computeNextState(OnePlayerGameState previousState, InputState inputState) {
+    public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+        if (inputStates.size() != 1) {
+            throw new IllegalArgumentException("Expected 1 input state, got " + inputStates.size());
+        }
+        InputState inputState = inputStates.get(0);
+        
         OnePlayerGameState result;
         
         if (!previousState.isGameOver()) {

@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.input;
 
+import java.util.List;
+
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.model.DummyGameState;
 
@@ -17,7 +19,7 @@ public class DummyGameEngine implements GameEngine<DummyGameState> {
 
     /** {@inheritDoc} */
     @Override
-    public DummyGameState computeNextState(DummyGameState previousState, InputState inputState) {
+    public DummyGameState computeNextState(DummyGameState previousState, List<InputState> inputStates) {
         return previousState;
     }
 }

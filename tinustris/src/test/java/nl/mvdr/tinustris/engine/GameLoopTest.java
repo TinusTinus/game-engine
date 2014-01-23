@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.List;
+
 import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyGameEngine;
 import nl.mvdr.tinustris.input.DummyInputController;
@@ -109,7 +111,7 @@ public class GameLoopTest {
         DummyGameEngine engine = new DummyGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public DummyGameState computeNextState(DummyGameState previousState, InputState inputState) {
+            public DummyGameState computeNextState(DummyGameState previousState, List<InputState> inputStates) {
                 // return game state that is game over
                 return DummyGameState.GAME_OVER;
             }

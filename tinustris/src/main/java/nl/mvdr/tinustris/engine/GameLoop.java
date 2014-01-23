@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.Arrays;
+
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -93,8 +95,9 @@ public class GameLoop<S extends GameState> {
                 if (!paused) {
                     // Do as many game updates as we need to, potentially playing catchup.
                     while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
+                        // TODO multiple input controllers: one per player
                         InputState inputState = inputController.getInputState();
-                        gameState = gameEngine.computeNextState(gameState, inputState);
+                        gameState = gameEngine.computeNextState(gameState, Arrays.asList(inputState));
 
                         lastUpdateTime += TIME_BETWEEN_UPDATES;
                         updateCount++;

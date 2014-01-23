@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -83,10 +84,33 @@ public class TinustrisEngineTest {
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = new DummyInputController().getInputState();
         
-        state = engine.computeNextState(state, inputState);
+        state = engine.computeNextState(state, Arrays.asList(inputState));
 
         log.info(state.toString());
         Assert.assertNotNull(state);
+    }
+    
+    /**
+     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method
+     * without any input states.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNextStateNoInputState() {
+        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerGameState state = new OnePlayerGameState();
+        
+        engine.computeNextState(state, Collections.<InputState>emptyList());
+    }
+    
+    /** Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method with too many input states. */
+    @Test(expected = IllegalArgumentException.class)
+    public void testNextStateTwoInputStates() {
+        TetrominoGenerator generator = new DummyTetrominoGenerator();
+        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerGameState state = new OnePlayerGameState();
+        InputState inputState = new DummyInputController().getInputState();
+        
+        engine.computeNextState(state, Arrays.asList(inputState, inputState));
     }
     
     /**
@@ -101,7 +125,7 @@ public class TinustrisEngineTest {
         log.info("Before: " + state);
         InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
         
-        state = engine.computeNextState(state, inputState);
+        state = engine.computeNextState(state, Arrays.asList(inputState));
 
         log.info("After: " + state);
         Assert.assertNotNull(state);
@@ -119,7 +143,7 @@ public class TinustrisEngineTest {
         log.info("Before: " + state);
         InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
         
-        state = engine.computeNextState(state, inputState);
+        state = engine.computeNextState(state, Arrays.asList(inputState));
 
         log.info("After: " + state);
         Assert.assertNotNull(state);
