@@ -172,7 +172,7 @@ public class MultiplayerGameStateTest {
      * @return state
      */
     private OnePlayerGameState createToppedState() {
-        OnePlayerGameState state = new OnePlayerGameState() {
+        return new OnePlayerGameState() {
             /** 
              * {@inheritDoc}
              * 
@@ -183,6 +183,5 @@ public class MultiplayerGameStateTest {
                 return true;
             }
         };
-        return state;
     }
 }
