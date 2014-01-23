@@ -15,9 +15,9 @@ import lombok.ToString;
  */
 @ToString
 public class MultiplayerGameState implements GameState {
-    /** Game states of the individualy players. */
+    /** Game states of the individualy players. Contains at least two elements and no null values. */
     @NonNull
-    private List<OnePlayerGameState> states;
+    private final List<OnePlayerGameState> states;
 
     /**
      * Constructor.
