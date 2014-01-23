@@ -88,4 +88,62 @@ public class MultiplayerGameStateTest {
         Assert.assertNotNull(string);
         Assert.assertNotEquals("", string);
     }
+    
+    /** Test case for {@link MultiplayerGameState#isGameOver()}. */
+    @Test
+    public void testGameOverTwoActivePlayers() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+
+        Assert.assertFalse(mulitplayerState.isGameOver());
+    }
+    
+    /** Test case for {@link MultiplayerGameState#isGameOver()}. */
+    @Test
+    public void testGameOverTwoToppedPlayers() {
+        OnePlayerGameState state = createToppedState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+
+        Assert.assertTrue(mulitplayerState.isGameOver());
+    }
+    
+    /** Test case for {@link MultiplayerGameState#isGameOver()}. */
+    @Test
+    public void testGameOverOneActiveOneToppedPlayer() {
+        OnePlayerGameState activeState = new OnePlayerGameState();
+        OnePlayerGameState toppedState = createToppedState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(activeState, toppedState);
+
+        Assert.assertTrue(mulitplayerState.isGameOver());
+    }
+
+    /** Test case for {@link MultiplayerGameState#isGameOver()}. */
+    @Test
+    public void testGameOverOneToppedOneActivePlayer() {
+        OnePlayerGameState toppedState = createToppedState();
+        OnePlayerGameState activeState = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(toppedState, activeState);
+
+        Assert.assertTrue(mulitplayerState.isGameOver());
+    }
+    
+    /** 
+     * Creates a topped single player game state.
+     * 
+     * @return state
+     */
+    private OnePlayerGameState createToppedState() {
+        OnePlayerGameState state = new OnePlayerGameState() {
+            /** 
+             * {@inheritDoc}
+             * 
+             * Dummy implementation which always returns true.
+             */
+            @Override
+            public boolean isTopped() {
+                return true;
+            }
+        };
+        return state;
+    }
 }

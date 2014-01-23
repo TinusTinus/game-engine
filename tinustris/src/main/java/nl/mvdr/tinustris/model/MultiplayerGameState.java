@@ -43,10 +43,11 @@ public class MultiplayerGameState implements GameState {
     /** {@inheritDoc} */
     @Override
     public boolean isGameOver() {
+        // TODO add test cases for 3+ players; fix this method
         boolean result = false;
         for (OnePlayerGameState state : states) {
             result = result || state.isGameOver();
         }
-        return false;
+        return result;
     }
 }
