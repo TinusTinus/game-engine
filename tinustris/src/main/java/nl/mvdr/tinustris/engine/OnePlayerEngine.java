@@ -27,7 +27,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
+public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /**
      * Number of frames the input is ignored while the user is holding down a button.
      * 
@@ -47,7 +47,7 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
     private final LevelSystem levelSystem;
     
     /**  Constructor. */
-    public TinustrisEngine() {
+    public OnePlayerEngine() {
         this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem());
     }
     

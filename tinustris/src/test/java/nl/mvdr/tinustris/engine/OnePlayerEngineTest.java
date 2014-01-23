@@ -23,47 +23,47 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test class for {@link TinustrisEngine}.
+ * Test class for {@link OnePlayerEngine}.
  * 
  * @author Martijn van de Rijdt
  */
 @Slf4j
-public class TinustrisEngineTest {
+public class OnePlayerEngineTest {
     /** Tests the constructor. */
     @Test
     public void testDefaultConstructor() {
-        new TinustrisEngine();
+        new OnePlayerEngine();
     }
     
     /** Tests the constructor. */
     @Test
     public void testConstructor() {
-        new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        new OnePlayerEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullGenerator() {
-        new TinustrisEngine(null, new ConstantSpeedCurve(), new DummyLevelSystem());
+        new OnePlayerEngine(null, new ConstantSpeedCurve(), new DummyLevelSystem());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullCurve() {
-        new TinustrisEngine(new DummyTetrominoGenerator(), null, new DummyLevelSystem());
+        new OnePlayerEngine(new DummyTetrominoGenerator(), null, new DummyLevelSystem());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullLevelSystem() {
-        new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), null);
+        new OnePlayerEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), null);
     }
     
-    /** Tests the {@link TinustrisEngine#initGameState()} method. */
+    /** Tests the {@link OnePlayerEngine#initGameState()} method. */
     @Test
     public void testInitGameState() {
         TetrominoGenerator generator = new DummyTetrominoGenerator(Tetromino.I, Tetromino.T);
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         
         OnePlayerGameState state = engine.initGameState();
         
@@ -76,10 +76,10 @@ public class TinustrisEngineTest {
         Assert.assertEquals(Tetromino.T, state.getNext());
     }
     
-    /** Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method. */
+    /** Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method. */
     @Test
     public void testNextState() {
-        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = new DummyInputController().getInputState();
         
@@ -90,22 +90,22 @@ public class TinustrisEngineTest {
     }
     
     /**
-     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method
+     * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method
      * without any input states.
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNextStateNoInputState() {
-        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = new OnePlayerGameState();
         
         engine.computeNextState(state, Collections.<InputState>emptyList());
     }
     
-    /** Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method with too many input states. */
+    /** Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method with too many input states. */
     @Test(expected = IllegalArgumentException.class)
     public void testNextStateTwoInputStates() {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
-        TinustrisEngine engine = new TinustrisEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = new DummyInputController().getInputState();
         
@@ -113,12 +113,12 @@ public class TinustrisEngineTest {
     }
     
     /**
-     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method
+     * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method
      * with a hard drop input.
      */
     @Test
     public void testNextStateHardDrop() {
-        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
         InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
@@ -130,12 +130,12 @@ public class TinustrisEngineTest {
     }
     
     /**
-     * Tests the {@link TinustrisEngine#computeNextState(OnePlayerGameState, InputState)} method with a hard drop input
+     * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method with a hard drop input
      * and a Game Boy speed curve.
      */
     @Test
     public void testNextStateHardDropGameBoyCurve() {
-        TinustrisEngine engine = new TinustrisEngine(new DummyTetrominoGenerator(), new GameBoySpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyTetrominoGenerator(), new GameBoySpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
         InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();

@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
-import nl.mvdr.tinustris.engine.TinustrisEngine;
+import nl.mvdr.tinustris.engine.OnePlayerEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -136,7 +136,7 @@ public class Tinustris extends Application {
         
         // setup necessary components
         InputController inputController = new JInputController();
-        GameEngine<OnePlayerGameState> gameEngine = new TinustrisEngine();
+        GameEngine<OnePlayerGameState> gameEngine = new OnePlayerEngine();
         
         // start the game loop
         gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer);
