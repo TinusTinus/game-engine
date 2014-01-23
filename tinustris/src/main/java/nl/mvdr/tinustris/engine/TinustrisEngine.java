@@ -68,24 +68,34 @@ public class TinustrisEngine implements GameEngine<OnePlayerGameState> {
     /** {@inheritDoc} */
     @Override
     public OnePlayerGameState computeNextState(OnePlayerGameState previousState, InputState inputState) {
-        OnePlayerGameState result = updateInputStateAndCounters(previousState, inputState);
-        if (previousState.getNumFramesUntilLinesDisappear() == 1) {
-            result = removeLines(result);
-        }
+        OnePlayerGameState result;
         
-        if (previousState.getActiveTetromino() == null && previousState.getNumFramesUntilLinesDisappear() <= 1
-                && curve.computeARE(previousState) < previousState.getNumFramesSinceLastLock()) {
-            result = spawnNextBlock(result);
-        }
-        
-        if (result.getActiveTetromino() != null) {
-            List<Action> actions = determineActions(previousState, result, inputState);
-            for (Action action : actions) {
-                result = executeAction(result, action);
+        if (!previousState.isGameOver()) {
+            
+            result = updateInputStateAndCounters(previousState, inputState);
+
+            if (previousState.getNumFramesUntilLinesDisappear() == 1) {
+                result = removeLines(result);
             }
+
+            if (previousState.getActiveTetromino() == null && previousState.getNumFramesUntilLinesDisappear() <= 1
+                    && curve.computeARE(previousState) < previousState.getNumFramesSinceLastLock()) {
+                result = spawnNextBlock(result);
+            }
+
+            if (result.getActiveTetromino() != null) {
+                List<Action> actions = determineActions(previousState, result, inputState);
+                for (Action action : actions) {
+                    result = executeAction(result, action);
+                }
+            }
+
+            result = result.withLevel(this.levelSystem.computeLevel(previousState, result));
+            
+        } else {
+            // game over, no need to update the game state anymore
+            result = previousState;
         }
-        
-        result = result.withLevel(this.levelSystem.computeLevel(previousState, result));
         
         return result;
     }
