@@ -44,7 +44,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     public MultiplayerGameState initGameState() {
         OnePlayerGameState state = onePlayerEngine.initGameState();
         
-        List<OnePlayerGameState> states = new ArrayList<>();
+        List<OnePlayerGameState> states = new ArrayList<>(numberOfPlayers);
         while (states.size() != numberOfPlayers) {
             states.add(state);
         }
