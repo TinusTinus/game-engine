@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -69,7 +70,18 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     /** {@inheritDoc} */
     @Override
     public MultiplayerGameState computeNextState(MultiplayerGameState previousState, List<InputState> inputStates) {
-        // TODO Auto-generated method stub
-        return null;
+        if (inputStates.size() != previousState.getNumberOfPlayers()) {
+            throw new IllegalArgumentException(String.format(
+                    "The number of inputs (%s) does not match the number of players (%s).", inputStates.size(),
+                    previousState.getNumberOfPlayers()));
+        }
+        
+        List<OnePlayerGameState> states = new ArrayList<>(previousState.getNumberOfPlayers());
+        for (int i = 0; i != previousState.getNumberOfPlayers(); i++) {
+            states.add(onePlayerEngine.computeNextState(previousState.getState(i), Arrays.asList(inputStates.get(i))));
+        }
+        states = Collections.unmodifiableList(states);
+        
+        return new MultiplayerGameState(states);
     }
 }

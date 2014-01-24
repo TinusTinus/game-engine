@@ -70,4 +70,14 @@ public class MultiplayerGameState implements GameState {
     public int getNumberOfPlayers() {
         return this.states.size();
     }
+
+    /**
+     * Returns the state for a given player.
+     * 
+     * @param i index, must be within bounds
+     * @return state
+     */
+    public OnePlayerGameState getState(int i) {
+        return this.states.get(i);
+    }
 }
