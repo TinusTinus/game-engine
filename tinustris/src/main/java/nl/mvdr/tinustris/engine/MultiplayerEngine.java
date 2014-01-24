@@ -29,6 +29,19 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
      *            {@link #initGameState()} method
      */
     public MultiplayerEngine(int numberOfPlayers) {
+        this(numberOfPlayers, new OnePlayerEngine());
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param numberOfPlayers
+     *            number of players; determines how many players will be in states created by the
+     *            {@link #initGameState()} method
+     * @param onePlayerEngine
+     *            single player game engine (to which most of the computation is offloaded)
+     */
+    public MultiplayerEngine(int numberOfPlayers, GameEngine<OnePlayerGameState> onePlayerEngine) {
         super();
         
         if (numberOfPlayers < 2) {
@@ -36,7 +49,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
         }
         
         this.numberOfPlayers = numberOfPlayers;
-        this.onePlayerEngine = new OnePlayerEngine();
+        this.onePlayerEngine = onePlayerEngine;
     }
     
     /** {@inheritDoc} */
