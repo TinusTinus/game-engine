@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import lombok.ToString;
@@ -41,10 +42,14 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     /** {@inheritDoc} */
     @Override
     public MultiplayerGameState initGameState() {
+        OnePlayerGameState state = onePlayerEngine.initGameState();
+        
         List<OnePlayerGameState> states = new ArrayList<>();
-        for (int i = 0; i != numberOfPlayers; i++) {
-            states.add(onePlayerEngine.initGameState());
+        while (states.size() != numberOfPlayers) {
+            states.add(state);
         }
+        states = Collections.unmodifiableList(states);
+        
         return new MultiplayerGameState(states);
     }
 
