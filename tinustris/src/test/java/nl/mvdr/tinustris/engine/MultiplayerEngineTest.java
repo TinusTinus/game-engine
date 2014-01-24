@@ -114,7 +114,8 @@ public class MultiplayerEngineTest {
         InputState inputState = new DummyInputController().getInputState();
 
         MultiplayerGameState newState = engine.computeNextState(state, Arrays.asList(inputState, inputState));
-        
+
+        log.info(newState.toString());
         Assert.assertEquals(2, newState.getNumberOfPlayers());
     }
     
