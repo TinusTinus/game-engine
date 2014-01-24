@@ -78,9 +78,13 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
         
         List<OnePlayerGameState> states = new ArrayList<>(previousState.getNumberOfPlayers());
         for (int i = 0; i != previousState.getNumberOfPlayers(); i++) {
-            states.add(onePlayerEngine.computeNextState(previousState.getState(i), Arrays.asList(inputStates.get(i))));
+            OnePlayerGameState previousOnePlayerState = previousState.getState(i);
+            InputState inputState = inputStates.get(i);
+            states.add(onePlayerEngine.computeNextState(previousOnePlayerState, Arrays.asList(inputState)));
         }
         states = Collections.unmodifiableList(states);
+        
+        // TODO update garbage counts
         
         return new MultiplayerGameState(states);
     }
