@@ -74,10 +74,11 @@ public class MultiplayerGameState implements GameState {
     /**
      * Returns the state for a given player.
      * 
-     * @param i index, must be within bounds
+     * @param i player index, must be at least 0 and less than the number of players
      * @return state
+     * @throws IndexOutOfBoundsException if i is out of bounds (less than 0 or at least the number of players)
      */
-    public OnePlayerGameState getState(int i) {
+    public OnePlayerGameState getStateForPlayer(int i) {
         return this.states.get(i);
     }
 }

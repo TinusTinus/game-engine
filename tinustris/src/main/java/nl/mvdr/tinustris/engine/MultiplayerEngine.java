@@ -78,7 +78,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
         
         List<OnePlayerGameState> states = new ArrayList<>(previousState.getNumberOfPlayers());
         for (int i = 0; i != previousState.getNumberOfPlayers(); i++) {
-            OnePlayerGameState previousOnePlayerState = previousState.getState(i);
+            OnePlayerGameState previousOnePlayerState = previousState.getStateForPlayer(i);
             InputState inputState = inputStates.get(i);
             states.add(onePlayerEngine.computeNextState(previousOnePlayerState, Arrays.asList(inputState)));
         }

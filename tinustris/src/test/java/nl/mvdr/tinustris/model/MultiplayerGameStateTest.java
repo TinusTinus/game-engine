@@ -187,7 +187,7 @@ public class MultiplayerGameStateTest {
     
     /** Test case for {@link MultiplayerGameState#getNumberOfPlayers()}. */
     @Test
-    public void testgetNumberOfPlayers2() {
+    public void testGetNumberOfPlayers2() {
         OnePlayerGameState state = new OnePlayerGameState();
         MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
 
@@ -196,10 +196,46 @@ public class MultiplayerGameStateTest {
     
     /** Test case for {@link MultiplayerGameState#getNumberOfPlayers()}. */
     @Test
-    public void testgetNumberOfPlayers3() {
+    public void testGetNumberOfPlayers3() {
         OnePlayerGameState state = new OnePlayerGameState();
         MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state, state);
 
         Assert.assertEquals(3, mulitplayerState.getNumberOfPlayers());
+    }
+    
+    /** Test case for {@link MultiplayerGameState#getStateForPlayer(int)}. */
+    @Test
+    public void testGetStateForPlayer0() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+
+        Assert.assertNotNull(mulitplayerState.getStateForPlayer(0));
+    }
+    
+    /** Test case for {@link MultiplayerGameState#getStateForPlayer(int)}. */
+    @Test
+    public void testGetStateForPlayer1() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+
+        Assert.assertNotNull(mulitplayerState.getStateForPlayer(1));
+    }
+
+    /** Test case for {@link MultiplayerGameState#getStateForPlayer(int)}. */
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testGetStateForPlayerNegative() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+
+        mulitplayerState.getStateForPlayer(-1);
+    }
+    
+    /** Test case for {@link MultiplayerGameState#getStateForPlayer(int)}. */
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testGetStateForPlayerTooLarge() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+
+        mulitplayerState.getStateForPlayer(3);
     }
 }
