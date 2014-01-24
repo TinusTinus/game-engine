@@ -1,10 +1,12 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.ToString;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
+import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
  * Implementation of {@link GameEngine} for a multiplayer game.
@@ -15,6 +17,8 @@ import nl.mvdr.tinustris.model.MultiplayerGameState;
 public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     /** Number of players. Determines how many players will be in states created by the {@link #initGameState()} method. */
     private final int numberOfPlayers;
+    /** One-player game engine. */
+    private final OnePlayerEngine onePlayerEngine;
     
     /**
      * Constructor.
@@ -31,13 +35,17 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
         }
         
         this.numberOfPlayers = numberOfPlayers;
+        this.onePlayerEngine = new OnePlayerEngine();
     }
     
     /** {@inheritDoc} */
     @Override
     public MultiplayerGameState initGameState() {
-        // TODO Auto-generated method stub
-        return null;
+        List<OnePlayerGameState> states = new ArrayList<>();
+        for (int i = 0; i != numberOfPlayers; i++) {
+            states.add(onePlayerEngine.initGameState());
+        }
+        return new MultiplayerGameState(states);
     }
 
     /** {@inheritDoc} */

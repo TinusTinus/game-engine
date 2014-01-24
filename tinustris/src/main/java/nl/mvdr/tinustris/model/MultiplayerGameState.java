@@ -18,17 +18,17 @@ public class MultiplayerGameState implements GameState {
     /** Game states of the individualy players. Contains at least two elements and no null values. */
     @NonNull
     private final List<OnePlayerGameState> states;
-
+    
     /**
      * Constructor.
      * 
      * @param states
      *            game states; one for each individual player; must contain at least two states and no null values
      */
-    public MultiplayerGameState(@NonNull OnePlayerGameState... states) {
+    public MultiplayerGameState(@NonNull List<OnePlayerGameState> states) {
         super();
 
-        this.states = Collections.unmodifiableList(Arrays.asList(states));
+        this.states = states;
 
         // check the contents
         if (this.states.size() < 2) {
@@ -39,6 +39,16 @@ public class MultiplayerGameState implements GameState {
             throw new NullPointerException("No null values allowed for player states; found one at index: "
                     + this.states.indexOf(null));
         }
+    }
+
+    /**
+     * Constructor.
+     * 
+     * @param states
+     *            game states; one for each individual player; must contain at least two states and no null values
+     */
+    public MultiplayerGameState(@NonNull OnePlayerGameState... states) {
+        this(Collections.unmodifiableList(Arrays.asList(states)));
     }
 
     /** {@inheritDoc} */

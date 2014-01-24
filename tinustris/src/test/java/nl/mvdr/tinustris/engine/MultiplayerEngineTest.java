@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.model.MultiplayerGameState;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,5 +59,42 @@ public class MultiplayerEngineTest {
         log.info(string);
         Assert.assertNotNull(string);
         Assert.assertNotEquals("", string);
+    }
+    
+    /** Test case for {@link MultiplayerEngine#initGameState()} with two players. */
+    @Test
+    public void testInitGameStateTwoPlayers() {
+        testInitGameState(2);
+    }
+    
+    /** Test case for {@link MultiplayerEngine#initGameState()} with three players. */
+    @Test
+    public void testInitGameStateThreePlayers() {
+        testInitGameState(3);
+    }
+    
+    /** Test case for {@link MultiplayerEngine#initGameState()} with four players. */
+    @Test
+    public void testInitGameStateFourPlayers() {
+        testInitGameState(4);
+    }
+    
+    /** Test case for {@link MultiplayerEngine#initGameState()} with 64 players. */
+    @Test
+    public void testInitGameState64Players() {
+        testInitGameState(64);
+    }
+    
+    /** 
+     * Test case for {@link MultiplayerEngine#initGameState()}.
+     * 
+     * @param numberOfPlayers number of players
+     */
+    private void testInitGameState(int numberOfPlayers) {
+        MultiplayerEngine engine = new MultiplayerEngine(numberOfPlayers);
+        
+        MultiplayerGameState state = engine.initGameState();
+        
+        Assert.assertEquals(numberOfPlayers, state.getNumberOfPlayers());
     }
 }
