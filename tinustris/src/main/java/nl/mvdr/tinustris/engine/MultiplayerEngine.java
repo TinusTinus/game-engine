@@ -72,8 +72,8 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     public MultiplayerGameState computeNextState(MultiplayerGameState previousState, List<InputState> inputStates) {
         if (inputStates.size() != previousState.getNumberOfPlayers()) {
             throw new IllegalArgumentException(String.format(
-                    "The number of inputs (%s) does not match the number of players (%s).", inputStates.size(),
-                    previousState.getNumberOfPlayers()));
+                    "The number of inputs (%s) does not match the number of players (%s).", "" + inputStates.size(),
+                    "" + previousState.getNumberOfPlayers()));
         }
         
         List<OnePlayerGameState> states = new ArrayList<>(previousState.getNumberOfPlayers());
