@@ -19,7 +19,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     /** Number of players. Determines how many players will be in states created by the {@link #initGameState()} method. */
     private final int numberOfPlayers;
     /** One-player game engine. */
-    private final OnePlayerEngine onePlayerEngine;
+    private final GameEngine<OnePlayerGameState> onePlayerEngine;
     
     /**
      * Constructor.
