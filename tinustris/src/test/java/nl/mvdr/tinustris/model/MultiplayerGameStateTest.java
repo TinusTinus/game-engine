@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.model;
 
+import java.util.Arrays;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.Assert;
@@ -12,60 +14,60 @@ import org.junit.Test;
  */
 @Slf4j
 public class MultiplayerGameStateTest {
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
     @Test(expected = NullPointerException.class)
-    public void testConstructorNullArray() {
-        new MultiplayerGameState((OnePlayerGameState[]) null);
+    public void testConstructorNullList() {
+        new MultiplayerGameState(null);
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullValues() {
-        new MultiplayerGameState(null, null);
+        new MultiplayerGameState(Arrays.<OnePlayerGameState>asList(null, null));
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorOneValue() {
         OnePlayerGameState state = new OnePlayerGameState();
 
-        new MultiplayerGameState(state);
+        new MultiplayerGameState(Arrays.asList(state));
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorFirstValueNull() {
         OnePlayerGameState state = new OnePlayerGameState();
 
-        new MultiplayerGameState(null, state);
+        new MultiplayerGameState(Arrays.asList(null, state));
     }
     
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorSecondValueNull() {
         OnePlayerGameState state = new OnePlayerGameState();
 
-        new MultiplayerGameState(state, null);
+        new MultiplayerGameState(Arrays.asList(state, null));
     }
     
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
     @Test
     public void testConstructorTwoPlayers() {
         OnePlayerGameState state = new OnePlayerGameState();
 
-        new MultiplayerGameState(state, state);
+        new MultiplayerGameState(Arrays.asList(state, state));
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
     @Test
     public void testConstructorThreePlayers() {
         OnePlayerGameState state = new OnePlayerGameState();
 
-        new MultiplayerGameState(state, state, state);
+        new MultiplayerGameState(Arrays.asList(state, state, state));
     }
 
     /**
-     * Test case for {@link MultiplayerGameState#MultiplayerGameState(OnePlayerGameState...)}.
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}.
      * 
      * Passes in a null value. One value is too few arguments (there should be at least two players), and null values
      * are not allowed. Depending on the order of validation we should get either a NullPointerException or an
@@ -73,14 +75,14 @@ public class MultiplayerGameStateTest {
      */
     @Test(expected = RuntimeException.class)
     public void testConstructorNullValue() {
-        new MultiplayerGameState((OnePlayerGameState) null);
+        new MultiplayerGameState(Arrays.asList((OnePlayerGameState)null));
     }
 
     /** Test case for {@link MultiplayerGameState#toString()}. */
     @Test
     public void testToString() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         String string = mulitplayerState.toString();
 
@@ -93,7 +95,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGameOverTwoActivePlayers() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         Assert.assertFalse(mulitplayerState.isGameOver());
     }
@@ -102,7 +104,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGameOverTwoToppedPlayers() {
         OnePlayerGameState state = createToppedState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         Assert.assertTrue(mulitplayerState.isGameOver());
     }
@@ -112,7 +114,7 @@ public class MultiplayerGameStateTest {
     public void testGameOverOneActiveOneToppedPlayer() {
         OnePlayerGameState activeState = new OnePlayerGameState();
         OnePlayerGameState toppedState = createToppedState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(activeState, toppedState);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(activeState, toppedState));
 
         Assert.assertTrue(mulitplayerState.isGameOver());
     }
@@ -122,7 +124,7 @@ public class MultiplayerGameStateTest {
     public void testGameOverOneToppedOneActivePlayer() {
         OnePlayerGameState toppedState = createToppedState();
         OnePlayerGameState activeState = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(toppedState, activeState);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(toppedState, activeState));
 
         Assert.assertTrue(mulitplayerState.isGameOver());
     }
@@ -131,7 +133,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGameOverThreeActivePlayers() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState multiplayerState = new MultiplayerGameState(state, state, state);
+        MultiplayerGameState multiplayerState = new MultiplayerGameState(Arrays.asList(state, state, state));
         
         Assert.assertFalse(multiplayerState.isGameOver());
     }
@@ -140,7 +142,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGameOverThreeToppedPlayers() {
         OnePlayerGameState state = createToppedState();
-        MultiplayerGameState multiplayerState = new MultiplayerGameState(state, state, state);
+        MultiplayerGameState multiplayerState = new MultiplayerGameState(Arrays.asList(state, state, state));
         
         Assert.assertTrue(multiplayerState.isGameOver());
     }
@@ -150,7 +152,8 @@ public class MultiplayerGameStateTest {
     public void testGameOverOneActiveTwoToppedPlayers() {
         OnePlayerGameState activeState = new OnePlayerGameState();
         OnePlayerGameState toppedState = createToppedState();
-        MultiplayerGameState multiplayerState = new MultiplayerGameState(activeState, toppedState, toppedState);
+        MultiplayerGameState multiplayerState = new MultiplayerGameState(Arrays.asList(activeState, toppedState,
+                toppedState));
         
         Assert.assertTrue(multiplayerState.isGameOver());
     }
@@ -160,7 +163,8 @@ public class MultiplayerGameStateTest {
     public void testGameOverTwoActiveOneToppedPlayers() {
         OnePlayerGameState activeState = new OnePlayerGameState();
         OnePlayerGameState toppedState = createToppedState();
-        MultiplayerGameState multiplayerState = new MultiplayerGameState(activeState, activeState, toppedState);
+        MultiplayerGameState multiplayerState = new MultiplayerGameState(Arrays.asList(activeState, activeState,
+                toppedState));
         
         // game should not be over as long as there are at least two active players
         Assert.assertFalse(multiplayerState.isGameOver());
@@ -189,7 +193,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGetNumberOfPlayers2() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         Assert.assertEquals(2, mulitplayerState.getNumberOfPlayers());
     }
@@ -198,7 +202,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGetNumberOfPlayers3() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state, state));
 
         Assert.assertEquals(3, mulitplayerState.getNumberOfPlayers());
     }
@@ -207,7 +211,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGetStateForPlayer0() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         Assert.assertNotNull(mulitplayerState.getStateForPlayer(0));
     }
@@ -216,7 +220,7 @@ public class MultiplayerGameStateTest {
     @Test
     public void testGetStateForPlayer1() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         Assert.assertNotNull(mulitplayerState.getStateForPlayer(1));
     }
@@ -225,7 +229,7 @@ public class MultiplayerGameStateTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGetStateForPlayerNegative() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         mulitplayerState.getStateForPlayer(-1);
     }
@@ -234,7 +238,7 @@ public class MultiplayerGameStateTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void testGetStateForPlayerTooLarge() {
         OnePlayerGameState state = new OnePlayerGameState();
-        MultiplayerGameState mulitplayerState = new MultiplayerGameState(state, state);
+        MultiplayerGameState mulitplayerState = new MultiplayerGameState(Arrays.asList(state, state));
 
         mulitplayerState.getStateForPlayer(3);
     }

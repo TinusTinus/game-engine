@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.Arrays;
+
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
@@ -31,7 +33,7 @@ public class MultiplayerGameRendererTest {
         MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(dummyRenderer, 0);
         OnePlayerGameState state0 = new OnePlayerGameState();
         OnePlayerGameState state1 = new OnePlayerGameState();
-        MultiplayerGameState gameState = new MultiplayerGameState(state0, state1);
+        MultiplayerGameState gameState = new MultiplayerGameState(Arrays.asList(state0, state1));
         
         renderer.render(gameState);
         
@@ -45,7 +47,7 @@ public class MultiplayerGameRendererTest {
         MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(dummyRenderer, 1);
         OnePlayerGameState state0 = new OnePlayerGameState();
         OnePlayerGameState state1 = new OnePlayerGameState();
-        MultiplayerGameState gameState = new MultiplayerGameState(state0, state1);
+        MultiplayerGameState gameState = new MultiplayerGameState(Arrays.asList(state0, state1));
         
         renderer.render(gameState);
         
@@ -68,7 +70,7 @@ public class MultiplayerGameRendererTest {
         MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(dummyRenderer, -1);
         OnePlayerGameState state0 = new OnePlayerGameState();
         OnePlayerGameState state1 = new OnePlayerGameState();
-        MultiplayerGameState gameState = new MultiplayerGameState(state0, state1);
+        MultiplayerGameState gameState = new MultiplayerGameState(Arrays.asList(state0, state1));
         
         renderer.render(gameState);
     }
@@ -80,7 +82,7 @@ public class MultiplayerGameRendererTest {
         MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(dummyRenderer, 2);
         OnePlayerGameState state0 = new OnePlayerGameState();
         OnePlayerGameState state1 = new OnePlayerGameState();
-        MultiplayerGameState gameState = new MultiplayerGameState(state0, state1);
+        MultiplayerGameState gameState = new MultiplayerGameState(Arrays.asList(state0, state1));
         
         renderer.render(gameState);
     }

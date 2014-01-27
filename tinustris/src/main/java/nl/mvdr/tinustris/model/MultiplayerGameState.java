@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.model;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,16 +37,6 @@ public class MultiplayerGameState implements GameState {
             throw new NullPointerException("No null values allowed for player states; found one at index: "
                     + this.states.indexOf(null));
         }
-    }
-
-    /**
-     * Constructor.
-     * 
-     * @param states
-     *            game states; one for each individual player; must contain at least two states and no null values
-     */
-    public MultiplayerGameState(@NonNull OnePlayerGameState... states) {
-        this(Collections.unmodifiableList(Arrays.asList(states)));
     }
 
     /** {@inheritDoc} */
