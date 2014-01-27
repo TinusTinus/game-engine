@@ -29,7 +29,7 @@ public class MultiplayerGameRenderer implements GameRenderer<MultiplayerGameStat
      * The value of {@link playerIndex} must be a valid index in the value of gameState.
      */
     @Override
-    public void render(MultiplayerGameState gameState) {
+    public void render(@NonNull MultiplayerGameState gameState) {
         OnePlayerGameState state = gameState.getStateForPlayer(playerIndex);
         this.renderer.render(state);
     }
