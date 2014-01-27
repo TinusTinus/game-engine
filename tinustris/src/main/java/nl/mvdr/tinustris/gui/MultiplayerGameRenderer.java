@@ -15,8 +15,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
 public class MultiplayerGameRenderer implements GameRenderer<MultiplayerGameState> {
     /** Renderer for the one player game. All {@link #render(MultiplayerGameState)} calls are deferred to this instance. */
     @Getter
-    private final @NonNull
-    GameRenderer<OnePlayerGameState> renderer;
+    private final @NonNull GameRenderer<OnePlayerGameState> renderer;
     /**
      * Index of the player whose state is to be rendered by this renderer. Must be a valid index in all multiplayer game
      * states passed into {@link #render(MultiplayerGameState)}.
