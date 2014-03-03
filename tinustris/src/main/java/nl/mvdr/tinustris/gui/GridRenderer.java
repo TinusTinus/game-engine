@@ -67,9 +67,9 @@ class GridRenderer extends BlockGroupRenderer {
                 for (int x = 0; x != gameState.getWidth(); x++) {
                     Block block = gameState.getBlock(x, y);
                     if (block != null) {
-                        Node rectangle = createBlock(x, y, height, block, style,
+                        Node node = createBlock(x, y, height, block, style,
                                 gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                        grid.getChildren().add(rectangle);
+                        grid.getChildren().add(node);
                     }
                 }
             }
@@ -95,10 +95,10 @@ class GridRenderer extends BlockGroupRenderer {
             ghost = new Group();
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : ghostPoints) {
-                Node block = createBlock(point.getX(), point.getY(), height,
+                Node node = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().getBlock(), BlockStyle.GHOST,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                ghost.getChildren().add(block);
+                ghost.getChildren().add(node);
             }
         }
         return ghost;
@@ -122,10 +122,10 @@ class GridRenderer extends BlockGroupRenderer {
             activeBlock = new Group();
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : currentActiveBlockPoints) {
-                Node block = createBlock(point.getX(), point.getY(), height,
+                Node node = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().getBlock(), BlockStyle.ACTIVE,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                activeBlock.getChildren().add(block);
+                activeBlock.getChildren().add(node);
             }
         }
         return activeBlock;
