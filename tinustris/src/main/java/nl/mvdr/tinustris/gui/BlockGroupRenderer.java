@@ -28,13 +28,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
         
         if (!containsAllNullValues(groups)) {
             // (re-)render
-            runOnJavaFXThread(new Runnable() {
-                /** {@inheritDoc} */
-                @Override
-                public void run() {
-                    update(groups);
-                }
-            });
+            runOnJavaFXThread(() -> update(groups));
         }
     }
     
