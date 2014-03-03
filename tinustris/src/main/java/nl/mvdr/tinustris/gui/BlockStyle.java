@@ -4,7 +4,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import javafx.animation.FadeTransition;
-import javafx.scene.Node;
+import javafx.animation.ScaleTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Paint;
@@ -186,21 +186,42 @@ enum BlockStyle {
     /**
      * Adds any needed animation to the block.
      * 
-     * @param node
+     * @param rectangle
      *            block to be styled
      * @param numFramesUntilLinesDisappear
      *            number of frames until the block should be fully invisible
      * @param numFramesSinceLastLock
      *            number of frames since the time the block started disappearing
     */
-    private void applyAnimation(Node node, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
+    private void applyAnimation(Rectangle rectangle, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         if (disappearingAnimation) {
             int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), node);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), rectangle);
             fadeTransition.setFromValue((double) numFramesUntilLinesDisappear
                     / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock));
             fadeTransition.setToValue(0);
             fadeTransition.play();
+        }
+    }
+    
+    /**
+     * Adds any needed animation to the block.
+     * 
+     * @param box
+     *            block to be styled
+     * @param numFramesUntilLinesDisappear
+     *            number of frames until the block should be fully invisible
+     * @param numFramesSinceLastLock
+     *            number of frames since the time the block started disappearing
+    */
+    private void applyAnimation(Box box, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
+        if (disappearingAnimation) {
+            int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
+            ScaleTransition transition = new ScaleTransition(Duration.millis(duration), box);
+            transition.setFromY(box.getScaleY() * ((double) numFramesUntilLinesDisappear
+                    / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock)));
+            transition.setToY(0);
+            transition.play();
         }
     }
 
