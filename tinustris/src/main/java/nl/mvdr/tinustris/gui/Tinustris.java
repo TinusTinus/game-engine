@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -140,7 +141,13 @@ public class Tinustris extends Application {
                 Color.GRAY);
         
         if (PERSPECTIVE_3D) {
+            // add a camera and lighting
+            
             scene.setCamera(new PerspectiveCamera());
+            
+            PointLight light = new PointLight(Color.WHITE);
+            light.setTranslateZ(-300);
+            parent.getChildren().add(light);
         }
         
         stage.setScene(scene);
