@@ -69,7 +69,7 @@ public abstract class SpeedCurveTester {
     void testLevel(int level, int expectedInternalGravity) {
         SpeedCurve curve = createSpeedCurve();
         List<Block> grid = new ArrayList<>(220);
-        for (int i = 0; i != 220; i++) {
+        while(grid.size() != 220) {
             grid.add(null);
         }
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
