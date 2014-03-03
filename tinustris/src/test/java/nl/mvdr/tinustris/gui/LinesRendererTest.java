@@ -1,10 +1,12 @@
 package nl.mvdr.tinustris.gui;
 
+import javafx.embed.swing.JFXPanel;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -13,6 +15,14 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class LinesRendererTest {
+    /** Setup method. */
+    @Before
+    public void setUp() {
+        // Force JavaFX graphics initialisation; this is required by the Image constructor.
+        // When running the actual application this is performed by Application.launch().
+        new JFXPanel();
+    }
+    
     /** Tests {@link LinesRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRender() {

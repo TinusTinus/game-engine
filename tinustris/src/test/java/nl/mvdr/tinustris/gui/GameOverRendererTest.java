@@ -1,10 +1,12 @@
 package nl.mvdr.tinustris.gui;
 
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -14,6 +16,14 @@ import org.junit.Test;
  */
 @Slf4j
 public class GameOverRendererTest {
+    /** Setup method. */
+    @Before
+    public void setUp() {
+        // Force JavaFX graphics initialisation; this is required by the Image constructor.
+        // When running the actual application this is performed by Application.launch().
+        new JFXPanel();
+    }
+    
     /** Test case where the game is not over. */
     @Test
     public void testNotTopped() {
