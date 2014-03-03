@@ -27,8 +27,6 @@ class CompositeRenderer<S extends GameState> implements GameRenderer<S> {
     /** {@inheritDoc} */
     @Override
     public void render(@NonNull S gameState) {
-        for (GameRenderer<S> renderer: renderers) {
-            renderer.render(gameState);
-        }
+        renderers.forEach(renderer -> renderer.render(gameState));
     }
 }
