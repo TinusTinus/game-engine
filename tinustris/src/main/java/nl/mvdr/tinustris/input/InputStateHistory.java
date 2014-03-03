@@ -22,7 +22,7 @@ public interface InputStateHistory {
      * @param input input
      * @return number of frames
      */
-    public abstract int getNumberOfFrames(Input input);
+    int getNumberOfFrames(Input input);
     
     /**
      * Creates the input state history for the next frame.
@@ -30,5 +30,5 @@ public interface InputStateHistory {
      * @param inputState input state for the next frame
      * @return new input state history
      */
-    public abstract InputStateHistory next(InputState inputState);
+    InputStateHistory next(InputState inputState);
 }
