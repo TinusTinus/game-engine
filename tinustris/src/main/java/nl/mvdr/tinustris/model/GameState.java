@@ -5,6 +5,7 @@ package nl.mvdr.tinustris.model;
  * 
  * @author Martijn van de Rijdt
  */
+@FunctionalInterface
 public interface GameState {
     /**
      * Indicates whether the game is over.
