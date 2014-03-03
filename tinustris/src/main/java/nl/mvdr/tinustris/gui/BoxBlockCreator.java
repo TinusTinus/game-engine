@@ -16,9 +16,9 @@ class BoxBlockCreator implements BlockCreator {
     @Override
     public Box createBlock(double xCoordinate, double yCoordinate, double size, Block block, BlockStyle style,
             int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
-        Box result = new Box(size, size, size);
-        result.setTranslateX(xCoordinate);
-        result.setTranslateY(yCoordinate);
+        Box result = new Box(size - 2, size - 2, size - 2);
+        result.setTranslateX(xCoordinate + size / 2);
+        result.setTranslateY(yCoordinate + size / 2);
         
         style.apply(result, block, numFramesUntilLinesDisappear, numFramesSinceLastLock);
         
