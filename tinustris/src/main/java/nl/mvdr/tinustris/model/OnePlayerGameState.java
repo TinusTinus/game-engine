@@ -562,17 +562,24 @@ public class OnePlayerGameState implements GameState {
     }
     
     /**
+     * Determines whether the given point is within the bounds of the grid.
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return whether the point is within bounds
+     */
+    private boolean isWithinBounds(Point point) {
+        return isWithinBounds(point.getX(), point.getY());
+    }
+    
+    /**
      * Determines whether the given points are all within the bounds of the grid.
      * 
      * @param points points
      * @return whether all points are within bounds
      */
     private boolean isWithinBounds(Set<Point> points) {
-        boolean result = true;
-        for (Point point: points) {
-            result = result && isWithinBounds(point.getX(), point.getY());
-        }
-        return result;
+        return points.stream().allMatch(this::isWithinBounds);
     }
     
     /**
