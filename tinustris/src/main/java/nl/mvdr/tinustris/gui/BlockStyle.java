@@ -111,8 +111,6 @@ enum BlockStyle {
             box.setVisible(false);;
         }
         applyColor(box, block);
-        // Animation will also not show up because of the abovementioned issue.
-        // Just leave the call here for when the issue gets fixed.
         applyAnimation(box, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 
