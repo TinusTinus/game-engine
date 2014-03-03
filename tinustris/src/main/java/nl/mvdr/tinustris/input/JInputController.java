@@ -51,6 +51,7 @@ public class JInputController implements InputController {
         // find the keyboard controller(s)
         controllers = Arrays.asList(controllersFromEnvironment)
             .stream()
+            .map(this::log)
             .filter(controller -> controller instanceof Keyboard)
             .collect(Collectors.toSet());
         if (controllers.isEmpty()) {
@@ -72,6 +73,17 @@ public class JInputController implements InputController {
             mapping.get(Input.HOLD).add(getComponent(keyboard, Key.C));
         }
         log.info("Using default input mapping: " + mapping);
+    }
+    
+    /**
+     * Logs the given controller.
+     * 
+     * @param controller controller
+     * @return the input
+     */
+    private Controller log(Controller controller) {
+        log.info("Controller found: " + controller);
+        return controller;
     }
 
     /**
