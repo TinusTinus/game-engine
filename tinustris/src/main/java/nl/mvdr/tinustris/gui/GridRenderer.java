@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.Node;
 import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Point;
@@ -67,7 +67,7 @@ class GridRenderer extends BlockGroupRenderer {
                 for (int x = 0; x != gameState.getWidth(); x++) {
                     Block block = gameState.getBlock(x, y);
                     if (block != null) {
-                        Rectangle rectangle = createBlock(x, y, height, block, style,
+                        Node rectangle = createBlock(x, y, height, block, style,
                                 gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                         grid.getChildren().add(rectangle);
                     }
@@ -95,7 +95,7 @@ class GridRenderer extends BlockGroupRenderer {
             ghost = new Group();
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : ghostPoints) {
-                Rectangle block = createBlock(point.getX(), point.getY(), height,
+                Node block = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().getBlock(), BlockStyle.GHOST,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                 ghost.getChildren().add(block);
@@ -122,7 +122,7 @@ class GridRenderer extends BlockGroupRenderer {
             activeBlock = new Group();
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : currentActiveBlockPoints) {
-                Rectangle block = createBlock(point.getX(), point.getY(), height,
+                Node block = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().getBlock(), BlockStyle.ACTIVE,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                 activeBlock.getChildren().add(block);

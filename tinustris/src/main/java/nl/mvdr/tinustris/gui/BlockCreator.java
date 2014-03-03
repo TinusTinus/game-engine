@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
-import javafx.scene.shape.Rectangle;
+import javafx.scene.Node;
 import nl.mvdr.tinustris.model.Block;
 
 /**
@@ -29,6 +29,6 @@ interface BlockCreator {
      *            the numFramesSinceLastLock property from the game state
      * @return new block
      */
-    Rectangle createBlock(double xCoordinate, double yCoordinate, double size, Block block, BlockStyle style,
+    Node createBlock(double xCoordinate, double yCoordinate, double size, Block block, BlockStyle style,
             int numFramesUntilLinesDisappear, int numFramesSinceLastLock);
 }

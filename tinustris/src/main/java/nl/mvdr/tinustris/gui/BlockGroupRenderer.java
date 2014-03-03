@@ -4,7 +4,7 @@ import java.util.List;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.Node;
 import lombok.NonNull;
 import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -94,7 +94,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
      *            the numFramesSinceLastLock property from the game state
      * @return new block
      */
-    Rectangle createBlock(int x, int y, int height, Block block, BlockStyle style,
+    Node createBlock(int x, int y, int height, Block block, BlockStyle style,
             int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         int xCoordinate = x * BLOCK_SIZE;
         int yCoordinate = (height - y - 1) * BLOCK_SIZE;

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javafx.scene.Group;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.Node;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Orientation;
 import nl.mvdr.tinustris.model.Point;
@@ -44,7 +44,7 @@ class NextBlockRenderer extends BlockGroupRenderer {
                 if (nextBlock != Tetromino.O) {
                     point = point.translate(0, -1);
                 }
-                Rectangle block = createBlock(point.getX(), point.getY(), 4, nextBlock.getBlock(), BlockStyle.NEXT,
+                Node block = createBlock(point.getX(), point.getY(), 4, nextBlock.getBlock(), BlockStyle.NEXT,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                 group.getChildren().add(block);
             }
