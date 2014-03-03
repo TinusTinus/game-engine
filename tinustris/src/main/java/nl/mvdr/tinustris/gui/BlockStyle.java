@@ -104,8 +104,15 @@ enum BlockStyle {
      */
     void apply(@NonNull Box box, @NonNull Block block, int numFramesUntilLinesDisappear,
             int numFramesSinceLastLock) {
-        box.setOpacity(opacity);
+        // Unfortunately opacity is currently not supported in JavaFX 3D graphics.
+        // See: https://javafx-jira.kenai.com/browse/RT-28874
+        // For now, just hide blocks which are supposed to be opaque (in practice: ghost blocks).
+        if (opacity < 1) {
+            box.setVisible(false);;
+        }
         applyColor(box, block);
+        // Animation will also not show up because of the abovementioned issue.
+        // Just leave the call here for when the issue gets fixed.
         applyAnimation(box, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 
