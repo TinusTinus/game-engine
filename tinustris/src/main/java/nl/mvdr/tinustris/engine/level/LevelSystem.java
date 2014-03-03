@@ -7,6 +7,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * 
  * @author Martijn van de Rijdt
  */
+@FunctionalInterface
 public interface LevelSystem {
     /**
      * Computes the new level value.
