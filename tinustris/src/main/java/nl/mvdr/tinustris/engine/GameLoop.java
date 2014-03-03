@@ -57,13 +57,7 @@ public class GameLoop<S extends GameState> {
         running = true;
         paused = false;
         
-        Thread loop = new Thread("Game loop") {
-            /** {@inheritDoc} */
-            @Override
-            public void run() {
-                gameLoop();
-            }
-        };
+        Thread loop = new Thread(this::gameLoop, "Game loop");
         loop.start();
     }
 
