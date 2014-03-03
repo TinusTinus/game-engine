@@ -16,7 +16,7 @@ import lombok.ToString;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode(callSuper = false) // super class holds no state
 @ToString(includeFieldNames = false)
-class InputStateHistoryImpl extends AbstractInputStateHistory {
+class InputStateHistoryImpl implements InputStateHistory {
     /** Contains, per input, the number of frames it has been pressed. */
     @NonNull
     private final Map<Input, Integer> frames;

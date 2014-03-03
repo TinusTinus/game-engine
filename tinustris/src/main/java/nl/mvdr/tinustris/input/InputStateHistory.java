@@ -1,20 +1,13 @@
 package nl.mvdr.tinustris.input;
 
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+
+@FunctionalInterface
 public interface InputStateHistory {
     /** Input state history where no inputs have been pressed. */
-    public static final InputStateHistory NEW = new AbstractInputStateHistory() {
-        /** {@inheritDoc} */
-        @Override
-        public int getNumberOfFrames(Input input) {
-            return 0;
-        }
-        
-        /** {@inheritDoc} */
-        @Override
-        public String toString() {
-            return InputStateHistory.class.getSimpleName() + ".NEW";
-        }
-    };
+    public static final InputStateHistory NEW = input -> 0;
     
     /**
      * Retrieves the number of frames the given input has been pressed.
@@ -30,5 +23,26 @@ public interface InputStateHistory {
      * @param inputState input state for the next frame
      * @return new input state history
      */
-    InputStateHistory next(InputState inputState);
+    default InputStateHistory next(InputState inputState) {
+        InputStateHistory result;
+
+        if (inputState.anyInputsPressed()) {
+            Map<Input, Integer> tempFrames = new EnumMap<>(Input.class);
+            for (Input input : Input.values()) {
+                int value;
+                if (inputState.isPressed(input)) {
+                    value = getNumberOfFrames(input) + 1;
+                } else {
+                    value = 0;
+                }
+                tempFrames.put(input, Integer.valueOf(value));
+            }
+            result = new InputStateHistoryImpl(Collections.unmodifiableMap(tempFrames));
+        } else {
+            // no inputs pressed
+            result = NEW;
+        }
+        
+        return result;
+    }
 }
