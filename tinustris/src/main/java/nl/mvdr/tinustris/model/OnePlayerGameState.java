@@ -442,11 +442,7 @@ public class OnePlayerGameState implements GameState {
      * @return whether any of the points contain a block
      */
     private boolean containsBlock(Set<Point> points) {
-        boolean result = false;
-        for (Point point: points) {
-            result = result || getBlock(point.getX(), point.getY()) != null;
-        }
-        return result;
+        return points.stream().anyMatch(point -> getBlock(point.getX(), point.getY()) != null);
     }
     
     /**
