@@ -17,13 +17,7 @@ abstract class LabelRenderer<S extends GameState> extends GreenTextLabel impleme
     public void render(@NonNull S gameState) {
         final String newText = toText(gameState);
         if (!newText.equals(getText())) {
-            runOnJavaFXThread(new Runnable() {
-                /** {@inheritDoc} */
-                @Override
-                public void run() {
-                    setText(newText);
-                }
-            });
+            runOnJavaFXThread(() -> setText(newText));
         }
     }
     
