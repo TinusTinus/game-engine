@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public interface InputStateHistory {
         InputStateHistory result;
 
         if (inputState.anyInputsPressed()) {
-            Map<Input, Integer> tempFrames = new EnumMap<>(Input.class);
+            Map<Input, Integer> frames = new EnumMap<>(Input.class);
             for (Input input : Input.values()) {
                 int value;
                 if (inputState.isPressed(input)) {
@@ -35,9 +34,10 @@ public interface InputStateHistory {
                 } else {
                     value = 0;
                 }
-                tempFrames.put(input, Integer.valueOf(value));
+                frames.put(input, Integer.valueOf(value));
             }
-            result = new InputStateHistoryImpl(Collections.unmodifiableMap(tempFrames));
+            
+            result = input -> frames.get(input).intValue();
         } else {
             // no inputs pressed
             result = NEW;

@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test class for {@link InputStateHistoryImpl}.
+ * Test class for {@link InputStateHistory}.
  * 
  * @author Martijn van de Rijdt
  */
@@ -25,7 +25,7 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link InputStateHistoryImpl#next(InputState)} in case nothing is pressed. */
+    /** Test method for {@link InputStateHistory#next(InputState)} in case nothing is pressed. */
     @Test
     public void testGetNumberOfFramesNothingPressed() {
         InputState inputState = new InputStateImpl(Collections.<Input>emptySet());
@@ -37,7 +37,7 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case nothing is pressed. */
+    /** Test method for {@link InputStateHistory#next(InputState)} in case nothing is pressed. */
     @Test
     public void testGetNumberOfFramesNothingPressedTwice() {
         InputStateHistory history = InputStateHistory.NEW;
@@ -51,7 +51,7 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case every button is pressed. */
+    /** Test method for {@link InputStateHistory#next(InputState)} in case every button is pressed. */
     @Test
     public void testGetNumberOfFramesEverythingPressed() {
         InputState inputState = new InputStateImpl(EnumSet.allOf(Input.class));
@@ -63,7 +63,7 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case every button is pressed. */
+    /** Test method for {@link InputStateHistory#next(InputState)} in case every button is pressed. */
     @Test
     public void testGetNumberOfFramesEverythingPressedTwice() {
         InputStateHistory history = InputStateHistory.NEW;
@@ -77,7 +77,7 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case every button is pressed, then let go. */
+    /** Test method for {@link InputStateHistory#next(InputState)} in case every button is pressed, then let go. */
     @Test
     public void testGetNumberOfFramesEverythingPressedThenLetGo() {
         InputStateHistory history = InputStateHistory.NEW;
@@ -90,7 +90,7 @@ public class InputStateHistoryTest {
         }
     }
     
-    /** Test method for {@link AbstractInputStateHistory#next(InputState)} in case a single button is pressed. */
+    /** Test method for {@link InputStateHistory#next(InputState)} in case a single button is pressed. */
     @Test
     public void testGetNumberOfFramesOneButtonPressed() {
         InputState inputState = new InputStateImpl(EnumSet.of(Input.TURN_RIGHT));
@@ -116,7 +116,7 @@ public class InputStateHistoryTest {
         Assert.assertNotEquals("", string);        
     }
     
-    /** Test method for {@link InputStateHistoryImpl#toString()}. */
+    /** Test method for {@link InputStateHistory#toString()}. */
     @Test
     public void testToString() {
         InputState inputState = new InputStateImpl(EnumSet.allOf(Input.class));
