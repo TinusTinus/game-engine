@@ -1,10 +1,13 @@
 package nl.mvdr.tinustris.input;
 
+import java.util.Arrays;
+
 /**
  * The state of all inputs at a given moment in time.
  * 
  * @author Martijn van de Rijdt
  */
+@FunctionalInterface
 public interface InputState {
 
     /**
@@ -21,7 +24,9 @@ public interface InputState {
      * 
      * @return true if at least one input is pressed, false otherwise
      */
-    // Note: in Java 8 this could easily be turned into a default method.
-    // The default implementation can just invoke isPressed for all values of Input.
-    boolean anyInputsPressed();
+    default boolean anyInputsPressed() {
+        return Arrays.asList(Input.values())
+                .stream()
+                .anyMatch(this::isPressed);
+    }
 }
