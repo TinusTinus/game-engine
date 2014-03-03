@@ -9,7 +9,7 @@ import nl.mvdr.tinustris.model.Block;
  * @author Martijn van de Rijdt
  */
 @FunctionalInterface
-public interface BlockCreator {
+interface BlockCreator {
     /**
      * Creates a node to represent the given block.
      * 
@@ -29,6 +29,6 @@ public interface BlockCreator {
      *            the numFramesSinceLastLock property from the game state
      * @return new block
      */
-    public Rectangle createBlock(double xCoordinate, double yCoordinate, double size, Block block, BlockStyle style,
+    Rectangle createBlock(double xCoordinate, double yCoordinate, double size, Block block, BlockStyle style,
             int numFramesUntilLinesDisappear, int numFramesSinceLastLock);
 }
