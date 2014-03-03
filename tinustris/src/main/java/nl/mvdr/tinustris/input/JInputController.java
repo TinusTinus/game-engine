@@ -2,7 +2,6 @@ package nl.mvdr.tinustris.input;
 
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Component;
+import net.java.games.input.Component.Identifier;
 import net.java.games.input.Component.Identifier.Key;
 import net.java.games.input.Controller;
 import net.java.games.input.ControllerEnvironment;
@@ -91,16 +91,16 @@ public class JInputController implements InputController {
      * 
      * @param keyboard
      *            keyboard controller
-     * @param key
-     *            key identifier
+     * @param identifier
+     *            component identifier
      * @return component corresponding to the given key
      * @throws IllegalStateException
      *             in case the key cannot be found
      */
-    private Component getComponent(Controller keyboard, Key key) {
-        Component component = keyboard.getComponent(key);
+    private Component getComponent(Controller keyboard, Identifier identifier) {
+        Component component = keyboard.getComponent(identifier);
         if (component == null) {
-            throw new IllegalStateException("Unable to find key: " + key);
+            throw new IllegalStateException("Unable to find key: " + identifier);
         }
         return component;
     }
@@ -108,19 +108,26 @@ public class JInputController implements InputController {
     /** {@inheritDoc} */
     @Override
     public InputState getInputState() {
-        for (Controller controller: controllers) {
-            controller.poll();
-        }
+        controllers.forEach(Controller::poll);
         
-        Set<Input> pressedInputs = EnumSet.noneOf(Input.class);
-        for (Input input: Input.values()) {
-            if (mapping.get(input)
-                    .stream()
-                    .map(component -> component.getPollData())
-                    .anyMatch(pollData -> pollData.floatValue() != 0.0f)) {
-                pressedInputs.add(input);
-            }
-        }
+        Set<Input> pressedInputs = Arrays.asList(Input.values())
+            .stream()
+            .filter(this::isPressed)
+            .collect(Collectors.toSet());
+        
         return new InputStateImpl(pressedInputs);
+    }
+    
+    /**
+     * Checks whether the given input is pressed.
+     * 
+     * @param input input
+     * @return whether the input is pressed
+     */
+    private boolean isPressed(Input input) {
+        return mapping.get(input)
+            .stream()
+            .map(component -> component.getPollData())
+            .anyMatch(pollData -> pollData.floatValue() != 0.0f);
     }
 }
