@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.control.Label;
+import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -104,7 +105,7 @@ public class GridRendererTest {
      * @return renderer
      */
     private GridRenderer createGridGroup() {
-        return new GridRenderer() {
+        return new GridRenderer((x, y, size, block, style, framesUnitl, framesSince) -> new Rectangle()) {
             /** 
              * Mock implementation which just executes the runnable on the current thread.
              * 

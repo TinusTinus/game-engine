@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
@@ -14,6 +15,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * 
  * @author Martijn van de Rijdt
  */
+@RequiredArgsConstructor
 abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlayerGameState> {
     /** Size of a tetromino block. */
     static final int BLOCK_SIZE = 30;
@@ -21,7 +23,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
     static final int ARC_SIZE = 10;
     
     /** Block creator. */
-    private BlockCreator blockCreator = new RectangleBlockCreator(); // TODO inject
+    private final BlockCreator blockCreator;
     
     /** {@inheritDoc} */
     @Override

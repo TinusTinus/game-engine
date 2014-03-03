@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
+import javafx.scene.shape.Rectangle;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class NextBlockRendererTest {
      * @return renderer
      */
     private NextBlockRenderer createNextBlockRenderer() {
-        return new NextBlockRenderer() {
+        return new NextBlockRenderer((x, y, size, block, style, framesUnitl, framesSince) -> new Rectangle()) {
             /** 
              * Mock implementation which just executes the runnable on the current thread.
              * 

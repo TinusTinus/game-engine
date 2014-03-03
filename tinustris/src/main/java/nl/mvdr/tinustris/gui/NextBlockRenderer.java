@@ -19,6 +19,15 @@ class NextBlockRenderer extends BlockGroupRenderer {
     /** Previous value for the next tetromino field, currently being displayed. Initially null. */
     private Tetromino previousValue = null;
     
+    /**
+     * Constructor.
+     * 
+     * @param blockCreator creator
+     */
+    NextBlockRenderer(BlockCreator blockCreator) {
+        super(blockCreator);
+    }
+    
     /** {@inheritDoc} */
     @Override
     public void render(OnePlayerGameState gameState) {

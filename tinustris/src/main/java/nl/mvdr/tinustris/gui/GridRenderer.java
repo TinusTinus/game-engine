@@ -19,6 +19,15 @@ class GridRenderer extends BlockGroupRenderer {
     /** Previous game state, currently being displayed. Initially null. */
     private OnePlayerGameState previousState = null;
 
+    /**
+     * Constructor.
+     * 
+     * @param blockCreator creator
+     */
+    GridRenderer(BlockCreator blockCreator) {
+        super(blockCreator);
+    }
+    
     /** {@inheritDoc} */
     @Override
     public void render(OnePlayerGameState gameState) {
