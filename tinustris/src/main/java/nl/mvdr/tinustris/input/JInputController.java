@@ -1,10 +1,12 @@
 package nl.mvdr.tinustris.input;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -47,15 +49,10 @@ public class JInputController implements InputController {
         }
         
         // find the keyboard controller(s)
-        controllers = new HashSet<>();
-        for (Controller controller : controllersFromEnvironment) {
-            if (controller instanceof Keyboard) {
-                log.info("Keyboard controller found: " + controller);
-                controllers.add(controller);
-            } else {
-                log.info("Non-keyboard controller found: " + controller);
-            }
-        }
+        controllers = Arrays.asList(controllersFromEnvironment)
+            .stream()
+            .filter(controller -> controller instanceof Keyboard)
+            .collect(Collectors.toSet());
         if (controllers.isEmpty()) {
             throw new IllegalStateException("No keyboard present!");
         }
