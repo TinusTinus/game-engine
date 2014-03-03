@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
- * Dummy subclass of AbstractLevelSystem.
+ * Dummy implementation of LevelSystem.
  * 
  * @author Martijn van de Rijdt
  */
