@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javafx.application.Platform;
@@ -48,12 +47,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
      * @return whether the list contains only null values
      */
     private boolean containsAllNullValues(List<?> list) {
-        boolean result = true;
-        Iterator<?> iterator = list.iterator();
-        while (result && iterator.hasNext()) {
-            result = iterator.next() == null;
-        }
-        return result;
+        return list.stream().allMatch(value -> value == null);
     }
     
     /**
