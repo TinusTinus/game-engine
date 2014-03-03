@@ -20,6 +20,9 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
     /** Size for the arc of a tetromino block. */
     static final int ARC_SIZE = 10;
     
+    /** Block creator. */
+    private BlockCreator blockCreator = new RectangleBlockCreator(); // TODO inject
+    
     /** {@inheritDoc} */
     @Override
     public void render(@NonNull OnePlayerGameState gameState) {
@@ -96,13 +99,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
         int xCoordinate = x * BLOCK_SIZE;
         int yCoordinate = (height - y - 1) * BLOCK_SIZE;
         
-        Rectangle result = new Rectangle(xCoordinate, yCoordinate, BLOCK_SIZE, BLOCK_SIZE);
-        
-        result.setArcWidth(ARC_SIZE);
-        result.setArcHeight(ARC_SIZE);
-        
-        style.apply(result, block, numFramesUntilLinesDisappear, numFramesSinceLastLock);
-        
-        return result;
+        return blockCreator.createBlock(xCoordinate, yCoordinate, BLOCK_SIZE, block, style,
+                numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 }
