@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.level.DummyLevelSystem;
 import nl.mvdr.tinustris.engine.speedcurve.ConstantSpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.GameBoySpeedCurve;
-import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
@@ -81,7 +80,7 @@ public class OnePlayerEngineTest {
     public void testNextState() {
         OnePlayerEngine engine = new OnePlayerEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = new OnePlayerGameState();
-        InputState inputState = new DummyInputController().getInputState();
+        InputState inputState = input -> false;
         
         state = engine.computeNextState(state, Arrays.asList(inputState));
 
@@ -107,7 +106,7 @@ public class OnePlayerEngineTest {
         TetrominoGenerator generator = new DummyTetrominoGenerator();
         OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = new OnePlayerGameState();
-        InputState inputState = new DummyInputController().getInputState();
+        InputState inputState = input -> false;
         
         engine.computeNextState(state, Arrays.asList(inputState, inputState));
     }
@@ -121,7 +120,7 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(new DummyTetrominoGenerator(), new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
-        InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
+        InputState inputState = input -> input == Input.HARD_DROP;
         
         state = engine.computeNextState(state, Arrays.asList(inputState));
 
@@ -138,7 +137,7 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(new DummyTetrominoGenerator(), new GameBoySpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
-        InputState inputState = new DummyInputController(Collections.singleton(Input.HARD_DROP)).getInputState();
+        InputState inputState = input -> input == Input.HARD_DROP;
         
         state = engine.computeNextState(state, Arrays.asList(inputState));
 

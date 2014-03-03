@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -111,7 +110,7 @@ public class MultiplayerEngineTest {
         MultiplayerEngine engine = new MultiplayerEngine(2);
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState));
-        InputState inputState = new DummyInputController().getInputState();
+        InputState inputState = input -> false;
 
         MultiplayerGameState newState = engine.computeNextState(state, Arrays.asList(inputState, inputState));
 
@@ -125,7 +124,7 @@ public class MultiplayerEngineTest {
         MultiplayerEngine engine = new MultiplayerEngine(2);
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState));
-        InputState inputState = new DummyInputController().getInputState();
+        InputState inputState = input -> false;
 
         engine.computeNextState(state, Arrays.asList(inputState));
     }
@@ -136,7 +135,7 @@ public class MultiplayerEngineTest {
         MultiplayerEngine engine = new MultiplayerEngine(2);
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState));
-        InputState inputState = new DummyInputController().getInputState();
+        InputState inputState = input -> false;
 
         engine.computeNextState(state, Arrays.asList(inputState, inputState, inputState));
     }
