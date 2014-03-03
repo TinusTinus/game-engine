@@ -25,7 +25,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
     public void render(@NonNull OnePlayerGameState gameState) {
         final List<Group> groups = createGroups(gameState);
         
-        if (!containsAllNullValues(groups)) {
+        if (groups.stream().anyMatch(value -> value != null)) {
             // (re-)render
             runOnJavaFXThread(() -> update(groups));
         }
@@ -39,16 +39,6 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
      * @return list of groups; may contain null values
      */
     abstract List<Group> createGroups(OnePlayerGameState gameState);
-    
-    /**
-     * Checks wheter the list contains only null values.
-     * 
-     * @param list list
-     * @return whether the list contains only null values
-     */
-    private boolean containsAllNullValues(List<?> list) {
-        return list.stream().allMatch(value -> value == null);
-    }
     
     /**
      * Runs the given runnable on the JavaFX thread.
