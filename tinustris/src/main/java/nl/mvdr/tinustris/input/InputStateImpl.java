@@ -30,6 +30,7 @@ class InputStateImpl implements InputState {
     }
 
     /** {@inheritDoc} */
+    // overridden since isEmpty is usually O(1), whereas the default implementation is O(n)
     @Override
     public boolean anyInputsPressed() {
         return !pressedInputs.isEmpty();
