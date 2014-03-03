@@ -114,13 +114,11 @@ public class JInputController implements InputController {
         
         Set<Input> pressedInputs = EnumSet.noneOf(Input.class);
         for (Input input: Input.values()) {
-            for (Component component: mapping.get(input)) {
-                if (component != null) {
-                    float pollData = component.getPollData();
-                    if (pollData != 0.0f) {
-                        pressedInputs.add(input);
-                    }
-                }
+            if (mapping.get(input)
+                    .stream()
+                    .map(component -> component.getPollData())
+                    .anyMatch(pollData -> pollData.floatValue() != 0.0f)) {
+                pressedInputs.add(input);
             }
         }
         return new InputStateImpl(pressedInputs);
