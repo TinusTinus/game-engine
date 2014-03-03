@@ -7,6 +7,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  * 
  * @author Martijn van de Rijdt
  */
+@FunctionalInterface
 interface TetrominoGenerator {
     /**
      * Returns tetromino i for a game of Tetris.
