@@ -4,11 +4,14 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import javafx.animation.FadeTransition;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Paint;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
@@ -84,6 +87,27 @@ enum BlockStyle {
         applyFill(rectangle, block);
         applyAnimation(rectangle, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
+    
+    /**
+     * Applies this style to the given block. This method sets the the opacity and color properties of the given
+     * block.
+     * 
+     * @param box
+     *            block to be styled
+     * @param block
+     *            block
+     * @param numFramesUntilLinesDisappear
+     *            the numFramesUntilLinesDisappear property from the game state; used for the block disappearing
+     *            animation
+     * @param numFramesSinceLastLock
+     *            the numFramesSinceLastLock property from the game state; used for the block disappearing animation
+     */
+    void apply(@NonNull Box box, @NonNull Block block, int numFramesUntilLinesDisappear,
+            int numFramesSinceLastLock) {
+        box.setOpacity(opacity);
+        applyColor(box, block);
+        applyAnimation(box, numFramesUntilLinesDisappear, numFramesSinceLastLock);
+    }
 
     /**
      * Sets the block's stroke property.
@@ -112,10 +136,7 @@ enum BlockStyle {
      *            block
      */
     private void applyFill(Rectangle rectangle, Block block) {
-        Color color = COLORS.get(block);
-        if (darker) {
-            color = color.darker();
-        }
+        Color color = getColor(block);
         Paint fill = new RadialGradient(0,
                 1,
                 rectangle.getX() + rectangle.getWidth() / 4,
@@ -129,19 +150,46 @@ enum BlockStyle {
     }
 
     /**
+     * Sets the box's color.
+     * 
+     * @param box
+     *            box to be styled
+     * @param block
+     *            block
+     */
+    private void applyColor(Box box, Block block) {
+        Color color = getColor(block);
+        box.setMaterial(new PhongMaterial(color));
+    }
+    
+    /**
+     * Retrieves the correct color for the given block.
+     * 
+     * @param block block
+     * @return color
+     */
+    private Color getColor(Block block) {
+        Color color = COLORS.get(block);
+        if (darker) {
+            color = color.darker();
+        }
+        return color;
+    }
+
+    /**
      * Adds any needed animation to the block.
      * 
-     * @param rectangle
+     * @param node
      *            block to be styled
      * @param numFramesUntilLinesDisappear
      *            number of frames until the block should be fully invisible
      * @param numFramesSinceLastLock
      *            number of frames since the time the block started disappearing
     */
-    private void applyAnimation(Rectangle rectangle, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
+    private void applyAnimation(Node node, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         if (disappearingAnimation) {
             int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), rectangle);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), node);
             fadeTransition.setFromValue((double) numFramesUntilLinesDisappear
                     / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock));
             fadeTransition.setToValue(0);
