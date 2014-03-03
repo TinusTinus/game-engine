@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -45,6 +46,8 @@ public class Tinustris extends Application {
     private static final int TEXT_WINDOW_HEIGHT = 50;
     /** Width of the game over label. */
     private static final int GAME_OVER_LABEL_WIDTH = 170;
+    /** Whether 3D graphics are used. */
+    private static final boolean PERSPECTIVE_3D = false;
     
     /** Game loop. */
     private GameLoop<OnePlayerGameState> gameLoop;
@@ -80,8 +83,15 @@ public class Tinustris extends Application {
         
         // TODO configuration screen to select speed curve, level system, button configuration, number of players and 2D/3D
         
+        BlockCreator blockCreator;
+        if (PERSPECTIVE_3D) {
+            blockCreator = new BoxBlockCreator();
+        } else {
+            blockCreator = new RectangleBlockCreator();
+        }
+        
+        
         // create the game renderers
-        BlockCreator blockCreator = new RectangleBlockCreator();
         GridRenderer gridGroup = new GridRenderer(blockCreator);
         NextBlockRenderer nextBlockRenderer = new NextBlockRenderer(blockCreator);
         LinesRenderer linesRenderer = new LinesRenderer();
@@ -128,6 +138,11 @@ public class Tinustris extends Application {
                     4 * GridRenderer.BLOCK_SIZE,
                 heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
+        
+        if (PERSPECTIVE_3D) {
+            scene.setCamera(new PerspectiveCamera());
+        }
+        
         stage.setScene(scene);
         stage.show();
         // Default size should also be the minimum size.
