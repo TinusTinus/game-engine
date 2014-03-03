@@ -3,6 +3,11 @@ package nl.mvdr.tinustris.input;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Keeps administration of the number of frames each input has been pressed.
+ * 
+ * @author Martijn van de Rijdt
+ */
 @FunctionalInterface
 public interface InputStateHistory {
     /** Input state history where no inputs have been pressed. */
