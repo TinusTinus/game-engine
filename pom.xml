@@ -15,10 +15,12 @@
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
 		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
-		<javafx.version>2</javafx.version>
 		<jinput.version>2.0.5</jinput.version>
 		<junit.version>4.11</junit.version>
-		<lombok.version>1.12.4</lombok.version>
+		<!-- Lombok "edge" release for Eclipse Luna support. This edge release is 
+			not available in Central, but can be downloaded from http://projectlombok.org/download-edge.html. 
+			Retrieved version "1.12.5 2014-03-01 02:28 UTC". -->
+		<lombok.version>1.12.5-SNAPSHOT</lombok.version>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
 		<maven-nativedependencies-plugin.version>0.0.7</maven-nativedependencies-plugin.version>
@@ -30,18 +32,6 @@
 		refer to the properties instead! -->
 	<dependencyManagement>
 		<dependencies>
-			<!-- GUI -->
-			<!-- The JavaFX dependency assumes jfxrt.jar is in the JRE's lib directory. 
-				This is the case from JDK 1.7u6 onwards. Tested with JDK 1.7u7 and 1.7u17. -->
-			<dependency>
-				<groupId>com.oracle</groupId>
-				<artifactId>javafx</artifactId>
-				<version>${javafx.version}</version>
-				<systemPath>${java.home}/lib/jfxrt.jar</systemPath>
-				<scope>system</scope>
-				<!-- javadoc: http://docs.oracle.com/javafx/2/api/ -->
-			</dependency>
-
 			<!-- Input -->
 			<dependency>
 				<groupId>net.java.jinput</groupId>

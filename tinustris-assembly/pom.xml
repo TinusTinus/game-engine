@@ -19,10 +19,6 @@
 			<artifactId>tinustris</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>javafx</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
