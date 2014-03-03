@@ -2,9 +2,9 @@ package nl.mvdr.tinustris.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -541,11 +541,9 @@ public class OnePlayerGameState implements GameState {
      * @return 
      */
     private Set<Point> translate(Set<Point> points, int deltaX, int deltaY) {
-        Set<Point> result = new HashSet<>(points.size());
-        for (Point point: points) {
-            result.add(point.translate(deltaX, deltaY));
-        }
-        return result;
+        return points.stream()
+            .map(point -> point.translate(deltaX, deltaY))
+            .collect(Collectors.toSet());
     }
     
     /**
