@@ -11,8 +11,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.StrokeType;
 import javafx.util.Duration;
 import lombok.AccessLevel;
@@ -92,7 +92,7 @@ enum BlockStyle {
      * Applies this style to the given block. This method sets the the opacity and color properties of the given
      * block.
      * 
-     * @param box
+     * @param shape
      *            block to be styled
      * @param block
      *            block
@@ -102,16 +102,16 @@ enum BlockStyle {
      * @param numFramesSinceLastLock
      *            the numFramesSinceLastLock property from the game state; used for the block disappearing animation
      */
-    void apply(@NonNull Box box, @NonNull Block block, int numFramesUntilLinesDisappear,
+    void apply(@NonNull Shape3D shape, @NonNull Block block, int numFramesUntilLinesDisappear,
             int numFramesSinceLastLock) {
         // Unfortunately opacity is currently not supported in JavaFX 3D graphics.
         // See: https://javafx-jira.kenai.com/browse/RT-28874
         // For now, just hide blocks which are supposed to be opaque (in practice: ghost blocks).
         if (opacity < 1) {
-            box.setVisible(false);;
+            shape.setVisible(false);;
         }
-        applyColor(box, block);
-        applyAnimation(box, numFramesUntilLinesDisappear, numFramesSinceLastLock);
+        applyColor(shape, block);
+        applyAnimation(shape, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 
     /**
@@ -157,14 +157,14 @@ enum BlockStyle {
     /**
      * Sets the box's color.
      * 
-     * @param box
-     *            box to be styled
+     * @param shape
+     *            block to be styled
      * @param block
      *            block
      */
-    private void applyColor(Box box, Block block) {
+    private void applyColor(Shape3D shape, Block block) {
         Color color = getColor(block).brighter();
-        box.setMaterial(new PhongMaterial(color));
+        shape.setMaterial(new PhongMaterial(color));
     }
     
     /**
@@ -205,18 +205,18 @@ enum BlockStyle {
     /**
      * Adds any needed animation to the block.
      * 
-     * @param box
+     * @param shape
      *            block to be styled
      * @param numFramesUntilLinesDisappear
      *            number of frames until the block should be fully invisible
      * @param numFramesSinceLastLock
      *            number of frames since the time the block started disappearing
     */
-    private void applyAnimation(Box box, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
+    private void applyAnimation(Shape3D shape, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         if (disappearingAnimation) {
             int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
-            ScaleTransition transition = new ScaleTransition(Duration.millis(duration), box);
-            transition.setFromY(box.getScaleY() * ((double) numFramesUntilLinesDisappear
+            ScaleTransition transition = new ScaleTransition(Duration.millis(duration), shape);
+            transition.setFromY(shape.getScaleY() * ((double) numFramesUntilLinesDisappear
                     / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock)));
             transition.setToY(0);
             transition.play();
