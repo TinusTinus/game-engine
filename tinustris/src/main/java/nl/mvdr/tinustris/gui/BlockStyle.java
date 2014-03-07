@@ -163,7 +163,7 @@ enum BlockStyle {
      *            block
      */
     private void applyColor(Box box, Block block) {
-        Color color = getColor(block);
+        Color color = getColor(block).brighter();
         box.setMaterial(new PhongMaterial(color));
     }
     
