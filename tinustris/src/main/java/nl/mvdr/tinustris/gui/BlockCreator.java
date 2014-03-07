@@ -24,9 +24,11 @@ interface BlockCreator {
      * @param style
      *            style in which to render the block
      * @param numFramesUntilLinesDisappear
-     *            the numFramesUntilLinesDisappear property from the game state
+     *            the numFramesUntilLinesDisappear property from the game state: the number of frames until the
+     *            currently disappearing lines disappear; used for correctly drawing the disappearing block animation
      * @param numFramesSinceLastLock
-     *            the numFramesSinceLastLock property from the game state
+     *            the numFramesSinceLastLock property from the game state: the number of frames since the last time a
+     *            block locked in place; used for correctly drawing the disappearing block animation
      * @return new block
      */
     Node createBlock(double xCoordinate, double yCoordinate, double size, Block block, BlockStyle style,
