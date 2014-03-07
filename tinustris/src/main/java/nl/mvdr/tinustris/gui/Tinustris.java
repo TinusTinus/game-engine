@@ -82,6 +82,9 @@ public class Tinustris extends Application {
         log.info("Starting application.");
         logVersionInfo();
         
+        Thread.currentThread().setUncaughtExceptionHandler(
+                (thread, throwable) -> log.error("Uncaught runtime exception on JavaFX Thread", throwable));
+        
         // TODO configuration screen to select speed curve, level system, button configuration, number of players and 2D/3D
         
         BlockCreator blockCreator;
