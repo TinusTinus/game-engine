@@ -169,26 +169,42 @@ public class Tinustris extends Application {
     /**
      * Adds a camera and a light source.
      * 
-     * @param parent group containing all 3D shapes that should be lit by the light
-     * @param scene scene
+     * @param parent
+     *            group containing all 3D shapes that should be lit by the light
+     * @param scene
+     *            scene
      */
     private void setupLightsAndCamera(Group parent, Scene scene) {
         scene.setCamera(new PerspectiveCamera());
-        
+
+        parent.getChildren().add(createLight(150, 700, -250));
+    }
+
+    /**
+     * Creates a light at (around) the given location.
+     * 
+     * @param x
+     *            x coordinate
+     * @param y
+     *            y coordinate
+     * @param z
+     *            z coordinate
+     * @return light
+     */
+    private PointLight createLight(double x, double y, double z) {
         PointLight light = new PointLight(Color.WHITE);
         
         TranslateTransition transition = new TranslateTransition(new Duration(5_000), light);
-        transition.setFromX(100);
-        transition.setFromY(0);
-        transition.setFromZ(-300);
-        transition.setToX(200);
-        transition.setToY(200);
-        transition.setToZ(-200);
+        transition.setFromX(x - 50);
+        transition.setFromY(y - 50);
+        transition.setFromZ(z - 50);
+        transition.setToX(x + 50);
+        transition.setToY(y + 50);
+        transition.setToZ(z + 50);
         transition.setAutoReverse(true);
         transition.setCycleCount(Animation.INDEFINITE);
         transition.play();
-        
-        parent.getChildren().add(light);
+        return light;
     }
 
     /** Logs some version info. */
