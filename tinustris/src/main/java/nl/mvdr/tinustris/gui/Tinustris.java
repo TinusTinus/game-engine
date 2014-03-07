@@ -271,7 +271,11 @@ public class Tinustris extends Application {
     @Override
     public void stop() throws Exception {
         log.info("Stopping the application.");
-        gameLoop.stop();
+        
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        
         super.stop();
         log.info("Stopped.");
     }
