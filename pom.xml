@@ -17,10 +17,7 @@
 		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
 		<jinput.version>2.0.5</jinput.version>
 		<junit.version>4.11</junit.version>
-		<!-- Lombok "edge" release for Eclipse Luna support. This edge release is 
-			not available in Central, but can be downloaded from http://projectlombok.org/download-edge.html. 
-			Retrieved version "1.12.5 2014-03-01 02:28 UTC". -->
-		<lombok.version>1.12.5-SNAPSHOT</lombok.version>
+		<lombok.version>1.12.6</lombok.version>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
 		<maven-nativedependencies-plugin.version>0.0.7</maven-nativedependencies-plugin.version>
