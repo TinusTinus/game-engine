@@ -51,7 +51,7 @@ public class Tinustris extends Application {
     private static final boolean PERSPECTIVE_3D = true;
     
     /** Game loop. */
-    private GameLoop<OnePlayerGameState> gameLoop;
+    private GameLoop<?> gameLoop;
     
     /**
      * Main method.
