@@ -204,6 +204,7 @@ public class Tinustris extends Application {
         transition.setAutoReverse(true);
         transition.setCycleCount(Animation.INDEFINITE);
         transition.play();
+        
         return light;
     }
 
