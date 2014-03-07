@@ -146,24 +146,7 @@ public class Tinustris extends Application {
                 Color.GRAY);
         
         if (PERSPECTIVE_3D) {
-            // add a camera and lighting
-            
-            scene.setCamera(new PerspectiveCamera());
-            
-            PointLight light = new PointLight(Color.WHITE);
-            
-            TranslateTransition transition = new TranslateTransition(new Duration(5_000), light);
-            transition.setFromX(100);
-            transition.setFromY(0);
-            transition.setFromZ(-300);
-            transition.setToX(200);
-            transition.setToY(200);
-            transition.setToZ(-200);
-            transition.setAutoReverse(true);
-            transition.setCycleCount(Animation.INDEFINITE);
-            transition.play();
-            
-            parent.getChildren().add(light);
+            setupLightsAndCamera(parent, scene);
         }
         
         stage.setScene(scene);
@@ -181,6 +164,31 @@ public class Tinustris extends Application {
         gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer);
         gameLoop.start();
         log.info("Game loop started.");
+    }
+
+    /**
+     * Adds a camera and a light source.
+     * 
+     * @param parent group containing all 3D shapes that should be lit by the light
+     * @param scene scene
+     */
+    private void setupLightsAndCamera(Group parent, Scene scene) {
+        scene.setCamera(new PerspectiveCamera());
+        
+        PointLight light = new PointLight(Color.WHITE);
+        
+        TranslateTransition transition = new TranslateTransition(new Duration(5_000), light);
+        transition.setFromX(100);
+        transition.setFromY(0);
+        transition.setFromZ(-300);
+        transition.setToX(200);
+        transition.setToY(200);
+        transition.setToZ(-200);
+        transition.setAutoReverse(true);
+        transition.setCycleCount(Animation.INDEFINITE);
+        transition.play();
+        
+        parent.getChildren().add(light);
     }
 
     /** Logs some version info. */
