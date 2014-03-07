@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Paint;
@@ -85,7 +86,7 @@ enum BlockStyle {
         rectangle.setOpacity(opacity);
         applyStroke(rectangle, block);
         applyFill(rectangle, block);
-        applyAnimation(rectangle, numFramesUntilLinesDisappear, numFramesSinceLastLock);
+        applyFadeOutAnimation(rectangle, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
     
     /**
@@ -111,7 +112,9 @@ enum BlockStyle {
             shape.setVisible(false);;
         }
         applyColor(shape, block);
-        applyAnimation(shape, numFramesUntilLinesDisappear, numFramesSinceLastLock);
+        // Fade out does not work either, for the same reason.
+        // Instead make it look like the block is being squashed.
+        applySquashAnimation(shape, numFramesUntilLinesDisappear, numFramesSinceLastLock);
     }
 
     /**
@@ -182,19 +185,19 @@ enum BlockStyle {
     }
 
     /**
-     * Adds any needed animation to the block.
+     * Adds a fade out animation to the block.
      * 
-     * @param rectangle
+     * @param node
      *            block to be styled
      * @param numFramesUntilLinesDisappear
      *            number of frames until the block should be fully invisible
      * @param numFramesSinceLastLock
      *            number of frames since the time the block started disappearing
     */
-    private void applyAnimation(Rectangle rectangle, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
+    private void applyFadeOutAnimation(Node node, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         if (disappearingAnimation) {
             int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
-            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), rectangle);
+            FadeTransition fadeTransition = new FadeTransition(Duration.millis(duration), node);
             fadeTransition.setFromValue((double) numFramesUntilLinesDisappear
                     / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock));
             fadeTransition.setToValue(0);
@@ -203,7 +206,7 @@ enum BlockStyle {
     }
     
     /**
-     * Adds any needed animation to the block.
+     * Adds a squashing animation to the block.
      * 
      * @param shape
      *            block to be styled
@@ -212,11 +215,11 @@ enum BlockStyle {
      * @param numFramesSinceLastLock
      *            number of frames since the time the block started disappearing
     */
-    private void applyAnimation(Shape3D shape, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
+    private void applySquashAnimation(Node node, int numFramesUntilLinesDisappear, int numFramesSinceLastLock) {
         if (disappearingAnimation) {
             int duration = framesToMilliseconds(numFramesUntilLinesDisappear);
-            ScaleTransition transition = new ScaleTransition(Duration.millis(duration), shape);
-            transition.setFromY(shape.getScaleY() * ((double) numFramesUntilLinesDisappear
+            ScaleTransition transition = new ScaleTransition(Duration.millis(duration), node);
+            transition.setFromY(node.getScaleY() * ((double) numFramesUntilLinesDisappear
                     / (double) (numFramesUntilLinesDisappear + numFramesSinceLastLock)));
             transition.setToY(0);
             transition.play();
