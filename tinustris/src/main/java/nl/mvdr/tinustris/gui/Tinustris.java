@@ -3,6 +3,8 @@ package nl.mvdr.tinustris.gui;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.animation.Animation;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -19,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
@@ -148,8 +151,18 @@ public class Tinustris extends Application {
             scene.setCamera(new PerspectiveCamera());
             
             PointLight light = new PointLight(Color.WHITE);
-            light.setTranslateX(100);
-            light.setTranslateZ(-200);
+            
+            TranslateTransition transition = new TranslateTransition(new Duration(5_000), light);
+            transition.setFromX(100);
+            transition.setFromY(0);
+            transition.setFromZ(-300);
+            transition.setToX(200);
+            transition.setToY(200);
+            transition.setToZ(-200);
+            transition.setAutoReverse(true);
+            transition.setCycleCount(Animation.INDEFINITE);
+            transition.play();
+            
             parent.getChildren().add(light);
         }
         
