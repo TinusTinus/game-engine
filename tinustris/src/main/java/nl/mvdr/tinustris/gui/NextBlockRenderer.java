@@ -41,7 +41,7 @@ class NextBlockRenderer extends BlockGroupRenderer {
         Group group;
         
         Tetromino nextBlock = gameState.getNext();
-        if (previousValue != null && previousValue == nextBlock) {
+        if (previousValue == nextBlock) {
             // Active block location is unchanged; no need to update.
             group = null;
         } else {
