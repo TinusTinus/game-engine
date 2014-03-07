@@ -148,7 +148,8 @@ public class Tinustris extends Application {
             scene.setCamera(new PerspectiveCamera());
             
             PointLight light = new PointLight(Color.WHITE);
-            light.setTranslateZ(-300);
+            light.setTranslateX(100);
+            light.setTranslateZ(-200);
             parent.getChildren().add(light);
         }
         
