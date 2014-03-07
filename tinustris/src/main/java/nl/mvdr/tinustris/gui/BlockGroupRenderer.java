@@ -62,7 +62,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
      * @param groups
      *            list of groups; elements may be null, in which case the corresponding child group is not updated
      */
-    void update(List<Group> groups) {
+    private void update(List<Group> groups) {
         if (getChildren().isEmpty()) {
             // first frame
             getChildren().addAll(groups);
