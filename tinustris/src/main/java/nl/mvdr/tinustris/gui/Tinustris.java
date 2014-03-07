@@ -91,7 +91,6 @@ public class Tinustris extends Application {
             blockCreator = new RectangleBlockCreator();
         }
         
-        
         // create the game renderers
         GridRenderer gridGroup = new GridRenderer(blockCreator);
         NextBlockRenderer nextBlockRenderer = new NextBlockRenderer(blockCreator);
