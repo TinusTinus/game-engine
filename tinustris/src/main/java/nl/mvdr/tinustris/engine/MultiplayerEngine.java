@@ -46,13 +46,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     @Override
     public MultiplayerGameState initGameState() {
         OnePlayerGameState state = onePlayerEngine.initGameState();
-        
-        List<OnePlayerGameState> states = new ArrayList<>(numberOfPlayers);
-        while (states.size() != numberOfPlayers) {
-            states.add(state);
-        }
-        states = Collections.unmodifiableList(states);
-        
+        List<OnePlayerGameState> states = Collections.nCopies(numberOfPlayers, state);
         return new MultiplayerGameState(states);
     }
 
