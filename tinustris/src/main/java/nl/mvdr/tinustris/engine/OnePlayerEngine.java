@@ -391,6 +391,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
                 }
             }
         }
+        grid = Collections.unmodifiableList(grid);
         
         return state.withGrid(grid);
     }
