@@ -790,10 +790,6 @@ public class OnePlayerGameStateTest {
      * @return list
      */
     private List<Block> createGrid(int size, Block value) {
-        List<Block> result = new ArrayList<>();
-        while (result.size() != size) {
-            result.add(value);
-        }
-        return result;
+        return new ArrayList<>(Collections.nCopies(size, value));
     }
 }
