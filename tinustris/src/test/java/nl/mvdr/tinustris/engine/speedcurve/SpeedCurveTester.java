@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import nl.mvdr.tinustris.input.InputStateHistory;
@@ -68,10 +68,7 @@ public abstract class SpeedCurveTester {
      */
     void testLevel(int level, int expectedInternalGravity) {
         SpeedCurve curve = createSpeedCurve();
-        List<Block> grid = new ArrayList<>(220);
-        while(grid.size() != 220) {
-            grid.add(null);
-        }
+        List<Block> grid = Collections.nCopies(220, null);
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
                 InputStateHistory.NEW, 0, level * 10, level);
         

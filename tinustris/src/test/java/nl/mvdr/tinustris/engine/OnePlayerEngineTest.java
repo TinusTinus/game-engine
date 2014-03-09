@@ -151,10 +151,7 @@ public class OnePlayerEngineTest {
      * @return newly created game state
      */
     private OnePlayerGameState createGameStateForHardDropTest() {
-        List<Block> grid = new ArrayList<>(220);
-        while (grid.size() != 220) {
-            grid.add(null);
-        }
+        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
         grid.set(1, Block.O);
         grid.set(2, Block.O);
         grid.set(3, Block.S);

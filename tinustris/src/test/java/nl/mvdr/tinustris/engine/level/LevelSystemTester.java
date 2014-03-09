@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.engine.level;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import nl.mvdr.tinustris.input.InputStateHistory;
@@ -44,10 +44,7 @@ public abstract class LevelSystemTester {
      * @return game state
      */
     OnePlayerGameState createGameState(int blockCounter, int lines, int level) {
-        List<Block> grid = new ArrayList<>(220);
-        while (grid.size() != 220) {
-            grid.add(null);
-        }
+        List<Block> grid = Collections.nCopies(220, null);
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
                 InputStateHistory.NEW, blockCounter, lines, level);
         return state;
