@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -423,14 +424,10 @@ public class OnePlayerGameState implements GameState {
      * @return whether the grid's vanish zone contains at least one block
      */
     private boolean vanishZoneContainsBlock() {
-        boolean result = false;
         int height = getHeight();
-        for (int x = 0; !result && x != width; x++) {
-            for (int y = height - VANISH_ZONE_HEIGHT; !result && y != height; y++) {
-                result = result || getBlock(x, y) != null;
-            }
-        }
-        return result;
+        return IntStream.range(0, width)
+            .anyMatch(x -> IntStream.range(height - VANISH_ZONE_HEIGHT, height)
+                .anyMatch(y -> getBlock(x, y) != null));
     }
     
     /**
@@ -622,13 +619,8 @@ public class OnePlayerGameState implements GameState {
      * @return whether the given line is filled
      */
     public boolean isFullLine(int y) {
-        boolean filled = true;
-        int x = 0;
-        while (filled && x != width) {
-            filled = getBlock(x, y) != null;
-            x++;
-        }
-        return filled;
+        return IntStream.range(0, width)
+            .allMatch(x -> getBlock(x, y) != null);
     }
     
     /**
