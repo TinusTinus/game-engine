@@ -83,7 +83,8 @@ public class JInputController implements InputController {
      * @return the input
      */
     private Controller log(Controller controller) {
-        log.info("Controller found: " + controller);
+        log.info("Controller found: {}, type: {}, class: {}",
+            controller, controller.getType(), controller.getClass().getName());
         return controller;
     }
 
