@@ -22,43 +22,43 @@ public class MultiplayerEngineTest {
     /** Tests the constructor. */
     @Test
     public void testConstructorTwoPlayers() {
-        new MultiplayerEngine(2);
+        new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
     }
     
     /** Tests the constructor. */
     @Test
     public void testConstructorThreePlayers() {
-        new MultiplayerEngine(3);
+        new MultiplayerEngine(3, new DummyOnePlayerGameEngine());
     }
     
     /** Tests the constructor. */
     @Test
     public void testConstructorFourPlayers() {
-        new MultiplayerEngine(4);
+        new MultiplayerEngine(4, new DummyOnePlayerGameEngine());
     }
     
     /** Tests the constructor. */
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorNegativeNumberOfPlayers() {
-        new MultiplayerEngine(-2);
+        new MultiplayerEngine(-2, new DummyOnePlayerGameEngine());
     }
     
     /** Tests the constructor. */
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorNoPlayers() {
-        new MultiplayerEngine(0);
+        new MultiplayerEngine(0, new DummyOnePlayerGameEngine());
     }
     
     /** Tests the constructor. */
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorOnePlayer() {
-        new MultiplayerEngine(1);
+        new MultiplayerEngine(1, new DummyOnePlayerGameEngine());
     }
     
     /** Test the {@link MultiplayerEngine#toString()} method. */
     @Test
     public void testToString() {
-        MultiplayerEngine engine = new MultiplayerEngine(2);
+        MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         
         String string = engine.toString();
         
@@ -97,7 +97,7 @@ public class MultiplayerEngineTest {
      * @param numberOfPlayers number of players
      */
     private void testInitGameState(int numberOfPlayers) {
-        MultiplayerEngine engine = new MultiplayerEngine(numberOfPlayers);
+        MultiplayerEngine engine = new MultiplayerEngine(numberOfPlayers, new DummyOnePlayerGameEngine());
         
         MultiplayerGameState state = engine.initGameState();
         
@@ -107,7 +107,7 @@ public class MultiplayerEngineTest {
     /** Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)} */
     @Test
     public void testComputeNextState() {
-        MultiplayerEngine engine = new MultiplayerEngine(2);
+        MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState));
         InputState inputState = input -> false;
@@ -121,7 +121,7 @@ public class MultiplayerEngineTest {
     /** Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)} */
     @Test(expected = IllegalArgumentException.class)
     public void testComputeNextStateTooFewInputs() {
-        MultiplayerEngine engine = new MultiplayerEngine(2);
+        MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState));
         InputState inputState = input -> false;
@@ -132,7 +132,7 @@ public class MultiplayerEngineTest {
     /** Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)} */
     @Test(expected = IllegalArgumentException.class)
     public void testComputeNextStateTooManyInputs() {
-        MultiplayerEngine engine = new MultiplayerEngine(2);
+        MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState));
         InputState inputState = input -> false;
@@ -143,7 +143,7 @@ public class MultiplayerEngineTest {
     /** Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)} */
     @Test(expected = IllegalArgumentException.class)
     public void testComputeNextStateNoInputs() {
-        MultiplayerEngine engine = new MultiplayerEngine(2);
+        MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState));
 
