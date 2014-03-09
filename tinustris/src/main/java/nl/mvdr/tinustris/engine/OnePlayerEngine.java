@@ -118,9 +118,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         if (256 / internalGravity <= resultState.getNumFramesSinceLastDownMove()) {
             int cells = Math.round(internalGravity / 256);
             cells = Math.max(cells, 1);
-            for (int i = 0; i != cells; i++) {
-                actions.add(Action.GRAVITY_DROP);
-            }
+            
+            actions.addAll(Collections.nCopies(cells, Action.GRAVITY_DROP));
         }
         
         // process player input
