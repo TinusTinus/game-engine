@@ -402,17 +402,17 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return new state
      */
     private OnePlayerGameState spawnNextBlock(OnePlayerGameState state) {
-      Tetromino activeBlock = state.getNext();
-      Tetromino next = generator.get(state.getBlockCounter() + 2);
-      Point location = state.getBlockSpawnLocation();
-      Orientation orientation = Orientation.getDefault();
-      int blockCounter = state.getBlockCounter() + 1;
-      
+        Tetromino activeBlock = state.getNext();
+        Tetromino next = generator.get(state.getBlockCounter() + 2);
+        Point location = state.getBlockSpawnLocation();
+        Orientation orientation = Orientation.getDefault();
+        int blockCounter = state.getBlockCounter() + 1;
+
         return new OnePlayerGameState(state.getGrid(), state.getWidth(), activeBlock, location, orientation, next, 0,
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), blockCounter, state.getLines(),
                 state.getLevel());
     }
-    
+
     /**
      * Executes the left action.
      * 
