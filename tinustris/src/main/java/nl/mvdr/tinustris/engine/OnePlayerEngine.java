@@ -54,11 +54,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /** {@inheritDoc} */
     @Override
     public OnePlayerGameState initGameState() {
-        List<Block> grid = new ArrayList<>(OnePlayerGameState.DEFAULT_WIDTH * OnePlayerGameState.DEFAULT_HEIGHT);
-        while (grid.size() != OnePlayerGameState.DEFAULT_WIDTH * OnePlayerGameState.DEFAULT_HEIGHT) {
-            grid.add(null);
-        }
-        grid = Collections.unmodifiableList(grid);
+        List<Block> grid = Collections.nCopies(OnePlayerGameState.DEFAULT_WIDTH * OnePlayerGameState.DEFAULT_HEIGHT, null);
         OnePlayerGameState gameState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, generator.get(0),
                 generator.get(1));
         gameState = gameState.withLevel(this.levelSystem.computeLevel(gameState, gameState));

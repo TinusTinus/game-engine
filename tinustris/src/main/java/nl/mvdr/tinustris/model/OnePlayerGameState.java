@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -122,11 +121,7 @@ public class OnePlayerGameState implements GameState {
         checkHeight(height);
 
         this.width = width;
-        ArrayList<Block> tempGrid = new ArrayList<>(width * height);
-        while (tempGrid.size() != width * height) {
-            tempGrid.add(null);
-        }
-        this.grid = Collections.unmodifiableList(tempGrid);
+        this.grid = Collections.nCopies(width * height, null);
         this.activeTetromino = null;
         this.currentBlockLocation = null;
         this.currentBlockOrientation = null;
