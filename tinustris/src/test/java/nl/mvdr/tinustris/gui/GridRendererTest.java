@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javafx.scene.control.Label;
@@ -125,10 +126,7 @@ public class GridRendererTest {
      * @return game state
      */
     private OnePlayerGameState createNontrivialGameState() {
-        List<Block> grid = new ArrayList<>();
-        while (grid.size() != 220) {
-            grid.add(null);
-        }
+        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
         // add a single block at (2, 0)
         grid.set(2, Block.S);
         OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
@@ -143,12 +141,8 @@ public class GridRendererTest {
      */
     private OnePlayerGameState createGameStateWithFullLine() {
         List<Block> grid = new ArrayList<>(220);
-        for (int i = 0; i != 10; i++) {
-            grid.add(Block.S);
-        }
-        while (grid.size() != 220) {
-            grid.add(null);
-        }
+        grid.addAll(Collections.nCopies(10, Block.S));
+        grid.addAll(Collections.nCopies(210, null));
         OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         return gameState;
