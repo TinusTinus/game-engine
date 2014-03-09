@@ -1,9 +1,10 @@
 package nl.mvdr.tinustris.engine;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import lombok.ToString;
 import nl.mvdr.tinustris.input.InputState;
@@ -59,16 +60,30 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
                     "" + previousState.getNumberOfPlayers()));
         }
         
-        List<OnePlayerGameState> states = new ArrayList<>(previousState.getNumberOfPlayers());
-        for (int i = 0; i != previousState.getNumberOfPlayers(); i++) {
-            OnePlayerGameState previousOnePlayerState = previousState.getStateForPlayer(i);
-            InputState inputState = inputStates.get(i);
-            states.add(onePlayerEngine.computeNextState(previousOnePlayerState, Arrays.asList(inputState)));
-        }
-        states = Collections.unmodifiableList(states);
+        List<OnePlayerGameState> states = Collections.unmodifiableList(
+            IntStream.range(0, previousState.getNumberOfPlayers())
+                .mapToObj(i -> computeNextOnePlayerState(i, previousState, inputStates))
+                .collect(Collectors.toList()));
         
         // TODO update garbage counts
         
         return new MultiplayerGameState(states);
+    }
+    
+    /**
+     * Computes the next state for the given player index.
+     * 
+     * @param playerIndex
+     *            index of the player
+     * @param previousState
+     *            previous game state
+     * @param inputStates
+     *            input states for all players; the length of this list must match the number of players in the game
+     * @return new game state
+     */
+    private OnePlayerGameState computeNextOnePlayerState(int playerIndex, MultiplayerGameState previousState, List<InputState> inputStates) {
+        OnePlayerGameState previousOnePlayerState = previousState.getStateForPlayer(playerIndex);
+        InputState inputState = inputStates.get(playerIndex);
+        return onePlayerEngine.computeNextState(previousOnePlayerState, Arrays.asList(inputState));
     }
 }
