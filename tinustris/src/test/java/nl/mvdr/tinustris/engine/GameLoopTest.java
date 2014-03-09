@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.engine;
 import java.util.List;
 
 import nl.mvdr.tinustris.gui.DummyRenderer;
-import nl.mvdr.tinustris.input.DummyGameEngine;
 import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.DummyGameState;
