@@ -457,10 +457,10 @@ public class OnePlayerGameState implements GameState {
     /**
      * Computes the points occupied by the given tetromino.
      * 
-     * @param tetromino tetromino
-     * @param orientation orientation of the tetromino
-     * @param location the tetromino's location
-     * @return points occupied by the currently active block; empty set if there is no currently active block
+     * @param tetromino tetromino; may be null
+     * @param orientation orientation of the tetromino; may be null if tetromino is null
+     * @param location the tetromino's location; may be null if tetromino is null
+     * @return points occupied by the given tetromino; empty set if the given tetromino is null
      */
     private Set<Point> getBlockPoints(Tetromino tetromino, Orientation orientation, Point location) {
         Set<Point> result;
