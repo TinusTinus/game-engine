@@ -1,8 +1,10 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -123,12 +125,13 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         }
         
         // process player input
-        for (Input input: Input.values()) {
-            if (inputState.isPressed(input)
-                    && previousState.getInputStateHistory().getNumberOfFrames(input) % INPUT_FRAMES == 0) {
-                actions.add(input.getAction());
-            }
-        }
+        actions.addAll(
+                Arrays.asList(Input.values())
+                    .stream()
+                    .filter(inputState::isPressed)
+                    .filter(input -> previousState.getInputStateHistory().getNumberOfFrames(input) % INPUT_FRAMES == 0)
+                    .map(Input::getAction)
+                    .collect(Collectors.toList()));
         
         // process lock delay
         int lockDelay = curve.computeLockDelay(resultState);
