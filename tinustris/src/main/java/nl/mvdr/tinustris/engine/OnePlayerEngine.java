@@ -117,9 +117,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         int internalGravity = curve.computeInternalGravity(resultState);
         if (256 / internalGravity <= resultState.getNumFramesSinceLastDownMove()) {
             int cells = Math.round(internalGravity / 256);
-            if (cells == 0) {
-                cells = 1;
-            }
+            cells = Math.max(cells, 1);
             for (int i = 0; i != cells; i++) {
                 actions.add(Action.GRAVITY_DROP);
             }
