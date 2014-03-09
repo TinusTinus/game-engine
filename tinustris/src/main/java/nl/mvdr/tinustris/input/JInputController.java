@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.input;
 
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -113,7 +114,7 @@ public class JInputController implements InputController {
         Set<Input> pressedInputs = Arrays.asList(Input.values())
             .stream()
             .filter(this::isPressed)
-            .collect(Collectors.toSet());
+            .collect(Collectors.toCollection(() -> EnumSet.noneOf(Input.class)));
         
         return new InputStateImpl(pressedInputs);
     }
