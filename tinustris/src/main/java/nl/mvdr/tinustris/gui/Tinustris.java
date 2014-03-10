@@ -51,7 +51,7 @@ public class Tinustris extends Application {
     /** Width of the game over label. */
     private static final int GAME_OVER_LABEL_WIDTH = 170;
     /** Whether 3D graphics are used. */
-    private static final boolean PERSPECTIVE_3D = true;
+    private static final boolean PERSPECTIVE_3D = false;
     
     /** Game loop. */
     private GameLoop<?> gameLoop;
