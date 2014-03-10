@@ -1,8 +1,8 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.stream.Collectors;
 
 import lombok.NonNull;
@@ -22,7 +22,7 @@ class RangedCurve {
      * Should not be null or empty.
      */
     @NonNull
-    private final SortedMap<Integer, Integer> map;
+    private final Map<Integer, Integer> map;
 
     /**
      * Finds the range (i, j) where i <= key < j and returns the corresponding value.
