@@ -1,9 +1,7 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +29,12 @@ class RangedCurve {
      * @return value
      */
     int getValue(int key) {
-        Set<Integer> keys = map.keySet()
+        Integer mapKey = map.keySet()
             .stream()
             .filter(i -> i <= key)
-            .collect(Collectors.toSet());
+            .max(Comparator.naturalOrder())
+            .get();
 
-        Integer mapKey = Collections.max(keys);
-        
         return map.get(mapKey).intValue();
     }
 }
