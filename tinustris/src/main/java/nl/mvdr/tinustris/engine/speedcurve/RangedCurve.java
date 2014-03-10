@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.Comparator;
+import static java.lang.Integer.compare;
+
 import java.util.Map;
 
 import lombok.NonNull;
@@ -32,7 +33,7 @@ class RangedCurve {
         Integer mapKey = map.keySet()
             .stream()
             .filter(i -> i <= key)
-            .max(Comparator.naturalOrder())
+            .max(Integer::compare)
             .get();
 
         return map.get(mapKey).intValue();
