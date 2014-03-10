@@ -342,9 +342,11 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return number of lines; between 0 and 4
      */
     private int countLines(int width, int height, List<Block> grid) {
-        return (int) IntStream.range(0, height - 1)
+        long count = IntStream.range(0, height - 1)
             .filter(line -> isFullLine(line, width, grid))
             .count();
+        // count should be at least 0 and less than 5, so we can safely cast to int
+        return (int) count;
     }
     
     /**
