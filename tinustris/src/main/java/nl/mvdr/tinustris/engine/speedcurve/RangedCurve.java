@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import static java.lang.Integer.compare;
-
 import java.util.Map;
 
 import lombok.NonNull;
