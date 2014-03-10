@@ -32,8 +32,6 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import com.sun.javafx.runtime.VersionInfo;
-
 /**
  * Main class and entry point for the entire application.
  * 
@@ -226,9 +224,6 @@ public class Tinustris extends Application {
             log.info("OS name: " + System.getProperty("os.name"));
             log.info("OS version: " + System.getProperty("os.version"));
             log.info("OS architecture: " + System.getProperty("os.arch"));
-            log.info("JavaFX version: " + VersionInfo.getVersion());
-            log.info("JavaFX runtime version: " + VersionInfo.getRuntimeVersion());
-            log.info("JavaFX build timestamp: " + VersionInfo.getBuildTimestamp());
         }
     }
     
