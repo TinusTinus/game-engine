@@ -1,7 +1,7 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
@@ -19,7 +19,7 @@ public class GameBoySpeedCurve implements SpeedCurve {
         super();
         
         @SuppressWarnings("serial") // not to be serialised
-        SortedMap<Integer, Integer> map = new TreeMap<Integer, Integer>() {{
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>() {{
             // Note: in the actual Gameboy Tetris gravity was expressed as frames per cell rather than as G.
             // The values returned here are an approximation.
             put(Integer.valueOf(0), Integer.valueOf(5));   // 53 frames per cell

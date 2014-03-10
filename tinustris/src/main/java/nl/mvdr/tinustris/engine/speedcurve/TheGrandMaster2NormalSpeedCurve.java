@@ -1,7 +1,7 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
@@ -19,7 +19,7 @@ public class TheGrandMaster2NormalSpeedCurve implements SpeedCurve {
         super();
         
         @SuppressWarnings("serial") // not to be serialised
-        SortedMap<Integer, Integer> map = new TreeMap<Integer, Integer>() {{
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>() {{
             put(Integer.valueOf(0), Integer.valueOf(4));
             put(Integer.valueOf(8), Integer.valueOf(5));
             put(Integer.valueOf(19), Integer.valueOf(6));

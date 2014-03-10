@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
+import java.util.HashMap;
 import java.util.TreeMap;
 
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -24,7 +25,7 @@ public class TheGrandMaster2MasterSpeedCurve implements SpeedCurve {
     public TheGrandMaster2MasterSpeedCurve() {
         super();
         
-        this.internalGravityCurve = new RangedCurve(new TreeMap<Integer, Integer>() {{
+        this.internalGravityCurve = new RangedCurve(new HashMap<Integer, Integer>() {{
             put(Integer.valueOf(0), Integer.valueOf(4));
             put(Integer.valueOf(30), Integer.valueOf(6));
             put(Integer.valueOf(35), Integer.valueOf(8));
