@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -341,20 +342,25 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return number of lines; between 0 and 4
      */
     private int countLines(int width, int height, List<Block> grid) {
-        int linesScored = 0;
-        for (int line = height - 1; 0 <= line; line--) {
-            boolean filled = true;
-            int x = 0;
-            while (filled && x != width) {
-                filled = grid.get(x + line * width) != null;
-                x++;
-            }
-            
-            if (filled) {
-                linesScored++;
-            }
-        }
-        return linesScored;
+        return (int) IntStream.range(0, height - 1)
+            .filter(line -> isFullLine(line, width, grid))
+            .count();
+    }
+    
+    /**
+     * Checks whether line y is a full line in the grid.
+     *
+     * @param y
+     *            line index
+     * @param width
+     *            width of the grid
+     * @param grid
+     *            list containing the grid
+     * @return whether this is a full line
+     */
+    private boolean isFullLine(int y, int width, List<Block> grid) {
+        return IntStream.range(0, width)
+            .allMatch(x -> grid.get(x + y * width) != null);
     }
 
     /**
