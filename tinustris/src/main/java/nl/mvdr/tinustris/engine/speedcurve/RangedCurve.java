@@ -36,10 +36,6 @@ class RangedCurve {
             .filter(i -> i <= key)
             .collect(Collectors.toSet());
 
-        if (keys.isEmpty()) {
-            keys = map.keySet();
-        }
-        
         Integer mapKey = Collections.max(keys);
         
         return map.get(mapKey).intValue();
