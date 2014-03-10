@@ -26,6 +26,7 @@ class RangedCurve {
      * 
      * @param key key; may not be less than the lower bound of the first range
      * @return value
+     * @throws NoSuchElementException if key is less than the lower bound
      */
     int getValue(int key) {
         Integer mapKey = map.keySet()
