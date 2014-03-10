@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.engine.speedcurve;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Block;
@@ -60,6 +61,15 @@ public abstract class SpeedCurveTester {
         curve.computeLineClearDelay(state);
     }
     
+    /** Test with a negative level value. */
+    @Test(expected = NoSuchElementException.class)
+    public void testNegativeValue() {
+        SpeedCurve curve = createSpeedCurve();
+        OnePlayerGameState state = createGameState(-1);
+        
+        curve.computeInternalGravity(state);
+    }
+    
     /**
      * Checks whether the curve has the expected internal gravity for the given level.
      * 
@@ -68,11 +78,22 @@ public abstract class SpeedCurveTester {
      */
     void testLevel(int level, int expectedInternalGravity) {
         SpeedCurve curve = createSpeedCurve();
+        OnePlayerGameState state = createGameState(level);
+        
+        Assert.assertEquals(expectedInternalGravity, curve.computeInternalGravity(state));
+    }
+
+    /**
+     * Creates a dummy game state with the given level value.
+     * 
+     * @param level level
+     * @return state
+     */
+    private OnePlayerGameState createGameState(int level) {
         List<Block> grid = Collections.nCopies(220, null);
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
                 InputStateHistory.NEW, 0, level * 10, level);
-        
-        Assert.assertEquals(expectedInternalGravity, curve.computeInternalGravity(state));
+        return state;
     }
     
     /** Instantiates the speed curve to be tested. */
