@@ -1,7 +1,9 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import java.util.Iterator;
+import java.util.Collections;
+import java.util.Set;
 import java.util.SortedMap;
+import java.util.stream.Collectors;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -29,19 +31,17 @@ class RangedCurve {
      * @return value
      */
     int getValue(int key) {
-        Integer result = null;
-        Integer previousMapKey = null;
-        Iterator<Integer> iterator = map.keySet().iterator();
-        while (result == null && iterator.hasNext()) {
-            Integer mapKey = iterator.next();
-            if (key < mapKey.intValue()) {
-                result = map.get(previousMapKey);
-            }
-            previousMapKey = mapKey;
+        Set<Integer> keys = map.keySet()
+            .stream()
+            .filter(i -> i <= key)
+            .collect(Collectors.toSet());
+
+        if (keys.isEmpty()) {
+            keys = map.keySet();
         }
-        if (result == null) {
-            result = map.get(previousMapKey);
-        }
-        return result.intValue();
+        
+        Integer mapKey = Collections.max(keys);
+        
+        return map.get(mapKey).intValue();
     }
 }
