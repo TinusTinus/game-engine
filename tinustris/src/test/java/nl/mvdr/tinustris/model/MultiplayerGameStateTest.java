@@ -80,6 +80,17 @@ public class MultiplayerGameStateTest {
     }
     
     /**
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where the target
+     * list is null.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testConstructorNullTargets() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        
+        new MultiplayerGameState(Arrays.asList(state, state, state), null);
+    }
+    
+    /**
      * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where the sizes
      * of the two lists do not match.
      */
