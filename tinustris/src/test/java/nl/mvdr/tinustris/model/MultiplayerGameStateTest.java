@@ -101,6 +101,19 @@ public class MultiplayerGameStateTest {
         new MultiplayerGameState(Arrays.asList(state, state, state), Arrays.asList(2, 1));
     }
 
+    /**
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where the targets
+     * list contains a null value.
+     */
+    @Test(expected = NullPointerException.class)
+    public void testConstructorNullTarget() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        
+        new MultiplayerGameState(Arrays.asList(state, state, state), Arrays.asList(2, 1, null));
+    }
+    
+    // TODO more test cases!
+    
     /** Test case for {@link MultiplayerGameState#toString()}. */
     @Test
     public void testToString() {

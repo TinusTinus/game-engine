@@ -80,6 +80,10 @@ public class MultiplayerGameState implements GameState {
             throw new IllegalArgumentException("Number of states (" + states.size()
                     + ") does not match the number of targets (" + nextGarbageTargets.size() + ").");
         }
+        if (nextGarbageTargets.contains(null)) {
+            throw new NullPointerException("No null values allowed for targets; found one at index: "
+                    + nextGarbageTargets.indexOf(null));
+        }
         
         // TODO check that players aren't targeting themselves
         
