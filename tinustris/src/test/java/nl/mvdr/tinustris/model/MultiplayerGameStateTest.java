@@ -78,6 +78,17 @@ public class MultiplayerGameStateTest {
     public void testConstructorNullValue() {
         new MultiplayerGameState(Arrays.asList((OnePlayerGameState)null));
     }
+    
+    /**
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where the sizes
+     * of the two lists do not match.
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testConstructorNonMatchingSizes() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        
+        new MultiplayerGameState(Arrays.asList(state, state, state), Arrays.asList(2, 1));
+    }
 
     /** Test case for {@link MultiplayerGameState#toString()}. */
     @Test
