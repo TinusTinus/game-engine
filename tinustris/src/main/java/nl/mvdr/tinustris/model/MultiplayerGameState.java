@@ -38,23 +38,21 @@ public class MultiplayerGameState implements GameState {
      * @return targets
      */
     public static List<Integer> defaultTargets(int numberOfPlayers) {
-        return IntStream.range(0, numberOfPlayers)
-                .map(i -> (i + 1) % numberOfPlayers)
+        return IntStream.range(0, numberOfPlayers).map(i -> (i + 1) % numberOfPlayers)
                 .collect(ArrayList<Integer>::new, ArrayList<Integer>::add, ArrayList<Integer>::addAll);
     }
-    
+
     /**
-     * Convenience constructor.
+     * Convenience constructor, only provided for use in unit tests. Targets should be explicitly specified by users 
+     * of this class; use {@link #MultiplayerGameState(List, List) instead in production code.
      * 
      * @param states
      *            game states; one for each individual player; must contain at least two states and no null values
-     * @deprecated targets should be explicitly specified by users of this class; use {@link #MultiplayerGameState(List, List)
      */
-    @Deprecated // see javadoc
-    public MultiplayerGameState(List<OnePlayerGameState> states) {
+    MultiplayerGameState(List<OnePlayerGameState> states) {
         this(states, defaultTargets(states.size()));
     }
-    
+
     /**
      * Constructor.
      * 

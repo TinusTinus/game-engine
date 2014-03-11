@@ -32,7 +32,7 @@ public class MultiplayerGameStateTest {
     public void testConstructorOneValue() {
         OnePlayerGameState state = new OnePlayerGameState();
 
-        new MultiplayerGameState(Collections.singletonList(state), Collections.singletonList(Integer.valueOf(1)));
+        new MultiplayerGameState(Collections.singletonList(state));
     }
 
     /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
