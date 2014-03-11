@@ -1,8 +1,11 @@
 package nl.mvdr.tinustris.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.IntStream;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
 
@@ -18,25 +21,72 @@ public class MultiplayerGameState implements GameState {
     private final List<OnePlayerGameState> states;
     
     /**
+     * Per player: the player index that will be targeted for the next garbage line. Size must be equal to the size of
+     * states. May not contain null values, and each player's target must be a different player.
+     */
+    @NonNull
+    @Getter
+    private final List<Integer> nextGarbageTargets;
+    
+    /**
+     * Returns the default list of targets for the given number of players.
+     * 
+     * A list of targets is a list containing, for each player index, the index of the player targeted for garbage
+     * attacks. By default each player targets the next.
+     * 
+     * @param numberOfPlayers number of players
+     * @return targets
+     */
+    public static List<Integer> defaultTargets(int numberOfPlayers) {
+        return IntStream.range(0, numberOfPlayers)
+                .map(i -> (i + 1) % numberOfPlayers)
+                .collect(ArrayList<Integer>::new, ArrayList<Integer>::add, ArrayList<Integer>::addAll);
+    }
+    
+    /**
+     * Convenience constructor.
+     * 
+     * @param states
+     *            game states; one for each individual player; must contain at least two states and no null values
+     * @deprecated targets should be explicitly specified by users of this class; use {@link #MultiplayerGameState(List, List)
+     */
+    @Deprecated // see javadoc
+    public MultiplayerGameState(List<OnePlayerGameState> states) {
+        this(states, defaultTargets(states.size()));
+    }
+    
+    /**
      * Constructor.
      * 
      * @param states
      *            game states; one for each individual player; must contain at least two states and no null values
+     * @param nextGarbageTargets
+     *            per player: the player index that will be targeted for the next garbage line; size must be equal to
+     *            the size of states; may not contain null values, and each player's target must be a different player
+     * 
      */
-    public MultiplayerGameState(@NonNull List<OnePlayerGameState> states) {
+    public MultiplayerGameState(@NonNull List<OnePlayerGameState> states, @NonNull List<Integer> nextGarbageTargets) {
         super();
 
-        this.states = states;
-
         // check the contents
-        if (this.states.size() < 2) {
+        if (states.size() < 2) {
             throw new IllegalArgumentException("A multiplayer game must have at least two players; was: "
-                    + this.states.size());
+                    + states.size());
         }
-        if (this.states.contains(null)) {
+        if (states.contains(null)) {
             throw new NullPointerException("No null values allowed for player states; found one at index: "
-                    + this.states.indexOf(null));
+                    + states.indexOf(null));
         }
+        
+        if (nextGarbageTargets.size() != states.size()) {
+            throw new IllegalArgumentException("Number of states (" + states.size()
+                    + ") does not match the number of targets (" + nextGarbageTargets.size() + ").");
+        }
+        
+        // TODO check that players aren't targeting themselves
+        
+        this.states = states;
+        this.nextGarbageTargets = nextGarbageTargets;
     }
 
     /** {@inheritDoc} */

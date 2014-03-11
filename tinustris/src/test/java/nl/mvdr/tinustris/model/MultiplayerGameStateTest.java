@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,7 +32,7 @@ public class MultiplayerGameStateTest {
     public void testConstructorOneValue() {
         OnePlayerGameState state = new OnePlayerGameState();
 
-        new MultiplayerGameState(Arrays.asList(state));
+        new MultiplayerGameState(Collections.singletonList(state), Collections.singletonList(Integer.valueOf(1)));
     }
 
     /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */

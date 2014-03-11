@@ -48,7 +48,8 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     public MultiplayerGameState initGameState() {
         OnePlayerGameState state = onePlayerEngine.initGameState();
         List<OnePlayerGameState> states = Collections.nCopies(numberOfPlayers, state);
-        return new MultiplayerGameState(states);
+
+        return new MultiplayerGameState(states, MultiplayerGameState.defaultTargets(numberOfPlayers));
     }
 
     /** {@inheritDoc} */
@@ -67,7 +68,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
         
         // TODO update garbage counts
         
-        return new MultiplayerGameState(states);
+        return new MultiplayerGameState(states, previousState.getNextGarbageTargets());
     }
     
     /**
