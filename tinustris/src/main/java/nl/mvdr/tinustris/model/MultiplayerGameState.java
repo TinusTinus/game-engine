@@ -87,6 +87,9 @@ public class MultiplayerGameState implements GameState {
         if (IntStream.range(0, nextGarbageTargets.size()).anyMatch(i -> Integer.valueOf(i).equals(nextGarbageTargets.get(i)))) {
             throw new IllegalArgumentException("Players may not taget themselvers.");
         }
+        if (nextGarbageTargets.stream().anyMatch(i -> i < 0 || states.size() <= i)) {
+            throw new IndexOutOfBoundsException("Target out of bounds.");
+        }
         
         this.states = states;
         this.nextGarbageTargets = nextGarbageTargets;

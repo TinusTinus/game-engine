@@ -123,6 +123,39 @@ public class MultiplayerGameStateTest {
         new MultiplayerGameState(Arrays.asList(state, state, state), Arrays.asList(2, 1, 3));
     }
     
+    /**
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where a player is
+     * targeting an index which is not a valid player value.
+     */
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testConstructorTargetOutOfBounds() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        
+        new MultiplayerGameState(Arrays.asList(state, state, state), Arrays.asList(4, 4, 4));
+    }
+    
+    /**
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where a player is
+     * targeting an index which is not a valid player value.
+     */
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testConstructorNegativeTarget() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        
+        new MultiplayerGameState(Arrays.asList(state, state, state), Arrays.asList(-1, -1, -1));
+    }
+    
+    /**
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where multiple
+     * players are targeting the same player. This is allowed and should not result in a runtime exception.
+     */
+    @Test
+    public void testConstructorMultiplePlayersTargetingSamePlayer() {
+        OnePlayerGameState state = new OnePlayerGameState();
+        
+        new MultiplayerGameState(Arrays.asList(state, state, state), Arrays.asList(1, 0, 1));
+    }
+    
     /** Test case for {@link MultiplayerGameState#toString()}. */
     @Test
     public void testToString() {
