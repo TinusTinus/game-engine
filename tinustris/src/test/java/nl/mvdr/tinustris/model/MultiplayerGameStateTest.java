@@ -6,7 +6,6 @@ import java.util.Collections;
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -117,7 +116,6 @@ public class MultiplayerGameStateTest {
      * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List, java.util.List)} where a player is
      * targeting themselves.
      */
-    @Ignore // TODO implement functionality tested by this method
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorTargetSelf() {
         OnePlayerGameState state = new OnePlayerGameState();

@@ -109,7 +109,7 @@ public class MultiplayerEngineTest {
     public void testComputeNextState() {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
-        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(2, 1));
+        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
         InputState inputState = input -> false;
 
         MultiplayerGameState newState = engine.computeNextState(state, Arrays.asList(inputState, inputState));
@@ -123,7 +123,7 @@ public class MultiplayerEngineTest {
     public void testComputeNextStateTooFewInputs() {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
-        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(2, 1));
+        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
         InputState inputState = input -> false;
 
         engine.computeNextState(state, Arrays.asList(inputState));
@@ -134,7 +134,7 @@ public class MultiplayerEngineTest {
     public void testComputeNextStateTooManyInputs() {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
-        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(2, 1));
+        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
         InputState inputState = input -> false;
 
         engine.computeNextState(state, Arrays.asList(inputState, inputState, inputState));
@@ -145,7 +145,7 @@ public class MultiplayerEngineTest {
     public void testComputeNextStateNoInputs() {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
-        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(2, 1));
+        MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
 
         engine.computeNextState(state, Collections.<InputState>emptyList());
     }

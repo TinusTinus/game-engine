@@ -84,8 +84,9 @@ public class MultiplayerGameState implements GameState {
             throw new NullPointerException("No null values allowed for targets; found one at index: "
                     + nextGarbageTargets.indexOf(null));
         }
-        
-        // TODO check that players aren't targeting themselves
+        if (IntStream.range(0, nextGarbageTargets.size()).anyMatch(i -> Integer.valueOf(i).equals(nextGarbageTargets.get(i)))) {
+            throw new IllegalArgumentException("Players may not taget themselvers.");
+        }
         
         this.states = states;
         this.nextGarbageTargets = nextGarbageTargets;
