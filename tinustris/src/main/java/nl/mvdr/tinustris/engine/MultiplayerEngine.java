@@ -69,7 +69,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
         for (int i = 0; i != states.size(); i++) {
             int linesScored = states.get(i).getLines() - previousState.getStateForPlayer(i).getLines();
             int garbageLines = computeGarbageLines(linesScored);
-            // TODO update garbage counts            
+            // TODO update garbage counts
         }
 
                 
