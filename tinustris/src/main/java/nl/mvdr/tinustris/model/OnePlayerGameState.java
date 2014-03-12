@@ -342,7 +342,7 @@ public class OnePlayerGameState implements GameState {
      *            grid
      * @param width
      *            width of the grid
-     * @return the grind's height
+     * @return the grid's height
      */
     private static int computeHeight(List<Block> grid, int width) {
         if (width == 0) {
