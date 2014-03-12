@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -61,15 +62,45 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
                     "" + previousState.getNumberOfPlayers()));
         }
         
-        List<OnePlayerGameState> states = Collections.unmodifiableList(
-            IntStream.range(0, previousState.getNumberOfPlayers())
+        List<OnePlayerGameState> states = IntStream.range(0, previousState.getNumberOfPlayers())
                 .mapToObj(i -> computeNextOnePlayerState(i, previousState, inputStates))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toCollection(ArrayList<OnePlayerGameState>::new));
         
-        // TODO update garbage counts
+        for (int i = 0; i != states.size(); i++) {
+            int linesScored = states.get(i).getLines() - previousState.getStateForPlayer(i).getLines();
+            int garbageLines = computeGarbageLines(linesScored);
+            // TODO update garbage counts            
+        }
+
+                
+        states = Collections.unmodifiableList(states);
         
         return new MultiplayerGameState(states, previousState.getNextGarbageTargets());
     }
+    
+    /**
+     * Given a number of lines, determines how many garbage lines should be sent to opponents.
+     * 
+     * @param lines number of lines scored in a single game state update; must be at least 0 and less than 5
+     * @return number of garbage lines to be sent
+     */
+    private int computeGarbageLines(int lines) {
+        int result;
+        if (lines == 0 || lines == 1) {
+            result = 0;
+        } else if (lines == 2) {
+            result = 1;
+        } else if (lines == 3) {
+            result = 2;
+        } else if (lines == 4) {
+            // Tetris!
+            result = 4;
+        } else {
+            throw new IllegalArgumentException("Unexpected number of lines: " + lines);
+        }
+        return result;
+    }
+    
     
     /**
      * Computes the next state for the given player index.
