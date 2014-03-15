@@ -96,6 +96,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
 
             result = result.withLevel(this.levelSystem.computeLevel(previousState, result));
             
+            // TODO also process garbage lines
+            
         } else {
             // game over, no need to update the game state anymore
             result = previousState;
