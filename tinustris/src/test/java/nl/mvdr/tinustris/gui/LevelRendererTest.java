@@ -39,7 +39,7 @@ public class LevelRendererTest {
     public void testRenderPositiveLevel() {
         LevelRenderer renderer = createLevelRenderer();
         OnePlayerGameState state = new OnePlayerGameState(new OnePlayerGameState().getGrid(), 4, null, null, null,
-                Tetromino.L, 0, 0, 0, InputStateHistory.NEW, 0, 365, 0, 36);
+                Tetromino.L, 0, 0, 0, InputStateHistory.NEW, 0, 365, 0, 36, 0);
         
         renderer.render(state);
         

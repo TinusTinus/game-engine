@@ -166,8 +166,8 @@ public class OnePlayerEngineTest {
         grid.set(18, Block.J);
         grid.set(22, Block.S);
         grid.set(28, Block.J);
-        OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13), 
-                Orientation.FLAT_DOWN, Tetromino.I, 11, 0, 11, InputStateHistory.NEW, 236, 93, 0, 0);
+        OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13),
+                Orientation.FLAT_DOWN, Tetromino.I, 11, 0, 11, InputStateHistory.NEW, 236, 93, 0, 0, 0);
         return state;
     }
 }

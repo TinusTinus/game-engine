@@ -96,6 +96,9 @@ public class OnePlayerGameState implements GameState {
     /** Current level, which may determine the results of a speed curve. */
     @Wither
     private final int level;
+    /** Garbage lines to be added to this game at the first possible opportunity. */
+    @Wither
+    private final int garbageLines;
 
     /**
      * Constructor for a (new) game with a completely empty grid of default size, no active block and I as the next
@@ -134,6 +137,7 @@ public class OnePlayerGameState implements GameState {
         this.lines = 0;
         this.numFramesUntilLinesDisappear = 0;
         this.level = 0;
+        this.garbageLines = 0;
     }
     
     /**
@@ -155,7 +159,7 @@ public class OnePlayerGameState implements GameState {
     public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino next) {
         this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next, 0, 0, 0,
-                InputStateHistory.NEW, 0, 0, 0, 0);
+                InputStateHistory.NEW, 0, 0, 0, 0, 0);
     }
     
     /**
@@ -190,11 +194,13 @@ public class OnePlayerGameState implements GameState {
      *            number of remaining frames until lines disappear
      * @param level
      *            level
+     * @param garbageLines
+     *            number of garbage lines to be added to this game
      */
     public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino next, int numFramesSinceLastTick, 
             int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
-            int blockCounter, int lines, int numFramesUntilLinesDisappear, int level) {
+            int blockCounter, int lines, int numFramesUntilLinesDisappear, int level, int garbageLines) {
         super();
 
         checkWidth(width);
@@ -220,6 +226,7 @@ public class OnePlayerGameState implements GameState {
         this.lines = lines;
         this.numFramesUntilLinesDisappear = numFramesUntilLinesDisappear;
         this.level = level;
+        this.garbageLines = garbageLines;
     }
     
     /**

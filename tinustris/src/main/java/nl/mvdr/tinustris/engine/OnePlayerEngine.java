@@ -321,7 +321,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
 
         OnePlayerGameState result = new OnePlayerGameState(grid, width, activeTetromino, location, orientation, next,
                 0, 0, 0, state.getInputStateHistory(), blockCounter, lines, numFramesUntilLinesDisappear,
-                state.getLevel());
+                state.getLevel(), state.getGarbageLines());
         
         if (linesScored != 0 && log.isDebugEnabled()) {
             log.debug(result.toString());
@@ -419,7 +419,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
 
         return new OnePlayerGameState(state.getGrid(), state.getWidth(), activeBlock, location, orientation, next, 0,
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), blockCounter, state.getLines(),
-                0, state.getLevel());
+                0, state.getLevel(), state.getGarbageLines());
     }
 
     /**
