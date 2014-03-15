@@ -155,47 +155,7 @@ public class OnePlayerGameState implements GameState {
     public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
             Orientation currentBlockOrientation, @NonNull Tetromino next) {
         this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next, 0, 0, 0,
-                InputStateHistory.NEW, 0, 0, 0);
-    }
-    
-    /**
-     * Convenience constructor.
-     * 
-     * @param grid
-     *            grid
-     * @param width
-     *            width of the grid
-     * @param activeTetromino
-     *            current block
-     * @param currentBlockLocation
-     *            location of the current block
-     * @param currentBlockOrientation
-     *            orientation of the current block
-     * @param next
-     *            next tetromino
-     * @param numFramesSinceLastTick
-     *            number of frames since the last tick
-     * @param numFramesSinceLastLock
-     *            number of frames since the last time the active block was locked in place
-     * @param numFramesSinceLastMove
-     *            number of frames since the last time the active block was moved (through gravity or player action), or
-     *            rotated
-     * @param inputStateHistory
-     *            history of the input state; includes the current frame
-     * @param blockCounter
-     *            number of blocks that have been dropped
-     * @param lines
-     *            number of lines that have been scored in this game
-     * @param level
-     *            level
-     */
-    public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino next, int numFramesSinceLastTick, 
-            int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
-            int blockCounter, int lines, int level) {
-        this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next,
-                numFramesSinceLastTick, numFramesSinceLastLock, numFramesSinceLastMove, inputStateHistory,
-                blockCounter, lines, 0, level);
+                InputStateHistory.NEW, 0, 0, 0, 0);
     }
     
     /**

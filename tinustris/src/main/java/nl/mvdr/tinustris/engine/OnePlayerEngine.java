@@ -419,7 +419,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
 
         return new OnePlayerGameState(state.getGrid(), state.getWidth(), activeBlock, location, orientation, next, 0,
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), blockCounter, state.getLines(),
-                state.getLevel());
+                0, state.getLevel());
     }
 
     /**
