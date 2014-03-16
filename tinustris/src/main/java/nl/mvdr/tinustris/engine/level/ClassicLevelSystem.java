@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine.level;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
@@ -9,6 +10,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
+@ToString
 public class ClassicLevelSystem implements LevelSystem {
     /** Starting level. */
     private final int startLevel;
