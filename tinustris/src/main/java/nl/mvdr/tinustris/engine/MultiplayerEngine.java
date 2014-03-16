@@ -1,7 +1,6 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -134,6 +133,6 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     private OnePlayerGameState computeNextOnePlayerState(int playerIndex, MultiplayerGameState previousState, List<InputState> inputStates) {
         OnePlayerGameState previousOnePlayerState = previousState.getStateForPlayer(playerIndex);
         InputState inputState = inputStates.get(playerIndex);
-        return onePlayerEngine.computeNextState(previousOnePlayerState, Arrays.asList(inputState));
+        return onePlayerEngine.computeNextState(previousOnePlayerState, Collections.singletonList(inputState));
     }
 }
