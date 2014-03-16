@@ -48,10 +48,27 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /** Leveling system. */
     @NonNull
     private final LevelSystem levelSystem;
+    /** Gap generator, for use in multiplayer games. */
+    @NonNull
+    private final Generator<Integer> gapGenerator;
+    
+    /**
+     * Constructor.
+     * 
+     * @param generator tetromino generator
+     * @param curve speed curve
+     * @param levelSystem level system
+     * @deprecated use {@link #OnePlayerEngine(Generator, SpeedCurve, LevelSystem, Generator)} instead
+     */
+    @Deprecated
+    public OnePlayerEngine(Generator<Tetromino> generator, SpeedCurve curve, LevelSystem levelSystem) {
+        this(generator, curve, levelSystem, new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH));
+    }
     
     /**  Constructor. */
     public OnePlayerEngine() {
-        this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem());
+        this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem(), new GapGenerator(
+                OnePlayerGameState.DEFAULT_WIDTH));
     }
     
     /** {@inheritDoc} */
@@ -442,8 +459,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      */
     private OnePlayerGameState addGarbageLine(OnePlayerGameState state) {
         // fill one line with garbage except for one block
-        // TODO determine the gap randomly somehow as a number in [0, state.getWidth())
-        int gap = 0;
+        // TODO pass in a different index every 11 (?) garbage lines
+        int gap = gapGenerator.get(0);
         List<Block> grid = new ArrayList<>(state.getGrid().size());
         for (int i = 0; i != state.getWidth(); i++) {
             if (i == gap) {
