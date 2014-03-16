@@ -161,6 +161,7 @@ public class Tinustris extends Application {
         
         // start the game loop
         gameLoop = new GameLoop<>(Collections.singletonList(inputController), gameEngine, gameRenderer);
+        log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started.");
     }

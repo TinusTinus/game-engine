@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.GameRenderer;
 import nl.mvdr.tinustris.input.InputController;
@@ -20,6 +21,7 @@ import nl.mvdr.tinustris.model.GameState;
  */
 @Slf4j
 @RequiredArgsConstructor
+@ToString
 public class GameLoop<S extends GameState> {
     /** Update rate for the game state. */
     public static final double GAME_HERTZ = 60.0;

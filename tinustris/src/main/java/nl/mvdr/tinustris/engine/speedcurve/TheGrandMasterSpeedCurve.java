@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.engine.speedcurve;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.ToString;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**
@@ -10,6 +11,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * 
  * @author Martijn van de Rijdt
  */
+@ToString
 public class TheGrandMasterSpeedCurve implements SpeedCurve {
     /** Internal gravity curve. */
     private final RangedCurve internalGravityCurve;

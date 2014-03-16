@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.level.ClassicLevelSystem;
 import nl.mvdr.tinustris.engine.level.LevelSystem;
@@ -30,6 +31,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  */
 @Slf4j
 @RequiredArgsConstructor
+@ToString
 public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /**
      * The number of garbage lines certain to be aligned.
