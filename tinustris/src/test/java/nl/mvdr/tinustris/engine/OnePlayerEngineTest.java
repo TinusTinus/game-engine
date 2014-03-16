@@ -19,6 +19,7 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -169,5 +170,33 @@ public class OnePlayerEngineTest {
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13),
                 Orientation.FLAT_DOWN, Tetromino.I, 11, 0, 11, InputStateHistory.NEW, 236, 93, 0, 0, 0);
         return state;
+    }
+    
+    /**
+     * Test case for {@link OnePlayerEngine#computeNextState(OnePlayerGameState, List)} in case the previous state has
+     * garbage lines to be processed.
+     */
+    @Test
+    @Ignore // TODO implement this functionality first
+    public void testGarbageLine() {
+        DummyTetrominoGenerator generator = new DummyTetrominoGenerator(Tetromino.O, Tetromino.T, Tetromino.L);
+        ConstantSpeedCurve curve = new ConstantSpeedCurve();
+        OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem());
+        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
+        grid.set(1, Block.O);
+        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, null, null,
+                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 1);
+        log.info("Previous game state: " + previousState);
+        
+        OnePlayerGameState state = engine.computeNextState(previousState, Collections.singletonList(input -> false));
+        
+        log.info("Next game state: " + state);
+        Assert.assertEquals(0, state.getGarbageLines());
+        Assert.assertEquals(1, state.getGrid()
+            .subList(0, OnePlayerGameState.DEFAULT_WIDTH)
+            .stream()
+            .filter(block -> block == null)
+            .count());
+        Assert.assertEquals(Block.O, state.getGrid().get(OnePlayerGameState.DEFAULT_WIDTH + 1));
     }
 }

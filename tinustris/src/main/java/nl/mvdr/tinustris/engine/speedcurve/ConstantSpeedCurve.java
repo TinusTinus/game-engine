@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -17,6 +18,7 @@ public class ConstantSpeedCurve implements SpeedCurve {
     /** Lock delay in frames. */
     private final int lockDelay;
     /** ARE in frames. */
+    @Getter
     private final int are;
     /** Line clear delay in frames. */
     private final int lineClearDelay;
