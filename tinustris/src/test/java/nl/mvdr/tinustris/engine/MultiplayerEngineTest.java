@@ -10,6 +10,7 @@ import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -140,7 +141,7 @@ public class MultiplayerEngineTest {
         engine.computeNextState(state, Arrays.asList(inputState, inputState, inputState));
     }
     
-    /** Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)} */
+    /** Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}. */
     @Test(expected = IllegalArgumentException.class)
     public void testComputeNextStateNoInputs() {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
@@ -148,5 +149,235 @@ public class MultiplayerEngineTest {
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
 
         engine.computeNextState(state, Collections.<InputState>emptyList());
+    }
+
+    /**
+     * Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}, with two players, where one
+     * player scores a single. This should not result in any garbage lines.
+     */
+    @Test
+    public void testAddGarbageLineTwoPlayersSingle() {
+        OnePlayerGameState playerOneState = new OnePlayerGameState();
+        OnePlayerGameState playerTwoState = new OnePlayerGameState();
+        MultiplayerGameState previousState = new MultiplayerGameState(Arrays.asList(playerOneState, playerTwoState), Arrays.asList(1, 0));
+        DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+                OnePlayerGameState result;
+                if (previousState == playerOneState) {
+                    result = previousState.withLines(1);
+                } else {
+                    result = previousState;
+                }
+                return result;
+            }
+        };
+        MultiplayerEngine engine = new MultiplayerEngine(2, onePlayerEngine);
+        
+        MultiplayerGameState newState = engine.computeNextState(previousState, Collections.nCopies(2, input -> false));
+        
+        Assert.assertEquals(Arrays.asList(1, 0), newState.getNextGarbageTargets());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+    }
+
+    
+    /**
+     * Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}, with two players, where one
+     * player scores a double. This should result in one garbage line for the opponent.
+     */
+    @Test
+    @Ignore // TODO implement garbage
+    public void testAddGarbageLineTwoPlayersDouble() {
+        OnePlayerGameState playerOneState = new OnePlayerGameState();
+        OnePlayerGameState playerTwoState = new OnePlayerGameState();
+        MultiplayerGameState previousState = new MultiplayerGameState(Arrays.asList(playerOneState, playerTwoState), Arrays.asList(1, 0));
+        DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+                OnePlayerGameState result;
+                if (previousState == playerOneState) {
+                    result = previousState.withLines(2);
+                } else {
+                    result = previousState;
+                }
+                return result;
+            }
+        };
+        MultiplayerEngine engine = new MultiplayerEngine(2, onePlayerEngine);
+        
+        MultiplayerGameState newState = engine.computeNextState(previousState, Collections.nCopies(2, input -> false));
+        
+        Assert.assertEquals(Arrays.asList(1, 0), newState.getNextGarbageTargets());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(1, newState.getStateForPlayer(1).getGarbageLines());
+    }
+    
+    /**
+     * Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}, with two players, where one
+     * player scores a triple. This should result in two garbage lines for the opponent.
+     */
+    @Test
+    @Ignore // TODO implement garbage
+    public void testAddGarbageLineTwoPlayersTriple() {
+        OnePlayerGameState playerOneState = new OnePlayerGameState();
+        OnePlayerGameState playerTwoState = new OnePlayerGameState();
+        MultiplayerGameState previousState = new MultiplayerGameState(Arrays.asList(playerOneState, playerTwoState), Arrays.asList(1, 0));
+        DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+                OnePlayerGameState result;
+                if (previousState == playerOneState) {
+                    result = previousState.withLines(3);
+                } else {
+                    result = previousState;
+                }
+                return result;
+            }
+        };
+        MultiplayerEngine engine = new MultiplayerEngine(2, onePlayerEngine);
+        
+        MultiplayerGameState newState = engine.computeNextState(previousState, Collections.nCopies(2, input -> false));
+        
+        Assert.assertEquals(Arrays.asList(1, 0), newState.getNextGarbageTargets());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(1, newState.getStateForPlayer(2).getGarbageLines());
+    }
+    
+    /**
+     * Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}, with two players, where one
+     * player scores a tetris. This should result in four garbage lines for the opponent.
+     */
+    @Test
+    @Ignore // TODO implement garbage
+    public void testAddGarbageLineTwoPlayersTetris() {
+        OnePlayerGameState playerOneState = new OnePlayerGameState();
+        OnePlayerGameState playerTwoState = new OnePlayerGameState();
+        MultiplayerGameState previousState = new MultiplayerGameState(Arrays.asList(playerOneState, playerTwoState), Arrays.asList(1, 0));
+        DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+                OnePlayerGameState result;
+                if (previousState == playerOneState) {
+                    result = previousState.withLines(4);
+                } else {
+                    result = previousState;
+                }
+                return result;
+            }
+        };
+        MultiplayerEngine engine = new MultiplayerEngine(2, onePlayerEngine);
+        
+        MultiplayerGameState newState = engine.computeNextState(previousState, Collections.nCopies(2, input -> false));
+        
+        Assert.assertEquals(Arrays.asList(1, 0), newState.getNextGarbageTargets());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(1, newState.getStateForPlayer(4).getGarbageLines());
+    }
+    
+    /**
+     * Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}, with three players, where one
+     * player scores a double. This should result in one garbage line for their targeted opponent.
+     */
+    @Test
+    @Ignore // TODO implement garbage
+    public void testAddGarbageLineThreePlayersDouble() {
+        OnePlayerGameState playerOneState = new OnePlayerGameState();
+        OnePlayerGameState playerTwoState = new OnePlayerGameState();
+        OnePlayerGameState playerThreeState = new OnePlayerGameState();
+        MultiplayerGameState previousState = new MultiplayerGameState(Arrays.asList(playerOneState, playerTwoState, playerThreeState), Arrays.asList(1, 2, 0));
+        DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+                OnePlayerGameState result;
+                if (previousState == playerOneState) {
+                    result = previousState.withLines(2);
+                } else {
+                    result = previousState;
+                }
+                return result;
+            }
+        };
+        MultiplayerEngine engine = new MultiplayerEngine(3, onePlayerEngine);
+        
+        MultiplayerGameState newState = engine.computeNextState(previousState, Collections.nCopies(3, input -> false));
+        
+        Assert.assertEquals(Arrays.asList(2, 2, 0), newState.getNextGarbageTargets());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(1, newState.getStateForPlayer(1).getGarbageLines());
+        Assert.assertEquals(2, newState.getStateForPlayer(0).getGarbageLines());
+    }
+
+    /**
+     * Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}, with three players, where one
+     * player scores a triple. This should result in one garbage line for both opponents.
+     */
+    @Test
+    @Ignore // TODO implement garbage
+    public void testAddGarbageLineThreePlayersTriple() {
+        OnePlayerGameState playerOneState = new OnePlayerGameState();
+        OnePlayerGameState playerTwoState = new OnePlayerGameState();
+        OnePlayerGameState playerThreeState = new OnePlayerGameState();
+        MultiplayerGameState previousState = new MultiplayerGameState(Arrays.asList(playerOneState, playerTwoState, playerThreeState), Arrays.asList(1, 2, 0));
+        DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+                OnePlayerGameState result;
+                if (previousState == playerOneState) {
+                    result = previousState.withLines(3);
+                } else {
+                    result = previousState;
+                }
+                return result;
+            }
+        };
+        MultiplayerEngine engine = new MultiplayerEngine(3, onePlayerEngine);
+        
+        MultiplayerGameState newState = engine.computeNextState(previousState, Collections.nCopies(3, input -> false));
+        
+        Assert.assertEquals(Arrays.asList(1, 2, 0), newState.getNextGarbageTargets());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(1, newState.getStateForPlayer(1).getGarbageLines());
+        Assert.assertEquals(2, newState.getStateForPlayer(1).getGarbageLines());
+    }
+    
+    /**
+     * Test case for {@link MultiplayerEngine#computeNextState(MultiplayerGameState, List)}, with three players, where one
+     * player scores a Tetris. This should result in two garbage lines for both opponents.
+     */
+    @Test
+    @Ignore // TODO implement garbage
+    public void testAddGarbageLineThreePlayersTetris() {
+        OnePlayerGameState playerOneState = new OnePlayerGameState();
+        OnePlayerGameState playerTwoState = new OnePlayerGameState();
+        OnePlayerGameState playerThreeState = new OnePlayerGameState();
+        MultiplayerGameState previousState = new MultiplayerGameState(Arrays.asList(playerOneState, playerTwoState, playerThreeState), Arrays.asList(1, 2, 0));
+        DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
+            /** {@inheritDoc} */
+            @Override
+            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+                OnePlayerGameState result;
+                if (previousState == playerOneState) {
+                    result = previousState.withLines(4);
+                } else {
+                    result = previousState;
+                }
+                return result;
+            }
+        };
+        MultiplayerEngine engine = new MultiplayerEngine(3, onePlayerEngine);
+        
+        MultiplayerGameState newState = engine.computeNextState(previousState, Collections.nCopies(3, input -> false));
+        
+        Assert.assertEquals(Arrays.asList(1, 2, 0), newState.getNextGarbageTargets());
+        Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(1, newState.getStateForPlayer(2).getGarbageLines());
+        Assert.assertEquals(2, newState.getStateForPlayer(2).getGarbageLines());
     }
 }

@@ -83,6 +83,7 @@ public class OnePlayerGameState implements GameState {
     /** Block counter. Equals the number of blocks that have been dropped. */
     private final int blockCounter;
     /** Number of lines that have been scored in this game. */
+    @Wither
     private final int lines;
     /**
      * The number of frames until the current lines disappear.
