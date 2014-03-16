@@ -99,6 +99,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
             if (previousState.getActiveTetromino() == null && previousState.getNumFramesUntilLinesDisappear() <= 1
                     && curve.computeARE(previousState) < previousState.getNumFramesSinceLastLock()) {
                 result = spawnNextBlock(result);
+                result = addGarbageLines(result);
             }
 
             if (result.getActiveTetromino() != null) {
@@ -109,8 +110,6 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
             }
 
             result = result.withLevel(this.levelSystem.computeLevel(previousState, result));
-            
-            // TODO also process garbage lines
             
         } else {
             // game over, no need to update the game state anymore
@@ -417,6 +416,46 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         return new OnePlayerGameState(state.getGrid(), state.getWidth(), activeBlock, location, orientation, next, 0,
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), blockCounter, state.getLines(),
                 0, state.getLevel(), state.getGarbageLines());
+    }
+    
+    /**
+     * Process any garbage lines.
+     * 
+     * @param state
+     * @return new state
+     */
+    private OnePlayerGameState addGarbageLines(OnePlayerGameState state) {
+        OnePlayerGameState result = state;
+        
+        for (int i = 0; i != state.getGarbageLines(); i++) {
+            result = addGarbageLine(result);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Adds a single garbage line to the given state and decreases the garbage line counter.
+     * 
+     * @param state
+     * @return new state
+     */
+    private OnePlayerGameState addGarbageLine(OnePlayerGameState state) {
+        // fill one line with garbage except for one block
+        // TODO determine the gap randomly somehow as a number in [0, state.getWidth())
+        int gap = 0;
+        List<Block> grid = new ArrayList<>(state.getGrid().size());
+        for (int i = 0; i != state.getWidth(); i++) {
+            if (i == gap) {
+                grid.add(null);
+            } else {
+                grid.add(Block.GARBAGE);
+            }
+        }
+        grid.addAll(state.getGrid().subList(0, state.getGrid().size() - state.getWidth()));
+        grid = Collections.unmodifiableList(grid);
+        
+        return state.withGrid(grid).withGarbageLines(state.getGarbageLines() - 1);
     }
 
     /**

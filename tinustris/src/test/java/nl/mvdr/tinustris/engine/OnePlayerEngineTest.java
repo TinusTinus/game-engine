@@ -19,7 +19,6 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -177,7 +176,6 @@ public class OnePlayerEngineTest {
      * garbage lines to be processed.
      */
     @Test
-    @Ignore // TODO implement this functionality first
     public void testGarbageLine() {
         DummyTetrominoGenerator generator = new DummyTetrominoGenerator(Tetromino.O, Tetromino.T, Tetromino.L);
         ConstantSpeedCurve curve = new ConstantSpeedCurve();
