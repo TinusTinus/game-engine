@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javafx.animation.Animation;
@@ -159,7 +160,7 @@ public class Tinustris extends Application {
         GameEngine<OnePlayerGameState> gameEngine = new OnePlayerEngine();
         
         // start the game loop
-        gameLoop = new GameLoop<>(inputController, gameEngine, gameRenderer);
+        gameLoop = new GameLoop<>(Collections.singletonList(inputController), gameEngine, gameRenderer);
         gameLoop.start();
         log.info("Game loop started.");
     }

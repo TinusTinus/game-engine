@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.Collections;
 import java.util.List;
 
 import nl.mvdr.tinustris.gui.DummyRenderer;
@@ -23,8 +24,8 @@ public class GameLoopTest {
      */
     @Test
     public void testStartAndStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(),
-                new DummyRenderer<DummyGameState>());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
         Thread.sleep(2000);
@@ -41,8 +42,8 @@ public class GameLoopTest {
      */
     @Test
     public void testStartPauseUnpauseStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(),
-                new DummyRenderer<DummyGameState>());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -64,8 +65,8 @@ public class GameLoopTest {
      */
     @Test
     public void testStartToggleToggleStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(),
-                new DummyRenderer<DummyGameState>());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -87,7 +88,8 @@ public class GameLoopTest {
      */
     @Test
     public void testStopGameWhilePaused() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), new DummyGameEngine(), new DummyRenderer<DummyGameState>());
+        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -116,7 +118,7 @@ public class GameLoopTest {
             }
         };
         
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(new DummyInputController(), engine,
+        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), engine,
                 new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
@@ -127,19 +129,19 @@ public class GameLoopTest {
     /** Tests the constructor with a null value for the input controller. */
     @Test(expected = NullPointerException.class)
     public void testNullController() {
-        new GameLoop<>(null, new DummyGameEngine(), new DummyRenderer<DummyGameState>());
+        new GameLoop<>(null, new DummyGameEngine(), new DummyRenderer<>());
     }
     
     /** Tests the constructor with a null value for the game engine. */
     @Test(expected = NullPointerException.class)
     public void testNullEngine() {
-        new GameLoop<>(new DummyInputController(), null, new DummyRenderer<DummyGameState>());
+        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), null, new DummyRenderer<>());
     }
 
     
     /** Tests the constructor with a null value for the renderer. */
     @Test(expected = NullPointerException.class)
     public void testNullRenderer() {
-        new GameLoop<>(new DummyInputController(), new DummyGameEngine(), null);
+        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(), null);
     }
 }

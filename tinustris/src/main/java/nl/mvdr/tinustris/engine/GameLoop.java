@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,9 @@ public class GameLoop<S extends GameState> {
     /** Target time between renders, in nanoseconds. */
     private static final double TARGET_TIME_BETWEEN_RENDERS = 1_000_000_000 / TARGET_FPS;
     
-    /** Input controller. */
+    /** Input controllers. */
     @NonNull
-    private final InputController inputController;
+    private final List<InputController> inputControllers;
     /** Game engine. */
     @NonNull
     private final GameEngine<S> gameEngine;
@@ -89,9 +90,10 @@ public class GameLoop<S extends GameState> {
                 if (!paused) {
                     // Do as many game updates as we need to, potentially playing catchup.
                     while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                        // TODO multiple input controllers: one per player
-                        InputState inputState = inputController.getInputState();
-                        gameState = gameEngine.computeNextState(gameState, Arrays.asList(inputState));
+                        List<InputState> inputStates = inputControllers.stream()
+                            .map(controller -> controller.getInputState())
+                            .collect(Collectors.toList());
+                        gameState = gameEngine.computeNextState(gameState, inputStates);
 
                         lastUpdateTime += TIME_BETWEEN_UPDATES;
                         updateCount++;
