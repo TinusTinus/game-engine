@@ -180,7 +180,7 @@ public class OnePlayerEngineTest {
         grid.set(22, Block.S);
         grid.set(28, Block.J);
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13),
-                Orientation.FLAT_DOWN, Tetromino.I, 11, 0, 11, InputStateHistory.NEW, 236, 93, 0, 0, 0);
+                Orientation.FLAT_DOWN, Tetromino.I, 11, 0, 11, InputStateHistory.NEW, 236, 93, 0, 0, 0, 0);
         return state;
     }
     
@@ -196,13 +196,14 @@ public class OnePlayerEngineTest {
         List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
         grid.set(0, Block.O);
         OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, null, null,
-                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 1);
+                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 1, 0);
         log.info("Previous game state: " + previousState);
         
         OnePlayerGameState state = engine.computeNextState(previousState, Collections.singletonList(input -> false));
         
         log.info("Next game state: " + state);
         Assert.assertEquals(0, state.getGarbageLines());
+        Assert.assertEquals(1, state.getTotalGarbage());
         Assert.assertEquals(null, state.getGrid().get(0));
         state.getGrid().subList(1, OnePlayerGameState.DEFAULT_WIDTH).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
         Assert.assertEquals(Block.O, state.getGrid().get(OnePlayerGameState.DEFAULT_WIDTH));

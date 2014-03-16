@@ -39,7 +39,7 @@ public class LinesRendererTest {
     public void testRenderPositiveLines() {
         LinesRenderer renderer = createLinesRenderer();
         OnePlayerGameState state = new OnePlayerGameState(new OnePlayerGameState().getGrid(), 4, null, null, null,
-                Tetromino.L, 0, 0, 0, InputStateHistory.NEW, 0, 365, 0, 36, 0);
+                Tetromino.L, 0, 0, 0, InputStateHistory.NEW, 0, 365, 0, 36, 0, 0);
         
         renderer.render(state);
         

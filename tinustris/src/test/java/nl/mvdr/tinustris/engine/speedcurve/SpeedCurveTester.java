@@ -92,7 +92,7 @@ public abstract class SpeedCurveTester {
     private OnePlayerGameState createGameState(int level) {
         List<Block> grid = Collections.nCopies(220, null);
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
-                InputStateHistory.NEW, 0, level * 10, 0, level, 0);
+                InputStateHistory.NEW, 0, level * 10, 0, level, 0, 0);
         return state;
     }
     

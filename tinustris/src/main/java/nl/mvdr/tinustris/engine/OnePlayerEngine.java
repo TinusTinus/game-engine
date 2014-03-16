@@ -32,6 +32,15 @@ import nl.mvdr.tinustris.model.Tetromino;
 @RequiredArgsConstructor
 public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /**
+     * The number of garbage lines certain to be aligned.
+     * 
+     * Say this value is 9. The first 9 lines of garbage received by the player are certain to have the gap at the same
+     * location (making for easy garbage disposal). The second 9 garbage lines may have their gap in a different
+     * location.
+     */
+    private static final int NUM_ALIGNED_GARBAGE_LINES = 9;
+
+    /**
      * Number of frames the input is ignored while the user is holding down a button.
      * 
      * Say this value is 30 and the user is holding the left button. The active block will now move left once every
@@ -321,7 +330,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
 
         OnePlayerGameState result = new OnePlayerGameState(grid, width, null, null, null, state.getNext(), 0, 0, 0,
                 state.getInputStateHistory(), state.getBlockCounter(), lines, numFramesUntilLinesDisappear,
-                state.getLevel(), state.getGarbageLines());
+                state.getLevel(), state.getGarbageLines(), state.getTotalGarbage());
         
         if (linesScored != 0 && log.isDebugEnabled()) {
             log.debug(result.toString());
@@ -419,7 +428,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
 
         return new OnePlayerGameState(state.getGrid(), state.getWidth(), activeBlock, location, orientation, next, 0,
                 state.getNumFramesSinceLastLock(), 0, state.getInputStateHistory(), blockCounter, state.getLines(),
-                0, state.getLevel(), state.getGarbageLines());
+                0, state.getLevel(), state.getGarbageLines(), state.getTotalGarbage());
     }
     
     /**
@@ -445,9 +454,9 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return new state
      */
     private OnePlayerGameState addGarbageLine(OnePlayerGameState state) {
-        // fill one line with garbage except for one block
-        // TODO pass in a different index every 11 (?) garbage lines
-        int gap = gapGenerator.get(0);
+        int gapIndex = state.getTotalGarbage() % NUM_ALIGNED_GARBAGE_LINES;
+        int gap = gapGenerator.get(gapIndex).intValue();
+        // fill the bottom line with garbage, except for the gap block
         List<Block> grid = new ArrayList<>(state.getGrid().size());
         for (int i = 0; i != state.getWidth(); i++) {
             if (i == gap) {
@@ -459,7 +468,9 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         grid.addAll(state.getGrid().subList(0, state.getGrid().size() - state.getWidth()));
         grid = Collections.unmodifiableList(grid);
         
-        return state.withGrid(grid).withGarbageLines(state.getGarbageLines() - 1);
+        return state.withGrid(grid)
+                .withGarbageLines(state.getGarbageLines() - 1)
+                .withTotalGarbage(state.getTotalGarbage() + 1);
     }
 
     /**
