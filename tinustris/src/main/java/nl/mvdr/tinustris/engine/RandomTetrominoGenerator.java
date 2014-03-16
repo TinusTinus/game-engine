@@ -3,8 +3,7 @@ package nl.mvdr.tinustris.engine;
 import nl.mvdr.tinustris.model.Tetromino;
 
 /**
- * Implementation of the tetromino generator that uses a random generator to determine new tetrominoes, and a List to
- * store past ones.
+ * Generator for Tetrominoes. Used to select the next tetromino to be dropped in a game of Tetris.
  * 
  * @author Martijn van de Rijdt
  */
