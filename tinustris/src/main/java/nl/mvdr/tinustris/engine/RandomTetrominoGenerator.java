@@ -1,10 +1,5 @@
 package nl.mvdr.tinustris.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.Tetromino;
 
 /**
@@ -13,22 +8,10 @@ import nl.mvdr.tinustris.model.Tetromino;
  * 
  * @author Martijn van de Rijdt
  */
-@Slf4j
-class RandomTetrominoGenerator implements Generator<Tetromino> {
-    /** Random number generator. */
-    private final Random random;
-    /** List of tetrominoes returned so far. */
-    // Note that this list can only grow, never shrink, which is a potential memory leak.
-    // In practice games are not expected to go on long enough for this to be a problem.
-    // If that assumption is wrong, this list will probably need to be converted to a linked list where the first part
-    // is cleared when it is no longer required.
-    private final List<Tetromino> tetrominoes;
-    
+class RandomTetrominoGenerator extends RandomGenerator<Tetromino> {
     /** Constructor. */
     RandomTetrominoGenerator() {
-        super();
-        this.random = new Random();
-        this.tetrominoes = new ArrayList<>();
+        super(Tetromino.values().length, i -> Tetromino.values()[i], "Tetromino");
     }
 
     /**
@@ -38,29 +21,6 @@ class RandomTetrominoGenerator implements Generator<Tetromino> {
      *            random seed
      */
     RandomTetrominoGenerator(long randomSeed) {
-        super();
-        this.random = new Random(randomSeed);
-        this.tetrominoes = new ArrayList<>();
-    }
-    
-    /**
-     * {@inheritDoc} 
-     * 
-     * This implementation is thread-safe.
-     */
-    @Override
-    public Tetromino get(int i) {
-        synchronized (tetrominoes) {
-            while (tetrominoes.size() <= i) {
-                int ord = random.nextInt(Tetromino.values().length);
-                Tetromino tetromino = Tetromino.values()[ord];
-                tetrominoes.add(tetromino);
-                if (log.isInfoEnabled()) {
-                    log.info("Block {}: {}", Integer.valueOf(tetrominoes.size() - 1), tetromino);
-                }
-            }
-        }
-        
-        return tetrominoes.get(i);
+        super(randomSeed, Tetromino.values().length, i -> Tetromino.values()[i], "Tetromino");
     }
 }
