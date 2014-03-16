@@ -37,32 +37,40 @@ public class OnePlayerEngineTest {
     /** Tests the constructor. */
     @Test
     public void testConstructor() {
-        new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), new DummyLevelSystem(),
+                new DummyGenerator<>());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullGenerator() {
-        new OnePlayerEngine(null, new ConstantSpeedCurve(), new DummyLevelSystem());
+        new OnePlayerEngine(null, new ConstantSpeedCurve(), new DummyLevelSystem(), new DummyGenerator<>());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullCurve() {
-        new OnePlayerEngine(new DummyGenerator<>(), null, new DummyLevelSystem());
+        new OnePlayerEngine(new DummyGenerator<>(), null, new DummyLevelSystem(), new DummyGenerator<>());
     }
     
     /** Tests the constructor. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullLevelSystem() {
-        new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), null);
+        new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), null, new DummyGenerator<>());
+    }
+    
+    /** Tests the constructor. */
+    @Test(expected = NullPointerException.class)
+    public void testConstructorNullGapGenerator() {
+        new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), new DummyLevelSystem(), null);
     }
     
     /** Tests the {@link OnePlayerEngine#initGameState()} method. */
     @Test
     public void testInitGameState() {
         Generator<Tetromino> generator = new DummyGenerator<>(Arrays.asList(Tetromino.I, Tetromino.T));
-        OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem(),
+                new DummyGenerator<>());
         
         OnePlayerGameState state = engine.initGameState();
         
@@ -78,7 +86,8 @@ public class OnePlayerEngineTest {
     /** Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method. */
     @Test
     public void testNextState() {
-        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
+                new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = input -> false;
         
@@ -94,7 +103,8 @@ public class OnePlayerEngineTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testNextStateNoInputState() {
-        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
+                new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = new OnePlayerGameState();
         
         engine.computeNextState(state, Collections.<InputState>emptyList());
@@ -104,7 +114,8 @@ public class OnePlayerEngineTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNextStateTwoInputStates() {
         Generator<Tetromino> generator = new DummyGenerator<>();
-        OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem(),
+                new DummyGenerator<>());
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = input -> false;
         
@@ -117,7 +128,8 @@ public class OnePlayerEngineTest {
      */
     @Test
     public void testNextStateHardDrop() {
-        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
+                new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
         InputState inputState = input -> input == Input.HARD_DROP;
@@ -134,7 +146,8 @@ public class OnePlayerEngineTest {
      */
     @Test
     public void testNextStateHardDropGameBoyCurve() {
-        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new GameBoySpeedCurve(), new DummyLevelSystem());
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new GameBoySpeedCurve(),
+                new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
         InputState inputState = input -> input == Input.HARD_DROP;
