@@ -101,8 +101,8 @@ public class Tinustris extends Application {
         LinesRenderer linesRenderer = new LinesRenderer();
         LevelRenderer levelRenderer = new LevelRenderer();
         GameOverRenderer gameOverRenderer = new GameOverRenderer();
-        List<GameRenderer<OnePlayerGameState>> renderers = Arrays.<GameRenderer<OnePlayerGameState>> asList(gridGroup,
-                nextBlockRenderer, linesRenderer, levelRenderer, gameOverRenderer);
+        List<GameRenderer<OnePlayerGameState>> renderers = Arrays.asList(gridGroup, nextBlockRenderer, linesRenderer,
+                levelRenderer, gameOverRenderer);
         CompositeRenderer<OnePlayerGameState> gameRenderer = new CompositeRenderer<>(renderers);
 
         // construct the user interface
