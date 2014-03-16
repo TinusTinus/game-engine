@@ -308,35 +308,16 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         log.info("Lines scored: " + linesScored);
         
         // Create the new game state.
-        Tetromino activeTetromino;
-        Tetromino next;
-        Point location;
-        Orientation orientation;
-        int blockCounter;
         int numFramesUntilLinesDisappear;
-        if (0 < linesScored || 0 < curve.computeARE(state)) {
-            activeTetromino = null;
-            next = state.getNext();
-            location = null;
-            orientation = null;
-            blockCounter = state.getBlockCounter();
-            if (0 < linesScored) {
-                numFramesUntilLinesDisappear = curve.computeLineClearDelay(state);
-            } else {
-                numFramesUntilLinesDisappear = 0;
-            }
+        if (0 < linesScored) {
+            numFramesUntilLinesDisappear = curve.computeLineClearDelay(state);
         } else {
-            activeTetromino = state.getNext();
-            next = generator.get(state.getBlockCounter() + 2);
-            location = state.getBlockSpawnLocation();
-            orientation = Orientation.getDefault();
-            blockCounter = state.getBlockCounter() + 1;
             numFramesUntilLinesDisappear = 0;
         }
         int lines = state.getLines() + linesScored;
 
-        OnePlayerGameState result = new OnePlayerGameState(grid, width, activeTetromino, location, orientation, next,
-                0, 0, 0, state.getInputStateHistory(), blockCounter, lines, numFramesUntilLinesDisappear,
+        OnePlayerGameState result = new OnePlayerGameState(grid, width, null, null, null, state.getNext(), 0, 0, 0,
+                state.getInputStateHistory(), state.getBlockCounter(), lines, numFramesUntilLinesDisappear,
                 state.getLevel(), state.getGarbageLines());
         
         if (linesScored != 0 && log.isDebugEnabled()) {
