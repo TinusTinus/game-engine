@@ -63,15 +63,29 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         gameState = gameState.withLevel(this.levelSystem.computeLevel(gameState, gameState));
         return gameState;
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
         if (inputStates.size() != 1) {
             throw new IllegalArgumentException("Expected 1 input state, got " + inputStates.size());
         }
-        InputState inputState = inputStates.get(0);
         
+        return computeNextState(previousState, inputStates.get(0));
+    }
+
+    /**
+     * Computes the next game state based on the previous one and the state of the controls.
+     * 
+     * Overloaded convenience method.
+     * 
+     * @param previousState
+     *            previous game state
+     * @param inputState
+     *            input state for this player
+     * @return new game state
+     */
+    private OnePlayerGameState computeNextState(OnePlayerGameState previousState, InputState inputState) {
         OnePlayerGameState result;
         
         if (!previousState.isGameOver()) {
