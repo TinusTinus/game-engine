@@ -56,26 +56,44 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
     /** {@inheritDoc} */
     @Override
     public MultiplayerGameState computeNextState(MultiplayerGameState previousState, List<InputState> inputStates) {
+        // check the input
         if (inputStates.size() != previousState.getNumberOfPlayers()) {
             throw new IllegalArgumentException(String.format(
                     "The number of inputs (%s) does not match the number of players (%s).", "" + inputStates.size(),
                     "" + previousState.getNumberOfPlayers()));
         }
         
+        // compute next game state using the one player engine
         List<OnePlayerGameState> states = IntStream.range(0, previousState.getNumberOfPlayers())
                 .mapToObj(i -> computeNextOnePlayerState(i, previousState, inputStates))
                 .collect(Collectors.toCollection(ArrayList<OnePlayerGameState>::new));
-        
+        List<Integer> targets = new ArrayList<>(previousState.getNextGarbageTargets());
+
+        // add any garbage lines
         for (int i = 0; i != states.size(); i++) {
             int linesScored = states.get(i).getLines() - previousState.getStateForPlayer(i).getLines();
-            int garbageLines = computeGarbageLines(linesScored);
-            // TODO update garbage counts
+
+            for (int garbageLines = computeGarbageLines(linesScored); 0 < garbageLines; garbageLines--) {
+                // update the state for player i's target
+                int target = targets.get(i).intValue();
+                OnePlayerGameState targetState = states.get(target);
+                targetState = targetState.withGarbageLines(targetState.getGarbageLines() + 1);
+                states.set(target, targetState);
+                
+                // update the target to the next player
+                target = (target + 1) % targets.size();
+                if (target == i) {
+                    // players may not target themselves, skip to the next opponent
+                    target = (target + 1) % targets.size();
+                }
+                targets.set(i, target);
+            }
         }
 
-                
         states = Collections.unmodifiableList(states);
+        targets = Collections.unmodifiableList(targets);
         
-        return new MultiplayerGameState(states, previousState.getNextGarbageTargets());
+        return new MultiplayerGameState(states, targets);
     }
     
     /**

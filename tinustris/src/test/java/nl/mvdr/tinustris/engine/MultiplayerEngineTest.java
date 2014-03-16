@@ -10,7 +10,6 @@ import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -188,7 +187,6 @@ public class MultiplayerEngineTest {
      * player scores a double. This should result in one garbage line for the opponent.
      */
     @Test
-    @Ignore // TODO implement garbage
     public void testAddGarbageLineTwoPlayersDouble() {
         OnePlayerGameState playerOneState = new OnePlayerGameState();
         OnePlayerGameState playerTwoState = new OnePlayerGameState();
@@ -220,7 +218,6 @@ public class MultiplayerEngineTest {
      * player scores a triple. This should result in two garbage lines for the opponent.
      */
     @Test
-    @Ignore // TODO implement garbage
     public void testAddGarbageLineTwoPlayersTriple() {
         OnePlayerGameState playerOneState = new OnePlayerGameState();
         OnePlayerGameState playerTwoState = new OnePlayerGameState();
@@ -244,7 +241,7 @@ public class MultiplayerEngineTest {
         
         Assert.assertEquals(Arrays.asList(1, 0), newState.getNextGarbageTargets());
         Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
-        Assert.assertEquals(1, newState.getStateForPlayer(2).getGarbageLines());
+        Assert.assertEquals(2, newState.getStateForPlayer(1).getGarbageLines());
     }
     
     /**
@@ -252,7 +249,6 @@ public class MultiplayerEngineTest {
      * player scores a tetris. This should result in four garbage lines for the opponent.
      */
     @Test
-    @Ignore // TODO implement garbage
     public void testAddGarbageLineTwoPlayersTetris() {
         OnePlayerGameState playerOneState = new OnePlayerGameState();
         OnePlayerGameState playerTwoState = new OnePlayerGameState();
@@ -276,7 +272,7 @@ public class MultiplayerEngineTest {
         
         Assert.assertEquals(Arrays.asList(1, 0), newState.getNextGarbageTargets());
         Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
-        Assert.assertEquals(1, newState.getStateForPlayer(4).getGarbageLines());
+        Assert.assertEquals(4, newState.getStateForPlayer(1).getGarbageLines());
     }
     
     /**
@@ -284,7 +280,6 @@ public class MultiplayerEngineTest {
      * player scores a double. This should result in one garbage line for their targeted opponent.
      */
     @Test
-    @Ignore // TODO implement garbage
     public void testAddGarbageLineThreePlayersDouble() {
         OnePlayerGameState playerOneState = new OnePlayerGameState();
         OnePlayerGameState playerTwoState = new OnePlayerGameState();
@@ -310,7 +305,7 @@ public class MultiplayerEngineTest {
         Assert.assertEquals(Arrays.asList(2, 2, 0), newState.getNextGarbageTargets());
         Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
         Assert.assertEquals(1, newState.getStateForPlayer(1).getGarbageLines());
-        Assert.assertEquals(2, newState.getStateForPlayer(0).getGarbageLines());
+        Assert.assertEquals(0, newState.getStateForPlayer(2).getGarbageLines());
     }
 
     /**
@@ -318,7 +313,6 @@ public class MultiplayerEngineTest {
      * player scores a triple. This should result in one garbage line for both opponents.
      */
     @Test
-    @Ignore // TODO implement garbage
     public void testAddGarbageLineThreePlayersTriple() {
         OnePlayerGameState playerOneState = new OnePlayerGameState();
         OnePlayerGameState playerTwoState = new OnePlayerGameState();
@@ -344,7 +338,7 @@ public class MultiplayerEngineTest {
         Assert.assertEquals(Arrays.asList(1, 2, 0), newState.getNextGarbageTargets());
         Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
         Assert.assertEquals(1, newState.getStateForPlayer(1).getGarbageLines());
-        Assert.assertEquals(2, newState.getStateForPlayer(1).getGarbageLines());
+        Assert.assertEquals(1, newState.getStateForPlayer(2).getGarbageLines());
     }
     
     /**
@@ -352,7 +346,6 @@ public class MultiplayerEngineTest {
      * player scores a Tetris. This should result in two garbage lines for both opponents.
      */
     @Test
-    @Ignore // TODO implement garbage
     public void testAddGarbageLineThreePlayersTetris() {
         OnePlayerGameState playerOneState = new OnePlayerGameState();
         OnePlayerGameState playerTwoState = new OnePlayerGameState();
@@ -377,7 +370,7 @@ public class MultiplayerEngineTest {
         
         Assert.assertEquals(Arrays.asList(1, 2, 0), newState.getNextGarbageTargets());
         Assert.assertEquals(0, newState.getStateForPlayer(0).getGarbageLines());
-        Assert.assertEquals(1, newState.getStateForPlayer(2).getGarbageLines());
+        Assert.assertEquals(2, newState.getStateForPlayer(1).getGarbageLines());
         Assert.assertEquals(2, newState.getStateForPlayer(2).getGarbageLines());
     }
 }
