@@ -61,7 +61,7 @@ public class OnePlayerEngineTest {
     /** Tests the {@link OnePlayerEngine#initGameState()} method. */
     @Test
     public void testInitGameState() {
-        TetrominoGenerator generator = new DummyTetrominoGenerator(Tetromino.I, Tetromino.T);
+        Generator<Tetromino> generator = new DummyTetrominoGenerator(Tetromino.I, Tetromino.T);
         OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         
         OnePlayerGameState state = engine.initGameState();
@@ -103,7 +103,7 @@ public class OnePlayerEngineTest {
     /** Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method with too many input states. */
     @Test(expected = IllegalArgumentException.class)
     public void testNextStateTwoInputStates() {
-        TetrominoGenerator generator = new DummyTetrominoGenerator();
+        Generator<Tetromino> generator = new DummyTetrominoGenerator();
         OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem());
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = input -> false;

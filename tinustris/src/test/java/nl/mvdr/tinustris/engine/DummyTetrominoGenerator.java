@@ -6,11 +6,11 @@ import java.util.List;
 import nl.mvdr.tinustris.model.Tetromino;
 
 /**
- * Dummy implementation of {@link TetrominoGenerator}.
+ * Dummy implementation of {@link Generator}.
  * 
  * @author Martijn van de Rijdt
  */
-class DummyTetrominoGenerator implements TetrominoGenerator {
+class DummyTetrominoGenerator implements Generator<Tetromino> {
     /** Tetrominoes to be returned by the get method. */
     private List<Tetromino> tetrominoes;
 

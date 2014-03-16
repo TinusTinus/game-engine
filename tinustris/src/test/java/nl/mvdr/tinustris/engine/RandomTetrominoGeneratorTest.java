@@ -29,7 +29,7 @@ public class RandomTetrominoGeneratorTest {
     /** Invokes the get method a few times and checks that it returns non-null values. */
     @Test
     public void testGet() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator();
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
         for (int i = 0; i != 10; i++) {
             Assert.assertNotNull("failed on i = " + i, generator.get(i));
         }
@@ -38,7 +38,7 @@ public class RandomTetrominoGeneratorTest {
     /** Tests that the get method returns the same value when invoked with the same index multiple times. */
     @Test
     public void testGetMultipleCalls() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator();
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
         Tetromino first = generator.get(0);
         
         Assert.assertEquals(first, generator.get(0));
@@ -50,7 +50,7 @@ public class RandomTetrominoGeneratorTest {
      */
     @Test
     public void testGetMultipleCallsLater() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator();
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
         Tetromino first = generator.get(0);
         generator.get(1);
         generator.get(2);
@@ -64,7 +64,7 @@ public class RandomTetrominoGeneratorTest {
      */
     @Test
     public void testGetSkipValue() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator();
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
         Assert.assertNotNull(generator.get(1));
     }
     
@@ -74,7 +74,7 @@ public class RandomTetrominoGeneratorTest {
      */
     @Test
     public void testGetSkipValueMultipleTimes() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator();
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
         Tetromino first = generator.get(1);
         
         Assert.assertEquals(first, generator.get(1));
@@ -83,14 +83,14 @@ public class RandomTetrominoGeneratorTest {
     /** Test case with a negative index. */
     @Test(expected = IndexOutOfBoundsException.class)
     public void testNegativeValue() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator();
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
         generator.get(-1);
     }
     
     /** Tests that reusing the same random seed produces the same results. */
     @Test
     public void testRandomSeed() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator(0L);
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator(0L);
         Tetromino first = generator.get(0);
         generator = new RandomTetrominoGenerator(0L);
         
@@ -100,7 +100,7 @@ public class RandomTetrominoGeneratorTest {
     /** Tests that reusing the same random seed in a new JVM instance still produces the same result. */
     @Test
     public void testRandomSeedFixed() {
-        TetrominoGenerator generator = new RandomTetrominoGenerator(0L);
+        RandomTetrominoGenerator generator = new RandomTetrominoGenerator(0L);
         
         Assert.assertEquals(Tetromino.S, generator.get(0));
         Assert.assertEquals(Tetromino.T, generator.get(1));

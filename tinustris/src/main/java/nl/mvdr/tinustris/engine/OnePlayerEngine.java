@@ -41,7 +41,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     
     /** Tetromino generator. */
     @NonNull
-    private final TetrominoGenerator generator;
+    private final Generator<Tetromino> generator;
     /** Speed curve. */
     @NonNull
     private final SpeedCurve curve;

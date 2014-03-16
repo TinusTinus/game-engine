@@ -14,7 +14,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-class RandomTetrominoGenerator implements TetrominoGenerator {
+class RandomTetrominoGenerator implements Generator<Tetromino> {
     /** Random number generator. */
     private final Random random;
     /** List of tetrominoes returned so far. */
