@@ -1,6 +1,11 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +41,20 @@ class RangedCurve {
             .get();
 
         return map.get(mapKey).intValue();
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        List<Entry<Integer, Integer>> entryList = map.entrySet()
+            .stream()
+            .sorted((entry0, entry1) -> entry0.getKey().compareTo(entry1.getKey()))
+            .collect(Collectors.toList());
+        
+        return IntStream.range(0, map.size() - 1)
+            .mapToObj(i -> String.format("(%s, %s) -> %s, ", entryList.get(i).getKey(), entryList.get(i + 1).getKey(), entryList.get(i).getValue()))
+            .collect(StringBuilder::new, (builder, string) -> builder.append(string), StringBuilder::append)
+            .append(String.format("(%s, infinity) -> %s", entryList.get(entryList.size() - 1).getKey(), entryList.get(entryList.size() - 1).getValue()))
+            .toString();
     }
 }
