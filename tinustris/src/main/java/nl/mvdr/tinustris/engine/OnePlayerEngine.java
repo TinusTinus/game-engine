@@ -52,19 +52,6 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     @NonNull
     private final Generator<Integer> gapGenerator;
     
-    /**
-     * Constructor.
-     * 
-     * @param generator tetromino generator
-     * @param curve speed curve
-     * @param levelSystem level system
-     * @deprecated use {@link #OnePlayerEngine(Generator, SpeedCurve, LevelSystem, Generator)} instead
-     */
-    @Deprecated
-    public OnePlayerEngine(Generator<Tetromino> generator, SpeedCurve curve, LevelSystem levelSystem) {
-        this(generator, curve, levelSystem, new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH));
-    }
-    
     /**  Constructor. */
     public OnePlayerEngine() {
         this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem(), new GapGenerator(
