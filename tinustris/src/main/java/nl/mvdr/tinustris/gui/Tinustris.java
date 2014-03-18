@@ -49,8 +49,8 @@ public class Tinustris extends Application {
     private static final int TEXT_WINDOW_HEIGHT = 50;
     /** Width of the game over label. */
     private static final int GAME_OVER_LABEL_WIDTH = 170;
-    /** Whether 3D graphics are used. */
-    private static final boolean PERSPECTIVE_3D = false;
+    /** Graphical style for blocks. */
+    private static final GraphicsStyle STYLE = GraphicsStyle.TWO_DIMENSIONAL;
     
     /** Game loop. */
     private GameLoop<?> gameLoop;
@@ -89,12 +89,7 @@ public class Tinustris extends Application {
         
         // TODO configuration screen to select speed curve, level system, button configuration, number of players and 2D/3D
         
-        BlockCreator blockCreator;
-        if (PERSPECTIVE_3D) {
-            blockCreator = new BoxBlockCreator();
-        } else {
-            blockCreator = new RectangleBlockCreator();
-        }
+        BlockCreator blockCreator = STYLE.makeBlockCreator();
         
         // create the game renderers
         GridRenderer gridGroup = new GridRenderer(blockCreator);
@@ -144,7 +139,7 @@ public class Tinustris extends Application {
                 heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
         
-        if (PERSPECTIVE_3D) {
+        if (STYLE == GraphicsStyle.THREE_DIMENSIONAL) {
             setupLightsAndCamera(parent, scene);
         }
         
