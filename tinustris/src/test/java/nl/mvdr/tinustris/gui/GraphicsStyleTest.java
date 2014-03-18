@@ -43,4 +43,12 @@ public class GraphicsStyleTest {
         
         log.info("3D available: " + available);
     }
+    
+    /** Tests the toString method. */
+    @Test
+    public void testToString() {
+        for (GraphicsStyle style: GraphicsStyle.values()) {
+            log.info(style.toString());
+        }
+    }
 }

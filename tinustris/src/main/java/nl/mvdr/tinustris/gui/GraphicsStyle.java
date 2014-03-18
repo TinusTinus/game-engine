@@ -15,10 +15,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum GraphicsStyle {
     /** 2D graphics. */
-    TWO_DIMENSIONAL(() -> new RectangleBlockCreator(), true),
+    TWO_DIMENSIONAL("2D", () -> new RectangleBlockCreator(), true),
     /** Real-time 3D graphics. May not be supported in all runtimes. */
-    THREE_DIMENSIONAL(() -> new BoxBlockCreator(), Platform.isSupported(ConditionalFeature.SCENE3D));
+    THREE_DIMENSIONAL("3D", () -> new BoxBlockCreator(), Platform.isSupported(ConditionalFeature.SCENE3D));
     
+    /** Name of this enum value. */
+    @Getter
+    private final String name;
     /** Factory for {@link BlockCreator}. */
     private final Supplier<BlockCreator> blockCreatorFactory;
     /** Indicator whether this graphical style is available at runtime. */
@@ -32,5 +35,11 @@ public enum GraphicsStyle {
      */
     public BlockCreator makeBlockCreator() {
         return blockCreatorFactory.get();
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return getName();
     }
 }
