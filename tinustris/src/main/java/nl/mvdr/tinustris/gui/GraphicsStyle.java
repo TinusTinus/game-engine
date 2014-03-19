@@ -33,7 +33,7 @@ public enum GraphicsStyle {
      * 
      * @return new block creator instance
      */
-    public BlockCreator makeBlockCreator() {
+    BlockCreator makeBlockCreator() {
         return blockCreatorFactory.get();
     }
     
