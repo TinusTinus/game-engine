@@ -93,8 +93,6 @@ public class Tinustris extends Application {
         Thread.currentThread().setUncaughtExceptionHandler(
                 (thread, throwable) -> log.error("Uncaught runtime exception on JavaFX Thread", throwable));
         
-        // TODO configuration screen to enter configuration and graphics style
-        
         BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
         
         // create the nodes to render the game
