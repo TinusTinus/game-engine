@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.model;
 
+import nl.mvdr.tinustris.input.JinputControllerConfiguration;
+
 /**
  * Game configuration.
  * 
@@ -18,6 +20,15 @@ public interface Configuration {
      */
     default int getNumberOfPlayers() {
         return 1;
+    }
+    
+    /**
+     * TODO
+     * 
+     * @return
+     */
+    default JinputControllerConfiguration getJInputControllerConfiguration() {
+        return JinputControllerConfiguration.defaultConfiguration();
     }
     
     // TODO more configuration options
