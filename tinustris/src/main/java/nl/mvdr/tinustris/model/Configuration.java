@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.model;
 
-import nl.mvdr.tinustris.input.JinputControllerConfiguration;
+import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Game configuration.
@@ -27,8 +27,8 @@ public interface Configuration {
      * 
      * @return
      */
-    default JinputControllerConfiguration getJInputControllerConfiguration() {
-        return JinputControllerConfiguration.defaultConfiguration();
+    default JInputControllerConfiguration getJInputControllerConfiguration() {
+        return JInputControllerConfiguration.defaultConfiguration();
     }
     
     // TODO more configuration options

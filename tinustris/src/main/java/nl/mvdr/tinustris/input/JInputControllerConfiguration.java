@@ -28,7 +28,7 @@ import net.java.games.input.Keyboard;
 @Getter
 @Slf4j
 @ToString
-public class JinputControllerConfiguration {
+public class JInputControllerConfiguration {
     /**
      * Key / button mapping. Not every input needs to be mapped, which is to say: values in this map may be empty sets;
      * if an input is not mapped it will simply never get pressed. The mapping should contain values for all valid keys.
@@ -45,7 +45,7 @@ public class JinputControllerConfiguration {
      * 
      * @return default configuration
      */
-    public static JinputControllerConfiguration defaultConfiguration() {
+    public static JInputControllerConfiguration defaultConfiguration() {
         Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
         if (controllersFromEnvironment.length == 0) {
             throw new IllegalStateException(
@@ -57,7 +57,7 @@ public class JinputControllerConfiguration {
         // find the keyboard controller(s)
         Set<Controller> controllers = Arrays.asList(controllersFromEnvironment)
             .stream()
-            .map(JinputControllerConfiguration::log)
+            .map(JInputControllerConfiguration::log)
             .filter(controller -> controller instanceof Keyboard)
             .collect(Collectors.toSet());
         if (controllers.isEmpty()) {
@@ -80,7 +80,7 @@ public class JinputControllerConfiguration {
         }
         log.info("Created default input mapping: " + mapping);
         
-        return new JinputControllerConfiguration(mapping, controllers);
+        return new JInputControllerConfiguration(mapping, controllers);
     }
     
     /**

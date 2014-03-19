@@ -22,7 +22,7 @@ public class JInputController implements InputController {
      * Configuration of this component.
      */
     @NonNull
-    private final JinputControllerConfiguration configuration;
+    private final JInputControllerConfiguration configuration;
 
     /** {@inheritDoc} */
     @Override
