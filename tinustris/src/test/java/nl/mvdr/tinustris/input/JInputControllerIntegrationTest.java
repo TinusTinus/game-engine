@@ -7,7 +7,6 @@ import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Component;
-import net.java.games.input.Controller;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,15 +62,15 @@ public class JInputControllerIntegrationTest {
         Assert.assertNotNull(state);
     }
     
-    /** Tests the getInputState method, using the default button mapping. */
+    /** Tests the getInputState method, where no input has been mapped. */
     @Test
     public void testNoInputs() {
         Map<Input, Set<Component>> mapping = new EnumMap<>(Input.class);
         for (Input input: Input.values()) {
-            mapping.put(input, Collections.<Component>emptySet());
+            mapping.put(input, Collections.emptySet());
         }
-        JInputController inputController = new JInputController(mapping,
-                Collections.<Controller> emptySet());
+        JinputControllerConfiguration configuration = new JinputControllerConfiguration(mapping, Collections.emptySet());
+        JInputController inputController = new JInputController(configuration);
         log.info("Controller: " + inputController);
 
         InputState state = inputController.getInputState();
