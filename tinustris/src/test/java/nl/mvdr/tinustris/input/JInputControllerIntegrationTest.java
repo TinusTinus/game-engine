@@ -53,6 +53,7 @@ public class JInputControllerIntegrationTest {
         InputState state = inputController.getInputState();
 
         log.info("State: " + state);
+        // state depends on what inputs the user was pressing; just check that they are non-null
         Assert.assertNotNull(state);
     }
 }
