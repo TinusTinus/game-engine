@@ -24,12 +24,6 @@ public class JInputController implements InputController {
     @NonNull
     private final JinputControllerConfiguration configuration;
 
-    /** Constructor using the default mapping. */
-    public JInputController() {
-        super();
-        this.configuration = JinputControllerConfiguration.defaultConfiguration();
-    }
-    
     /** {@inheritDoc} */
     @Override
     public InputState getInputState() {

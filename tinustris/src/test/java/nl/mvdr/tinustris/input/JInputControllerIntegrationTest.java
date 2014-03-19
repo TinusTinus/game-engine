@@ -53,7 +53,7 @@ public class JInputControllerIntegrationTest {
     /** Tests the getInputState method, using the default button mapping. */
     @Test
     public void test() {
-        JInputController inputController = new JInputController();
+        JInputController inputController = new JInputController(JinputControllerConfiguration.defaultConfiguration());
         log.info("Controller: " + inputController);
 
         InputState state = inputController.getInputState();

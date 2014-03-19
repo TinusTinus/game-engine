@@ -30,6 +30,7 @@ import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
+import nl.mvdr.tinustris.input.JinputControllerConfiguration;
 import nl.mvdr.tinustris.model.Configuration;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -177,13 +178,14 @@ public class Tinustris extends Application {
                     + numPlayers);
         } else if (numPlayers == 1) {
             // single player
-            InputController inputController = new JInputController();
+            InputController inputController = new JInputController(JinputControllerConfiguration.defaultConfiguration());
             GameEngine<OnePlayerGameState> gameEngine = new OnePlayerEngine();
             CompositeRenderer<OnePlayerGameState> renderer = new CompositeRenderer<>(renderers);
             gameLoop = new GameLoop<>(Collections.singletonList(inputController), gameEngine, renderer);
         } else {
             // local multiplayer
-            List<InputController> inputControllers = Collections.nCopies(numPlayers, new JInputController());
+            List<InputController> inputControllers = Collections.nCopies(numPlayers, new JInputController(
+                    JinputControllerConfiguration.defaultConfiguration()));
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, new OnePlayerEngine());
             MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(new CompositeRenderer<>(renderers), 0);
             gameLoop = new GameLoop<>(inputControllers, gameEngine, renderer);
