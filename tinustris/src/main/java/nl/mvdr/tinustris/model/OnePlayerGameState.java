@@ -641,10 +641,11 @@ public class OnePlayerGameState implements GameState {
     public String toString() {
         return "GameState (width=" + width + ", currentBlock=" + activeTetromino + ", currentBlockLocation="
                 + currentBlockLocation + ", currentBlockOrientation = " + currentBlockOrientation + ", nextBlock="
-                + next + ", numFramesSinceLastDownMove = " + numFramesSinceLastDownMove
-                + ", numFramesSinceLastLock = " + numFramesSinceLastLock + ", numFramesSinceLastMove = "
-                + numFramesSinceLastMove + ", inputStateHistory=" + inputStateHistory + ", blockCounter = "
-                + blockCounter + ", lines = " + lines + ", numFramesUntilLinesDisappear = "
-                + numFramesUntilLinesDisappear + ", level = " + level + ", grid=\n" + gridToAscii() + ")";
+                + next + ", numFramesSinceLastDownMove = " + numFramesSinceLastDownMove + ", numFramesSinceLastLock = "
+                + numFramesSinceLastLock + ", numFramesSinceLastMove = " + numFramesSinceLastMove
+                + ", inputStateHistory=" + inputStateHistory + ", blockCounter = " + blockCounter + ", lines = "
+                + lines + ", numFramesUntilLinesDisappear = " + numFramesUntilLinesDisappear + ", level = " + level
+                + ", garbageLines = " + garbageLines + ", totalGarbage = " + totalGarbage + ", grid=\n" + gridToAscii()
+                + ")";
     }
 }
