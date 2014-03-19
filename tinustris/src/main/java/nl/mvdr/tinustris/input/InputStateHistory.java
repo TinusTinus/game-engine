@@ -42,7 +42,7 @@ public interface InputStateHistory {
                 frames.put(input, Integer.valueOf(value));
             }
             
-            result = input -> frames.get(input).intValue();
+            result = frames::get;
         } else {
             // no inputs pressed
             result = NEW;
