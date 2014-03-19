@@ -53,6 +53,8 @@ public class Tinustris extends Application {
     private static final int TEXT_WINDOW_HEIGHT = 50;
     /** Width of the game over label. */
     private static final int GAME_OVER_LABEL_WIDTH = 170;
+    /** Size for the arc of a window. */
+    private static final int ARC_SIZE = 10;
     
     // TODO remove the following constant configuration and let the user input these values
     /** Game configuration.*/
@@ -305,15 +307,15 @@ public class Tinustris extends Application {
         border.setStroke(stroke);
         border.setStrokeWidth(BORDER_SIZE);
         border.setStrokeType(StrokeType.OUTSIDE);
-        border.setArcWidth(GridRenderer.ARC_SIZE);
-        border.setArcHeight(GridRenderer.ARC_SIZE);
+        border.setArcWidth(ARC_SIZE);
+        border.setArcHeight(ARC_SIZE);
         
         // black, seethrough background, to dim whatever is behind the window
         Rectangle background = new Rectangle(border.getX(), border.getY(), border.getWidth(), border.getHeight());
         background.setFill(Color.BLACK);
         background.setOpacity(.5);
-        background.setArcWidth(GridRenderer.ARC_SIZE);
-        background.setArcHeight(GridRenderer.ARC_SIZE);
+        background.setArcWidth(ARC_SIZE);
+        background.setArcHeight(ARC_SIZE);
         
         contents.setTranslateX(x + BORDER_SIZE);
         contents.setTranslateY(y + BORDER_SIZE);

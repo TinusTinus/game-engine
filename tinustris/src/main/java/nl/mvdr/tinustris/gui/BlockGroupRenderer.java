@@ -19,8 +19,6 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
 abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlayerGameState> {
     /** Size of a tetromino block. */
     static final int BLOCK_SIZE = 30;
-    /** Size for the arc of a tetromino block. */
-    static final int ARC_SIZE = 10;
     
     /** Block creator. */
     private final BlockCreator blockCreator;
