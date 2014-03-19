@@ -456,7 +456,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return new state
      */
     private OnePlayerGameState addGarbageLine(OnePlayerGameState state) {
-        int gapIndex = state.getTotalGarbage() % NUM_ALIGNED_GARBAGE_LINES;
+        int gapIndex = state.getTotalGarbage() / NUM_ALIGNED_GARBAGE_LINES;
         int gap = gapGenerator.get(gapIndex).intValue();
         // fill the bottom line with garbage, except for the gap block
         List<Block> grid = new ArrayList<>(state.getGrid().size());

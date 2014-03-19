@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
+import static org.junit.Assert.assertNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -195,7 +198,7 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), i -> 0);
         List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
         grid.set(0, Block.O);
-        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, null, null,
+        OnePlayerGameState previousState = new OnePlayerGameState(grid, 10, null, null,
                 null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 1, 0);
         log.info("Previous game state: " + previousState);
         
@@ -205,8 +208,95 @@ public class OnePlayerEngineTest {
         Assert.assertEquals(0, state.getGarbageLines());
         Assert.assertEquals(1, state.getTotalGarbage());
         Assert.assertEquals(null, state.getGrid().get(0));
-        state.getGrid().subList(1, OnePlayerGameState.DEFAULT_WIDTH).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(Block.O, state.getGrid().get(OnePlayerGameState.DEFAULT_WIDTH));
-        state.getGrid().subList(OnePlayerGameState.DEFAULT_WIDTH + 1, 220).forEach(Assert::assertNull);
+        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(Block.O, state.getGrid().get(10));
+        state.getGrid().subList(11, 220).forEach(Assert::assertNull);
     }
+    
+    /**
+     * Test case for {@link OnePlayerEngine#computeNextState(OnePlayerGameState, List)} in case the previous state has
+     * garbage lines to be processed.
+     */
+    @Test
+    public void testTwoGarbageLines() {
+        DummyGenerator<Tetromino> generator = new DummyGenerator<>(Arrays.asList(Tetromino.O, Tetromino.T, Tetromino.L));
+        ConstantSpeedCurve curve = new ConstantSpeedCurve();
+        Generator<Integer> gapGenerator = i -> {
+            // Gap generator should be invoked with index 0 twice in a row.
+            Assert.assertEquals(0, i);
+            return 0;
+        };
+        OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), gapGenerator);
+        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
+        grid.set(0, Block.O);
+        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, null, null,
+                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 2, 0);
+        log.info("Previous game state: " + previousState);
+        
+        OnePlayerGameState state = engine.computeNextState(previousState, Collections.singletonList(input -> false));
+        
+        log.info("Next game state: " + state);
+        Assert.assertEquals(0, state.getGarbageLines());
+        Assert.assertEquals(2, state.getTotalGarbage());
+        Assert.assertEquals(null, state.getGrid().get(0));
+        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(10));
+        state.getGrid().subList(11, 20).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(Block.O, state.getGrid().get(20));
+        state.getGrid().subList(21, 220).forEach(Assert::assertNull);
+    }
+    
+    /**
+     * Test case for {@link OnePlayerEngine#computeNextState(OnePlayerGameState, List)} in case the previous state has
+     * garbage lines to be processed.
+     */
+    @Test
+    @Ignore // TODO fix this test case!
+    public void testTenGarbageLines() {
+        DummyGenerator<Tetromino> generator = new DummyGenerator<>(Arrays.asList(Tetromino.O, Tetromino.T, Tetromino.L));
+        ConstantSpeedCurve curve = new ConstantSpeedCurve();
+        Generator<Integer> gapGenerator = i -> {
+            // Gap generator should be invoked nine times with index 0 and once with index 1.
+            Assert.assertTrue("i = " + i, i == 0 || i == 1);
+            return i;
+        };
+        OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), gapGenerator);
+        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
+        grid.set(0, Block.O);
+        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, null, null,
+                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 10, 0);
+        log.info("Previous game state: " + previousState);
+        
+        OnePlayerGameState state = engine.computeNextState(previousState, Collections.singletonList(input -> false));
+        
+        log.info("Next game state: " + state);
+        Assert.assertEquals(0, state.getGarbageLines());
+        Assert.assertEquals(10, state.getTotalGarbage());
+        Assert.assertEquals(null, state.getGrid().get(0));
+        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(10));
+        state.getGrid().subList(11, 20).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(20));
+        state.getGrid().subList(21, 30).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(30));
+        state.getGrid().subList(31, 40).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(40));
+        state.getGrid().subList(41, 50).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(50));
+        state.getGrid().subList(51, 60).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(60));
+        state.getGrid().subList(61, 70).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(70));
+        state.getGrid().subList(71, 80).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(80));
+        state.getGrid().subList(81, 90).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(90));
+        state.getGrid().subList(91, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(Block.GARBAGE, state.getGrid().get(90));
+        Assert.assertEquals(null, state.getGrid().get(91));
+        state.getGrid().subList(92, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(Block.O, state.getGrid().get(100));
+        state.getGrid().subList(101, 220).forEach(Assert::assertNull);
+    }
+    
 }
