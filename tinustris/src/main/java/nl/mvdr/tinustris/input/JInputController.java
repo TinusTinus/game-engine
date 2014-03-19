@@ -45,7 +45,7 @@ public class JInputController implements InputController {
      */
     private boolean isPressed(Input input) {
         return configuration.getMapping()
-             .get(input)
+            .get(input)
             .stream()
             .map(component -> component.getPollData())
             .anyMatch(pollData -> pollData.floatValue() != 0.0f);
