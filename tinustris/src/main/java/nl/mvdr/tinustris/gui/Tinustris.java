@@ -182,7 +182,7 @@ public class Tinustris extends Application {
             CompositeRenderer<OnePlayerGameState> renderer = new CompositeRenderer<>(renderers);
             gameLoop = new GameLoop<>(Collections.singletonList(inputController), gameEngine, renderer);
         } else {
-            // local mulitplayer
+            // local multiplayer
             List<InputController> inputControllers = Collections.nCopies(numPlayers, new JInputController());
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, new OnePlayerEngine());
             MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(new CompositeRenderer<>(renderers), 0);
