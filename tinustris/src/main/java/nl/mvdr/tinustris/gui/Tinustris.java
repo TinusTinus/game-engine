@@ -26,9 +26,12 @@ import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
+import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
+import nl.mvdr.tinustris.model.Configuration;
+import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
@@ -49,8 +52,12 @@ public class Tinustris extends Application {
     private static final int TEXT_WINDOW_HEIGHT = 50;
     /** Width of the game over label. */
     private static final int GAME_OVER_LABEL_WIDTH = 170;
+    
+    // TODO remove the following constant configurations and let the user input these
     /** Graphical style for blocks. */
     private static final GraphicsStyle STYLE = GraphicsStyle.TWO_DIMENSIONAL;
+    /** Game configuration.*/
+    private static final Configuration CONFIGURATION = new Configuration() {};
     
     /** Game loop. */
     private GameLoop<?> gameLoop;
@@ -87,11 +94,11 @@ public class Tinustris extends Application {
         Thread.currentThread().setUncaughtExceptionHandler(
                 (thread, throwable) -> log.error("Uncaught runtime exception on JavaFX Thread", throwable));
         
-        // TODO configuration screen to select speed curve, level system, button configuration, number of players and 2D/3D
+        // TODO configuration screen to enter configuration and graphics style
         
         BlockCreator blockCreator = STYLE.makeBlockCreator();
         
-        // create the game renderers
+        // create the nodes to render the game
         GridRenderer gridGroup = new GridRenderer(blockCreator);
         NextBlockRenderer nextBlockRenderer = new NextBlockRenderer(blockCreator);
         LinesRenderer linesRenderer = new LinesRenderer();
@@ -99,7 +106,6 @@ public class Tinustris extends Application {
         GameOverRenderer gameOverRenderer = new GameOverRenderer();
         List<GameRenderer<OnePlayerGameState>> renderers = Arrays.asList(gridGroup, nextBlockRenderer, linesRenderer,
                 levelRenderer, gameOverRenderer);
-        CompositeRenderer<OnePlayerGameState> gameRenderer = new CompositeRenderer<>(renderers);
 
         // construct the user interface
         stage.setTitle("Tinustris");
@@ -151,14 +157,37 @@ public class Tinustris extends Application {
         log.info("Stage shown.");
         
         // setup necessary components
-        InputController inputController = new JInputController();
-        GameEngine<OnePlayerGameState> gameEngine = new OnePlayerEngine();
-        
-        // start the game loop
-        gameLoop = new GameLoop<>(Collections.singletonList(inputController), gameEngine, gameRenderer);
+        initGameLoop(renderers);
+
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started.");
+    }
+
+    /**
+     * Initialises the game loop. This method also initialises the input controller, game engine and all other components needed by the game loop.
+     * 
+     * @param renderers one player game renderers
+     */
+    private void initGameLoop(List<GameRenderer<OnePlayerGameState>> renderers) {
+        int numPlayers = CONFIGURATION.getNumberOfPlayers();
+        
+        if (numPlayers < 1) {
+            throw new IllegalStateException("Invalid configuration. The number of players must be at least 1, was: "
+                    + numPlayers);
+        } else if (numPlayers == 1) {
+            // single player
+            InputController inputController = new JInputController();
+            GameEngine<OnePlayerGameState> gameEngine = new OnePlayerEngine();
+            CompositeRenderer<OnePlayerGameState> renderer = new CompositeRenderer<>(renderers);
+            gameLoop = new GameLoop<>(Collections.singletonList(inputController), gameEngine, renderer);
+        } else {
+            // local mulitplayer
+            List<InputController> inputControllers = Collections.nCopies(numPlayers, new JInputController());
+            GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, new OnePlayerEngine());
+            MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(new CompositeRenderer<>(renderers), 0);
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, renderer);
+        }
     }
 
     /**
