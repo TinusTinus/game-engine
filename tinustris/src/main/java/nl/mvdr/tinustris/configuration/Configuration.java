@@ -1,11 +1,10 @@
-package nl.mvdr.tinustris.model;
+package nl.mvdr.tinustris.configuration;
 
+import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Game configuration.
- * 
- * Note that these options do not include graphical options. See the gui package for that.
  * 
  * Sensible defaults have been included for all methods, using default methods.
  * 
@@ -23,9 +22,18 @@ public interface Configuration {
     }
     
     /**
-     * TODO
+     * Graphical style of the blocks in the grid.
      * 
-     * @return
+     * @return style
+     */
+    default GraphicsStyle getGraphicsStyle() {
+        return GraphicsStyle.TWO_DIMENSIONAL;
+    }
+    
+    /**
+     * Configuration for JInput, used by {@link nl.mvdr.tinustris.input.JInputController}.
+     * 
+     * @return input controller configuration
      */
     default JInputControllerConfiguration getJInputControllerConfiguration() {
         return JInputControllerConfiguration.defaultConfiguration();

@@ -24,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.MultiplayerEngine;
@@ -31,7 +32,6 @@ import nl.mvdr.tinustris.engine.OnePlayerEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
-import nl.mvdr.tinustris.model.Configuration;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
@@ -54,9 +54,7 @@ public class Tinustris extends Application {
     /** Width of the game over label. */
     private static final int GAME_OVER_LABEL_WIDTH = 170;
     
-    // TODO remove the following constant configurations and let the user input these
-    /** Graphical style for blocks. */
-    private static final GraphicsStyle STYLE = GraphicsStyle.TWO_DIMENSIONAL;
+    // TODO remove the following constant configuration and let the user input these values
     /** Game configuration.*/
     private static final Configuration CONFIGURATION = new Configuration() {};
     
@@ -97,7 +95,7 @@ public class Tinustris extends Application {
         
         // TODO configuration screen to enter configuration and graphics style
         
-        BlockCreator blockCreator = STYLE.makeBlockCreator();
+        BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
         
         // create the nodes to render the game
         GridRenderer gridGroup = new GridRenderer(blockCreator);
@@ -146,7 +144,7 @@ public class Tinustris extends Application {
                 heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
         
-        if (STYLE == GraphicsStyle.THREE_DIMENSIONAL) {
+        if (CONFIGURATION.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
             setupLightsAndCamera(parent, scene);
         }
         
