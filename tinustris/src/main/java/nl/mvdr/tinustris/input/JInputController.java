@@ -117,7 +117,7 @@ public class JInputController implements InputController {
             .filter(this::isPressed)
             .collect(Collectors.toCollection(() -> EnumSet.noneOf(Input.class)));
         
-        return new InputStateImpl(pressedInputs);
+        return input -> pressedInputs.contains(input);
     }
     
     /**
