@@ -12,19 +12,21 @@ import java.util.Map;
 public interface InputStateHistory {
     /** Input state history where no inputs have been pressed. */
     public static final InputStateHistory NEW = input -> 0;
-    
+
     /**
      * Retrieves the number of frames the given input has been pressed.
      * 
-     * @param input input
+     * @param input
+     *            input
      * @return number of frames
      */
     int getNumberOfFrames(Input input);
-    
+
     /**
      * Creates the input state history for the next frame.
      * 
-     * @param inputState input state for the next frame
+     * @param inputState
+     *            input state for the next frame
      * @return new input state history
      */
     default InputStateHistory next(InputState inputState) {
@@ -41,13 +43,13 @@ public interface InputStateHistory {
                 }
                 frames.put(input, Integer.valueOf(value));
             }
-            
+
             result = frames::get;
         } else {
             // no inputs pressed
             result = NEW;
         }
-        
+
         return result;
     }
 }
