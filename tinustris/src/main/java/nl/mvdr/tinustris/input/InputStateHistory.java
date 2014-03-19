@@ -30,26 +30,17 @@ public interface InputStateHistory {
      * @return new input state history
      */
     default InputStateHistory next(InputState inputState) {
-        InputStateHistory result;
-
-        if (inputState.anyInputsPressed()) {
-            Map<Input, Integer> frames = new EnumMap<>(Input.class);
-            for (Input input : Input.values()) {
-                int value;
-                if (inputState.isPressed(input)) {
-                    value = getNumberOfFrames(input) + 1;
-                } else {
-                    value = 0;
-                }
-                frames.put(input, Integer.valueOf(value));
+        Map<Input, Integer> frames = new EnumMap<>(Input.class);
+        for (Input input : Input.values()) {
+            int value;
+            if (inputState.isPressed(input)) {
+                value = getNumberOfFrames(input) + 1;
+            } else {
+                value = 0;
             }
-
-            result = frames::get;
-        } else {
-            // no inputs pressed
-            result = NEW;
+            frames.put(input, Integer.valueOf(value));
         }
 
-        return result;
+        return frames::get;
     }
 }
