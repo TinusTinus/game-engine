@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.Arrays;
-
 /**
  * The state of all inputs at a given moment in time.
  * 
@@ -18,15 +16,4 @@ public interface InputState {
      * @return true if pressed, false if not
      */
     boolean isPressed(Input input);
-    
-    /**
-     * Indicates whether any inputs are pressed.
-     * 
-     * @return true if at least one input is pressed, false otherwise
-     */
-    default boolean anyInputsPressed() {
-        return Arrays.asList(Input.values())
-                .stream()
-                .anyMatch(this::isPressed);
-    }
 }
