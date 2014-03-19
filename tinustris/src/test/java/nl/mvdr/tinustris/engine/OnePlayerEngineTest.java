@@ -19,7 +19,6 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -249,7 +248,6 @@ public class OnePlayerEngineTest {
      * garbage lines to be processed.
      */
     @Test
-    @Ignore // TODO fix this test case!
     public void testTenGarbageLines() {
         DummyGenerator<Tetromino> generator = new DummyGenerator<>(Arrays.asList(Tetromino.O, Tetromino.T, Tetromino.L));
         ConstantSpeedCurve curve = new ConstantSpeedCurve();
@@ -270,8 +268,9 @@ public class OnePlayerEngineTest {
         log.info("Next game state: " + state);
         Assert.assertEquals(0, state.getGarbageLines());
         Assert.assertEquals(10, state.getTotalGarbage());
-        Assert.assertEquals(null, state.getGrid().get(0));
-        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(Block.GARBAGE, state.getGrid().get(0));
+        Assert.assertEquals(null, state.getGrid().get(1));
+        state.getGrid().subList(2, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
         Assert.assertEquals(null, state.getGrid().get(10));
         state.getGrid().subList(11, 20).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
         Assert.assertEquals(null, state.getGrid().get(20));
@@ -290,9 +289,8 @@ public class OnePlayerEngineTest {
         state.getGrid().subList(81, 90).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
         Assert.assertEquals(null, state.getGrid().get(90));
         state.getGrid().subList(91, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(Block.GARBAGE, state.getGrid().get(90));
-        Assert.assertEquals(null, state.getGrid().get(91));
-        state.getGrid().subList(92, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
+        Assert.assertEquals(null, state.getGrid().get(90));
+        state.getGrid().subList(91, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
         Assert.assertEquals(Block.O, state.getGrid().get(100));
         state.getGrid().subList(101, 220).forEach(Assert::assertNull);
     }
