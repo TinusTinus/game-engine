@@ -158,7 +158,7 @@ public class Tinustris extends Application {
 
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
-        log.info("Game loop started.");
+        log.info("Game loop started in separate thread.");
     }
 
     /**
