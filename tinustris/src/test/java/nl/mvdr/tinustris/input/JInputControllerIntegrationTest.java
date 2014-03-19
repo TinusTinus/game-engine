@@ -1,12 +1,6 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Set;
-
 import lombok.extern.slf4j.Slf4j;
-import net.java.games.input.Component;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -60,24 +54,5 @@ public class JInputControllerIntegrationTest {
 
         log.info("State: " + state);
         Assert.assertNotNull(state);
-    }
-    
-    /** Tests the getInputState method, where no input has been mapped. */
-    @Test
-    public void testNoInputs() {
-        Map<Input, Set<Component>> mapping = new EnumMap<>(Input.class);
-        for (Input input: Input.values()) {
-            mapping.put(input, Collections.emptySet());
-        }
-        JInputControllerConfiguration configuration = new JInputControllerConfiguration(mapping, Collections.emptySet());
-        JInputController inputController = new JInputController(configuration);
-        log.info("Controller: " + inputController);
-
-        InputState state = inputController.getInputState();
-
-        log.info("State: " + state);
-        for (Input input: Input.values()) {
-            Assert.assertFalse(state.isPressed(input));
-        }
     }
 }
