@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.engine;
 
-import static org.junit.Assert.assertNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
