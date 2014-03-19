@@ -9,9 +9,6 @@ import nl.mvdr.tinustris.model.Block;
  * @author Martijn van de Rijdt
  */
 class BoxBlockCreator implements BlockCreator {
-    /** Size for the arc of a tetromino block. */
-    static final int ARC_SIZE = 10;
-
     /** {@inheritDoc} */
     @Override
     public Box createBlock(double xCoordinate, double yCoordinate, double size, Block block, BlockStyle style,
@@ -24,5 +21,4 @@ class BoxBlockCreator implements BlockCreator {
 
         return result;
     }
-
 }
