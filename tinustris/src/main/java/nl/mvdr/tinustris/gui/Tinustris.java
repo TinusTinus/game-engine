@@ -1,8 +1,9 @@
 package nl.mvdr.tinustris.gui;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
@@ -31,7 +32,6 @@ import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
-import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
@@ -171,19 +171,21 @@ public class Tinustris extends Application {
     private void initGameLoop(List<GameRenderer<OnePlayerGameState>> renderers) {
         int numPlayers = CONFIGURATION.getNumberOfPlayers();
         
+        List<InputController> inputControllers = IntStream.range(0, numPlayers)
+                .mapToObj(i -> CONFIGURATION.getJInputControllerConfiguration(i))
+                .map(JInputController::new)
+                .collect(Collectors.toList());
+        
         if (numPlayers < 1) {
             throw new IllegalStateException("Invalid configuration. The number of players must be at least 1, was: "
                     + numPlayers);
         } else if (numPlayers == 1) {
             // single player
-            InputController inputController = new JInputController(JInputControllerConfiguration.defaultConfiguration());
             GameEngine<OnePlayerGameState> gameEngine = new OnePlayerEngine();
             CompositeRenderer<OnePlayerGameState> renderer = new CompositeRenderer<>(renderers);
-            gameLoop = new GameLoop<>(Collections.singletonList(inputController), gameEngine, renderer);
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, renderer);
         } else {
             // local multiplayer
-            List<InputController> inputControllers = Collections.nCopies(numPlayers, new JInputController(
-                    JInputControllerConfiguration.defaultConfiguration()));
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, new OnePlayerEngine());
             MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(new CompositeRenderer<>(renderers), 0);
             gameLoop = new GameLoop<>(inputControllers, gameEngine, renderer);

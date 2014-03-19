@@ -31,11 +31,17 @@ public interface Configuration {
     }
     
     /**
-     * Configuration for JInput, used by {@link nl.mvdr.tinustris.input.JInputController}.
+     * Configuration for JInput for one of the players, used by {@link nl.mvdr.tinustris.input.JInputController}.
      * 
+     * @param index player number; must be at least 0 and less than the value of {@link getNumbreOfPlayers()}
      * @return input controller configuration
      */
-    default JInputControllerConfiguration getJInputControllerConfiguration() {
+    default JInputControllerConfiguration getJInputControllerConfiguration(int index) {
+        if (index < 0 || getNumberOfPlayers() <= index) {
+            throw new IndexOutOfBoundsException(String.format("Index %s, should be between 0 and %s.", index,
+                    getNumberOfPlayers()));
+        }
+        
         return JInputControllerConfiguration.defaultConfiguration();
     }
     
