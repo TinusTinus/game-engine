@@ -66,17 +66,21 @@ public class JInputControllerConfiguration {
         log.info("Using keyboard controllers: " + controllers);
         
         Map<Input, Set<Component>> mapping = new EnumMap<>(Input.class);
-        for (Input input: Input.values()) {
-            mapping.put(input, new HashSet<Component>());
-        }
         for (Controller keyboard : controllers) {
-            mapping.get(Input.LEFT).add(getComponent(keyboard, Key.LEFT));
-            mapping.get(Input.RIGHT).add(getComponent(keyboard, Key.RIGHT));
-            mapping.get(Input.SOFT_DROP).add(getComponent(keyboard, Key.DOWN));
-            mapping.get(Input.HARD_DROP).add(getComponent(keyboard, Key.UP));
-            mapping.get(Input.TURN_LEFT).add(getComponent(keyboard, Key.Z));
-            mapping.get(Input.TURN_RIGHT).add(getComponent(keyboard, Key.X));
-            mapping.get(Input.HOLD).add(getComponent(keyboard, Key.C));
+            mapping.computeIfAbsent(Input.LEFT, Input -> new HashSet<Component>())
+                    .add(getComponent(keyboard, Key.LEFT));
+            mapping.computeIfAbsent(Input.RIGHT, Input -> new HashSet<Component>())
+                    .add(getComponent(keyboard, Key.RIGHT));
+            mapping.computeIfAbsent(Input.SOFT_DROP, Input -> new HashSet<Component>())
+                    .add(getComponent(keyboard, Key.DOWN));
+            mapping.computeIfAbsent(Input.HARD_DROP, Input -> new HashSet<Component>())
+                    .add(getComponent(keyboard, Key.UP));
+            mapping.computeIfAbsent(Input.TURN_LEFT, Input -> new HashSet<Component>())
+                    .add(getComponent(keyboard, Key.Z));
+            mapping.computeIfAbsent(Input.TURN_RIGHT, Input -> new HashSet<Component>())
+                    .add(getComponent(keyboard, Key.X));
+            mapping.computeIfAbsent(Input.HOLD, Input -> new HashSet<Component>())
+                    .add(getComponent(keyboard, Key.C));
         }
         log.info("Created default input mapping: " + mapping);
         
