@@ -10,7 +10,7 @@ import nl.mvdr.tinustris.model.Block;
  */
 class RectangleBlockCreator implements BlockCreator {
     /** Size for the arc of a tetromino block. */
-    static final int ARC_SIZE = 10;
+    private static final int ARC_SIZE = 10;
 
     /** {@inheritDoc} */
     @Override
