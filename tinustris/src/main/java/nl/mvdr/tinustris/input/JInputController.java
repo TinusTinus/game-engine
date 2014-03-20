@@ -32,7 +32,7 @@ public class JInputController implements InputController {
             .filter(this::isPressed)
             .collect(Collectors.toCollection(() -> EnumSet.noneOf(Input.class)));
         
-        return input -> pressedInputs.contains(input);
+        return pressedInputs::contains;
     }
     
     /**
