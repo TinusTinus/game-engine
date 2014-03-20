@@ -22,19 +22,25 @@ import nl.mvdr.tinustris.engine.speedcurve.TinustrisSpeedCurve;
  */
 @RequiredArgsConstructor
 public enum Behavior {
-    /** Behavior inspired by Game Boy Tetris. */
-    GAME_BOY(startLevel -> new ClassicLevelSystem(startLevel), true, new GameBoySpeedCurve()),
-    /** Behavior inspired by NES Tetris. */
-    NES(startLevel -> new ClassicLevelSystem(startLevel), true, new NESSpeedCurve()),
-    /** Behavior inspired by Tetris: The Grandmaster. */
-    THE_GRANDMASTER(startLevel -> new TheGrandMasterLevelSystem(), true, new TheGrandMasterSpeedCurve()),
-    /** Behavior inspired by Tetris: The Grandmaster 2, Normal Mode. */
-    THE_GRANDMASTER_2_NORMAL(startLevel -> new TheGrandMasterLevelSystem(), false, new TheGrandMaster2NormalSpeedCurve()),
-    /** Behavior inspired by Tetris: The Grandmaster 2, Master Mode. */
-    THE_GRANDMASTER_2_MASTER(startLevel -> new TheGrandMasterLevelSystem(), false, new TheGrandMaster2MasterSpeedCurve()),
     /** Custom behavior. */
-    TINUSTRIS(startLevel -> new ClassicLevelSystem(startLevel), true, new TinustrisSpeedCurve());
+    TINUSTRIS("Tinustris", startLevel -> new ClassicLevelSystem(startLevel), true, new TinustrisSpeedCurve()),
+    /** Behavior inspired by Game Boy Tetris. */
+    GAME_BOY("Game Boy Tetris", startLevel -> new ClassicLevelSystem(startLevel), true, new GameBoySpeedCurve()),
+    /** Behavior inspired by NES Tetris. */
+    NES("NES Tetris", startLevel -> new ClassicLevelSystem(startLevel), true, new NESSpeedCurve()),
+    /** Behavior inspired by Tetris: The Grandmaster. */
+    THE_GRANDMASTER("Tetris: The Grandmaster", startLevel -> new TheGrandMasterLevelSystem(), true,
+            new TheGrandMasterSpeedCurve()),
+    /** Behavior inspired by Tetris: The Grandmaster 2, Normal Mode. */
+    THE_GRANDMASTER_2_NORMAL("Tetris: The Grandmaster 2 Normal Mode", startLevel -> new TheGrandMasterLevelSystem(),
+            false, new TheGrandMaster2NormalSpeedCurve()),
+    /** Behavior inspired by Tetris: The Grandmaster 2, Master Mode. */
+    THE_GRANDMASTER_2_MASTER("Tetris: The Grandmaster 2 Master Mode", startLevel -> new TheGrandMasterLevelSystem(),
+            false, new TheGrandMaster2MasterSpeedCurve());
 
+    /** Name of this behavior value. */
+    @Getter
+    private final String name;
     /** Factory which can create snew LevelSystem instances. */
     private final Function<Integer, LevelSystem> levelSystemFactory;
     /** Indicates whether the level system supports a starting level. */
@@ -43,30 +49,38 @@ public enum Behavior {
     /** Speed curve. */
     @Getter
     private final SpeedCurve speedCurve;
-    
+
     /** @return default value */
     public static Behavior defaultBehavior() {
         return TINUSTRIS;
     }
-    
+
     /**
      * Creates a new level system. Note that some level systems do not support starting levels. For these, the
      * startLevel parameter is ignored.
      * 
-     * @param startLevel starting level
+     * @param startLevel
+     *            starting level
      * @return level system
      */
     public LevelSystem createLevelSystem(int startLevel) {
         return levelSystemFactory.apply(startLevel);
     }
-    
+
     /**
      * Creates a new level system. If the level system supports a start level, it is initialised at 0.
      * 
-     * @param startLevel starting level
+     * @param startLevel
+     *            starting level
      * @return level system
      */
     public LevelSystem createLevelSystem() {
         return this.createLevelSystem(0);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        return getName();
     }
 }
