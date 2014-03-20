@@ -30,12 +30,6 @@ import org.junit.Test;
 public class OnePlayerEngineTest {
     /** Tests the constructor. */
     @Test
-    public void testDefaultConstructor() {
-        new OnePlayerEngine();
-    }
-    
-    /** Tests the constructor. */
-    @Test
     public void testConstructor() {
         new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(), new DummyLevelSystem(),
                 new DummyGenerator<>());

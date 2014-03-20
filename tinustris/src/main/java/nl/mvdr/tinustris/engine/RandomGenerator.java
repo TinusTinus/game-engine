@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-class RandomGenerator<S> implements Generator<S> {
+public class RandomGenerator<S> implements Generator<S> {
     /** Random number generator. */
     private final Random random;
     /** List of tetrominoes returned so far. */

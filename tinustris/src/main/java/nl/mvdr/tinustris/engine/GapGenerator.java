@@ -7,14 +7,14 @@ import java.util.function.Function;
  * 
  * @author Martijn van de Rijdt
  */
-class GapGenerator extends RandomGenerator<Integer> {
+public class GapGenerator extends RandomGenerator<Integer> {
     /**
      * Constructor.
      * 
      * @param width
      *            width of the playing field
      */
-    GapGenerator(int width) {
+    public GapGenerator(int width) {
         super(width, Function.identity(), "Gap");
     }
 

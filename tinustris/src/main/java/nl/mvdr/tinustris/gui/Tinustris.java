@@ -28,12 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
+import nl.mvdr.tinustris.engine.GapGenerator;
 import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
+import nl.mvdr.tinustris.engine.RandomGenerator;
+import nl.mvdr.tinustris.engine.RandomTetrominoGenerator;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
+import nl.mvdr.tinustris.model.Tetromino;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -175,18 +179,21 @@ public class Tinustris extends Application {
                 .mapToObj(i -> CONFIGURATION.getJInputControllerConfiguration(i))
                 .map(JInputController::new)
                 .collect(Collectors.toList());
+        RandomGenerator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
+        RandomGenerator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
+        GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
+                CONFIGURATION.getBehavior(), 0, gapGenerator);
         
         if (numPlayers < 1) {
             throw new IllegalStateException("Invalid configuration. The number of players must be at least 1, was: "
                     + numPlayers);
         } else if (numPlayers == 1) {
             // single player
-            GameEngine<OnePlayerGameState> gameEngine = new OnePlayerEngine();
             CompositeRenderer<OnePlayerGameState> renderer = new CompositeRenderer<>(renderers);
-            gameLoop = new GameLoop<>(inputControllers, gameEngine, renderer);
+            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, renderer);
         } else {
             // local multiplayer
-            GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, new OnePlayerEngine());
+            GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
             MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(new CompositeRenderer<>(renderers), 0);
             gameLoop = new GameLoop<>(inputControllers, gameEngine, renderer);
         }

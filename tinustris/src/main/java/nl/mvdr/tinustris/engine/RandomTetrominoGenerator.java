@@ -7,9 +7,9 @@ import nl.mvdr.tinustris.model.Tetromino;
  * 
  * @author Martijn van de Rijdt
  */
-class RandomTetrominoGenerator extends RandomGenerator<Tetromino> {
+public class RandomTetrominoGenerator extends RandomGenerator<Tetromino> {
     /** Constructor. */
-    RandomTetrominoGenerator() {
+    public RandomTetrominoGenerator() {
         super(Tetromino.values().length, i -> Tetromino.values()[i], "Tetromino");
     }
 
@@ -19,7 +19,7 @@ class RandomTetrominoGenerator extends RandomGenerator<Tetromino> {
      * @param randomSeed
      *            random seed
      */
-    RandomTetrominoGenerator(long randomSeed) {
+    public RandomTetrominoGenerator(long randomSeed) {
         super(randomSeed, Tetromino.values().length, i -> Tetromino.values()[i], "Tetromino");
     }
 }

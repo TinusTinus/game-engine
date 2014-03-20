@@ -13,10 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Behavior;
-import nl.mvdr.tinustris.engine.level.ClassicLevelSystem;
 import nl.mvdr.tinustris.engine.level.LevelSystem;
 import nl.mvdr.tinustris.engine.speedcurve.SpeedCurve;
-import nl.mvdr.tinustris.engine.speedcurve.TinustrisSpeedCurve;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.Action;
@@ -64,17 +62,6 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /** Gap generator, for use in multiplayer games. */
     @NonNull
     private final Generator<Integer> gapGenerator;
-    
-    /**
-     * Constructor.
-     * 
-     * @deprecated use {@link #OnePlayerEngine(Generator, Behavior, int, Generator)} instead
-     */
-    @Deprecated // see javadoc
-    public OnePlayerEngine() {
-        this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem(), new GapGenerator(
-                OnePlayerGameState.DEFAULT_WIDTH));
-    }
     
     /**
      * Constructor.
