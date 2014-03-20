@@ -53,4 +53,13 @@ public interface Configuration {
     default Behavior getBehavior() {
         return Behavior.defaultBehavior();
     }
+    
+    /**
+     * Default starting level. Only relevant for certain behaviors.
+     * 
+     * @return starting level
+     */
+    default int getStartLevel() {
+        return 0;
+    }
 }

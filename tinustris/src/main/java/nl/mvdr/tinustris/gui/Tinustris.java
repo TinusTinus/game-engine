@@ -182,7 +182,7 @@ public class Tinustris extends Application {
         RandomGenerator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
         RandomGenerator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
-                CONFIGURATION.getBehavior(), 0, gapGenerator);
+                CONFIGURATION.getBehavior(), CONFIGURATION.getStartLevel(), gapGenerator);
         
         if (numPlayers < 1) {
             throw new IllegalStateException("Invalid configuration. The number of players must be at least 1, was: "
