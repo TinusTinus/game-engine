@@ -45,7 +45,7 @@ public enum Behavior {
     private final SpeedCurve speedCurve;
     
     /** @return default value */
-    public static Behavior getDefault() {
+    public static Behavior defaultBehavior() {
         return TINUSTRIS;
     }
     

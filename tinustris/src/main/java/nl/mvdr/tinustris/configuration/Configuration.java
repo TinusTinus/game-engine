@@ -27,7 +27,7 @@ public interface Configuration {
      * @return style
      */
     default GraphicsStyle getGraphicsStyle() {
-        return GraphicsStyle.TWO_DIMENSIONAL;
+        return GraphicsStyle.defaultStyle();
     }
     
     /**
@@ -51,6 +51,6 @@ public interface Configuration {
      * @return behavior definition
      */
     default Behavior getBehavior() {
-        return Behavior.getDefault();
+        return Behavior.defaultBehavior();
     }
 }

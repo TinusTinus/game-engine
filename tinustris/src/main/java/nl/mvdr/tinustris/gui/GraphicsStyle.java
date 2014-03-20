@@ -29,6 +29,12 @@ public enum GraphicsStyle {
     @Getter
     private final boolean available;
     
+    /** @return default value */
+    public static GraphicsStyle defaultStyle() {
+        // default is 2D since it does not depend on conditional features.
+        return TWO_DIMENSIONAL;
+    }
+    
     /**
      * Creates a new {@link BlockCreator} instance for this graphical style.
      * 
