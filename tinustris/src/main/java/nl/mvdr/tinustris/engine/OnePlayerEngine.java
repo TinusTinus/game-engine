@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.configuration.Behavior;
 import nl.mvdr.tinustris.engine.level.ClassicLevelSystem;
 import nl.mvdr.tinustris.engine.level.LevelSystem;
 import nl.mvdr.tinustris.engine.speedcurve.SpeedCurve;
@@ -30,7 +32,7 @@ import nl.mvdr.tinustris.model.Tetromino;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE) // default visibility for unit tests
 @ToString
 public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /**
@@ -64,9 +66,22 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     private final Generator<Integer> gapGenerator;
     
     /**  Constructor. */
+    @Deprecated // use one of the other constructors
     public OnePlayerEngine() {
         this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem(), new GapGenerator(
                 OnePlayerGameState.DEFAULT_WIDTH));
+    }
+    
+    /**
+     * Constructor.
+     * 
+     * @param tetrominoGenerator tetromino generator
+     * @param behavior behavior
+     * @param startLevel start level
+     * @param gapGenerator gap generator
+     */
+    public OnePlayerEngine(Generator<Tetromino> tetrominoGenerator, Behavior behavior, int startLevel, Generator<Integer> gapGenerator) {
+        this(tetrominoGenerator, behavior.getSpeedCurve(), behavior.createLevelSystem(startLevel), gapGenerator);
     }
     
     /** {@inheritDoc} */
