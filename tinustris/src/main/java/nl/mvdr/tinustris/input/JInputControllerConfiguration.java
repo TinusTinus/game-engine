@@ -1,10 +1,10 @@
 package nl.mvdr.tinustris.input;
 
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
@@ -17,6 +17,7 @@ import net.java.games.input.Component.Identifier;
 import net.java.games.input.Component.Identifier.Axis;
 import net.java.games.input.Component.Identifier.Button;
 import net.java.games.input.Component.Identifier.Key;
+import net.java.games.input.Component.POV;
 import net.java.games.input.Controller;
 import net.java.games.input.Controller.Type;
 import net.java.games.input.ControllerEnvironment;
@@ -78,22 +79,24 @@ public class JInputControllerConfiguration {
         }
         log.info("Using keyboard controllers: " + controllers);
         
-        Map<Input, Set<InputMapping>> mapping = new EnumMap<>(Input.class);
+        Map<Input, Set<InputMapping>> mapping = Arrays.asList(Input.values())
+                .stream()
+                .collect(Collectors.toMap(Function.identity(), input -> new HashSet<>()));
         for (Controller keyboard : controllers) {
-            mapping.computeIfAbsent(Input.LEFT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(keyboard, Key.LEFT), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.RIGHT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(keyboard, Key.RIGHT), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.SOFT_DROP, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(keyboard, Key.DOWN), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.HARD_DROP, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(keyboard, Key.UP), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.TURN_LEFT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(keyboard, Key.Z), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.TURN_RIGHT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(keyboard, Key.X), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.HOLD, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(keyboard, Key.C), f -> f != 0.0f));
+            mapping.get(Input.LEFT)
+                .add(new InputMapping(getComponent(keyboard, Key.LEFT), f -> f != 0.0f));
+            mapping.get(Input.RIGHT)
+                .add(new InputMapping(getComponent(keyboard, Key.RIGHT), f -> f != 0.0f));
+            mapping.get(Input.SOFT_DROP)
+                .add(new InputMapping(getComponent(keyboard, Key.DOWN), f -> f != 0.0f));
+            mapping.get(Input.HARD_DROP)
+                .add(new InputMapping(getComponent(keyboard, Key.UP), f -> f != 0.0f));
+            mapping.get(Input.TURN_LEFT)
+                .add(new InputMapping(getComponent(keyboard, Key.Z), f -> f != 0.0f));
+            mapping.get(Input.TURN_RIGHT)
+                .add(new InputMapping(getComponent(keyboard, Key.X), f -> f != 0.0f));
+            mapping.get(Input.HOLD)
+                .add(new InputMapping(getComponent(keyboard, Key.C), f -> f != 0.0f));
         }
         log.info("Created input mapping: " + mapping);
         
@@ -127,22 +130,36 @@ public class JInputControllerConfiguration {
         }
         log.info("Using gamepad controllers: " + controllers);
         
-        Map<Input, Set<InputMapping>> mapping = new EnumMap<>(Input.class);
+        Map<Input, Set<InputMapping>> mapping = Arrays.asList(Input.values())
+                .stream()
+                .collect(Collectors.toMap(Function.identity(), input -> new HashSet<>()));
+                
         for (Controller gamepad : controllers) {
-            mapping.computeIfAbsent(Input.LEFT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(gamepad, Axis.X), f -> f == -1.0f));
-            mapping.computeIfAbsent(Input.RIGHT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(gamepad, Axis.X), f -> f == 1.0f));
-            mapping.computeIfAbsent(Input.SOFT_DROP, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(gamepad, Axis.Y), f -> f == 1.0f));
-            mapping.computeIfAbsent(Input.HARD_DROP, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(gamepad, Axis.Y), f -> f == -1.0f));
-            mapping.computeIfAbsent(Input.TURN_LEFT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(gamepad, Button._2), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.TURN_RIGHT, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(gamepad, Button._0), f -> f != 0.0f));
-            mapping.computeIfAbsent(Input.HOLD, Input -> new HashSet<>())
-                    .add(new InputMapping(getComponent(gamepad, Button._3), f -> f != 0.0f));
+            // analogue stick
+            mapping.get(Input.LEFT)
+                .add(new InputMapping(getComponent(gamepad, Axis.X), f -> f == -1.0f));
+            mapping.get(Input.RIGHT)
+                .add(new InputMapping(getComponent(gamepad, Axis.X), f -> f == 1.0f));
+            mapping.get(Input.SOFT_DROP)
+                .add(new InputMapping(getComponent(gamepad, Axis.Y), f -> f == 1.0f));
+            mapping.get(Input.HARD_DROP)
+                .add(new InputMapping(getComponent(gamepad, Axis.Y), f -> f == -1.0f));
+            // d-pad
+            mapping.get(Input.LEFT)
+                .add(new InputMapping(getComponent(gamepad, Axis.POV), f -> f == POV.LEFT));
+            mapping.get(Input.RIGHT)
+                .add(new InputMapping(getComponent(gamepad, Axis.POV), f -> f == POV.RIGHT));
+            mapping.get(Input.SOFT_DROP)
+                .add(new InputMapping(getComponent(gamepad, Axis.POV), f -> f == POV.DOWN));
+            mapping.get(Input.HARD_DROP)
+                .add(new InputMapping(getComponent(gamepad, Axis.POV), f -> f == POV.UP));
+            // face buttons
+            mapping.get(Input.TURN_LEFT)
+                .add(new InputMapping(getComponent(gamepad, Button._2), f -> f != 0.0f));
+            mapping.get(Input.TURN_RIGHT)
+                .add(new InputMapping(getComponent(gamepad, Button._0), f -> f != 0.0f));
+            mapping.get(Input.HOLD)
+                .add(new InputMapping(getComponent(gamepad, Button._3), f -> f != 0.0f));
         }
         log.info("Created input mapping: " + mapping);
         
