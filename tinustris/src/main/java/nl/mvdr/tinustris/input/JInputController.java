@@ -45,7 +45,6 @@ public class JInputController implements InputController {
         return configuration.getMapping()
             .get(input)
             .stream()
-            .map(component -> component.getPollData())
-            .anyMatch(pollData -> pollData.floatValue() != 0.0f);
+            .anyMatch(InputMapping::isPressed);
     }
 }

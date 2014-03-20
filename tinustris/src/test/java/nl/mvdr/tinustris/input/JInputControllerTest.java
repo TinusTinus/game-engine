@@ -8,7 +8,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.extern.slf4j.Slf4j;
-import net.java.games.input.Component;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,7 +23,7 @@ public class JInputControllerTest {
     @Test
     public void testNoInputs() {
         // map every input to an empty set of components
-        Map<Input, Set<Component>> mapping = Arrays.asList(Input.values())
+        Map<Input, Set<InputMapping>> mapping = Arrays.asList(Input.values())
             .stream()
             .collect(Collectors.toMap(Function.identity(), input -> Collections.emptySet()));
         // also do not provide any controllers
