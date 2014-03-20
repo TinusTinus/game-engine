@@ -41,7 +41,8 @@ public class JInputControllerConfiguration {
     private final Set<Controller> controllers;
     
     /**
-     * Creates a default configuration mapping, using keyboard controls, where all movement options are bound to the arrow keys and other actions to Z, X and C. At least one keyboard controller must be present.
+     * Creates a default configuration mapping, using keyboard controls, where all movement options are bound to the
+     * arrow keys and other actions to Z, X and C. At least one keyboard controller must be present.
      * 
      * @return default configuration
      */
@@ -90,15 +91,16 @@ public class JInputControllerConfiguration {
     /**
      * Logs the given controller.
      * 
-     * @param controller controller
+     * @param controller
+     *            controller
      * @return the input
      */
     private static Controller log(Controller controller) {
-        log.info("Controller found: {}, type: {}, class: {}",
-            controller, controller.getType(), controller.getClass().getName());
+        log.info("Controller found: {}, type: {}, class: {}", controller, controller.getType(), controller.getClass()
+                .getName());
         return controller;
     }
-    
+
     /**
      * Returns the component with the given identifier.
      * 
