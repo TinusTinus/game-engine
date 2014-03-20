@@ -44,6 +44,13 @@ public interface Configuration {
         
         return JInputControllerConfiguration.defaultConfiguration();
     }
-    
-    // TODO more configuration options
+
+    /**
+     * Specification of the behavior of the actual gameplay.
+     * 
+     * @return behavior definition
+     */
+    default Behavior getBehavior() {
+        return Behavior.getDefault();
+    }
 }
