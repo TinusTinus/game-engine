@@ -79,15 +79,20 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /**
      * Constructor.
      * 
-     * @param tetrominoGenerator tetromino generator
-     * @param behavior behavior
-     * @param startLevel start level
-     * @param gapGenerator gap generator
+     * @param tetrominoGenerator
+     *            tetromino generator
+     * @param behavior
+     *            behavior
+     * @param startLevel
+     *            start level
+     * @param gapGenerator
+     *            gap generator
      */
-    public OnePlayerEngine(Generator<Tetromino> tetrominoGenerator, Behavior behavior, int startLevel, Generator<Integer> gapGenerator) {
+    public OnePlayerEngine(Generator<Tetromino> tetrominoGenerator, Behavior behavior, int startLevel,
+            Generator<Integer> gapGenerator) {
         this(tetrominoGenerator, behavior.getSpeedCurve(), behavior.createLevelSystem(startLevel), gapGenerator);
     }
-    
+
     /** {@inheritDoc} */
     @Override
     public OnePlayerGameState initGameState() {
