@@ -65,8 +65,12 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     @NonNull
     private final Generator<Integer> gapGenerator;
     
-    /**  Constructor. */
-    @Deprecated // use one of the other constructors
+    /**
+     * Constructor.
+     * 
+     * @deprecated use {@link #OnePlayerEngine(Generator, Behavior, int, Generator)} instead
+     */
+    @Deprecated // see javadoc
     public OnePlayerEngine() {
         this(new RandomTetrominoGenerator(), new TinustrisSpeedCurve(), new ClassicLevelSystem(), new GapGenerator(
                 OnePlayerGameState.DEFAULT_WIDTH));
