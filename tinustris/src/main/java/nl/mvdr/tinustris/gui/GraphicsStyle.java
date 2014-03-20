@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,7 +13,7 @@ import lombok.RequiredArgsConstructor;
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum GraphicsStyle {
     /** 2D graphics. */
     TWO_DIMENSIONAL("2D", () -> new RectangleBlockCreator(), true),
