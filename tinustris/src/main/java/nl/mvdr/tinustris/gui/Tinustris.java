@@ -111,7 +111,7 @@ public class Tinustris extends Application {
 
         if (CONFIGURATION.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
             scene.setCamera(new PerspectiveCamera());
-            onePlayerRenderers.get(0).getChildren().add(createLight(150, 700, -250));
+            onePlayerRenderers.get(0).getChildren().add(createLight(150, 500, -250));
         }
         
         stage.setScene(scene);
