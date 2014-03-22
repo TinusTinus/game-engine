@@ -40,10 +40,8 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 // When testing the application, don't run this class directly from Eclipse. Use TinustrisTestContext instead.
 @Slf4j
 public class Tinustris extends Application {
-    /** Size of the border around the Tetris grid and other UI components. */
-    private static final int BORDER_SIZE = 10;
-    /** Size of the margin between windows. */
-    private static final int MARGIN = 10;
+    /** Size of the margin between the display for each player in a multiplayer game. */
+    private static final int MARGIN = 20;
     
     // TODO remove the following constant configuration and let the user input these values
     /** Game configuration.*/
