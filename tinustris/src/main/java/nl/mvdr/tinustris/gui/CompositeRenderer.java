@@ -19,11 +19,6 @@ class CompositeRenderer<S extends GameState> implements GameRenderer<S> {
     /** Renderers. */
     private final List<GameRenderer<S>> renderers;
     
-    /** Convenience constructor. */
-    CompositeRenderer() {
-        this(Collections.<GameRenderer<S>>emptyList());
-    }
-    
     /** {@inheritDoc} */
     @Override
     public void render(@NonNull S gameState) {

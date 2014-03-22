@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import nl.mvdr.tinustris.model.DummyGameState;
@@ -18,7 +19,7 @@ public class CompositeRendererTest {
     /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderEmptyList() {
-        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>();
+        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(Collections.emptyList());
         
         renderer.render(DummyGameState.GAME_NOT_OVER);
     }
@@ -53,7 +54,7 @@ public class CompositeRendererTest {
     /** Tests {@link LabelRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
-        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>();
+        CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(Collections.emptyList());
         
         renderer.render(null);
     }
