@@ -37,7 +37,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  * 
  * @author Martijn van de Rijdt
  */
-// When testing the application, don't run this class directly from Eclipse. Use TinustrisTestContext instead.
+// When testing the application in Eclipse, don't run this class directly. Use TinustrisTestContext instead.
 @Slf4j
 public class Tinustris extends Application {
     /** Size of the margin between the display for each player in a multiplayer game. */
