@@ -1,8 +1,8 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Collections;
 import java.util.List;
 
+import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.model.GameState;
@@ -14,7 +14,7 @@ import nl.mvdr.tinustris.model.GameState;
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class CompositeRenderer<S extends GameState> implements GameRenderer<S> {
     /** Renderers. */
     private final List<GameRenderer<S>> renderers;
