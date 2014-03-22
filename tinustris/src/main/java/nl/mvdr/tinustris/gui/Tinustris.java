@@ -131,8 +131,7 @@ public class Tinustris extends Application {
             List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, onePlayerRenderers.size())
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
-            CompositeRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<MultiplayerGameState>(
-                    multiplayerRenderers);
+            CompositeRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
             gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer);
         }
 
