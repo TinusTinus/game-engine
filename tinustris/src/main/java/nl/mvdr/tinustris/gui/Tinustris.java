@@ -109,7 +109,8 @@ public class Tinustris extends Application {
                 Color.GRAY);
 
         if (CONFIGURATION.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
-            onePlayerRenderers.forEach(renderer -> setupLightsAndCamera(renderer, scene));
+            scene.setCamera(new PerspectiveCamera());
+            onePlayerRenderers.get(0).getChildren().add(createLight(150, 700, -250));
         }
         
         stage.setScene(scene);
@@ -148,20 +149,6 @@ public class Tinustris extends Application {
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started in separate thread.");
-    }
-
-    /**
-     * Adds a camera and a light source.
-     * 
-     * @param parent
-     *            group containing all 3D shapes that should be lit by the light
-     * @param scene
-     *            scene
-     */
-    private void setupLightsAndCamera(Group parent, Scene scene) {
-        scene.setCamera(new PerspectiveCamera());
-
-        parent.getChildren().add(createLight(150, 700, -250));
     }
 
     /**
