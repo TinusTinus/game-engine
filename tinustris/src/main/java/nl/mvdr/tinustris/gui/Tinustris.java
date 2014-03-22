@@ -100,14 +100,8 @@ public class Tinustris extends Application {
         FlowPane parent = new FlowPane(MARGIN, MARGIN);
         parent.getChildren().addAll(onePlayerRenderers);
         parent.setBackground(Background.EMPTY);
-        parent.setTranslateX(MARGIN);
-        parent.setTranslateY(MARGIN);
 
-        Scene scene = new Scene(parent, 
-                widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 
-                    4 * GridRenderer.BLOCK_SIZE,
-                heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
-                Color.GRAY);
+        Scene scene = new Scene(parent, Color.GRAY);
 
         if (CONFIGURATION.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
             scene.setCamera(new PerspectiveCamera());
@@ -116,9 +110,6 @@ public class Tinustris extends Application {
         
         stage.setScene(scene);
         stage.show();
-        // Default size should also be the minimum size.
-        stage.setMinWidth(stage.getWidth());
-        stage.setMinHeight(stage.getHeight());
         log.info("Stage shown.");
         
         List<InputController> inputControllers = IntStream.range(0, numPlayers)
