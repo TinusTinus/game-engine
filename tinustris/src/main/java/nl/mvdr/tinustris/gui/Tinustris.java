@@ -7,7 +7,6 @@ import java.util.stream.IntStream;
 import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
