@@ -97,9 +97,11 @@ public class Tinustris extends Application {
             .mapToObj(i -> new OnePlayerGameRenderer(widthInBlocks, heightInBlocks, blockCreator))
             .collect(Collectors.toList());
         
-        FlowPane parent = new FlowPane();
+        FlowPane parent = new FlowPane(MARGIN, MARGIN);
         parent.getChildren().addAll(onePlayerRenderers);
         parent.setBackground(Background.EMPTY);
+        parent.setTranslateX(MARGIN);
+        parent.setTranslateY(MARGIN);
 
         Scene scene = new Scene(parent, 
                 widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 
