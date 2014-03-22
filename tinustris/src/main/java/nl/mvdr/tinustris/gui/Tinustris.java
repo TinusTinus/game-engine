@@ -11,6 +11,8 @@ import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -85,22 +87,29 @@ public class Tinustris extends Application {
         
         BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
         
-        // construct the user interface
         stage.setTitle("Tinustris");
+        
+        int numPlayers = CONFIGURATION.getNumberOfPlayers();
         
         int widthInBlocks = OnePlayerGameState.DEFAULT_WIDTH;
         int heightInBlocks = OnePlayerGameState.DEFAULT_HEIGHT - OnePlayerGameState.VANISH_ZONE_HEIGHT;
         
-        OnePlayerGameRenderer onePlayerRenderer = new OnePlayerGameRenderer(widthInBlocks, heightInBlocks, blockCreator);
+        List<OnePlayerGameRenderer> onePlayerRenderers = IntStream.range(0, numPlayers)
+            .mapToObj(i -> new OnePlayerGameRenderer(widthInBlocks, heightInBlocks, blockCreator))
+            .collect(Collectors.toList());
+        
+        FlowPane parent = new FlowPane();
+        parent.getChildren().addAll(onePlayerRenderers);
+        parent.setBackground(Background.EMPTY);
 
-        Scene scene = new Scene(onePlayerRenderer, 
+        Scene scene = new Scene(parent, 
                 widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 
                     4 * GridRenderer.BLOCK_SIZE,
                 heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
-        
+
         if (CONFIGURATION.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
-            setupLightsAndCamera(onePlayerRenderer, scene);
+            onePlayerRenderers.forEach(renderer -> setupLightsAndCamera(renderer, scene));
         }
         
         stage.setScene(scene);
@@ -109,22 +118,6 @@ public class Tinustris extends Application {
         stage.setMinWidth(stage.getWidth());
         stage.setMinHeight(stage.getHeight());
         log.info("Stage shown.");
-        
-        // setup necessary components
-        initGameLoop(onePlayerRenderer);
-
-        log.info("Ready to start game loop: " + gameLoop);
-        gameLoop.start();
-        log.info("Game loop started in separate thread.");
-    }
-
-    /**
-     * Initialises the game loop. This method also initialises the input controller, game engine and all other components needed by the game loop.
-     * 
-     * @param renderer one player game renderer
-     */
-    private void initGameLoop(GameRenderer<OnePlayerGameState> renderer) {
-        int numPlayers = CONFIGURATION.getNumberOfPlayers();
         
         List<InputController> inputControllers = IntStream.range(0, numPlayers)
                 .mapToObj(i -> CONFIGURATION.getJInputControllerConfiguration(i))
@@ -140,13 +133,21 @@ public class Tinustris extends Application {
                     + numPlayers);
         } else if (numPlayers == 1) {
             // single player
-            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, renderer);
+            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0));
         } else {
             // local multiplayer
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
-            MultiplayerGameRenderer multiplayerRenderer = new MultiplayerGameRenderer(renderer, 0);
-            gameLoop = new GameLoop<>(inputControllers, gameEngine, multiplayerRenderer);
+            List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, onePlayerRenderers.size())
+                    .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
+                    .collect(Collectors.toList());
+            CompositeRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<MultiplayerGameState>(
+                    multiplayerRenderers);
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer);
         }
+
+        log.info("Ready to start game loop: " + gameLoop);
+        gameLoop.start();
+        log.info("Game loop started in separate thread.");
     }
 
     /**
