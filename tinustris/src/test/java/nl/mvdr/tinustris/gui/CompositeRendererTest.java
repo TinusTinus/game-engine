@@ -28,7 +28,7 @@ public class CompositeRendererTest {
     @Test
     public void testRenderOneRenderer() {
         DummyRenderer<DummyGameState> dummyRenderer = new DummyRenderer<>();
-        List<GameRenderer<DummyGameState>> renderers = Arrays.asList(dummyRenderer);
+        List<GameRenderer<DummyGameState>> renderers = Collections.singletonList(dummyRenderer);
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(renderers);
         
         renderer.render(DummyGameState.GAME_NOT_OVER);
