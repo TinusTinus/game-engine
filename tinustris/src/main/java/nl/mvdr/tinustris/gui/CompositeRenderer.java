@@ -14,6 +14,7 @@ import nl.mvdr.tinustris.model.GameState;
  * 
  * @author Martijn van de Rijdt
  */
+// TODO remove this class if it remains unused
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class CompositeRenderer<S extends GameState> implements GameRenderer<S> {
     /** Renderers. */
