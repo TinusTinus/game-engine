@@ -28,7 +28,7 @@ public class CompositeRendererTest {
     @Test
     public void testRenderOneRenderer() {
         DummyRenderer<DummyGameState> dummyRenderer = new DummyRenderer<>();
-        List<GameRenderer<DummyGameState>> renderers = Arrays.<GameRenderer<DummyGameState>> asList(dummyRenderer);
+        List<GameRenderer<DummyGameState>> renderers = Arrays.asList(dummyRenderer);
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(renderers);
         
         renderer.render(DummyGameState.GAME_NOT_OVER);
@@ -41,8 +41,7 @@ public class CompositeRendererTest {
     public void testRenderTwoRenderers() {
         DummyRenderer<DummyGameState> dummyRenderer0 = new DummyRenderer<>();
         DummyRenderer<DummyGameState> dummyRenderer1 = new DummyRenderer<>();
-        List<GameRenderer<DummyGameState>> renderers = Arrays.<GameRenderer<DummyGameState>> asList(dummyRenderer0,
-                dummyRenderer1);
+        List<GameRenderer<DummyGameState>> renderers = Arrays.asList(dummyRenderer0, dummyRenderer1);
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(renderers);
         
         renderer.render(DummyGameState.GAME_NOT_OVER);
