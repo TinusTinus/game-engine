@@ -130,17 +130,14 @@ public class GameLoop<S extends GameState> {
                         // This stops the app from consuming all your CPU. It makes this slightly less accurate, but is
                         // worth it. You can remove this line and it will still work (better), your CPU just climbs on
                         // certain OSes.
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            throw new IllegalStateException("Unexpected interrupt.", e);
-                        }
+                        Thread.sleep(1);
 
                         now = System.nanoTime();
                     }
                 }
             }
-        } catch (RuntimeException e) {
+        } catch (RuntimeException | InterruptedException e) {
+            // In case of InterruptedException: no need to re-interrupt the thread, it will terminate immediately.
             log.error("Fatal exception encountered in game loop.", e);
         }
         running = false;
