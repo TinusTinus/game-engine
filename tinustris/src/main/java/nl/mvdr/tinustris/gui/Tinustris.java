@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -9,19 +8,10 @@ import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.Paint;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
@@ -53,12 +43,6 @@ public class Tinustris extends Application {
     private static final int BORDER_SIZE = 10;
     /** Size of the margin between windows. */
     private static final int MARGIN = 10;
-    /** Width of a text window. */
-    private static final int TEXT_WINDOW_HEIGHT = 50;
-    /** Width of the game over label. */
-    private static final int GAME_OVER_LABEL_WIDTH = 170;
-    /** Size for the arc of a window. */
-    private static final int ARC_SIZE = 10;
     
     // TODO remove the following constant configuration and let the user input these values
     /** Game configuration.*/
@@ -101,55 +85,22 @@ public class Tinustris extends Application {
         
         BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
         
-        // create the nodes to render the game
-        GridRenderer gridGroup = new GridRenderer(blockCreator);
-        NextBlockRenderer nextBlockRenderer = new NextBlockRenderer(blockCreator);
-        LinesRenderer linesRenderer = new LinesRenderer();
-        LevelRenderer levelRenderer = new LevelRenderer();
-        GameOverRenderer gameOverRenderer = new GameOverRenderer();
-        List<GameRenderer<OnePlayerGameState>> renderers = Arrays.asList(gridGroup, nextBlockRenderer, linesRenderer,
-                levelRenderer, gameOverRenderer);
-
         // construct the user interface
         stage.setTitle("Tinustris");
         
         int widthInBlocks = OnePlayerGameState.DEFAULT_WIDTH;
         int heightInBlocks = OnePlayerGameState.DEFAULT_HEIGHT - OnePlayerGameState.VANISH_ZONE_HEIGHT;
         
-        Group gridWindow = createWindow("", gridGroup, MARGIN, MARGIN, widthInBlocks * GridRenderer.BLOCK_SIZE, 
-                heightInBlocks * BlockGroupRenderer.BLOCK_SIZE);
-        Group nextBlockWindow = createWindow("NEXT", nextBlockRenderer,
-                2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
-                MARGIN,
-                4 * GridRenderer.BLOCK_SIZE,
-                4 * GridRenderer.BLOCK_SIZE);
-        Group linesWindow = createWindow("LINES", linesRenderer,
-                2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
-                2 * MARGIN + 2 * BORDER_SIZE + 4 * GridRenderer.BLOCK_SIZE,
-                4 * GridRenderer.BLOCK_SIZE,
-                TEXT_WINDOW_HEIGHT);
-        Group levelWindow = createWindow("LEVEL", levelRenderer,
-                2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
-                3 * MARGIN + 4 * BORDER_SIZE + 4 * GridRenderer.BLOCK_SIZE + TEXT_WINDOW_HEIGHT,
-                4 * GridRenderer.BLOCK_SIZE,
-                TEXT_WINDOW_HEIGHT);
-        Group gameOverWindow = createWindow("", gameOverRenderer,
-                (MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
-                (MARGIN + heightInBlocks * BlockGroupRenderer.BLOCK_SIZE) / 2 - TEXT_WINDOW_HEIGHT / 2,
-                GAME_OVER_LABEL_WIDTH,
-                TEXT_WINDOW_HEIGHT);
-        gameOverWindow.setVisible(false);
-        // TODO also add a background image as the first child: new ImageView("imageurl");
-        Group parent = new Group(gridWindow, nextBlockWindow, linesWindow, levelWindow, gameOverWindow);
+        OnePlayerGameRenderer onePlayerRenderer = new OnePlayerGameRenderer(widthInBlocks, heightInBlocks, blockCreator);
 
-        Scene scene = new Scene(parent, 
+        Scene scene = new Scene(onePlayerRenderer, 
                 widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 4 * BORDER_SIZE + 3 * MARGIN + 
                     4 * GridRenderer.BLOCK_SIZE,
                 heightInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE + 2 * MARGIN,
                 Color.GRAY);
         
         if (CONFIGURATION.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
-            setupLightsAndCamera(parent, scene);
+            setupLightsAndCamera(onePlayerRenderer, scene);
         }
         
         stage.setScene(scene);
@@ -160,7 +111,7 @@ public class Tinustris extends Application {
         log.info("Stage shown.");
         
         // setup necessary components
-        initGameLoop(renderers);
+        initGameLoop(onePlayerRenderer);
 
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
@@ -170,9 +121,9 @@ public class Tinustris extends Application {
     /**
      * Initialises the game loop. This method also initialises the input controller, game engine and all other components needed by the game loop.
      * 
-     * @param renderers one player game renderers
+     * @param renderer one player game renderer
      */
-    private void initGameLoop(List<GameRenderer<OnePlayerGameState>> renderers) {
+    private void initGameLoop(GameRenderer<OnePlayerGameState> renderer) {
         int numPlayers = CONFIGURATION.getNumberOfPlayers();
         
         List<InputController> inputControllers = IntStream.range(0, numPlayers)
@@ -189,13 +140,12 @@ public class Tinustris extends Application {
                     + numPlayers);
         } else if (numPlayers == 1) {
             // single player
-            CompositeRenderer<OnePlayerGameState> renderer = new CompositeRenderer<>(renderers);
             gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, renderer);
         } else {
             // local multiplayer
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
-            MultiplayerGameRenderer renderer = new MultiplayerGameRenderer(new CompositeRenderer<>(renderers), 0);
-            gameLoop = new GameLoop<>(inputControllers, gameEngine, renderer);
+            MultiplayerGameRenderer multiplayerRenderer = new MultiplayerGameRenderer(renderer, 0);
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, multiplayerRenderer);
         }
     }
 
@@ -276,64 +226,6 @@ public class Tinustris extends Application {
             result = null;
         }
         return result;
-    }
-    
-    /**
-     * Creates a red-bordered window containing the given node.
-     * 
-     * @param title
-     *            window title
-     * @param contents
-     *            contents of the window
-     * @param x
-     *            x coordinate
-     * @param y
-     *            coordinate
-     * @param contentsWidth
-     *            width of the contents
-     * @param contentsHeight
-     *            height of the contents
-     * @return group containing the window and the contents
-     */
-    private Group createWindow(String title, Node contents, double x, double y, double contentsWidth,
-            double contentsHeight) {
-        // bounding red rectangle
-        Rectangle border = new Rectangle(x + BORDER_SIZE, y + BORDER_SIZE, contentsWidth, contentsHeight);
-        border.setFill(null);
-        
-        Paint stroke = new RadialGradient(0,
-                1,
-                border.getX() + border.getWidth() / 2,
-                border.getY() + border.getHeight() / 2,
-                border.getWidth(),
-                false,
-                CycleMethod.NO_CYCLE,
-                new Stop(0, Color.WHITE),
-                new Stop(1, Color.DARKRED));
-        
-        border.setStroke(stroke);
-        border.setStrokeWidth(BORDER_SIZE);
-        border.setStrokeType(StrokeType.OUTSIDE);
-        border.setArcWidth(ARC_SIZE);
-        border.setArcHeight(ARC_SIZE);
-        
-        // black, seethrough background, to dim whatever is behind the window
-        Rectangle background = new Rectangle(border.getX(), border.getY(), border.getWidth(), border.getHeight());
-        background.setFill(Color.BLACK);
-        background.setOpacity(.5);
-        background.setArcWidth(ARC_SIZE);
-        background.setArcHeight(ARC_SIZE);
-        
-        contents.setTranslateX(x + BORDER_SIZE);
-        contents.setTranslateY(y + BORDER_SIZE);
-        
-        Label label = new Label(title);
-        label.setTextFill(Color.WHITE);
-        label.setFont(new Font(10));
-        label.setLayoutX(border.getX() + 2);
-        label.setLayoutY(border.getY() - BORDER_SIZE - 2);
-        
-        return new Group(background, border, contents, label);
     }
     
     /** {@inheritDoc} */
