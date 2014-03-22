@@ -84,8 +84,6 @@ public class Tinustris extends Application {
         
         BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
         
-        stage.setTitle("Tinustris");
-        
         int numPlayers = CONFIGURATION.getNumberOfPlayers();
         
         int widthInBlocks = OnePlayerGameState.DEFAULT_WIDTH;
@@ -105,30 +103,42 @@ public class Tinustris extends Application {
             scene.setCamera(new PerspectiveCamera());
             onePlayerRenderers.get(0).getChildren().add(createLight(150, 500, -250));
         }
-        
+
+        stage.setTitle("Tinustris");
         stage.setScene(scene);
         stage.show();
         log.info("Stage shown.");
+        
+        initAndStartGameLoop(onePlayerRenderers);
+    }
+
+    /**
+     * Initialises and starts the main game loop.
+     * 
+     * @param onePlayerRenderers
+     *            renderer for each player
+     */
+    private void initAndStartGameLoop(List<OnePlayerGameRenderer> onePlayerRenderers) {
+        
+        int numPlayers = onePlayerRenderers.size();
         
         List<InputController> inputControllers = IntStream.range(0, numPlayers)
                 .mapToObj(i -> CONFIGURATION.getJInputControllerConfiguration(i))
                 .map(JInputController::new)
                 .collect(Collectors.toList());
+        
         RandomGenerator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
         RandomGenerator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 CONFIGURATION.getBehavior(), CONFIGURATION.getStartLevel(), gapGenerator);
         
-        if (numPlayers < 1) {
-            throw new IllegalStateException("Invalid configuration. The number of players must be at least 1, was: "
-                    + numPlayers);
-        } else if (numPlayers == 1) {
+        if (numPlayers == 1) {
             // single player
             gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0));
         } else {
             // local multiplayer
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
-            List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, onePlayerRenderers.size())
+            List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, numPlayers)
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
             CompositeRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
