@@ -59,7 +59,7 @@ public class JInputControllerConfiguration {
      * 
      * @return default keyboard configuration
      */
-    static JInputControllerConfiguration defaultKeyboardConfiguration() {
+    public static JInputControllerConfiguration defaultKeyboardConfiguration() {
         Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
         if (controllersFromEnvironment.length == 0) {
             throw new IllegalStateException(
@@ -110,7 +110,7 @@ public class JInputControllerConfiguration {
      * 
      * @return default gamepad configuration
      */
-    static JInputControllerConfiguration defaultGamepadConfiguration() {
+    public static JInputControllerConfiguration defaultGamepadConfiguration() {
         Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
         if (controllersFromEnvironment.length == 0) {
             throw new IllegalStateException(
