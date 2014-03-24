@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,8 +39,7 @@ public class JInputCaptureController {
             controllers.forEach(Controller::poll);
             result = controllers.stream()
                 .map(controller -> Arrays.asList(controller.getComponents()))
-                .collect(ArrayList<Component>::new, ArrayList<Component>::addAll, ArrayList<Component>::addAll)
-                .stream()
+                .flatMap(List<Component>::stream)
                 .filter(this::isPressed)
                 .findFirst();
         }
