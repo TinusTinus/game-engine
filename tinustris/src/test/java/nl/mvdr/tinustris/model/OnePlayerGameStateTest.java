@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -759,6 +760,9 @@ public class OnePlayerGameStateTest {
         values.add(null);
         values.addAll(Arrays.asList(Block.values()));
 
+        Stream.of(Block.values());
+            
+        
         List<Block> result = new ArrayList<>();
         int i = 0;
         while (result.size() != size) {
