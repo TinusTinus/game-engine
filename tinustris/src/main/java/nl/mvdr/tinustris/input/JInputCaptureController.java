@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Component;
+import net.java.games.input.Component.Identifier.Axis;
+import net.java.games.input.Component.Identifier.Button;
+import net.java.games.input.Component.Identifier.Key;
 import net.java.games.input.Controller;
 import net.java.games.input.Controller.Type;
 import net.java.games.input.ControllerEnvironment;
@@ -46,6 +49,8 @@ public class JInputCaptureController {
                 .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
                 .findFirst();
         }
+        
+        log.info("Mapped: " + result.get());
 
         return result.get();
     }
@@ -59,6 +64,19 @@ public class JInputCaptureController {
      * @return whether the component is pressed
      */
     private boolean isPressed(Component component) {
-        return component.getPollData() != 0.0f; // TODO fix this!
+        boolean result;
+        
+        if (component.getIdentifier() instanceof Button || component.getIdentifier() instanceof Key) {
+            result = component.getPollData() == 1.0f;
+        } else if (component.getIdentifier() == Axis.POV) {
+            result = component.getPollData() != 0.0f;
+        } else if (component.getIdentifier() instanceof Axis && !component.isRelative()) {
+            result = Math.abs(component.getPollData()) == 1.0;
+        } else {
+            // unsupported
+            result = false;
+        }
+        
+        return result;
     }
 }
