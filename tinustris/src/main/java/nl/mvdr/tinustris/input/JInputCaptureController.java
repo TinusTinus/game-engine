@@ -44,8 +44,7 @@ public class JInputCaptureController {
                 controller -> Stream.of(controller.getComponents())
                     .map(component -> new ControllerAndInputMapping(controller, new InputMapping(component, f -> f == component.getPollData())));
             result = controllers.stream()
-                .map(toControllerAndInputMappingStream)
-                .flatMap(Function.identity())
+                .flatMap(toControllerAndInputMappingStream)
                 .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
                 .findFirst();
         }
