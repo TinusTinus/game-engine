@@ -1,11 +1,11 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import lombok.AccessLevel;
 import lombok.NonNull;
@@ -168,8 +168,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         
         // process player input
         actions.addAll(
-                Arrays.asList(Input.values())
-                    .stream()
+                Stream.of(Input.values())
                     .filter(inputState::isPressed)
                     .filter(input -> previousState.getInputStateHistory().getNumberOfFrames(input) % INPUT_FRAMES == 0)
                     .map(Input::getAction)

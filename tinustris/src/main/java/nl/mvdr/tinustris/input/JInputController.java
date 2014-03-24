@@ -1,9 +1,9 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +27,7 @@ public class JInputController implements InputController {
     public InputState getInputState() {
         configuration.getControllers().forEach(Controller::poll);
         
-        Set<Input> pressedInputs = Arrays.asList(Input.values())
-            .stream()
+        Set<Input> pressedInputs = Stream.of(Input.values())
             .filter(this::isPressed)
             .collect(Collectors.toCollection(() -> EnumSet.noneOf(Input.class)));
         

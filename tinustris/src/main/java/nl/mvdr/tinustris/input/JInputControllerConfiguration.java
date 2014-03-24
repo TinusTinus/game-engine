@@ -1,11 +1,11 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -69,8 +69,7 @@ public class JInputControllerConfiguration {
         }
         
         // find the keyboard controller(s)
-        Set<Controller> controllers = Arrays.asList(controllersFromEnvironment)
-            .stream()
+        Set<Controller> controllers = Stream.of(controllersFromEnvironment)
             .map(JInputControllerConfiguration::log)
             .filter(controller -> controller.getType() == Type.KEYBOARD)
             .collect(Collectors.toSet());
@@ -79,8 +78,7 @@ public class JInputControllerConfiguration {
         }
         log.info("Using keyboard controllers: " + controllers);
         
-        Map<Input, Set<InputMapping>> mapping = Arrays.asList(Input.values())
-                .stream()
+        Map<Input, Set<InputMapping>> mapping = Stream.of(Input.values())
                 .collect(Collectors.toMap(Function.identity(), input -> new HashSet<>()));
         for (Controller keyboard : controllers) {
             mapping.get(Input.LEFT)
@@ -120,8 +118,7 @@ public class JInputControllerConfiguration {
         }
         
         // find the gamepad controller(s)
-        Set<Controller> controllers = Arrays.asList(controllersFromEnvironment)
-            .stream()
+        Set<Controller> controllers = Stream.of(controllersFromEnvironment)
             .map(JInputControllerConfiguration::log)
             .filter(controller -> controller.getType() == Type.GAMEPAD)
             .collect(Collectors.toSet());
@@ -130,8 +127,7 @@ public class JInputControllerConfiguration {
         }
         log.info("Using gamepad controllers: " + controllers);
         
-        Map<Input, Set<InputMapping>> mapping = Arrays.asList(Input.values())
-                .stream()
+        Map<Input, Set<InputMapping>> mapping = Stream.of(Input.values())
                 .collect(Collectors.toMap(Function.identity(), input -> new HashSet<>()));
                 
         for (Controller gamepad : controllers) {
