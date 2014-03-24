@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.input;
 import javafx.application.Application;
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
-import net.java.games.input.Component;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -68,9 +67,9 @@ public class JInputCaptureControllerIntegrationTest {
     public void test() {
         JInputCaptureController controller = new JInputCaptureController();
 
-        Component component = controller.waitForComponentAction();
+        ControllerAndInputMapping result = controller.waitForComponentAction();
 
-        Assert.assertNotNull(component);
-        log.info(component.toString());
+        Assert.assertNotNull(result);
+        log.info(result.toString());
     }
 }

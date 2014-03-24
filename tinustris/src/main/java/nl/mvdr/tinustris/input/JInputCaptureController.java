@@ -24,31 +24,41 @@ public class JInputCaptureController {
      * Periodically polls for user input. As soon as the user activates a JInput component, this method returns that
      * component as well as its corresponding controller.
      * 
-     * @return component
+     * @return input mapping and its corresponding controller
      */
-    // TODO also return the corresponding controller and the matcher predicate
-    public Component waitForComponentAction() {
+    public ControllerAndInputMapping waitForComponentAction() {
         log.info("Waiting for component action.");
         List<Controller> controllers = Stream.of(ControllerEnvironment.getDefaultEnvironment().getControllers())
                 .filter(controller -> controller.getType() == Type.KEYBOARD || controller.getType() == Type.GAMEPAD)
                 .collect(Collectors.toList());
         log.info("Using controllers: " + controllers);
 
-        Optional<Component> result = Optional.empty();
+        Optional<ControllerAndInputMapping> result = Optional.empty();
         while (!result.isPresent()) {
             controllers.forEach(Controller::poll);
+            
+            Function<Controller, Stream<ControllerAndInputMapping>> toControllerAndInputMappingStream = 
+                controller -> Stream.of(controller.getComponents())
+                    .map(component -> new ControllerAndInputMapping(controller, new InputMapping(component, f -> f == component.getPollData())));
             result = controllers.stream()
-                .map(controller -> Stream.of(controller.getComponents()))
+                .map(toControllerAndInputMappingStream)
                 .flatMap(Function.identity())
-                .filter(this::isPressed)
+                .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
                 .findFirst();
         }
 
         return result.get();
     }
-    
+
+    /**
+     * Checks whether the given component is currently pressed (and is also one of the components supported by the
+     * JInputController).
+     * 
+     * @param component
+     *            component
+     * @return whether the component is pressed
+     */
     private boolean isPressed(Component component) {
         return component.getPollData() != 0.0f; // TODO fix this!
     }
-
 }
