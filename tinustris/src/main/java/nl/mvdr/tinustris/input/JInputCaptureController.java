@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Component;
@@ -28,8 +29,7 @@ public class JInputCaptureController {
     // TODO also return the corresponding controller and the matcher predicate
     public Component waitForComponentAction() {
         log.info("Waiting for component action.");
-        List<Controller> controllers = Arrays.asList(ControllerEnvironment.getDefaultEnvironment().getControllers())
-                .stream()
+        List<Controller> controllers = Stream.of(ControllerEnvironment.getDefaultEnvironment().getControllers())
                 .filter(controller -> controller.getType() == Type.KEYBOARD || controller.getType() == Type.GAMEPAD)
                 .collect(Collectors.toList());
         log.info("Using controllers: " + controllers);
