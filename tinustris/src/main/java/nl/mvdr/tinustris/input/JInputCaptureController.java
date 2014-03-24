@@ -38,7 +38,7 @@ public class JInputCaptureController {
         Optional<Component> result = Optional.empty();
         while (!result.isPresent()) {
             controllers.forEach(Controller::poll);
-            controllers.stream()
+            result = controllers.stream()
                 .map(controller -> Arrays.asList(controller.getComponents()))
                 .collect(ArrayList<Component>::new, ArrayList<Component>::addAll, ArrayList<Component>::addAll)
                 .stream()
