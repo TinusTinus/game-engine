@@ -1,8 +1,8 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -38,8 +38,8 @@ public class JInputCaptureController {
         while (!result.isPresent()) {
             controllers.forEach(Controller::poll);
             result = controllers.stream()
-                .map(controller -> Arrays.asList(controller.getComponents()))
-                .flatMap(List<Component>::stream)
+                .map(controller -> Stream.of(controller.getComponents()))
+                .flatMap(Function.identity())
                 .filter(this::isPressed)
                 .findFirst();
         }
