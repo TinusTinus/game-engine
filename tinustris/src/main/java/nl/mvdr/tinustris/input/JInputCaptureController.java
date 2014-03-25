@@ -63,10 +63,13 @@ public class JInputCaptureController {
      * Waits until the given component is released.
      * 
      * @param component component to be checked
+     * @param controller corresponding controller
      */
-    public void waitUntilReleased(Component component) {
+    public void waitUntilReleased(Component component, Controller controller) {
+        controller.poll();
         while(isPressed(component)) {
             sleep();
+            controller.poll();
         }
     }
 
