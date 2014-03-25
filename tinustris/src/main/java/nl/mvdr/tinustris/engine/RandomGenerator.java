@@ -8,7 +8,7 @@ import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Implementation of {@link Generator} that randomly determines new values, and a List to store past ones.
+ * Implementation of {@link Generator} that randomly determines new values, and uses a List to store past ones.
  * 
  * This implementation uses {@link Random} to randomly choose an int value, then uses the provided function to transform
  * the int value into an object of the desired type.
