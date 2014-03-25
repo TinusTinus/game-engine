@@ -67,17 +67,6 @@ public enum Behavior {
         return levelSystemFactory.apply(startLevel);
     }
 
-    /**
-     * Creates a new level system. If the level system supports a start level, it is initialised at 0.
-     * 
-     * @param startLevel
-     *            starting level
-     * @return level system
-     */
-    public LevelSystem createLevelSystem() {
-        return this.createLevelSystem(0);
-    }
-
     /** {@inheritDoc} */
     @Override
     public String toString() {
