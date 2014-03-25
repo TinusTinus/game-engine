@@ -48,11 +48,24 @@ public class JInputCaptureController {
                 .flatMap(Function.identity())
                 .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
                 .findFirst();
+            
+            // TODO sleep if not found?
         }
         
         log.info("Mapped: " + result.get());
 
         return result.get();
+    }
+    
+    /**
+     * Waits until the given component is released.
+     * 
+     * @param component component to be checked
+     */
+    public void waitUntilReleased(Component component) {
+        while(isPressed(component)) {
+            // TODO sleep
+        }
     }
 
     /**
