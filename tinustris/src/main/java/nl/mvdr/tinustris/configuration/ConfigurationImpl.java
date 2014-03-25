@@ -16,7 +16,7 @@ import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public class ConfigurationImpl {
+public class ConfigurationImpl implements Configuration {
     /** Number of players in the game. Is at least 1. */
     private final int numberOfPlayers;
     /** Graphical style for the blocks in the grid. */
