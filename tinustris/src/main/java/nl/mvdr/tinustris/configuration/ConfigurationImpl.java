@@ -17,19 +17,16 @@ import nl.mvdr.tinustris.gui.GraphicsStyle;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
+@Getter
 public class ConfigurationImpl implements Configuration {
-    @Getter
     @NonNull
     private List<PlayerConfiguration> playerConfigurations;
     /** Graphical style for the blocks in the grid. */
-    @Getter
     @NonNull
     private final GraphicsStyle graphicsStyle;
     /** Behavior. */
-    @Getter
     @NonNull
     private final Behavior behavior;
     /** Starting level. */
-    @Getter
     private final int startLevel;
 }
