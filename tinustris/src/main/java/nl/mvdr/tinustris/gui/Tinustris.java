@@ -188,7 +188,7 @@ public class Tinustris extends Application {
             if (version != null) {
                 log.info("Application version: " + version);
             } else {
-                log.info("Äpplication version unknown.");
+                log.info("Application version unknown.");
             }
 
             log.info("Classpath: " + System.getProperty("java.class.path"));
