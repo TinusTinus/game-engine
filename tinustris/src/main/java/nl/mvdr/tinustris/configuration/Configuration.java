@@ -1,5 +1,8 @@
 package nl.mvdr.tinustris.configuration;
 
+import java.util.Collections;
+import java.util.List;
+
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
@@ -11,14 +14,23 @@ import nl.mvdr.tinustris.input.JInputControllerConfiguration;
  * @author Martijn van de Rijdt
  */
 public interface Configuration {
+    /** 
+     * Configuration for each of the players in this game. Should contain at least one value.
+     * 
+     * @return configurations
+     */
+    default List<PlayerConfiguration> getPlayerConfigurations() {
+        return Collections.singletonList(() -> "");
+    }
     
     /**
      * Number of players for this game. Must be at least 1.
      * 
      * @return number of players
+     * @deprecated use the size of {@link #getPlayerConfigurations()}
      */
     default int getNumberOfPlayers() {
-        return 1;
+        return getPlayerConfigurations().size();
     }
     
     /**
@@ -35,14 +47,10 @@ public interface Configuration {
      * 
      * @param index player number; must be at least 0 and less than the value of {@link getNumbreOfPlayers()}
      * @return input controller configuration
+     * @deprecated use the values of {@link #getPlayerConfigurations()}
      */
     default JInputControllerConfiguration getJInputControllerConfiguration(int index) {
-        if (index < 0 || getNumberOfPlayers() <= index) {
-            throw new IndexOutOfBoundsException(String.format("Index %s, should be between 0 and %s.", index,
-                    getNumberOfPlayers()));
-        }
-        
-        return JInputControllerConfiguration.defaultConfiguration();
+        return getPlayerConfigurations().get(index).getJInputControllerConfiguration();
     }
 
     /**
