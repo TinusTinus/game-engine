@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import nl.mvdr.tinustris.gui.GraphicsStyle;
-import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Game configuration.
@@ -24,16 +23,6 @@ public interface Configuration {
     }
     
     /**
-     * Number of players for this game. Must be at least 1.
-     * 
-     * @return number of players
-     * @deprecated use the size of {@link #getPlayerConfigurations()}
-     */
-    default int getNumberOfPlayers() {
-        return getPlayerConfigurations().size();
-    }
-    
-    /**
      * Graphical style of the blocks in the grid.
      * 
      * @return style
@@ -42,17 +31,6 @@ public interface Configuration {
         return GraphicsStyle.defaultStyle();
     }
     
-    /**
-     * Configuration for JInput for one of the players, used by {@link nl.mvdr.tinustris.input.JInputController}.
-     * 
-     * @param index player number; must be at least 0 and less than the value of {@link getNumbreOfPlayers()}
-     * @return input controller configuration
-     * @deprecated use the values of {@link #getPlayerConfigurations()}
-     */
-    default JInputControllerConfiguration getJInputControllerConfiguration(int index) {
-        return getPlayerConfigurations().get(index).getJInputControllerConfiguration();
-    }
-
     /**
      * Specification of the behavior of the actual gameplay.
      * 

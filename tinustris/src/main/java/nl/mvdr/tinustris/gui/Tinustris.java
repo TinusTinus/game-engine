@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Configuration;
+import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.GapGenerator;
@@ -84,7 +85,7 @@ public class Tinustris extends Application {
         
         BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
         
-        int numPlayers = CONFIGURATION.getNumberOfPlayers();
+        int numPlayers = CONFIGURATION.getPlayerConfigurations().size();
         
         int widthInBlocks = OnePlayerGameState.DEFAULT_WIDTH;
         int heightInBlocks = OnePlayerGameState.DEFAULT_HEIGHT - OnePlayerGameState.VANISH_ZONE_HEIGHT;
@@ -122,8 +123,9 @@ public class Tinustris extends Application {
         
         int numPlayers = onePlayerRenderers.size();
         
-        List<InputController> inputControllers = IntStream.range(0, numPlayers)
-                .mapToObj(i -> CONFIGURATION.getJInputControllerConfiguration(i))
+        List<InputController> inputControllers = CONFIGURATION.getPlayerConfigurations()
+                .stream()
+                .map(PlayerConfiguration::getJInputControllerConfiguration)
                 .map(JInputController::new)
                 .collect(Collectors.toList());
         
