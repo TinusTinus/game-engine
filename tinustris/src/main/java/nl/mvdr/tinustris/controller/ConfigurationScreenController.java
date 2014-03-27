@@ -2,11 +2,15 @@ package nl.mvdr.tinustris.controller;
 
 import java.util.stream.Stream;
 
-import nl.mvdr.tinustris.gui.GraphicsStyle;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.gui.GraphicsStyle;
 
 /**
  * Controller for a configuration screen.
@@ -14,6 +18,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author Martijn van de Rijdt
  */
 @Slf4j
+@ToString
+@NoArgsConstructor
+// All args constructor for use in unit tests.
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ConfigurationScreenController {
     /** Radio button for 2D graphics. */
     @FXML
@@ -24,7 +32,8 @@ public class ConfigurationScreenController {
     
     /** Initialisation method. */
     @FXML
-    private void initialize() {
+    // default visibility for unit test
+    void initialize() {
         log.info("Initialising.");
         
         Stream.of(graphics2DRadioButton, graphics3DRadioButton)
