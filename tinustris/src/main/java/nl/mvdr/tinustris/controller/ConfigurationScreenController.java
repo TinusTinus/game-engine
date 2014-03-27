@@ -16,5 +16,7 @@ public class ConfigurationScreenController {
         log.info("Initialising.");
         
         // TODO initialisation
+        
+        log.info("Initialisation complete.");
     }
 }
