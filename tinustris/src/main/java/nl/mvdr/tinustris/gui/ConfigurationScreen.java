@@ -13,6 +13,7 @@ import javafx.stage.Stage;
  * 
  * @author Martijn van de Rijdt
  */
+//When testing the application in Eclipse, don't run this class directly. Use ConfigurationScreenTestContext instead.
 public class ConfigurationScreen extends Application {
 
     /** {@inheritDoc} */
