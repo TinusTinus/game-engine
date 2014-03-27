@@ -17,14 +17,16 @@
 					<children>
 						<RadioButton layoutX="14.0439453125" layoutY="14.0"
 							mnemonicParsing="false" selected="true" text="2D"
-							AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="7.0">
+							AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="7.0"
+							fx:id="graphics2DRadioButton">
 							<toggleGroup>
 								<ToggleGroup fx:id="graphicsStyleToggleGroup" />
 							</toggleGroup>
 						</RadioButton>
 						<RadioButton layoutX="14.0" layoutY="36.0"
 							mnemonicParsing="false" text="3D" toggleGroup="$graphicsStyleToggleGroup"
-							AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="30.0" />
+							AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="30.0" 
+							fx:id="graphics3DRadioButton"/>
 					</children>
 				</AnchorPane>
 			</content>
