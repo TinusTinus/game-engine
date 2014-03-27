@@ -35,6 +35,9 @@ public class ConfigurationScreenController {
     // default visibility for unit test
     void initialize() {
         log.info("Initialising.");
+        if (log.isDebugEnabled()) {
+            log.debug(this.toString());
+        }
         
         Stream.of(graphics2DRadioButton, graphics3DRadioButton)
             .forEach(radioButton ->
@@ -45,6 +48,9 @@ public class ConfigurationScreenController {
         // TODO further initialisation
         
         log.info("Initialisation complete.");
+        if (log.isDebugEnabled()) {
+            log.debug(this.toString());
+        }
     }
 
     /**
