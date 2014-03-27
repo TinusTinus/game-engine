@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -40,17 +41,17 @@ public class ConfigurationScreenController {
     /**
      * Returns the graphics style value corresponding to the given ui component.
      * 
-     * @param radioButton ui component; must be one of the radio buttons corresponding to a graphical style
+     * @param toggle ui component; must be one of the radio buttons corresponding to a graphical style
      * @return graphics style
      */
-    private GraphicsStyle toGraphicsStyleValue(RadioButton radioButton) {
+    private GraphicsStyle toGraphicsStyleValue(Toggle toggle) {
         GraphicsStyle result;
-        if (radioButton == graphics2DRadioButton) {
+        if (toggle == graphics2DRadioButton) {
             result = GraphicsStyle.TWO_DIMENSIONAL;
-        } else if (radioButton == graphics3DRadioButton) {
+        } else if (toggle == graphics3DRadioButton) {
             result = GraphicsStyle.THREE_DIMENSIONAL;
         } else {
-            throw new IllegalArgumentException("Unexpected parameter: " + radioButton);
+            throw new IllegalArgumentException("Unexpected parameter: " + toggle);
         }
         return result;
     }
