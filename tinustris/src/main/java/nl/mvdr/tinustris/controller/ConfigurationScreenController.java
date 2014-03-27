@@ -26,12 +26,10 @@ public class ConfigurationScreenController {
         log.info("Initialising.");
         
         Stream.of(graphics2DRadioButton, graphics3DRadioButton)
-            .forEach(radioButton -> {
-                // TODO log selection status
-                radioButton.setOnAction(event -> log.info(radioButton.toString()));
-            });
+            .forEach(radioButton ->
+                radioButton.setOnAction(event -> log.info("Activated " + radioButton.getText())));
         
-        // TODO initialisation
+        // TODO further initialisation
         
         log.info("Initialisation complete.");
     }
