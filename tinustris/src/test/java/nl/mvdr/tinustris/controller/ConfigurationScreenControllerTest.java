@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.controller;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TabPane;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,15 +21,16 @@ public class ConfigurationScreenControllerTest {
         // When running the actual application this is performed by Application.launch().
         new JFXPanel();
     }
-    
+
     /** Test method for {@link ConfigurationScreenController#initialize()}. */
     @Test
     public void testInitialisation() {
         RadioButton radioButton2D = new RadioButton();
         RadioButton radioButton3D = new RadioButton();
-        
-        ConfigurationScreenController controller = new ConfigurationScreenController(radioButton2D, radioButton3D, new Button());
-        
+
+        ConfigurationScreenController controller = new ConfigurationScreenController(radioButton2D, radioButton3D,
+                new TabPane(), new Button());
+
         controller.initialize();
     }
 }

@@ -5,6 +5,8 @@ import java.util.stream.Stream;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,6 +32,9 @@ public class ConfigurationScreenController {
     /** Radio button for 3D graphics. */
     @FXML
     private RadioButton graphics3DRadioButton;
+    /** Tab pane for player configuration. */
+    @FXML
+    private TabPane playerTabPane;
     /** Button for removing a player. */
     @FXML
     private Button removePlayerButton;
@@ -73,5 +78,36 @@ public class ConfigurationScreenController {
             throw new IllegalArgumentException("Unexpected parameter: " + toggle);
         }
         return result;
+    }
+    
+    /** Action handler for the remove player button. */
+    @FXML
+    private void removePlayer() {
+        log.info("Remove player button activated.");
+        
+        int selectedIndex = playerTabPane.getSelectionModel().getSelectedIndex();
+        playerTabPane.getTabs().remove(selectedIndex);
+        
+        removePlayerButton.setDisable(playerTabPane.getTabs().size() <= 1);
+    }
+    
+    /** Action handler for the add player button. */
+    @FXML
+    private void addPlayer() {
+        log.info("Add player button activated.");
+        
+        String defaultPlayerName = "Player " + (playerTabPane.getTabs().size() + 1);
+        playerTabPane.getTabs().add(new Tab(defaultPlayerName));
+        // TODO set the contents of the new tab
+        
+        removePlayerButton.setDisable(false);
+    }
+    
+    /** Starts the game. */
+    @FXML
+    private void startGame() {
+        log.info("Start game button activated.");
+        
+        // TODO close te dialog and start the game
     }
 }
