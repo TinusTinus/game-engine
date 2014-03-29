@@ -108,6 +108,6 @@ public class ConfigurationScreenController {
     private void startGame() {
         log.info("Start game button activated.");
         
-        // TODO close te dialog and start the game
+        // TODO close the dialog and start the game
     }
 }
