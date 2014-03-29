@@ -39,7 +39,7 @@ public class JInputControllerConfiguration {
     @NonNull
     private final Map<Input, Set<InputMapping>> mapping;
 
-    /** All relevant controllers. All of the components in mapping must belong to one of these controllers. */
+    /** All relevant controllers. All of the components in {@link mapping} must belong to one of these controllers. */
     @NonNull
     private final Set<Controller> controllers;
     

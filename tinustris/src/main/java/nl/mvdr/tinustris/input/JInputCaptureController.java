@@ -47,11 +47,29 @@ public class JInputCaptureController {
                 .flatMap(toControllerAndInputMappingStream)
                 .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
                 .findFirst();
+            
+            if (!result.isPresent()) {
+                sleep();
+            }
         }
         
         log.info("Mapped: " + result.get());
 
         return result.get();
+    }
+    
+    /**
+     * Waits until the given component is released.
+     * 
+     * @param component component to be checked
+     * @param controller corresponding controller
+     */
+    public void waitUntilReleased(Component component, Controller controller) {
+        controller.poll();
+        while(isPressed(component)) {
+            sleep();
+            controller.poll();
+        }
     }
 
     /**
@@ -77,5 +95,15 @@ public class JInputCaptureController {
         }
         
         return result;
+    }
+    
+    /** Lets the thread sleep for a brief while (through {@link Thread#sleep(long)}). */
+    private void sleep() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            log.error("Unexpected interrupt!", e);
+            Thread.currentThread().interrupt();
+        }
     }
 }

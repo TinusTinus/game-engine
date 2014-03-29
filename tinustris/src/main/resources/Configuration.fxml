@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0"
+	prefWidth="600.0" fx:controller="nl.mvdr.tinustris.controller.ConfigurationScreenController"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<TitledPane layoutX="14.0" layoutY="14.0" prefHeight="96.0"
+			prefWidth="575.0" text="Graphics" AnchorPane.leftAnchor="14.0"
+			AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="14.0">
+			<content>
+				<AnchorPane prefHeight="200.0" prefWidth="200.0">
+					<children>
+						<RadioButton layoutX="14.0439453125" layoutY="14.0"
+							mnemonicParsing="false" selected="true" text="2D"
+							AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="7.0"
+							fx:id="graphics2DRadioButton">
+							<toggleGroup>
+								<ToggleGroup fx:id="graphicsStyleToggleGroup" />
+							</toggleGroup>
+						</RadioButton>
+						<RadioButton layoutX="14.0" layoutY="36.0"
+							mnemonicParsing="false" text="3D" toggleGroup="$graphicsStyleToggleGroup"
+							AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="30.0" 
+							fx:id="graphics3DRadioButton"/>
+					</children>
+				</AnchorPane>
+			</content>
+		</TitledPane>
+		<TitledPane layoutX="14.0" layoutY="120.0" prefHeight="360.0"
+			prefWidth="575.0" text="Players" AnchorPane.bottomAnchor="56.0"
+			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="11.0"
+			AnchorPane.topAnchor="120.0">
+			<content>
+				<TabPane prefHeight="200.0" prefWidth="200.0"
+					tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml">
+					<tabs>
+						<Tab text="Player 1">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0"
+									prefHeight="180.0" prefWidth="200.0" />
+							</content>
+						</Tab>
+					</tabs>
+				</TabPane>
+			</content>
+		</TitledPane>
+		<Button layoutX="537.1875" layoutY="489.5" mnemonicParsing="false"
+			text="Start game" AnchorPane.bottomAnchor="21.5"
+			AnchorPane.rightAnchor="10.8125" />
+		<Button layoutX="454.1875" layoutY="544.5" mnemonicParsing="false"
+			text="Remove player" AnchorPane.bottomAnchor="21.5"
+			AnchorPane.rightAnchor="93.8125" />
+		<Button layoutX="351.1875" layoutY="544.5" mnemonicParsing="false"
+			text="Add player" AnchorPane.bottomAnchor="21.5"
+			AnchorPane.rightAnchor="196.8125" />
+	</children>
+</AnchorPane>

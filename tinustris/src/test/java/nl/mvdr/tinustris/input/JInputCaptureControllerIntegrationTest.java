@@ -14,8 +14,8 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 /**
  * Integration test for {@link JInputCaptureController}.
  * 
- * This test class is an integration test. It is disabled by default, because it relies on user input and JInput's
- * native libraries. These are not available by default. If you want to run this class, make sure that the
+ * This test class is an integration test. Test methods are disabled by default, because it relies on user input and
+ * JInput's native libraries. These are not available by default. If you want to run this class, make sure that the
  * java.library.path system property contains target/natives in this project directory.
  * 
  * In Eclipse, you can do this by opening the Run Configuration, opening the arguments tab and pasting the following
@@ -28,7 +28,6 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-@Ignore
 public class JInputCaptureControllerIntegrationTest {
     /** Setup method. */
     @Before
@@ -63,13 +62,32 @@ public class JInputCaptureControllerIntegrationTest {
      * This test method shows a JavaFX application window which has focus. The user should press a valid input (button
      * or key or other supported input) before the test times out. The result is logged.
      */
+    @Ignore
     @Test(timeout = 5000)
-    public void test() {
+    public void testWaitForComponentAction() {
         JInputCaptureController controller = new JInputCaptureController();
 
         ControllerAndInputMapping result = controller.waitForComponentAction();
 
         Assert.assertNotNull(result);
         log.info(result.toString());
+    }
+    
+    /**
+     * Test method for {@link JInputCaptureController#waitForComponentAction()}.
+     * 
+     * This test method shows a JavaFX application window which has focus. The user should press a valid input (button
+     * or key or other supported input) before the test times out, then release it again. The result is logged.
+     */
+    @Ignore
+    @Test(timeout = 5000)
+    public void testWaitForRelease() {
+        JInputCaptureController controller = new JInputCaptureController();
+        ControllerAndInputMapping result = controller.waitForComponentAction();
+        log.info(result.toString());
+        
+        controller.waitUntilReleased(result.getMapping().getComponent(), result.getController());
+        
+        log.info("Released.");
     }
 }
