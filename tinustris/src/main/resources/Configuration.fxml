@@ -49,14 +49,15 @@
 				</TabPane>
 			</content>
 		</TitledPane>
-		<Button layoutX="537.1875" layoutY="489.5" mnemonicParsing="false"
-			text="Start game" AnchorPane.bottomAnchor="21.5"
-			AnchorPane.rightAnchor="10.8125" />
-		<Button layoutX="454.1875" layoutY="544.5" mnemonicParsing="false"
-			text="Remove player" AnchorPane.bottomAnchor="21.5"
-			AnchorPane.rightAnchor="93.8125" />
 		<Button layoutX="351.1875" layoutY="544.5" mnemonicParsing="false"
 			text="Add player" AnchorPane.bottomAnchor="21.5"
 			AnchorPane.rightAnchor="196.8125" />
+		<Button layoutX="454.1875" layoutY="544.5" mnemonicParsing="false"
+			text="Remove player" AnchorPane.bottomAnchor="21.5"
+			AnchorPane.rightAnchor="93.8125" fx:id="removePlayerButton"
+			disable="true" />
+		<Button layoutX="537.1875" layoutY="489.5" mnemonicParsing="false"
+			text="Start game" AnchorPane.bottomAnchor="21.5"
+			AnchorPane.rightAnchor="10.8125" />
 	</children>
 </AnchorPane>

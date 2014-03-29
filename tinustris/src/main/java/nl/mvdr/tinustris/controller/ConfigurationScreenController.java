@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.controller;
 import java.util.stream.Stream;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import lombok.AccessLevel;
@@ -29,6 +30,9 @@ public class ConfigurationScreenController {
     /** Radio button for 3D graphics. */
     @FXML
     private RadioButton graphics3DRadioButton;
+    /** Button for removing a player. */
+    @FXML
+    private Button removePlayerButton;
     
     /** Initialisation method. */
     @FXML
