@@ -3,8 +3,10 @@ package nl.mvdr.tinustris.controller;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,12 +27,57 @@ public class ConfigurationScreenControllerTest {
     /** Test method for {@link ConfigurationScreenController#initialize()}. */
     @Test
     public void testInitialisation() {
-        RadioButton radioButton2D = new RadioButton();
-        RadioButton radioButton3D = new RadioButton();
-
-        ConfigurationScreenController controller = new ConfigurationScreenController(radioButton2D, radioButton3D,
-                new TabPane(), new Button());
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), new TabPane(), new Button());
 
         controller.initialize();
+    }
+
+    /** Test method for {@link ConfigurationScreenController#addPlayer()}. */
+    @Test
+    public void testAddPlayer() {
+        TabPane playerTabPane = new TabPane();
+        playerTabPane.getTabs().add(new Tab());
+        Button removePlayerButton = new Button();
+        removePlayerButton.setDisable(true);
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), playerTabPane, removePlayerButton);
+        
+        controller.addPlayer();
+        
+        Assert.assertEquals(2, playerTabPane.getTabs().size());
+        Assert.assertFalse(removePlayerButton.isDisable());
+    }
+    
+    /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
+    @Test
+    public void testRemoveThreePlayers() {
+        TabPane playerTabPane = new TabPane();
+        playerTabPane.getTabs().addAll(new Tab(), new Tab(), new Tab());
+        Button removePlayerButton = new Button();
+        removePlayerButton.setDisable(false);
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), playerTabPane, removePlayerButton);
+        
+        controller.removePlayer();
+        
+        Assert.assertEquals(2, playerTabPane.getTabs().size());
+        Assert.assertFalse(removePlayerButton.isDisable());
+    }
+    
+    /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
+    @Test
+    public void testRemoveTwoPlayers() {
+        TabPane playerTabPane = new TabPane();
+        playerTabPane.getTabs().addAll(new Tab(), new Tab());
+        Button removePlayerButton = new Button();
+        removePlayerButton.setDisable(false);
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), playerTabPane, removePlayerButton);
+        
+        controller.removePlayer();
+        
+        Assert.assertEquals(1, playerTabPane.getTabs().size());
+        Assert.assertTrue(removePlayerButton.isDisable());
     }
 }

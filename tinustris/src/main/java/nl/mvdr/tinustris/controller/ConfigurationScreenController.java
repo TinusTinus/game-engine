@@ -82,7 +82,8 @@ public class ConfigurationScreenController {
     
     /** Action handler for the remove player button. */
     @FXML
-    private void removePlayer() {
+    // default visibility for unit test
+    void removePlayer() {
         log.info("Remove player button activated.");
         
         int selectedIndex = playerTabPane.getSelectionModel().getSelectedIndex();
@@ -93,11 +94,13 @@ public class ConfigurationScreenController {
     
     /** Action handler for the add player button. */
     @FXML
-    private void addPlayer() {
+    // default visibility for unit test
+    void addPlayer() {
         log.info("Add player button activated.");
         
         String defaultPlayerName = "Player " + (playerTabPane.getTabs().size() + 1);
         playerTabPane.getTabs().add(new Tab(defaultPlayerName));
+        
         // TODO set the contents of the new tab
         
         removePlayerButton.setDisable(false);
