@@ -19,7 +19,7 @@ public class ConfigurationScreenControllerTest {
     /** Setup method. */
     @Before
     public void setUp() {
-        // Force JavaFX graphics initialisation; this is required by the Image constructor.
+        // Force JavaFX graphics initialisation; this is required by the RadioButton constructor.
         // When running the actual application this is performed by Application.launch().
         new JFXPanel();
     }
@@ -42,13 +42,13 @@ public class ConfigurationScreenControllerTest {
         removePlayerButton.setDisable(true);
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane, removePlayerButton);
-        
+
         controller.addPlayer();
-        
+
         Assert.assertEquals(2, playerTabPane.getTabs().size());
         Assert.assertFalse(removePlayerButton.isDisable());
     }
-    
+
     /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
     @Test
     public void testRemoveThreePlayers() {
@@ -58,13 +58,13 @@ public class ConfigurationScreenControllerTest {
         removePlayerButton.setDisable(false);
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane, removePlayerButton);
-        
+
         controller.removePlayer();
-        
+
         Assert.assertEquals(2, playerTabPane.getTabs().size());
         Assert.assertFalse(removePlayerButton.isDisable());
     }
-    
+
     /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
     @Test
     public void testRemoveTwoPlayers() {
@@ -74,9 +74,9 @@ public class ConfigurationScreenControllerTest {
         removePlayerButton.setDisable(false);
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane, removePlayerButton);
-        
+
         controller.removePlayer();
-        
+
         Assert.assertEquals(1, playerTabPane.getTabs().size());
         Assert.assertTrue(removePlayerButton.isDisable());
     }
