@@ -99,9 +99,9 @@ public class ConfigurationScreenController {
         log.info("Add player button activated.");
         
         String defaultPlayerName = "Player " + (playerTabPane.getTabs().size() + 1);
-        playerTabPane.getTabs().add(new Tab(defaultPlayerName));
-        
+        Tab tab = new Tab(defaultPlayerName);
         // TODO set the contents of the new tab
+        playerTabPane.getTabs().add(tab);
         
         removePlayerButton.setDisable(false);
     }
