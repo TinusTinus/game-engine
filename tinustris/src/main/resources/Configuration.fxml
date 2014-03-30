@@ -11,7 +11,8 @@
 	<children>
 		<TitledPane layoutX="14.0" layoutY="14.0" prefHeight="96.0"
 			prefWidth="575.0" text="Graphics" AnchorPane.leftAnchor="14.0"
-			AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="14.0">
+			AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="14.0"
+			collapsible="false">
 			<content>
 				<AnchorPane prefHeight="200.0" prefWidth="200.0">
 					<children>
@@ -34,7 +35,7 @@
 		<TitledPane layoutX="14.0" layoutY="120.0" prefHeight="360.0"
 			prefWidth="575.0" text="Players" AnchorPane.bottomAnchor="56.0"
 			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="11.0"
-			AnchorPane.topAnchor="120.0">
+			AnchorPane.topAnchor="120.0" collapsible="false">
 			<content>
 				<TabPane prefHeight="200.0" prefWidth="200.0"
 					tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml"
