@@ -61,12 +61,12 @@ public class ConfigurationScreenController {
         Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
                 radioButton -> radioButton.setDisable(!toGraphicsStyleValue(radioButton).isAvailable()));
 
-        playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
-        playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
-
         behaviorComboBox.setOnAction(event -> updateStartLevelTextField());
         behaviorComboBox.getItems().setAll(Behavior.values());
         behaviorComboBox.getSelectionModel().select(Behavior.defaultBehavior());
+
+        playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
+        playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
         
         // TODO further initialisation
 
