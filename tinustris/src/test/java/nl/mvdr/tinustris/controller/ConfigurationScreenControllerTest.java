@@ -36,7 +36,7 @@ public class ConfigurationScreenControllerTest {
         controller.initialize();
     }
 
-    /** Test method for {@link ConfigurationScreenController#addPlayer()}. */
+    /** Test method for adding a player. */
     @Test
     public void testAddPlayer() {
         TabPane playerTabPane = new TabPane();
@@ -54,7 +54,7 @@ public class ConfigurationScreenControllerTest {
         Assert.assertEquals(TabClosingPolicy.SELECTED_TAB, playerTabPane.getTabClosingPolicy());
     }
 
-    /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
+    /** Test method for removing a player in case there are three players. */
     @Test
     public void testRemoveThreePlayers() {
         TabPane playerTabPane = new TabPane();
@@ -69,7 +69,7 @@ public class ConfigurationScreenControllerTest {
         Assert.assertEquals(TabClosingPolicy.SELECTED_TAB, playerTabPane.getTabClosingPolicy());
     }
 
-    /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
+    /** Test method for removing a player in case there are two players. */
     @Test
     public void testRemoveTwoPlayers() {
         TabPane playerTabPane = new TabPane();
