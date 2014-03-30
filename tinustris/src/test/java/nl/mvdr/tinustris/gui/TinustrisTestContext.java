@@ -29,6 +29,7 @@ public class TinustrisTestContext extends Application {
     /** Tinustris instance. */
     private final Tinustris tinustris;
     
+    /** Constructor. */
     public TinustrisTestContext() {
         super();
         this.tinustris = new Tinustris();
