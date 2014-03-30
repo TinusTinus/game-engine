@@ -38,8 +38,7 @@
 			AnchorPane.topAnchor="120.0" collapsible="false">
 			<content>
 				<TabPane prefHeight="200.0" prefWidth="200.0"
-					tabClosingPolicy="UNAVAILABLE" xmlns:fx="http://javafx.com/fxml"
-					fx:id="playerTabPane" >
+					tabClosingPolicy="UNAVAILABLE" fx:id="playerTabPane" >
 					<tabs>
 						<Tab text="Player 1">
 							<content>
