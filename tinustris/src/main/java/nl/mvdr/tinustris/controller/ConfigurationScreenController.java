@@ -4,12 +4,11 @@ import java.util.stream.Stream;
 
 import javafx.collections.ListChangeListener.Change;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.control.Toggle;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -37,9 +36,6 @@ public class ConfigurationScreenController {
     /** Tab pane for player configuration. */
     @FXML
     private TabPane playerTabPane;
-    /** Button for removing a player. */
-    @FXML
-    private Button removePlayerButton;
     
     /** Initialisation method. */
     @FXML
@@ -89,7 +85,6 @@ public class ConfigurationScreenController {
         log.info("Player tab list changed: " + change);
         
         // only allow closing a tab when there are at least two
-        removePlayerButton.setDisable(playerTabPane.getTabs().size() <= 1);
         TabClosingPolicy policy;
         if (1 < change.getList().size()) {
             policy = TabClosingPolicy.SELECTED_TAB;
@@ -97,16 +92,6 @@ public class ConfigurationScreenController {
             policy = TabClosingPolicy.UNAVAILABLE;
         }
         playerTabPane.setTabClosingPolicy(policy);
-    }
-    
-    /** Action handler for the remove player button. */
-    @FXML
-    // default visibility for unit test
-    void removePlayer() {
-        log.info("Remove player button activated.");
-        
-        int selectedIndex = playerTabPane.getSelectionModel().getSelectedIndex();
-        playerTabPane.getTabs().remove(selectedIndex);
     }
     
     /** Action handler for the add player button. */
