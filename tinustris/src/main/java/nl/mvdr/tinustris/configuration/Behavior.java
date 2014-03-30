@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import nl.mvdr.tinustris.engine.level.ClassicLevelSystem;
 import nl.mvdr.tinustris.engine.level.LevelSystem;
 import nl.mvdr.tinustris.engine.level.TheGrandMasterLevelSystem;
+import nl.mvdr.tinustris.engine.speedcurve.ConstantSpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.GameBoySpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.NESSpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.SpeedCurve;
@@ -36,7 +37,10 @@ public enum Behavior {
             false, new TheGrandMaster2NormalSpeedCurve()),
     /** Behavior inspired by Tetris: The Grandmaster 2, Master Mode. */
     THE_GRANDMASTER_2_MASTER("Tetris: The Grandmaster 2 Master Mode", startLevel -> new TheGrandMasterLevelSystem(),
-            false, new TheGrandMaster2MasterSpeedCurve());
+            false, new TheGrandMaster2MasterSpeedCurve()),
+    /** Behavior which starts at 20 G and does not let up. */
+    ALWAYS_20_G("20 G Forever", startLevel -> new TheGrandMasterLevelSystem(), false, new ConstantSpeedCurve(5120, 30,
+            30, 41));
 
     /** Name of this behavior value. */
     @Getter
