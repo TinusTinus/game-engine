@@ -38,7 +38,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testAddPlayer() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().add(new Tab());
+        playerTabPane.getTabs().addAll(new Tab(), new Tab("+"));
         Button removePlayerButton = new Button();
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane);
@@ -46,7 +46,7 @@ public class ConfigurationScreenControllerTest {
 
         controller.addPlayer();
 
-        Assert.assertEquals(2, playerTabPane.getTabs().size());
+        Assert.assertEquals(3, playerTabPane.getTabs().size());
         Assert.assertFalse(removePlayerButton.isDisable());
         Assert.assertEquals(TabClosingPolicy.SELECTED_TAB, playerTabPane.getTabClosingPolicy());
     }
@@ -55,14 +55,14 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testRemoveThreePlayers() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().addAll(new Tab(), new Tab(), new Tab());
+        playerTabPane.getTabs().addAll(new Tab(), new Tab(), new Tab(), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane);
         controller.initialize();
 
         playerTabPane.getTabs().remove(0);
         
-        Assert.assertEquals(2, playerTabPane.getTabs().size());
+        Assert.assertEquals(3, playerTabPane.getTabs().size());
         Assert.assertEquals(TabClosingPolicy.SELECTED_TAB, playerTabPane.getTabClosingPolicy());
     }
 
@@ -70,14 +70,14 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testRemoveTwoPlayers() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().addAll(new Tab(), new Tab());
+        playerTabPane.getTabs().addAll(new Tab(), new Tab(), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane);
         controller.initialize();
 
         playerTabPane.getTabs().remove(0);
 
-        Assert.assertEquals(1, playerTabPane.getTabs().size());
+        Assert.assertEquals(2, playerTabPane.getTabs().size());
         Assert.assertEquals(TabClosingPolicy.UNAVAILABLE, playerTabPane.getTabClosingPolicy());
     }
 }

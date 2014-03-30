@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.controller;
 
 import java.util.stream.Stream;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener.Change;
 import javafx.fxml.FXML;
 import javafx.scene.control.RadioButton;
@@ -53,6 +54,7 @@ public class ConfigurationScreenController {
             .forEach(radioButton -> radioButton.setDisable(!toGraphicsStyleValue(radioButton).isAvailable()));
         
         playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
+        playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
         
         // TODO further initialisation
         
@@ -80,18 +82,53 @@ public class ConfigurationScreenController {
         return result;
     }
     
-    /** Handler for when the list of player tabs has been changed. */
+    /**
+     * Handler for when the list of player tabs has been changed.
+     * 
+     * @param change
+     *            the change in the list
+     */
     private void handlePlayerTabListChanged(Change<? extends Tab> change) {
         log.info("Player tab list changed: " + change);
         
         // only allow closing a tab when there are at least two
         TabClosingPolicy policy;
-        if (1 < change.getList().size()) {
+        if (2 < change.getList().size()) {
             policy = TabClosingPolicy.SELECTED_TAB;
         } else {
             policy = TabClosingPolicy.UNAVAILABLE;
         }
         playerTabPane.setTabClosingPolicy(policy);
+    }
+    
+    /**
+     * Handles changes in the player tab selection.
+     * 
+     * @param observable
+     *            index property
+     * @param oldValue
+     *            old value
+     * @param newValue
+     *            new value
+     */
+    private void handlePlayerTabSelectionChanged(ObservableValue<? extends Number> observable, Number oldValue,
+            Number newValue) {
+        log.info("Player tab selection changed from {} ({}) to {} ({})", oldValue,
+                playerTabPane.getTabs().get(oldValue.intValue()).getText(), newValue,
+                playerTabPane.getTabs().get(newValue.intValue()).getText());
+        
+        int selectedIndex = newValue.intValue();
+        if (selectedIndex == playerTabPane.getTabs().size() - 1) {
+            // add player tab clicked
+
+            String defaultPlayerName = "Player " + playerTabPane.getTabs().size();
+            Tab tab = new Tab(defaultPlayerName);
+            // TODO set the contents of the new tab
+            playerTabPane.getTabs().add(playerTabPane.getTabs().size() - 1, tab);
+            
+            // make sure the new tab is selected
+            playerTabPane.getSelectionModel().select(tab);
+        }
     }
     
     /** Action handler for the add player button. */
@@ -103,7 +140,7 @@ public class ConfigurationScreenController {
         String defaultPlayerName = "Player " + (playerTabPane.getTabs().size() + 1);
         Tab tab = new Tab(defaultPlayerName);
         // TODO set the contents of the new tab
-        playerTabPane.getTabs().add(tab);
+        playerTabPane.getTabs().add(playerTabPane.getTabs().size() - 1, tab);
     }
     
     /** Starts the game. */
