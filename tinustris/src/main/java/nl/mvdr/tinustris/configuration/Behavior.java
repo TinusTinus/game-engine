@@ -29,7 +29,7 @@ public enum Behavior {
     /** Behavior inspired by NES Tetris. */
     NES("NES Tetris", startLevel -> new ClassicLevelSystem(startLevel), true, new NESSpeedCurve()),
     /** Behavior inspired by Tetris: The Grandmaster. */
-    THE_GRANDMASTER("Tetris: The Grandmaster", startLevel -> new TheGrandMasterLevelSystem(), true,
+    THE_GRANDMASTER("Tetris: The Grandmaster", startLevel -> new TheGrandMasterLevelSystem(), false,
             new TheGrandMasterSpeedCurve()),
     /** Behavior inspired by Tetris: The Grandmaster 2, Normal Mode. */
     THE_GRANDMASTER_2_NORMAL("Tetris: The Grandmaster 2 Normal Mode", startLevel -> new TheGrandMasterLevelSystem(),
