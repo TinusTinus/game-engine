@@ -112,4 +112,56 @@ public class ConfigurationScreenControllerTest {
         
         Assert.assertFalse(startLevelTextField.isDisable());
     }
+    
+    /** Test case which sets the start level. */
+    @Test
+    public void testSetStartLevel0() {
+        TextField startLevelTextField = new TextField("10");
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
+        controller.initialize();
+        
+        startLevelTextField.setText("0");
+        
+        Assert.assertEquals("0", startLevelTextField.getText());
+    }
+    
+    /** Test case which sets the start level. */
+    @Test
+    public void testSetStartLevel10() {
+        TextField startLevelTextField = new TextField("0");
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
+        controller.initialize();
+        
+        startLevelTextField.setText("10");
+        
+        Assert.assertEquals("10", startLevelTextField.getText());
+    }
+    
+    /** Test case which sets the start level. */
+    @Test
+    public void testSetStartLevelNegative() {
+        TextField startLevelTextField = new TextField("10");
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
+        controller.initialize();
+        
+        startLevelTextField.setText("-3");
+        
+        Assert.assertEquals("10", startLevelTextField.getText());
+    }
+    
+    /** Test case which sets the start level. */
+    @Test
+    public void testSetStartLevelLetters() {
+        TextField startLevelTextField = new TextField("10");
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
+        controller.initialize();
+        
+        startLevelTextField.setText("derp");
+        
+        Assert.assertEquals("10", startLevelTextField.getText());
+    }
 }

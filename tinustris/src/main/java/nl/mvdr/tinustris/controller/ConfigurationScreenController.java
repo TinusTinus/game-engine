@@ -64,6 +64,8 @@ public class ConfigurationScreenController {
         behaviorComboBox.setOnAction(event -> updateStartLevelTextField());
         behaviorComboBox.getItems().setAll(Behavior.values());
         behaviorComboBox.getSelectionModel().select(Behavior.defaultBehavior());
+        
+        startLevelTextField.textProperty().addListener(this::handleStartLevelTextFieldValueChanged);
 
         playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
         playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
@@ -74,13 +76,6 @@ public class ConfigurationScreenController {
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
         }
-    }
-
-    /** Updates the start level textfield according to the value currently selected in the behavior combo box. */
-    private void updateStartLevelTextField() {
-        log.info("Updating status of the start level text field.");
-        
-        startLevelTextField.setDisable(!behaviorComboBox.getValue().isStartLevelSupported());
     }
 
     /**
@@ -98,6 +93,53 @@ public class ConfigurationScreenController {
             result = GraphicsStyle.THREE_DIMENSIONAL;
         } else {
             throw new IllegalArgumentException("Unexpected parameter: " + toggle);
+        }
+        return result;
+    }
+    
+
+    /** Updates the start level textfield according to the value currently selected in the behavior combo box. */
+    private void updateStartLevelTextField() {
+        log.info("Updating status of the start level text field.");
+        
+        startLevelTextField.setDisable(!behaviorComboBox.getValue().isStartLevelSupported());
+    }
+    
+    /**
+     * Handler for when the value of the start level text field changed. If the new value is not valid, this method
+     * resores the old value.
+     * 
+     * @param observable
+     *            text property
+     * @param oldValue
+     *            previous value
+     * @param newValue
+     *            new value
+     */
+    private void handleStartLevelTextFieldValueChanged(ObservableValue<? extends String> observable, String oldValue,
+            String newValue) {
+        if (!isValidStartLevel(newValue)) {
+            log.info("Invalid start level value entered: {}. Restoring old value {}.", newValue, oldValue);
+            startLevelTextField.setText(oldValue);
+        } else {
+            log.info("Start level changed from {} to {}.", oldValue, newValue);
+        }
+    }
+    
+    /**
+     * Checks whether the given string represents a valid start level value.
+     * 
+     * @param string
+     *            string
+     * @return whether the given string represents a valid start level value
+     */
+    private boolean isValidStartLevel(String string) {
+        boolean result;
+        try {
+            int value = Integer.parseInt(string);
+            result = 0 <= value;
+        } catch (NumberFormatException e) {
+            result = false;
         }
         return result;
     }
