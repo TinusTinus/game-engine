@@ -81,7 +81,7 @@ public class Tinustris extends Application {
         logVersionInfo();
         
         Thread.currentThread().setUncaughtExceptionHandler(
-                (thread, throwable) -> log.error("Uncaught runtime exception on JavaFX Thread", throwable));
+                (thread, throwable) -> log.error("Uncaught runtime exception", throwable));
         
         BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
         

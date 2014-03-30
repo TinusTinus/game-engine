@@ -25,7 +25,7 @@ public class ConfigurationScreen extends Application {
         logVersionInfo();
         
         Thread.currentThread().setUncaughtExceptionHandler(
-                (thread, throwable) -> log.error("Uncaught runtime exception on JavaFX Thread", throwable));
+                (thread, throwable) -> log.error("Uncaught runtime exception", throwable));
         
         Parent parent = FXMLLoader.load(getClass().getResource("/Configuration.fxml"));
         
