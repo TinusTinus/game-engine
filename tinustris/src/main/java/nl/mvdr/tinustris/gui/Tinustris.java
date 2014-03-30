@@ -43,10 +43,6 @@ public class Tinustris extends Application {
     /** Size of the margin between the display for each player in a multiplayer game. */
     private static final int MARGIN = 20;
     
-    // TODO remove the following constant configuration and let the user input these values
-    /** Game configuration.*/
-    private static final Configuration CONFIGURATION = new Configuration() {};
-    
     /** Game loop. */
     private GameLoop<?> gameLoop;
     
@@ -73,9 +69,21 @@ public class Tinustris extends Application {
         Logging.logVersionInfo();
         Logging.setUncaughtExceptionHandler();
         
-        BlockCreator blockCreator = CONFIGURATION.getGraphicsStyle().makeBlockCreator();
+        start(stage, new Configuration() {});
+    }
+
+    /**
+     * Starts the game.
+     * 
+     * @param stage stage in which the game should be shown
+     * @param configuration game configuration
+     */
+    public void start(Stage stage, Configuration configuration) {
+        log.info("Starting game with configuration: " + configuration);
         
-        int numPlayers = CONFIGURATION.getPlayerConfigurations().size();
+        BlockCreator blockCreator = configuration.getGraphicsStyle().makeBlockCreator();
+        
+        int numPlayers = configuration.getPlayerConfigurations().size();
         
         int widthInBlocks = OnePlayerGameState.DEFAULT_WIDTH;
         int heightInBlocks = OnePlayerGameState.DEFAULT_HEIGHT - OnePlayerGameState.VANISH_ZONE_HEIGHT;
@@ -90,7 +98,7 @@ public class Tinustris extends Application {
 
         Scene scene = new Scene(parent, Color.GRAY);
 
-        if (CONFIGURATION.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
+        if (configuration.getGraphicsStyle() == GraphicsStyle.THREE_DIMENSIONAL) {
             scene.setCamera(new PerspectiveCamera());
             onePlayerRenderers.get(0).getChildren().add(createLight(150, 500, -250));
         }
@@ -100,7 +108,7 @@ public class Tinustris extends Application {
         stage.show();
         log.info("Stage shown.");
         
-        initAndStartGameLoop(onePlayerRenderers);
+        initAndStartGameLoop(onePlayerRenderers, configuration);
     }
 
     /**
@@ -109,11 +117,11 @@ public class Tinustris extends Application {
      * @param onePlayerRenderers
      *            renderer for each player
      */
-    private void initAndStartGameLoop(List<OnePlayerGameRenderer> onePlayerRenderers) {
+    private void initAndStartGameLoop(List<OnePlayerGameRenderer> onePlayerRenderers, Configuration configuration) {
         
         int numPlayers = onePlayerRenderers.size();
         
-        List<InputController> inputControllers = CONFIGURATION.getPlayerConfigurations()
+        List<InputController> inputControllers = configuration.getPlayerConfigurations()
                 .stream()
                 .map(PlayerConfiguration::getJInputControllerConfiguration)
                 .map(JInputController::new)
@@ -122,7 +130,7 @@ public class Tinustris extends Application {
         RandomGenerator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
         RandomGenerator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
-                CONFIGURATION.getBehavior(), CONFIGURATION.getStartLevel(), gapGenerator);
+                configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
         
         if (numPlayers == 1) {
             // single player
@@ -175,11 +183,19 @@ public class Tinustris extends Application {
     public void stop() throws Exception {
         log.info("Stopping the application.");
         
-        if (gameLoop != null) {
-            gameLoop.stop();
-        }
+        stopGameLoop();
         
         super.stop();
         log.info("Stopped.");
+    }
+
+    /** Stops the game loop. */
+    public void stopGameLoop() {
+        if (gameLoop != null) {
+            log.info("Stopping the game loop.");
+            gameLoop.stop();
+        } else {
+            log.info("No game loop to stop.");
+        }
     }
 }

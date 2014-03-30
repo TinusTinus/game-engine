@@ -14,6 +14,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
+import javafx.stage.Stage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ import nl.mvdr.tinustris.configuration.ConfigurationImpl;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfigurationImpl;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
+import nl.mvdr.tinustris.gui.Tinustris;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
@@ -208,7 +210,13 @@ public class ConfigurationScreenController {
         Configuration configuration = buildConfiguration();
         log.info("Configuration: " + configuration);
         
-        // TODO close the dialog and start the game!
+        Stage stage = (Stage)behaviorComboBox.getScene().getWindow();
+        
+        Tinustris tinustris = new Tinustris();
+        
+        stage.setOnHidden(event -> tinustris.stopGameLoop());
+        
+        tinustris.start(stage, configuration);
     }
     
     /**
