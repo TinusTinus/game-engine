@@ -27,10 +27,10 @@ import nl.mvdr.tinustris.engine.RandomGenerator;
 import nl.mvdr.tinustris.engine.RandomTetrominoGenerator;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
+import nl.mvdr.tinustris.logging.Logging;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Tetromino;
-import nl.mvdr.tinustris.util.Logging;
 
 /**
  * Main class and entry point for the entire application.

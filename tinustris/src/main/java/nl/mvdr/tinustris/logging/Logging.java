@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.util;
+package nl.mvdr.tinustris.logging;
 
 import org.slf4j.bridge.SLF4JBridgeHandler;
 

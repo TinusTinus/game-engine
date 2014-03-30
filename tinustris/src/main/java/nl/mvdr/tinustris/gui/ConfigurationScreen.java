@@ -8,7 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.tinustris.util.Logging;
+import nl.mvdr.tinustris.logging.Logging;
 
 /**
  * Main class which opens the configuration screen.
