@@ -131,18 +131,6 @@ public class ConfigurationScreenController {
         }
     }
     
-    /** Action handler for the add player button. */
-    @FXML
-    // default visibility for unit test
-    void addPlayer() {
-        log.info("Add player button activated.");
-        
-        String defaultPlayerName = "Player " + (playerTabPane.getTabs().size() + 1);
-        Tab tab = new Tab(defaultPlayerName);
-        // TODO set the contents of the new tab
-        playerTabPane.getTabs().add(playerTabPane.getTabs().size() - 1, tab);
-    }
-    
     /** Starts the game. */
     @FXML
     private void startGame() {

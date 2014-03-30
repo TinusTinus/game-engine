@@ -38,13 +38,14 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testAddPlayer() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().addAll(new Tab(), new Tab("+"));
+        Tab addPlayerTab = new Tab("+");
+        playerTabPane.getTabs().addAll(new Tab("Player 1"), addPlayerTab);
         Button removePlayerButton = new Button();
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane);
         controller.initialize();
 
-        controller.addPlayer();
+        playerTabPane.getSelectionModel().select(addPlayerTab);
 
         Assert.assertEquals(3, playerTabPane.getTabs().size());
         Assert.assertFalse(removePlayerButton.isDisable());
@@ -55,7 +56,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testRemoveThreePlayers() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().addAll(new Tab(), new Tab(), new Tab(), new Tab("+"));
+        playerTabPane.getTabs().addAll(new Tab("Player 1"), new Tab("Player 2"), new Tab("Player 3"), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane);
         controller.initialize();
@@ -70,7 +71,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testRemoveTwoPlayers() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().addAll(new Tab(), new Tab(), new Tab("+"));
+        playerTabPane.getTabs().addAll(new Tab("Player 1"), new Tab("Player 2"), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane);
         controller.initialize();
