@@ -42,6 +42,7 @@ public class ConfigurationScreenControllerTest {
         removePlayerButton.setDisable(true);
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane, removePlayerButton);
+        controller.initialize();
 
         controller.addPlayer();
 
@@ -58,6 +59,7 @@ public class ConfigurationScreenControllerTest {
         removePlayerButton.setDisable(false);
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane, removePlayerButton);
+        controller.initialize();
 
         controller.removePlayer();
 
@@ -74,6 +76,7 @@ public class ConfigurationScreenControllerTest {
         removePlayerButton.setDisable(false);
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), playerTabPane, removePlayerButton);
+        controller.initialize();
 
         controller.removePlayer();
 

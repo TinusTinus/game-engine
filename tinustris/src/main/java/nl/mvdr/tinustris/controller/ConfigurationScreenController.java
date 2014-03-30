@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.controller;
 
 import java.util.stream.Stream;
 
+import javafx.collections.ListChangeListener.Change;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -54,6 +55,8 @@ public class ConfigurationScreenController {
         Stream.of(graphics2DRadioButton, graphics3DRadioButton)
             .forEach(radioButton -> radioButton.setDisable(!toGraphicsStyleValue(radioButton).isAvailable()));
         
+        playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
+        
         // TODO further initialisation
         
         log.info("Initialisation complete.");
@@ -80,6 +83,13 @@ public class ConfigurationScreenController {
         return result;
     }
     
+    /** Handler for when the list of player tabs has been changed. */
+    private void handlePlayerTabListChanged(Change<? extends Tab> change) {
+        log.info("Player tab list changed: " + change);
+        
+        removePlayerButton.setDisable(playerTabPane.getTabs().size() <= 1);
+    }
+    
     /** Action handler for the remove player button. */
     @FXML
     // default visibility for unit test
@@ -88,8 +98,6 @@ public class ConfigurationScreenController {
         
         int selectedIndex = playerTabPane.getSelectionModel().getSelectedIndex();
         playerTabPane.getTabs().remove(selectedIndex);
-        
-        removePlayerButton.setDisable(playerTabPane.getTabs().size() <= 1);
     }
     
     /** Action handler for the add player button. */
@@ -102,8 +110,6 @@ public class ConfigurationScreenController {
         Tab tab = new Tab(defaultPlayerName);
         // TODO set the contents of the new tab
         playerTabPane.getTabs().add(tab);
-        
-        removePlayerButton.setDisable(false);
     }
     
     /** Starts the game. */
