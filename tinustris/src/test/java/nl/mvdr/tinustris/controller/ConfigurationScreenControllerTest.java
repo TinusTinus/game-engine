@@ -2,10 +2,12 @@ package nl.mvdr.tinustris.controller;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.control.TextField;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +31,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testInitialisation() {
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
-                new RadioButton(), new TabPane());
+                new RadioButton(), new ComboBox<>(), new TextField("0"), new TabPane());
 
         controller.initialize();
     }
@@ -42,7 +44,7 @@ public class ConfigurationScreenControllerTest {
         playerTabPane.getTabs().addAll(new Tab("Player 1"), addPlayerTab);
         Button removePlayerButton = new Button();
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
-                new RadioButton(), playerTabPane);
+                new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
 
         playerTabPane.getSelectionModel().select(addPlayerTab);
@@ -58,7 +60,7 @@ public class ConfigurationScreenControllerTest {
         TabPane playerTabPane = new TabPane();
         playerTabPane.getTabs().addAll(new Tab("Player 1"), new Tab("Player 2"), new Tab("Player 3"), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
-                new RadioButton(), playerTabPane);
+                new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
 
         playerTabPane.getTabs().remove(0);
@@ -73,7 +75,7 @@ public class ConfigurationScreenControllerTest {
         TabPane playerTabPane = new TabPane();
         playerTabPane.getTabs().addAll(new Tab("Player 1"), new Tab("Player 2"), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
-                new RadioButton(), playerTabPane);
+                new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
 
         playerTabPane.getTabs().remove(0);

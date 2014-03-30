@@ -5,16 +5,19 @@ import java.util.stream.Stream;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener.Change;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.configuration.Behavior;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 
 /**
@@ -34,10 +37,16 @@ public class ConfigurationScreenController {
     /** Radio button for 3D graphics. */
     @FXML
     private RadioButton graphics3DRadioButton;
+    /** Combo box for Behavior value. */
+    @FXML
+    private ComboBox<Behavior> behaviorComboBox;
+    /** Text field for starting level. */
+    @FXML
+    private TextField startLevelTextField;
     /** Tab pane for player configuration. */
     @FXML
     private TabPane playerTabPane;
-    
+
     /** Initialisation method. */
     @FXML
     // default visibility for unit test
@@ -46,28 +55,39 @@ public class ConfigurationScreenController {
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
         }
-        
-        Stream.of(graphics2DRadioButton, graphics3DRadioButton)
-            .forEach(radioButton ->
-                radioButton.setOnAction(event -> log.info("Activated " + radioButton.getText())));
-        Stream.of(graphics2DRadioButton, graphics3DRadioButton)
-            .forEach(radioButton -> radioButton.setDisable(!toGraphicsStyleValue(radioButton).isAvailable()));
-        
+
+        Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
+                radioButton -> radioButton.setOnAction(event -> log.info("Activated " + radioButton.getText())));
+        Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
+                radioButton -> radioButton.setDisable(!toGraphicsStyleValue(radioButton).isAvailable()));
+
         playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
         playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
+
+        behaviorComboBox.setOnAction(event -> updateStartLevelTextField());
+        behaviorComboBox.getItems().setAll(Behavior.values());
+        behaviorComboBox.getSelectionModel().select(Behavior.defaultBehavior());
         
         // TODO further initialisation
-        
+
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
         }
     }
 
+    /** Updates the start level textfield according to the value currently selected in the behavior combo box. */
+    private void updateStartLevelTextField() {
+        log.info("Updating status of the start level text field.");
+        
+        startLevelTextField.setDisable(!behaviorComboBox.getValue().isStartLevelSupported());
+    }
+
     /**
      * Returns the graphics style value corresponding to the given ui component.
      * 
-     * @param toggle ui component; must be one of the radio buttons corresponding to a graphical style
+     * @param toggle
+     *            ui component; must be one of the radio buttons corresponding to a graphical style
      * @return graphics style
      */
     private GraphicsStyle toGraphicsStyleValue(Toggle toggle) {
@@ -81,7 +101,7 @@ public class ConfigurationScreenController {
         }
         return result;
     }
-    
+
     /**
      * Handler for when the list of player tabs has been changed.
      * 
@@ -90,7 +110,7 @@ public class ConfigurationScreenController {
      */
     private void handlePlayerTabListChanged(Change<? extends Tab> change) {
         log.info("Player tab list changed: " + change);
-        
+
         // only allow closing a tab when there are at least two
         TabClosingPolicy policy;
         if (2 < change.getList().size()) {
@@ -100,7 +120,7 @@ public class ConfigurationScreenController {
         }
         playerTabPane.setTabClosingPolicy(policy);
     }
-    
+
     /**
      * Handles changes in the player tab selection.
      * 
@@ -116,7 +136,7 @@ public class ConfigurationScreenController {
         log.info("Player tab selection changed from {} ({}) to {} ({})", oldValue,
                 playerTabPane.getTabs().get(oldValue.intValue()).getText(), newValue,
                 playerTabPane.getTabs().get(newValue.intValue()).getText());
-        
+
         int selectedIndex = newValue.intValue();
         if (selectedIndex == playerTabPane.getTabs().size() - 1) {
             // add player tab clicked
@@ -125,17 +145,17 @@ public class ConfigurationScreenController {
             Tab tab = new Tab(defaultPlayerName);
             // TODO set the contents of the new tab
             playerTabPane.getTabs().add(playerTabPane.getTabs().size() - 1, tab);
-            
+
             // make sure the new tab is selected
             playerTabPane.getSelectionModel().select(tab);
         }
     }
-    
+
     /** Starts the game. */
     @FXML
     private void startGame() {
         log.info("Start game button activated.");
-        
+
         // TODO close the dialog and start the game
     }
 }

@@ -39,10 +39,10 @@
 					prefWidth="200.0">
 					<children>
 						<ComboBox layoutX="9.0" layoutY="9.0" prefHeight="25.0"
-							prefWidth="158.0" />
+							prefWidth="158.0" fx:id="behaviorComboBox" />
 						<Label layoutX="9.0" layoutY="43.0" text="Start level:" />
 						<TextField layoutX="75.0" layoutY="39.0" prefHeight="25.0"
-							prefWidth="92.0" promptText="Level" text="0" />
+							prefWidth="92.0" promptText="Level" text="0" fx:id="startLevelTextField" />
 					</children>
 				</AnchorPane>
 			</content>
