@@ -27,7 +27,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TinustrisTestContext extends Application {
     /** Tinustris instance. */
-    private Tinustris tinustris;
+    private final Tinustris tinustris;
+    
+    public TinustrisTestContext() {
+        super();
+        this.tinustris = new Tinustris();
+    }
     
     /** {@inheritDoc} */
     @Override
@@ -35,8 +40,6 @@ public class TinustrisTestContext extends Application {
         log.info("Starting application.");
         Logging.logVersionInfo();
         Logging.setUncaughtExceptionHandler();
-        
-        Tinustris tinustris = new Tinustris();
         
         tinustris.start(stage, new Configuration() {});
     }
