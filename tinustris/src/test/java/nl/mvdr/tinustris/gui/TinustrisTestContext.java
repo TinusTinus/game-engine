@@ -1,7 +1,13 @@
 package nl.mvdr.tinustris.gui;
 
+import nl.mvdr.tinustris.configuration.Configuration;
+import nl.mvdr.tinustris.logging.Logging;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * Main class, whose main method simply calls {@link Tinustris#main(String[])}.
+ * Main class, whose main method simply starts Tinustris with a default configuration.
  * 
  * Workaround for the fact that the test classpath (which contains useful things such as a log4j configuration) does not
  * seem to be available when running {@link Tinustris#main(String[])} directly in Eclipse Kepler.
@@ -18,14 +24,47 @@ package nl.mvdr.tinustris.gui;
  * 
  * @author Martijn van de Rijdt
  */
-public class TinustrisTestContext {
+@Slf4j
+public class TinustrisTestContext extends Application {
+    /** Tinustris instance. */
+    private Tinustris tinustris;
+    
+    /** {@inheritDoc} */
+    @Override
+    public void start(Stage stage) {
+        log.info("Starting application.");
+        Logging.logVersionInfo();
+        Logging.setUncaughtExceptionHandler();
+        
+        Tinustris tinustris = new Tinustris();
+        
+        tinustris.start(stage, new Configuration() {});
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public void stop() throws Exception {
+        log.info("Stopping the application.");
+        
+        tinustris.stopGameLoop();
+        
+        super.stop();
+        log.info("Stopped.");
+    }
+    
     /**
-     * Calls {@link Tinustris#main(String[])}.
+     * Main method.
      * 
      * @param args
-     *            command line parameters
+     *            command-line parameters
      */
     public static void main(String[] args) {
-        Tinustris.main(args);
+        log.info("Starting Tinustris.");
+        
+        // JInput uses java.util.logging; redirect to slf4j.
+        Logging.installSlf4jBridge();
+        
+        // Launch the application!
+        launch(args);
     }
 }

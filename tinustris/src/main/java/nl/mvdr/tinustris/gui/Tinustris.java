@@ -6,7 +6,6 @@ import java.util.stream.IntStream;
 
 import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
@@ -27,50 +26,23 @@ import nl.mvdr.tinustris.engine.RandomGenerator;
 import nl.mvdr.tinustris.engine.RandomTetrominoGenerator;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
-import nl.mvdr.tinustris.logging.Logging;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Tetromino;
 
 /**
- * Main class and entry point for the entire application.
+ * Class which can start a game of Tinustris.
  * 
  * @author Martijn van de Rijdt
  */
-// When testing the application in Eclipse, don't run this class directly. Use TinustrisTestContext instead.
 @Slf4j
-public class Tinustris extends Application {
+public class Tinustris {
     /** Size of the margin between the display for each player in a multiplayer game. */
     private static final int MARGIN = 20;
     
     /** Game loop. */
     private GameLoop<?> gameLoop;
-    
-    /**
-     * Main method.
-     * 
-     * @param args
-     *            command-line parameters
-     */
-    public static void main(String[] args) {
-        log.info("Starting Tinustris.");
-        
-        // JInput uses java.util.logging; redirect to slf4j.
-        Logging.installSlf4jBridge();
-        
-        // Launch the application!
-        launch(args);
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public void start(Stage stage) {
-        log.info("Starting application.");
-        Logging.logVersionInfo();
-        Logging.setUncaughtExceptionHandler();
-        
-        start(stage, new Configuration() {});
-    }
+
 
     /**
      * Starts the game.
@@ -176,17 +148,6 @@ public class Tinustris extends Application {
         transition.play();
         
         return light;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void stop() throws Exception {
-        log.info("Stopping the application.");
-        
-        stopGameLoop();
-        
-        super.stop();
-        log.info("Stopped.");
     }
 
     /** Stops the game loop. */
