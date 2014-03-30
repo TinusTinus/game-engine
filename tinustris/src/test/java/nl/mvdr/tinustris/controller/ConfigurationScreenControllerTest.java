@@ -63,8 +63,8 @@ public class ConfigurationScreenControllerTest {
                 new RadioButton(), playerTabPane, removePlayerButton);
         controller.initialize();
 
-        controller.removePlayer();
-
+        playerTabPane.getTabs().remove(0);
+        
         Assert.assertEquals(2, playerTabPane.getTabs().size());
         Assert.assertFalse(removePlayerButton.isDisable());
         Assert.assertEquals(TabClosingPolicy.SELECTED_TAB, playerTabPane.getTabClosingPolicy());
@@ -81,7 +81,7 @@ public class ConfigurationScreenControllerTest {
                 new RadioButton(), playerTabPane, removePlayerButton);
         controller.initialize();
 
-        controller.removePlayer();
+        playerTabPane.getTabs().remove(0);
 
         Assert.assertEquals(1, playerTabPane.getTabs().size());
         Assert.assertTrue(removePlayerButton.isDisable());
