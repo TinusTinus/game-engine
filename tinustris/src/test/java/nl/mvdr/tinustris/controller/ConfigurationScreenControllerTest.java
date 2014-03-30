@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
+import nl.mvdr.tinustris.configuration.Behavior;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -82,5 +83,33 @@ public class ConfigurationScreenControllerTest {
 
         Assert.assertEquals(2, playerTabPane.getTabs().size());
         Assert.assertEquals(TabClosingPolicy.UNAVAILABLE, playerTabPane.getTabClosingPolicy());
+    }
+    
+    /** Test method for choosing TGM behavior. */
+    @Test
+    public void testChooseTGM() {
+        ComboBox<Behavior> behaviorComboBox = new ComboBox<>();
+        TextField startLevelTextField = new TextField("0");
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), behaviorComboBox, startLevelTextField, new TabPane());
+        controller.initialize();
+        
+        behaviorComboBox.getSelectionModel().select(Behavior.THE_GRANDMASTER);
+        
+        Assert.assertTrue(startLevelTextField.isDisable());
+    }
+    
+    /** Test method for choosing Game Boy Tetris behavior. */
+    @Test
+    public void testChooseGameBoy() {
+        ComboBox<Behavior> behaviorComboBox = new ComboBox<>();
+        TextField startLevelTextField = new TextField("0");
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
+                new RadioButton(), behaviorComboBox, startLevelTextField, new TabPane());
+        controller.initialize();
+        
+        behaviorComboBox.getSelectionModel().select(Behavior.GAME_BOY);
+        
+        Assert.assertFalse(startLevelTextField.isDisable());
     }
 }
