@@ -13,12 +13,4 @@ public class TinustrisTest {
     public void testDefaultConstructor() {
         new Tinustris();
     }
-    
-    /** Test case for {@link Tinustris#logVersionInfo()}. */
-    @Test
-    public void testLogVersionInfo() {
-        Tinustris tinustris = new Tinustris();
-        
-        tinustris.logVersionInfo();
-    }
 }
