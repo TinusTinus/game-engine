@@ -9,6 +9,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Toggle;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -87,7 +88,15 @@ public class ConfigurationScreenController {
     private void handlePlayerTabListChanged(Change<? extends Tab> change) {
         log.info("Player tab list changed: " + change);
         
+        // only allow closing a tab when there are at least two
         removePlayerButton.setDisable(playerTabPane.getTabs().size() <= 1);
+        TabClosingPolicy policy;
+        if (1 < change.getList().size()) {
+            policy = TabClosingPolicy.SELECTED_TAB;
+        } else {
+            policy = TabClosingPolicy.UNAVAILABLE;
+        }
+        playerTabPane.setTabClosingPolicy(policy);
     }
     
     /** Action handler for the remove player button. */

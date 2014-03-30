@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,6 +49,7 @@ public class ConfigurationScreenControllerTest {
 
         Assert.assertEquals(2, playerTabPane.getTabs().size());
         Assert.assertFalse(removePlayerButton.isDisable());
+        Assert.assertEquals(TabClosingPolicy.SELECTED_TAB, playerTabPane.getTabClosingPolicy());
     }
 
     /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
@@ -65,6 +67,7 @@ public class ConfigurationScreenControllerTest {
 
         Assert.assertEquals(2, playerTabPane.getTabs().size());
         Assert.assertFalse(removePlayerButton.isDisable());
+        Assert.assertEquals(TabClosingPolicy.SELECTED_TAB, playerTabPane.getTabClosingPolicy());
     }
 
     /** Test method for {@link ConfigurationScreenController#removePlayer()} in case there are three players. */
@@ -82,5 +85,6 @@ public class ConfigurationScreenControllerTest {
 
         Assert.assertEquals(1, playerTabPane.getTabs().size());
         Assert.assertTrue(removePlayerButton.isDisable());
+        Assert.assertEquals(TabClosingPolicy.UNAVAILABLE, playerTabPane.getTabClosingPolicy());
     }
 }
