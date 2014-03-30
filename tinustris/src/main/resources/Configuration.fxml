@@ -77,6 +77,6 @@
 		</TitledPane>
 		<Button layoutX="537.1875" layoutY="489.5" mnemonicParsing="false"
 			text="Start game" AnchorPane.bottomAnchor="21.5"
-			AnchorPane.rightAnchor="10.8125" />
+			AnchorPane.rightAnchor="10.8125" onAction="#startGame" />
 	</children>
 </AnchorPane>

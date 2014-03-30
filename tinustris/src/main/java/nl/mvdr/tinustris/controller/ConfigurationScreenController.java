@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javafx.beans.value.ObservableValue;
@@ -18,6 +20,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Behavior;
+import nl.mvdr.tinustris.configuration.Configuration;
+import nl.mvdr.tinustris.configuration.ConfigurationImpl;
+import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 
 /**
@@ -59,7 +64,7 @@ public class ConfigurationScreenController {
         Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
                 radioButton -> radioButton.setOnAction(event -> log.info("Activated " + radioButton.getText())));
         Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
-                radioButton -> radioButton.setDisable(!toGraphicsStyleValue(radioButton).isAvailable()));
+                radioButton -> radioButton.setDisable(!toGraphicsStyle(radioButton).isAvailable()));
 
         behaviorComboBox.setOnAction(event -> updateStartLevelTextField());
         behaviorComboBox.getItems().setAll(Behavior.values());
@@ -85,7 +90,7 @@ public class ConfigurationScreenController {
      *            ui component; must be one of the radio buttons corresponding to a graphical style
      * @return graphics style
      */
-    private GraphicsStyle toGraphicsStyleValue(Toggle toggle) {
+    private GraphicsStyle toGraphicsStyle(Toggle toggle) {
         GraphicsStyle result;
         if (toggle == graphics2DRadioButton) {
             result = GraphicsStyle.TWO_DIMENSIONAL;
@@ -198,6 +203,32 @@ public class ConfigurationScreenController {
     private void startGame() {
         log.info("Start game button activated.");
 
-        // TODO close the dialog and start the game
+        Configuration configuration = buildConfiguration();
+        log.info("Configuration: " + configuration);
+        
+        // TODO close the dialog and start the game!
+    }
+    
+    /**
+     * Creates a Configuration based on the values entered by the user.
+     * 
+     * @return Configuration
+     */
+    private Configuration buildConfiguration() {
+        // TODO retrieve input configuration from the actual playerTabPane and construct a PlayerConfigurationImpl
+        List<PlayerConfiguration> playerConfigurations = playerTabPane.getTabs()
+                .subList(0, playerTabPane.getTabs().size() - 1)
+                .stream()
+                .map(Tab::getText)
+                .map(name -> (PlayerConfiguration) () -> name)
+                .collect(Collectors.toList());
+        
+        GraphicsStyle graphicsStyle = toGraphicsStyle(graphics2DRadioButton.getToggleGroup().getSelectedToggle());
+        
+        Behavior behavior = behaviorComboBox.getValue();
+        
+        int startLevel = Integer.parseInt(startLevelTextField.getText());
+        
+        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel);
     }
 }
