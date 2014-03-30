@@ -39,8 +39,8 @@ public enum Behavior {
     THE_GRANDMASTER_2_MASTER("Tetris: The Grandmaster 2 Master Mode", startLevel -> new TheGrandMasterLevelSystem(),
             false, new TheGrandMaster2MasterSpeedCurve()),
     /** Behavior which starts at 20 G and does not let up. */
-    ALWAYS_20_G("20 G Forever", startLevel -> new TheGrandMasterLevelSystem(), false, new ConstantSpeedCurve(5120, 30,
-            30, 41));
+    ALWAYS_20_G("20 G Forever", startLevel -> new TheGrandMasterLevelSystem(), false,
+            new ConstantSpeedCurve(5120, 30, 30, 41));
 
     /** Name of this behavior value. */
     @Getter
