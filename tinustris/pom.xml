@@ -58,7 +58,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>nl.mvdr.tinustris.gui.Tinustris</mainClass>
+							<mainClass>nl.mvdr.tinustris.gui.ConfigurationScreen</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>

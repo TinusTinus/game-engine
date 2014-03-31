@@ -15,4 +15,4 @@ set JAVA_OPTS=-Djava.library.path=%NATIVES_DIR%
 
 set JAVA=javaw
 
-start %JAVA% %JAVA_OPTS% -cp %CONFIG_DIR%;%LIB_DIR%\* nl.mvdr.tinustris.gui.Tinustris
+start %JAVA% %JAVA_OPTS% -cp %CONFIG_DIR%;%LIB_DIR%\* nl.mvdr.tinustris.gui.ConfigurationScreen
