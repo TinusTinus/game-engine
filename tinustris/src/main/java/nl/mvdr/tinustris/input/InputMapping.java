@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import net.java.games.input.Component;
+import net.java.games.input.Component.Identifier.Axis;
+import net.java.games.input.Component.POV;
 
 /**
  * Mapping value for a single input.
@@ -32,7 +34,34 @@ public class InputMapping {
     /** {@inheritDoc} */
     @Override
     public String toString() {
-        // TODO better toString
-        return component.getName();
+        String result;
+        
+        if (component.getIdentifier() == Axis.POV) {
+            // d-pad
+            if (matcher.test(POV.UP)) {
+                result = "D-pad up";
+            } else if (matcher.test(POV.UP_RIGHT)) {
+                result = "D-pad up-right";
+            } else if (matcher.test(POV.RIGHT)) {
+                result = "D-pad right";
+            } else if (matcher.test(POV.DOWN_RIGHT)) {
+                result = "D-pad down-right";
+            } else if (matcher.test(POV.DOWN)) {
+                result = "D-pad down";
+            } else if (matcher.test(POV.DOWN_LEFT)) {
+                result = "D-pad down-left";
+            } else if (matcher.test(POV.LEFT)) {
+                result = "D-pad left";
+            } else if (matcher.test(POV.UP_LEFT)) {
+                result = "D-pad up-left";
+            } else {
+                // unknown value
+                result = "D-pad";
+            }
+        } else {
+            result = component.getName();
+        }
+        return result;
     }
+    
 }
