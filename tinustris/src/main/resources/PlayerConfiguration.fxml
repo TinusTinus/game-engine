@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="402.0"
+	prefWidth="233.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<Label layoutX="14.0048828125" layoutY="14.0" text="Name:"
+			AnchorPane.leftAnchor="14.0048828125" AnchorPane.topAnchor="14.0" />
+		<TextField fx:id="nameTextField" layoutX="68.0" layoutY="10.0"
+			AnchorPane.leftAnchor="68.0" AnchorPane.rightAnchor="16.0"
+			AnchorPane.topAnchor="10.0" />
+		<TableView layoutX="14.0" layoutY="49.0" prefHeight="304.0"
+			prefWidth="203.0" AnchorPane.bottomAnchor="49.0"
+			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0"
+			AnchorPane.topAnchor="49.0">
+			<columns>
+				<TableColumn prefWidth="75.0" text="Input" />
+				<TableColumn fx:id="inputTable" prefWidth="127.0" text="Button / Key" />
+			</columns>
+		</TableView>
+		<Button layoutX="104.0" layoutY="363.0" mnemonicParsing="false"
+			text="Configure buttons" AnchorPane.bottomAnchor="14.0"
+			AnchorPane.rightAnchor="16.0" />
+	</children>
+</AnchorPane>
