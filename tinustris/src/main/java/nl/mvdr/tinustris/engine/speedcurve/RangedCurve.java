@@ -52,9 +52,9 @@ class RangedCurve {
             .collect(Collectors.toList());
         
         return IntStream.range(0, map.size() - 1)
-            .mapToObj(i -> String.format("(%s, %s) -> %s, ", entryList.get(i).getKey(), entryList.get(i + 1).getKey(), entryList.get(i).getValue()))
+            .mapToObj(i -> String.format("[%s, %s): %s, ", entryList.get(i).getKey(), entryList.get(i + 1).getKey(), entryList.get(i).getValue()))
             .collect(StringBuilder::new, (builder, string) -> builder.append(string), StringBuilder::append)
-            .append(String.format("(%s, infinity) -> %s", entryList.get(entryList.size() - 1).getKey(), entryList.get(entryList.size() - 1).getValue()))
+            .append(String.format("[%s, infinity): %s", entryList.get(entryList.size() - 1).getKey(), entryList.get(entryList.size() - 1).getValue()))
             .toString();
     }
 }
