@@ -27,6 +27,7 @@ import nl.mvdr.tinustris.configuration.ConfigurationImpl;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.gui.Tinustris;
+import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Controller for a configuration screen.
@@ -110,11 +111,19 @@ public class ConfigurationScreenController {
         playerTabPane.getSelectionModel().select(0);
         playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
         playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
+        
+        initFirstController();
 
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
         }
+    }
+
+    /** Initialises the first player configuration controller. */
+    // protected visibility as an extension point for unit tests
+    protected void initFirstController() {
+        playerConfigurationControllers.get(0).updateInputConfiguration(JInputControllerConfiguration.defaultConfiguration());
     }
 
     /**
