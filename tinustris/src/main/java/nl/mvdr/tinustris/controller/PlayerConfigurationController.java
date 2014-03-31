@@ -2,7 +2,6 @@ package nl.mvdr.tinustris.controller;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -18,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfigurationImpl;
 import nl.mvdr.tinustris.input.Input;
+import nl.mvdr.tinustris.input.InputAndMapping;
 import nl.mvdr.tinustris.input.InputMapping;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
@@ -34,7 +34,7 @@ public class PlayerConfigurationController {
     private TextField nameTextField;
     /** Table view showing off all of the inputs. */
     @FXML
-    private TableView<Entry<Input, Set<InputMapping>>> inputTable;
+    private TableView<InputAndMapping> inputTable;
     
     /** Configuration for the input controller. */
     private JInputControllerConfiguration inputConfiguration;
@@ -57,7 +57,7 @@ public class PlayerConfigurationController {
      * @param inputTable
      *            table displaying all inputs
      */
-    PlayerConfigurationController(TextField nameTextField, TableView<Entry<Input, Set<InputMapping>>> inputTable) {
+    PlayerConfigurationController(TextField nameTextField, TableView<InputAndMapping> inputTable) {
         this();
         
         this.nameTextField = nameTextField;
@@ -71,7 +71,7 @@ public class PlayerConfigurationController {
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
         }
-        
+
         updateInputTable();
         
         log.info("Initialisation complete.");
@@ -96,7 +96,8 @@ public class PlayerConfigurationController {
             inputConfiguration.getMapping()
                 .entrySet()
                 .stream()
-                .sorted((left, right) -> left.getKey().compareTo(right.getKey()))
+                .map(entry -> new InputAndMapping(entry.getKey(), entry.getValue()))
+                .sorted((left, right) -> left.getInput().compareTo(right.getInput()))
                 .collect(Collectors.toList())));
     }
     

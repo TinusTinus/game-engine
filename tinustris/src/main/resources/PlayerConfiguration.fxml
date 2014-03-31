@@ -2,6 +2,7 @@
 
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
@@ -17,10 +18,18 @@
 		<TableView layoutX="14.0" layoutY="49.0" prefHeight="304.0"
 			prefWidth="203.0" AnchorPane.bottomAnchor="49.0"
 			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0"
-			AnchorPane.topAnchor="49.0" fx:id="inputTable" >
+			AnchorPane.topAnchor="49.0" fx:id="inputTable">
 			<columns>
-				<TableColumn prefWidth="75.0" text="Input" />
-				<TableColumn prefWidth="127.0" text="Button / Key" />
+				<TableColumn prefWidth="75.0" text="Input">
+					<cellValueFactory>
+						<PropertyValueFactory property="input" />
+					</cellValueFactory>
+				</TableColumn>
+				<TableColumn prefWidth="127.0" text="Button / Key">
+					<cellValueFactory>
+						<PropertyValueFactory property="mapping" />
+					</cellValueFactory>
+				</TableColumn>
 			</columns>
 		</TableView>
 		<Button layoutX="104.0" layoutY="363.0" mnemonicParsing="false"
