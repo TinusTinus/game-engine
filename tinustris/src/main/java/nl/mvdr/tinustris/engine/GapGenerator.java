@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.engine;
 
-import java.util.function.Function;
-
 /**
  * Generator for determining the gap in garbage lines in a game of Tetris.
  * 
@@ -15,7 +13,7 @@ public class GapGenerator extends RandomGenerator<Integer> {
      *            width of the playing field
      */
     public GapGenerator(int width) {
-        super(width, Function.identity(), "Gap");
+        super(width, Integer::valueOf, "Gap");
     }
 
     /**
@@ -27,6 +25,6 @@ public class GapGenerator extends RandomGenerator<Integer> {
      *            width of the playing field
      */
     GapGenerator(long randomSeed, int width) {
-        super(randomSeed, width, Function.identity(), "Gap");
+        super(randomSeed, width, Integer::valueOf, "Gap");
     }
 }

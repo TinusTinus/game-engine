@@ -3,7 +3,7 @@ package nl.mvdr.tinustris.engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
+import java.util.function.IntFunction;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +30,7 @@ public class RandomGenerator<S> implements Generator<S> {
     /** Maximum int value used as input for {@link Random#nextInt()}. */
     private final int maxRandomValue;
     /** Function to map an integer value as determined by {@link Random#nextInt()} into an actual value. */
-    private final Function<Integer, S> mapping;
+    private final IntFunction<S> mapping;
     /** Name for the value type. Used only for logging. */
     private final String valueName;
     
@@ -44,7 +44,7 @@ public class RandomGenerator<S> implements Generator<S> {
      * @param valueName
      *            name for the value type; used only for logging
      */
-    RandomGenerator(int maxRandomValue, Function<Integer, S> mapping, String valueName) {
+    RandomGenerator(int maxRandomValue, IntFunction<S> mapping, String valueName) {
         super();
         
         this.random = new Random();
@@ -67,7 +67,7 @@ public class RandomGenerator<S> implements Generator<S> {
      * @param valueName
      *            name for the value type; used only for logging
      */
-    RandomGenerator(long randomSeed, int maxRandomValue, Function<Integer, S> mapping, String valueName) {
+    RandomGenerator(long randomSeed, int maxRandomValue, IntFunction<S> mapping, String valueName) {
         super();
 
         this.random = new Random(randomSeed);
@@ -88,7 +88,7 @@ public class RandomGenerator<S> implements Generator<S> {
         synchronized (values) {
             while (values.size() <= i) {
                 int ord = random.nextInt(maxRandomValue);
-                S value = mapping.apply(Integer.valueOf(ord)); // TODO
+                S value = mapping.apply(ord);
                 values.add(value);
                 if (log.isInfoEnabled()) {
                     log.info("{} {}: {}", valueName, Integer.valueOf(values.size() - 1), value);
