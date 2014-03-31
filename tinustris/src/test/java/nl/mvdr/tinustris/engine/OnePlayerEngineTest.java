@@ -159,21 +159,21 @@ public class OnePlayerEngineTest {
      * @return newly created game state
      */
     private OnePlayerGameState createGameStateForHardDropTest() {
-        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
-        grid.set(1, Block.O);
-        grid.set(2, Block.O);
-        grid.set(3, Block.S);
-        grid.set(4, Block.Z);
-        grid.set(5, Block.O);
-        grid.set(6, Block.O);
-        grid.set(7, Block.J);
-        grid.set(8, Block.J);
-        grid.set(9, Block.L);
-        grid.set(12, Block.S);
-        grid.set(13, Block.S);
-        grid.set(18, Block.J);
-        grid.set(22, Block.S);
-        grid.set(28, Block.J);
+        List<Optional<Block>> grid = new ArrayList<>(Collections.nCopies(220, Optional.empty()));
+        grid.set(1, Optional.of(Block.O));
+        grid.set(2, Optional.of(Block.O));
+        grid.set(3, Optional.of(Block.S));
+        grid.set(4, Optional.of(Block.Z));
+        grid.set(5, Optional.of(Block.O));
+        grid.set(6, Optional.of(Block.O));
+        grid.set(7, Optional.of(Block.J));
+        grid.set(8, Optional.of(Block.J));
+        grid.set(9, Optional.of(Block.L));
+        grid.set(12, Optional.of(Block.S));
+        grid.set(13, Optional.of(Block.S));
+        grid.set(18, Optional.of(Block.J));
+        grid.set(22, Optional.of(Block.S));
+        grid.set(28, Optional.of(Block.J));
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 13),
                 Orientation.FLAT_DOWN, Tetromino.I, 11, 0, 11, InputStateHistory.NEW, 236, 93, 0, 0, 0, 0);
         return state;
@@ -188,8 +188,8 @@ public class OnePlayerEngineTest {
         DummyGenerator<Tetromino> generator = new DummyGenerator<>(Arrays.asList(Tetromino.O, Tetromino.T, Tetromino.L));
         ConstantSpeedCurve curve = new ConstantSpeedCurve();
         OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), i -> 0);
-        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
-        grid.set(0, Block.O);
+        List<Optional<Block>> grid = new ArrayList<>(Collections.nCopies(220, Optional.empty()));
+        grid.set(0, Optional.of(Block.O));
         OnePlayerGameState previousState = new OnePlayerGameState(grid, 10, Optional.empty(), Optional.empty(),
                 Optional.empty(), Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 1, 0);
         log.info("Previous game state: " + previousState);
@@ -199,10 +199,10 @@ public class OnePlayerEngineTest {
         log.info("Next game state: " + state);
         Assert.assertEquals(0, state.getGarbageLines());
         Assert.assertEquals(1, state.getTotalGarbage());
-        Assert.assertEquals(null, state.getGrid().get(0));
-        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(Block.O, state.getGrid().get(10));
-        state.getGrid().subList(11, 220).forEach(Assert::assertNull);
+        Assert.assertFalse(state.getGrid().get(0).isPresent());
+        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertEquals(Block.O, state.getGrid().get(10).get());
+        state.getGrid().subList(11, 220).forEach(block -> Assert.assertFalse(block.isPresent()));
     }
     
     /**
@@ -219,8 +219,8 @@ public class OnePlayerEngineTest {
             return 0;
         };
         OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), gapGenerator);
-        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
-        grid.set(0, Block.O);
+        List<Optional<Block>> grid = new ArrayList<>(Collections.nCopies(220, Optional.empty()));
+        grid.set(0, Optional.of(Block.O));
         OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH,
                 Optional.empty(), Optional.empty(), Optional.empty(), Tetromino.T, 0, curve.getAre() + 1, 0,
                 InputStateHistory.NEW, 0, 0, 1, 0, 2, 0);
@@ -231,12 +231,12 @@ public class OnePlayerEngineTest {
         log.info("Next game state: " + state);
         Assert.assertEquals(0, state.getGarbageLines());
         Assert.assertEquals(2, state.getTotalGarbage());
-        Assert.assertEquals(null, state.getGrid().get(0));
-        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(10));
-        state.getGrid().subList(11, 20).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(Block.O, state.getGrid().get(20));
-        state.getGrid().subList(21, 220).forEach(Assert::assertNull);
+        Assert.assertFalse(state.getGrid().get(0).isPresent());
+        state.getGrid().subList(1, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(10).isPresent());
+        state.getGrid().subList(11, 20).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertEquals(Block.O, state.getGrid().get(20).get());
+        state.getGrid().subList(21, 220).forEach(block -> Assert.assertFalse(block.isPresent()));
     }
     
     /**
@@ -253,8 +253,8 @@ public class OnePlayerEngineTest {
             return i;
         };
         OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), gapGenerator);
-        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
-        grid.set(0, Block.O);
+        List<Optional<Block>> grid = new ArrayList<>(Collections.nCopies(220, Optional.empty()));
+        grid.set(0, Optional.of(Block.O));
         OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH,
                 Optional.empty(), Optional.empty(), Optional.empty(), Tetromino.T, 0, curve.getAre() + 1, 0,
                 InputStateHistory.NEW, 0, 0, 1, 0, 10, 0);
@@ -265,31 +265,31 @@ public class OnePlayerEngineTest {
         log.info("Next game state: " + state);
         Assert.assertEquals(0, state.getGarbageLines());
         Assert.assertEquals(10, state.getTotalGarbage());
-        Assert.assertEquals(Block.GARBAGE, state.getGrid().get(0));
-        Assert.assertEquals(null, state.getGrid().get(1));
-        state.getGrid().subList(2, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(10));
-        state.getGrid().subList(11, 20).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(20));
-        state.getGrid().subList(21, 30).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(30));
-        state.getGrid().subList(31, 40).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(40));
-        state.getGrid().subList(41, 50).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(50));
-        state.getGrid().subList(51, 60).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(60));
-        state.getGrid().subList(61, 70).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(70));
-        state.getGrid().subList(71, 80).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(80));
-        state.getGrid().subList(81, 90).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(90));
-        state.getGrid().subList(91, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(null, state.getGrid().get(90));
-        state.getGrid().subList(91, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block));
-        Assert.assertEquals(Block.O, state.getGrid().get(100));
-        state.getGrid().subList(101, 220).forEach(Assert::assertNull);
+        Assert.assertEquals(Block.GARBAGE, state.getGrid().get(0).get());
+        Assert.assertFalse(state.getGrid().get(1).isPresent());
+        state.getGrid().subList(2, 10).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(10).isPresent());
+        state.getGrid().subList(11, 20).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(20).isPresent());
+        state.getGrid().subList(21, 30).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(30).isPresent());
+        state.getGrid().subList(31, 40).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(40).isPresent());
+        state.getGrid().subList(41, 50).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(50).isPresent());
+        state.getGrid().subList(51, 60).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(60).isPresent());
+        state.getGrid().subList(61, 70).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(70).isPresent());
+        state.getGrid().subList(71, 80).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(80).isPresent());
+        state.getGrid().subList(81, 90).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(90).isPresent());
+        state.getGrid().subList(91, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertFalse(state.getGrid().get(90).isPresent());
+        state.getGrid().subList(91, 100).forEach(block -> Assert.assertEquals(Block.GARBAGE, block.get()));
+        Assert.assertEquals(Block.O, state.getGrid().get(100).get());
+        state.getGrid().subList(101, 220).forEach(block -> Assert.assertFalse(block.isPresent()));
     }
     
 }

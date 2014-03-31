@@ -84,7 +84,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     /** {@inheritDoc} */
     @Override
     public OnePlayerGameState initGameState() {
-        List<Block> grid = Collections.nCopies(OnePlayerGameState.DEFAULT_WIDTH * OnePlayerGameState.DEFAULT_HEIGHT, null);
+        List<Optional<Block>> grid =
+            Collections.nCopies(OnePlayerGameState.DEFAULT_WIDTH * OnePlayerGameState.DEFAULT_HEIGHT, Optional.empty());
         OnePlayerGameState gameState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, generator.get(0),
                 generator.get(1));
         gameState = gameState.withLevel(this.levelSystem.computeLevel(gameState, gameState));
@@ -321,10 +322,10 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         int height = state.getHeight();
         
         // Update the grid: old grid plus current location of the active block.
-        List<Block> grid = new ArrayList<>(state.getGrid());
+        List<Optional<Block>> grid = new ArrayList<>(state.getGrid());
         for (Point point : state.getCurrentActiveBlockPoints()) {
             int index = state.toGridIndex(point);
-            grid.set(index, state.getActiveTetromino().get().getBlock());
+            grid.set(index, state.getActiveTetromino().map(Tetromino::getBlock));
         }
         grid = Collections.unmodifiableList(grid);
         
@@ -363,7 +364,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      *            list containing the grid
      * @return number of lines; between 0 and 4
      */
-    private int countLines(int width, int height, List<Block> grid) {
+    private int countLines(int width, int height, List<Optional<Block>> grid) {
         long count = IntStream.range(0, height - 1)
             .filter(line -> isFullLine(line, width, grid))
             .count();
@@ -382,9 +383,9 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      *            list containing the grid
      * @return whether this is a full line
      */
-    private boolean isFullLine(int y, int width, List<Block> grid) {
+    private boolean isFullLine(int y, int width, List<Optional<Block>> grid) {
         return IntStream.range(0, width)
-            .allMatch(x -> grid.get(x + y * width) != null);
+            .allMatch(x -> grid.get(x + y * width).isPresent());
     }
 
     /**
@@ -401,7 +402,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
     private OnePlayerGameState removeLines(OnePlayerGameState state) {
         int width = state.getWidth();
         int height = state.getHeight();
-        List<Block> grid = new ArrayList<>(state.getGrid());
+        List<Optional<Block>> grid = new ArrayList<>(state.getGrid());
 
         // Update the grid by removing all full lines.
         for (int line = height - 1; 0 <= line; line--) {
@@ -410,14 +411,14 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
                 // Drop all the lines above it down.
                 for (int y = line; y != height - 1; y++) {
                     for (int x = 0; x != width; x++) {
-                        Block block = grid.get(x + (y + 1) * width);
+                        Optional<Block> block = grid.get(x + (y + 1) * width);
                         grid.set(x + y * width, block);
                     }
                 }
                 
                 // Make the top line empty.
                 for (int x = 0; x != width; x++) {
-                    grid.set(x + (height - 1) * width, null);
+                    grid.set(x + (height - 1) * width, Optional.empty());
                 }
             }
         }
@@ -470,12 +471,12 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         int gapIndex = state.getTotalGarbage() / NUM_ALIGNED_GARBAGE_LINES;
         int gap = gapGenerator.get(gapIndex).intValue();
         // fill the bottom line with garbage, except for the gap block
-        List<Block> grid = new ArrayList<>(state.getGrid().size());
+        List<Optional<Block>> grid = new ArrayList<>(state.getGrid().size());
         for (int i = 0; i != state.getWidth(); i++) {
             if (i == gap) {
-                grid.add(null);
+                grid.add(Optional.empty());
             } else {
-                grid.add(Block.GARBAGE);
+                grid.add(Optional.of(Block.GARBAGE));
             }
         }
         grid.addAll(state.getGrid().subList(0, state.getGrid().size() - state.getWidth()));

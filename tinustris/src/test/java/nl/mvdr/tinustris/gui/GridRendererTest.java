@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.gui;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
@@ -126,9 +127,9 @@ public class GridRendererTest {
      * @return game state
      */
     private OnePlayerGameState createNontrivialGameState() {
-        List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
+        List<Optional<Block>> grid = new ArrayList<>(Collections.nCopies(220, Optional.empty()));
         // add a single block at (2, 0)
-        grid.set(2, Block.S);
+        grid.set(2, Optional.of(Block.S));
         OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         return gameState;
@@ -140,9 +141,9 @@ public class GridRendererTest {
      * @return game state
      */
     private OnePlayerGameState createGameStateWithFullLine() {
-        List<Block> grid = new ArrayList<>(220);
-        grid.addAll(Collections.nCopies(10, Block.S));
-        grid.addAll(Collections.nCopies(210, null));
+        List<Optional<Block>> grid = new ArrayList<>(220);
+        grid.addAll(Collections.nCopies(10, Optional.of(Block.S)));
+        grid.addAll(Collections.nCopies(210, Optional.empty()));
         OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Tetromino.O, new Point(5, 10), Orientation.getDefault(),
                 Tetromino.I);
         return gameState;

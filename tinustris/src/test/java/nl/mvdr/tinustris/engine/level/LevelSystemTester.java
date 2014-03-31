@@ -45,7 +45,7 @@ public abstract class LevelSystemTester {
      * @return game state
      */
     OnePlayerGameState createGameState(int blockCounter, int lines, int level) {
-        List<Block> grid = Collections.nCopies(220, null);
+        List<Optional<Block>> grid = Collections.nCopies(220, Optional.empty());
         OnePlayerGameState state = new OnePlayerGameState(grid, 10, Optional.empty(), Optional.empty(),
                 Optional.empty(), Tetromino.Z, 0, 0, 0, InputStateHistory.NEW, blockCounter, lines, 0, level, 0, 0);
         return state;

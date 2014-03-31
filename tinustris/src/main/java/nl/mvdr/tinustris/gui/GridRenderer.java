@@ -75,9 +75,9 @@ class GridRenderer extends BlockGroupRenderer {
                 }
                 
                 for (int x = 0; x != gameState.getWidth(); x++) {
-                    Block block = gameState.getBlock(x, y);
-                    if (block != null) {
-                        Node node = createBlock(x, y, height, block, style,
+                    Optional<Block> block = gameState.getBlock(x, y);
+                    if (block.isPresent()) {
+                        Node node = createBlock(x, y, height, block.get(), style,
                                 gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                         result.get().getChildren().add(node);
                     }
