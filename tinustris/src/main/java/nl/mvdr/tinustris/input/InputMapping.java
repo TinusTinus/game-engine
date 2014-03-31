@@ -14,9 +14,9 @@ import net.java.games.input.Component;
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 @ToString
-class InputMapping {
+public class InputMapping {
     /** Component. */
     @Getter(AccessLevel.PACKAGE)
     @NonNull

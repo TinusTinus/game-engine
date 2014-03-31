@@ -17,10 +17,10 @@
 		<TableView layoutX="14.0" layoutY="49.0" prefHeight="304.0"
 			prefWidth="203.0" AnchorPane.bottomAnchor="49.0"
 			AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="16.0"
-			AnchorPane.topAnchor="49.0">
+			AnchorPane.topAnchor="49.0" fx:id="inputTable" >
 			<columns>
 				<TableColumn prefWidth="75.0" text="Input" />
-				<TableColumn fx:id="inputTable" prefWidth="127.0" text="Button / Key" />
+				<TableColumn prefWidth="127.0" text="Button / Key" />
 			</columns>
 		</TableView>
 		<Button layoutX="104.0" layoutY="363.0" mnemonicParsing="false"
