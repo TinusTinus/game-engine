@@ -1,7 +1,7 @@
 @echo off
 
 :: Startup script for Tinustris.
-:: This script assumes that a valid javaw.exe, version 1.7 or later, is on the PATH.
+:: This script assumes that a valid javaw.exe, version 1.8 or later, is on the PATH.
 
 set PWD="%CD%"
 

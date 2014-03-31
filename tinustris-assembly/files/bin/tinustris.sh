@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Startup script for Tinustris.
-# This script assumes that a valid java, version 1.7 or later, is available.
+# This script assumes that a valid java, version 1.8 or later, is available.
 
 LIB_DIR=../lib
 
