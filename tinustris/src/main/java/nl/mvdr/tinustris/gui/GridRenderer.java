@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.gui;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javafx.scene.Group;
@@ -37,14 +38,13 @@ class GridRenderer extends BlockGroupRenderer {
     
     /** {@inheritDoc} */
     @Override
-    List<Group> createGroups(OnePlayerGameState gameState) {
+    List<Optional<Group>> createGroups(OnePlayerGameState gameState) {
         // create groups if state has changed; otherwise these groups may remain null
-        Group grid = createGridGroup(gameState);
-        Group ghost = createGhostGroup(gameState);
-        Group activeBlock = createActiveBlockGroup(gameState);
+        Optional<Group> grid = createGridGroup(gameState);
+        Optional<Group> ghost = createGhostGroup(gameState);
+        Optional<Group> activeBlock = createActiveBlockGroup(gameState);
         
-        final List<Group> groups = Arrays.asList(grid, ghost, activeBlock);
-        return groups;
+        return Arrays.asList(grid, ghost, activeBlock);
     }
 
     /**
@@ -53,17 +53,17 @@ class GridRenderer extends BlockGroupRenderer {
      * @param gameState new game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createGridGroup(final OnePlayerGameState gameState) {
-        Group grid;
+    private Optional<Group> createGridGroup(final OnePlayerGameState gameState) {
+        Optional<Group> result;
         // Use == instead of equals since it's much more efficient and there is a low chance of collisions.
         if (previousState != null && previousState.getGrid() == gameState.getGrid()) {
             // Grid is unchanged; no need to update.
-            grid = null;
+            result = Optional.empty();
         } else {
             // This is the first frame, or the grids aren't the same object.
             // In the latter case they might still be equal, but whatever.
             // Render the group.
-            grid = new Group();
+            result = Optional.of(new Group());
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (int y = 0; y != height; y++) {
                 BlockStyle style;
@@ -78,12 +78,12 @@ class GridRenderer extends BlockGroupRenderer {
                     if (block != null) {
                         Node node = createBlock(x, y, height, block, style,
                                 gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                        grid.getChildren().add(node);
+                        result.get().getChildren().add(node);
                     }
                 }
             }
         }
-        return grid;
+        return result;
     }
 
     /**
@@ -92,25 +92,25 @@ class GridRenderer extends BlockGroupRenderer {
      * @param gameState new game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createGhostGroup(final OnePlayerGameState gameState) {
-        Group ghost;
+    private Optional<Group> createGhostGroup(final OnePlayerGameState gameState) {
+        Optional<Group> result;
         Set<Point> ghostPoints = gameState.getGhostPoints();
         if (previousState != null && previousState.getGhostPoints().equals(ghostPoints)) {
             // Ghost location is unchanged; no need to update.
-            ghost = null;
+            result = Optional.empty();
         } else {
             // This is the first frame, or the ghost has changed.
             // Render the group.
-            ghost = new Group();
+            result = Optional.of(new Group());
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : ghostPoints) {
                 Node node = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().get().getBlock(), BlockStyle.GHOST,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                ghost.getChildren().add(node);
+                result.get().getChildren().add(node);
             }
         }
-        return ghost;
+        return result;
     }
 
     /**
@@ -119,24 +119,24 @@ class GridRenderer extends BlockGroupRenderer {
      * @param gameState new game state
      * @return null if the group does not need to be updated; otherwise, the newly created group
      */
-    private Group createActiveBlockGroup(final OnePlayerGameState gameState) {
-        Group activeBlock;
+    private Optional<Group> createActiveBlockGroup(final OnePlayerGameState gameState) {
+        Optional<Group> result;
         Set<Point> currentActiveBlockPoints = gameState.getCurrentActiveBlockPoints();
         if (previousState != null && previousState.getCurrentActiveBlockPoints().equals(currentActiveBlockPoints)) {
             // Active block location is unchanged; no need to update.
-            activeBlock = null;
+            result = Optional.empty();
         } else {
             // This is the first frame, or the active block's location has changed.
             // Render the group.
-            activeBlock = new Group();
+            result = Optional.of(new Group());
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : currentActiveBlockPoints) {
                 Node node = createBlock(point.getX(), point.getY(), height,
                         gameState.getActiveTetromino().get().getBlock(), BlockStyle.ACTIVE,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                activeBlock.getChildren().add(node);
+                result.get().getChildren().add(node);
             }
         }
-        return activeBlock;
+        return result;
     }
 }

@@ -1,7 +1,8 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -37,17 +38,17 @@ class NextBlockRenderer extends BlockGroupRenderer {
     
     /** {@inheritDoc} */
     @Override
-    List<Group> createGroups(OnePlayerGameState gameState) {
-        Group group;
+    List<Optional<Group>> createGroups(OnePlayerGameState gameState) {
+        Optional<Group> group;
         
         Tetromino nextBlock = gameState.getNext();
         if (previousValue == nextBlock) {
             // Active block location is unchanged; no need to update.
-            group = null;
+            group = Optional.empty();
         } else {
             // This is the first frame, or the active block's location has changed.
             // Render the group.
-            group = new Group();
+            group = Optional.of(new Group());
             for (Point point : nextBlock.getPoints(Orientation.getDefault())) {
                 // for aesthetics, center the tetromino
                 if (nextBlock != Tetromino.O) {
@@ -55,10 +56,10 @@ class NextBlockRenderer extends BlockGroupRenderer {
                 }
                 Node node = createBlock(point.getX(), point.getY(), 4, nextBlock.getBlock(), BlockStyle.NEXT,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
-                group.getChildren().add(node);
+                group.get().getChildren().add(node);
             }
         }
         
-        return Arrays.asList(group);
+        return Collections.singletonList(group);
     }
 }

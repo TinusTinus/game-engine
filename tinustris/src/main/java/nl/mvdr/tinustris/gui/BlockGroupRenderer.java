@@ -1,6 +1,8 @@
 package nl.mvdr.tinustris.gui;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -26,7 +28,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
     /** {@inheritDoc} */
     @Override
     public void render(@NonNull OnePlayerGameState gameState) {
-        final List<Group> groups = createGroups(gameState);
+        final List<Optional<Group>> groups = createGroups(gameState);
         
         if (groups.stream().anyMatch(value -> value != null)) {
             // (re-)render
@@ -41,7 +43,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
      * @param gameState new game state
      * @return list of groups; may contain null values
      */
-    abstract List<Group> createGroups(OnePlayerGameState gameState);
+    abstract List<Optional<Group>> createGroups(OnePlayerGameState gameState);
     
     /**
      * Runs the given runnable on the JavaFX thread.
@@ -60,18 +62,15 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
      * @param groups
      *            list of groups; elements may be null, in which case the corresponding child group is not updated
      */
-    private void update(List<Group> groups) {
+    private void update(List<Optional<Group>> groups) {
         if (getChildren().isEmpty()) {
             // first frame
-            getChildren().addAll(groups);
+            groups.forEach(group -> getChildren().add(group.get()));
         } else {
             // update
-            for (int i = 0; i != groups.size(); i++) {
-                Group group = groups.get(i);
-                if (group != null) {
-                    getChildren().set(i, groups.get(i));
-                }
-            }
+            IntStream.range(0, groups.size()).forEach(i -> 
+                groups.get(i).ifPresent(group -> getChildren().set(i, group))
+            );
         }
     }
 
