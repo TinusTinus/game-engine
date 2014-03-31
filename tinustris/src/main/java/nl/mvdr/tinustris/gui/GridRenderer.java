@@ -17,8 +17,8 @@ import nl.mvdr.tinustris.model.Point;
  * @author Martijn van de Rijdt
  */
 class GridRenderer extends BlockGroupRenderer {
-    /** Previous game state, currently being displayed. Initially null. */
-    private OnePlayerGameState previousState = null;
+    /** Previous game state, currently being displayed. Initially empty. */
+    private Optional<OnePlayerGameState> previousState;
 
     /**
      * Constructor.
@@ -27,13 +27,14 @@ class GridRenderer extends BlockGroupRenderer {
      */
     GridRenderer(BlockCreator blockCreator) {
         super(blockCreator);
+        previousState = Optional.empty();
     }
     
     /** {@inheritDoc} */
     @Override
     public void render(OnePlayerGameState gameState) {
         super.render(gameState);
-        previousState = gameState;
+        previousState = Optional.of(gameState);
     }
     
     /** {@inheritDoc} */
@@ -56,12 +57,12 @@ class GridRenderer extends BlockGroupRenderer {
     private Optional<Group> createGridGroup(final OnePlayerGameState gameState) {
         Optional<Group> result;
         // Use == instead of equals since it's much more efficient and there is a low chance of collisions.
-        if (previousState != null && previousState.getGrid() == gameState.getGrid()) {
+        if (previousState.filter(s -> s.getGrid() == gameState.getGrid()).isPresent()) {
             // Grid is unchanged; no need to update.
             result = Optional.empty();
         } else {
             // This is the first frame, or the grids aren't the same object.
-            // In the latter case they might still be equal, but whatever.
+            // In the latter case they might still be equal, but that is not very likely.
             // Render the group.
             result = Optional.of(new Group());
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
@@ -95,7 +96,7 @@ class GridRenderer extends BlockGroupRenderer {
     private Optional<Group> createGhostGroup(final OnePlayerGameState gameState) {
         Optional<Group> result;
         Set<Point> ghostPoints = gameState.getGhostPoints();
-        if (previousState != null && previousState.getGhostPoints().equals(ghostPoints)) {
+        if (previousState.filter(p -> p.getGhostPoints().equals(ghostPoints)).isPresent()) {
             // Ghost location is unchanged; no need to update.
             result = Optional.empty();
         } else {
@@ -122,7 +123,7 @@ class GridRenderer extends BlockGroupRenderer {
     private Optional<Group> createActiveBlockGroup(final OnePlayerGameState gameState) {
         Optional<Group> result;
         Set<Point> currentActiveBlockPoints = gameState.getCurrentActiveBlockPoints();
-        if (previousState != null && previousState.getCurrentActiveBlockPoints().equals(currentActiveBlockPoints)) {
+        if (previousState.filter(s -> s.getCurrentActiveBlockPoints().equals(currentActiveBlockPoints)).isPresent()) {
             // Active block location is unchanged; no need to update.
             result = Optional.empty();
         } else {
