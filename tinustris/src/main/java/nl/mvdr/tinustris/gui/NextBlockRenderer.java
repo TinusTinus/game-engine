@@ -17,8 +17,8 @@ import nl.mvdr.tinustris.model.Tetromino;
  * @author Martijn van de Rijdt
  */
 class NextBlockRenderer extends BlockGroupRenderer {
-    /** Previous value for the next tetromino field, currently being displayed. Initially null. */
-    private Tetromino previousValue = null;
+    /** Previous value for the next tetromino field, currently being displayed. Initially empty. */
+    private Optional<Tetromino> previousValue;
     
     /**
      * Constructor.
@@ -27,13 +27,14 @@ class NextBlockRenderer extends BlockGroupRenderer {
      */
     NextBlockRenderer(BlockCreator blockCreator) {
         super(blockCreator);
+        previousValue = Optional.empty();
     }
     
     /** {@inheritDoc} */
     @Override
     public void render(OnePlayerGameState gameState) {
         super.render(gameState);
-        previousValue = gameState.getNext();
+        previousValue = Optional.of(gameState.getNext());
     }
     
     /** {@inheritDoc} */
@@ -42,7 +43,7 @@ class NextBlockRenderer extends BlockGroupRenderer {
         Optional<Group> group;
         
         Tetromino nextBlock = gameState.getNext();
-        if (previousValue == nextBlock) {
+        if (previousValue.filter(t -> t == nextBlock).isPresent()) {
             // Active block location is unchanged; no need to update.
             group = Optional.empty();
         } else {
