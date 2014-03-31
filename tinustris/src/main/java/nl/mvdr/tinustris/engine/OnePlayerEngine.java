@@ -129,7 +129,6 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
                 result = addGarbageLines(result);
             }
 
-            // TODO refactor
             if (result.getActiveTetromino().isPresent()) {
                 List<Action> actions = determineActions(previousState, result, inputState);
                 for (Action action : actions) {
@@ -288,7 +287,6 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      */
     private OnePlayerGameState executeLock(OnePlayerGameState state) {
         OnePlayerGameState result;
-        // TODO refactor
         if (state.getActiveTetromino().isPresent() && !state.canMoveDown()) {
             result = lockBlock(state);
         } else {

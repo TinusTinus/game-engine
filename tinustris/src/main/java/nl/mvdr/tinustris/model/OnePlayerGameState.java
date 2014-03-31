@@ -522,15 +522,9 @@ public class OnePlayerGameState implements GameState {
      * @return points occupied by the given tetromino; empty set if the given tetromino is null
      */
     private Set<Point> getBlockPoints(Optional<Tetromino> tetromino, Optional<Orientation> orientation, Optional<Point> location) {
-        Set<Point> result;
-        // TODO refactor
-        if (!tetromino.isPresent()) {
-            result = Collections.emptySet();
-        } else {
-            result = translate(tetromino.get().getPoints(orientation.get()), location.get().getX(),
-                    location.get().getY());
-        }
-        return result;
+        return tetromino.map(t -> t.getPoints(orientation.get()))
+            .map(set -> translate(set, location.get().getX(), location.get().getY()))
+            .orElse(Collections.emptySet());
     }
     
     /**
