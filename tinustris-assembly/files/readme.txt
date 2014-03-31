@@ -16,7 +16,7 @@ Windows:
 Linux / Mac / other platforms:
   java -Djava.library.path=<path to game>/natives -cp <path to game>/etc:<path to game>/lib/* nl.mvdr.tinustris.gui.ConfigurationScreen
 
-A Java Runtime Environment, version 1.8.0 or higher, is required.
+A Java Runtime Environment, version 1.8.0 or higher, is required. You can get one at http://java.oracle.com.
 
 
 Troubleshooting
@@ -25,7 +25,8 @@ Troubleshooting
 If the game refuses to start, shows unexpected error messages or has other obvious bugs, you can try the following:
 
 * Make sure you're running the latest version. New releases are available at: https://github.com/TinusTinus/tinustris/releases.
-* File a bug at https://github.com/TinusTinus/tinustris/issues. Be sure to add any relevant screenshots and log snippets (the log file is located in the /log subdirectory).
+* See if the error message or the log file gives any obvious hints to the problem. The log file is located in the /log subdirectory.
+* File a bug at https://github.com/TinusTinus/tinustris/issues. Be sure to add any relevant screenshots and/or log snippets.
 
 
 More info
