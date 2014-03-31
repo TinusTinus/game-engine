@@ -12,8 +12,11 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.configuration.PlayerConfiguration;
+import nl.mvdr.tinustris.configuration.PlayerConfigurationImpl;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputMapping;
+import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Controller for the player configuration user interface component.
@@ -51,5 +54,16 @@ public class PlayerConfigurationController {
     /** @return player name property */
     StringProperty nameProperty() {
         return this.nameTextField.textProperty();
+    }
+    
+    /**
+     * Creates a PlayerConfiguration based on the values entered by the user.
+     * 
+     * @return configuration for this player
+     */
+    PlayerConfiguration buildConfiguration() {
+        // TODO use actial input configuration instead of the default
+        return new PlayerConfigurationImpl(nameProperty().getValue(),
+                JInputControllerConfiguration.defaultConfiguration()); 
     }
 }

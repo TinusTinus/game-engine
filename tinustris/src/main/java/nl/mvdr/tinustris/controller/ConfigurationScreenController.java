@@ -25,10 +25,8 @@ import nl.mvdr.tinustris.configuration.Behavior;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.configuration.ConfigurationImpl;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
-import nl.mvdr.tinustris.configuration.PlayerConfigurationImpl;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.gui.Tinustris;
-import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Controller for a configuration screen.
@@ -301,13 +299,9 @@ public class ConfigurationScreenController {
      * @return Configuration
      */
     private Configuration buildConfiguration() {
-        // TODO retrieve input configuration from the actual playerTabPane instead of using the default
-        List<PlayerConfiguration> playerConfigurations = playerTabPane.getTabs()
-                .subList(0, playerTabPane.getTabs().size() - 1)
-                .stream()
-                .map(Tab::getText)
-                .map(name -> new PlayerConfigurationImpl(name, JInputControllerConfiguration.defaultConfiguration()))
-                .collect(Collectors.toList());
+        List<PlayerConfiguration> playerConfigurations = playerConfigurationControllers.stream()
+            .map(PlayerConfigurationController::buildConfiguration)
+            .collect(Collectors.toList());
         
         GraphicsStyle graphicsStyle = toGraphicsStyle(graphics2DRadioButton.getToggleGroup().getSelectedToggle());
         
