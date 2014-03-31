@@ -7,7 +7,7 @@ Tinustris is a Tetris clone written by Martijn van de Rijdt.
 How to run
 ----------
 
-Start the game by running tinustris.bat (Windows) or tinustris.sh (Linux / Mac), located in the bin directory.
+Start the game by running tinustris.bat (Windows) or tinustris.sh (Linux / Mac).
 
 Alternately, start it by running the following command:
 

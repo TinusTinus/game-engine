@@ -5,11 +5,11 @@
 
 set PWD="%CD%"
 
-set LIB_DIR=%PWD%\..\lib
+set LIB_DIR=%PWD%\lib
 
-set CONFIG_DIR=%PWD%\..\etc
+set CONFIG_DIR=%PWD%\etc
 
-set NATIVES_DIR=%PWD%\..\natives
+set NATIVES_DIR=%PWD%\natives
 
 set JAVA_OPTS=-Djava.library.path=%NATIVES_DIR%
 
