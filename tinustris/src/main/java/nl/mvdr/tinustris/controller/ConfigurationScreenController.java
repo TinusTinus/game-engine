@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -7,6 +8,8 @@ import java.util.stream.Stream;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener.Change;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
@@ -79,11 +82,27 @@ public class ConfigurationScreenController {
         playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
         playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
         
-        // TODO further initialisation
+        initPlayerTab(playerTabPane.getTabs().get(0));
 
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
+        }
+    }
+
+    /**
+     * Initialises the contents of a player tab.
+     * 
+     * @param tab tab to be initialised
+     */
+    private void initPlayerTab(Tab tab) {
+        log.info("Initialising player tab.");
+        
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("/PlayerConfiguration.fxml"));
+            tab.setContent(parent);
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to load fxml definition.", e);
         }
     }
 
@@ -194,7 +213,7 @@ public class ConfigurationScreenController {
 
             String defaultPlayerName = "Player " + playerTabPane.getTabs().size();
             Tab tab = new Tab(defaultPlayerName);
-            // TODO set the contents of the new tab
+            initPlayerTab(tab);
             playerTabPane.getTabs().add(playerTabPane.getTabs().size() - 1, tab);
 
             // make sure the new tab is selected
