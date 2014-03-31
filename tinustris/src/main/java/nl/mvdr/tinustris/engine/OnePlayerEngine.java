@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.engine;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -122,13 +123,14 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
                 result = removeLines(result);
             }
 
-            if (previousState.getActiveTetromino() == null && previousState.getNumFramesUntilLinesDisappear() <= 1
+            if (!previousState.getActiveTetromino().isPresent() && previousState.getNumFramesUntilLinesDisappear() <= 1
                     && curve.computeARE(previousState) < previousState.getNumFramesSinceLastLock()) {
                 result = spawnNextBlock(result);
                 result = addGarbageLines(result);
             }
 
-            if (result.getActiveTetromino() != null) {
+            // TODO refactor
+            if (result.getActiveTetromino().isPresent()) {
                 List<Action> actions = determineActions(previousState, result, inputState);
                 for (Action action : actions) {
                     result = executeAction(result, action);
@@ -286,7 +288,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      */
     private OnePlayerGameState executeLock(OnePlayerGameState state) {
         OnePlayerGameState result;
-        if (state.getActiveTetromino() != null && !state.canMoveDown()) {
+        // TODO refactor
+        if (state.getActiveTetromino().isPresent() && !state.canMoveDown()) {
             result = lockBlock(state);
         } else {
             // do nothing
@@ -304,7 +307,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return updated state
      */
     private OnePlayerGameState moveDown(OnePlayerGameState state) {
-        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().translate(0, -1))
+        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().map(p -> p.translate(0, -1)))
                 .withNumFramesSinceLastDownMove(0)
                 .withNumFramesSinceLastMove(0);
     }
@@ -323,7 +326,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         List<Block> grid = new ArrayList<>(state.getGrid());
         for (Point point : state.getCurrentActiveBlockPoints()) {
             int index = state.toGridIndex(point);
-            grid.set(index, state.getActiveTetromino().getBlock());
+            grid.set(index, state.getActiveTetromino().get().getBlock());
         }
         grid = Collections.unmodifiableList(grid);
         
@@ -340,9 +343,9 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         }
         int lines = state.getLines() + linesScored;
 
-        OnePlayerGameState result = new OnePlayerGameState(grid, width, null, null, null, state.getNext(), 0, 0, 0,
-                state.getInputStateHistory(), state.getBlockCounter(), lines, numFramesUntilLinesDisappear,
-                state.getLevel(), state.getGarbageLines(), state.getTotalGarbage());
+        OnePlayerGameState result = new OnePlayerGameState(grid, width, Optional.empty(), Optional.empty(),
+                Optional.empty(), state.getNext(), 0, 0, 0, state.getInputStateHistory(), state.getBlockCounter(),
+                lines, numFramesUntilLinesDisappear, state.getLevel(), state.getGarbageLines(), state.getTotalGarbage());
         
         if (linesScored != 0 && log.isDebugEnabled()) {
             log.debug(result.toString());
@@ -511,7 +514,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return updated state
      */
     private OnePlayerGameState moveLeft(OnePlayerGameState state) {
-        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().translate(-1, 0))
+        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().map(p -> p.translate(-1, 0)))
                 .withNumFramesSinceLastMove(0);
     }
 
@@ -541,7 +544,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return updated state
      */
     private OnePlayerGameState moveRight(OnePlayerGameState state) {
-        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().translate(1, 0))
+        return state.withCurrentBlockLocation(state.getCurrentBlockLocation().map(p -> p.translate(1, 0)))
                 .withNumFramesSinceLastMove(0);
     }
     
@@ -580,7 +583,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return updated game state (may be invalid)
      */
     private OnePlayerGameState turnLeft(OnePlayerGameState state) {
-        return state.withCurrentBlockOrientation(state.getCurrentBlockOrientation().getNextCounterClockwise())
+        return state.withCurrentBlockOrientation(state.getCurrentBlockOrientation().map(Orientation::getNextCounterClockwise))
                 .withNumFramesSinceLastMove(0);
     }
     
@@ -604,7 +607,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return updated game state (may be invalid)
      */
     private OnePlayerGameState turnRight(OnePlayerGameState state) {
-        return state.withCurrentBlockOrientation(state.getCurrentBlockOrientation().getNextClockwise())
+        return state.withCurrentBlockOrientation(state.getCurrentBlockOrientation().map(Orientation::getNextClockwise))
                 .withNumFramesSinceLastMove(0);
     }
 
@@ -628,8 +631,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @returnupdated game state (may be invalid)
      */
     private OnePlayerGameState hold(OnePlayerGameState state) {
-        return state.withActiveTetromino(state.getNext())
-                .withNext(state.getActiveTetromino())
+        return state.withActiveTetromino(Optional.of(state.getNext()))
+                .withNext(state.getActiveTetromino().get())
                 .withNumFramesSinceLastMove(0);
     }
     

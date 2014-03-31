@@ -105,7 +105,7 @@ class GridRenderer extends BlockGroupRenderer {
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : ghostPoints) {
                 Node node = createBlock(point.getX(), point.getY(), height,
-                        gameState.getActiveTetromino().getBlock(), BlockStyle.GHOST,
+                        gameState.getActiveTetromino().get().getBlock(), BlockStyle.GHOST,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                 ghost.getChildren().add(node);
             }
@@ -132,7 +132,7 @@ class GridRenderer extends BlockGroupRenderer {
             int height = gameState.getHeight() - OnePlayerGameState.VANISH_ZONE_HEIGHT;
             for (Point point : currentActiveBlockPoints) {
                 Node node = createBlock(point.getX(), point.getY(), height,
-                        gameState.getActiveTetromino().getBlock(), BlockStyle.ACTIVE,
+                        gameState.getActiveTetromino().get().getBlock(), BlockStyle.ACTIVE,
                         gameState.getNumFramesUntilLinesDisappear(), gameState.getNumFramesSinceLastLock());
                 activeBlock.getChildren().add(node);
             }

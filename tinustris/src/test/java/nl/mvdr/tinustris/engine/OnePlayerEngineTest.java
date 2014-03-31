@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.engine.level.DummyLevelSystem;
@@ -73,7 +74,7 @@ public class OnePlayerEngineTest {
         Assert.assertFalse(state.isTopped());
         Assert.assertEquals(OnePlayerGameState.DEFAULT_WIDTH, state.getWidth());
         Assert.assertEquals(OnePlayerGameState.DEFAULT_HEIGHT, state.getHeight());
-        Assert.assertEquals(Tetromino.I, state.getActiveTetromino());
+        Assert.assertEquals(Tetromino.I, state.getActiveTetromino().get());
         Assert.assertEquals(Tetromino.T, state.getNext());
     }
     
@@ -189,8 +190,8 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), i -> 0);
         List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
         grid.set(0, Block.O);
-        OnePlayerGameState previousState = new OnePlayerGameState(grid, 10, null, null,
-                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 1, 0);
+        OnePlayerGameState previousState = new OnePlayerGameState(grid, 10, Optional.empty(), Optional.empty(),
+                Optional.empty(), Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 1, 0);
         log.info("Previous game state: " + previousState);
         
         OnePlayerGameState state = engine.computeNextState(previousState, Collections.singletonList(input -> false));
@@ -220,8 +221,9 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), gapGenerator);
         List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
         grid.set(0, Block.O);
-        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, null, null,
-                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 2, 0);
+        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH,
+                Optional.empty(), Optional.empty(), Optional.empty(), Tetromino.T, 0, curve.getAre() + 1, 0,
+                InputStateHistory.NEW, 0, 0, 1, 0, 2, 0);
         log.info("Previous game state: " + previousState);
         
         OnePlayerGameState state = engine.computeNextState(previousState, Collections.singletonList(input -> false));
@@ -253,8 +255,9 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(generator, curve, new DummyLevelSystem(), gapGenerator);
         List<Block> grid = new ArrayList<>(Collections.nCopies(220, null));
         grid.set(0, Block.O);
-        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH, null, null,
-                null, Tetromino.T, 0, curve.getAre() + 1, 0, InputStateHistory.NEW, 0, 0, 1, 0, 10, 0);
+        OnePlayerGameState previousState = new OnePlayerGameState(grid, OnePlayerGameState.DEFAULT_WIDTH,
+                Optional.empty(), Optional.empty(), Optional.empty(), Tetromino.T, 0, curve.getAre() + 1, 0,
+                InputStateHistory.NEW, 0, 0, 1, 0, 10, 0);
         log.info("Previous game state: " + previousState);
         
         OnePlayerGameState state = engine.computeNextState(previousState, Collections.singletonList(input -> false));

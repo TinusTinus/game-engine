@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.Optional;
+
 import javafx.embed.swing.JFXPanel;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -38,8 +40,8 @@ public class LevelRendererTest {
     @Test
     public void testRenderPositiveLevel() {
         LevelRenderer renderer = createLevelRenderer();
-        OnePlayerGameState state = new OnePlayerGameState(new OnePlayerGameState().getGrid(), 4, null, null, null,
-                Tetromino.L, 0, 0, 0, InputStateHistory.NEW, 0, 365, 0, 36, 0, 0);
+        OnePlayerGameState state = new OnePlayerGameState(new OnePlayerGameState().getGrid(), 4, Optional.empty(),
+                Optional.empty(), Optional.empty(), Tetromino.L, 0, 0, 0, InputStateHistory.NEW, 0, 365, 0, 36, 0, 0);
         
         renderer.render(state);
         

@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -52,14 +53,17 @@ public class OnePlayerGameState implements GameState {
     /** 
      * Active tetromino. May be null, if the game is in the process of showing a cutscene (like a disappearing line). 
      */
+    @NonNull
     @Wither
-    private final Tetromino activeTetromino;
+    private final Optional<Tetromino> activeTetromino;
     /** The active tetromino's location. May be null if activeTetromino is null as well. */
+    @NonNull
     @Wither
-    private final Point currentBlockLocation;
+    private final Optional<Point> currentBlockLocation;
     /** The current block's orientation. May be null if activeTetromino is null as well. */
+    @NonNull
     @Wither
-    private final Orientation currentBlockOrientation;
+    private final Optional<Orientation> currentBlockOrientation;
     /** The next tetromino. */
     @NonNull
     @Wither
@@ -129,9 +133,9 @@ public class OnePlayerGameState implements GameState {
 
         this.width = width;
         this.grid = Collections.nCopies(width * height, null);
-        this.activeTetromino = null;
-        this.currentBlockLocation = null;
-        this.currentBlockOrientation = null;
+        this.activeTetromino = Optional.empty();
+        this.currentBlockLocation = Optional.empty();
+        this.currentBlockOrientation = Optional.empty();
         this.next = Tetromino.I;
         this.numFramesSinceLastDownMove = 0;
         this.numFramesSinceLastLock = 0;
@@ -161,8 +165,9 @@ public class OnePlayerGameState implements GameState {
      * @param next
      *            next tetromino
      */
-    public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino next) {
+    public OnePlayerGameState(@NonNull List<Block> grid, int width, @NonNull Optional<Tetromino> activeTetromino,
+            @NonNull Optional<Point> currentBlockLocation, @NonNull Optional<Orientation> currentBlockOrientation,
+            @NonNull Tetromino next) {
         this(grid, width, activeTetromino, currentBlockLocation, currentBlockOrientation, next, 0, 0, 0,
                 InputStateHistory.NEW, 0, 0, 0, 0, 0, 0);
     }
@@ -204,10 +209,11 @@ public class OnePlayerGameState implements GameState {
      * @param totalGarbage
      *            total number of garbage lines received in this game so far
      */
-    public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, Point currentBlockLocation,
-            Orientation currentBlockOrientation, @NonNull Tetromino next, int numFramesSinceLastTick, 
-            int numFramesSinceLastLock, int numFramesSinceLastMove, InputStateHistory inputStateHistory,
-            int blockCounter, int lines, int numFramesUntilLinesDisappear, int level, int garbageLines, int totalGarbage) {
+    public OnePlayerGameState(@NonNull List<Block> grid, int width, @NonNull Optional<Tetromino> activeTetromino,
+            @NonNull Optional<Point> currentBlockLocation, @NonNull Optional<Orientation> currentBlockOrientation,
+            @NonNull Tetromino next, int numFramesSinceLastTick, int numFramesSinceLastLock,
+            int numFramesSinceLastMove, @NonNull InputStateHistory inputStateHistory, int blockCounter, int lines,
+            int numFramesUntilLinesDisappear, int level, int garbageLines, int totalGarbage) {
         super();
 
         checkWidth(width);
@@ -240,7 +246,7 @@ public class OnePlayerGameState implements GameState {
     /**
      * Constructor.
      * 
-     * If currentBlock is not null, it is spawned at the default spawn location.
+     * If currentBlock is present, it is spawned at the default spawn location.
      * 
      * @param grid
      *            grid
@@ -251,10 +257,96 @@ public class OnePlayerGameState implements GameState {
      * @param next
      *            next tetromino
      */
-    public OnePlayerGameState(@NonNull List<Block> grid, int width, Tetromino activeTetromino, @NonNull Tetromino next) {
-        this(grid, width, activeTetromino, 
-                activeTetromino == null ? null : getBlockSpawnLocation(width, computeHeight(grid, width)),
-                Orientation.getDefault(), next);
+    public OnePlayerGameState(@NonNull List<Block> grid, int width, Optional<Tetromino> activeTetromino, @NonNull Tetromino next) {
+        this(grid, width, activeTetromino, activeTetromino.map(t -> getBlockSpawnLocation(width,
+                computeHeight(grid, width))), Optional.of(Orientation.getDefault()), next);
+    }
+    
+    /**
+     * Convenience constructor.
+     * 
+     * @param grid
+     *            grid
+     * @param width
+     *            width of the grid
+     * @param activeTetromino
+     *            current block
+     * @param currentBlockLocation
+     *            location of the current block
+     * @param currentBlockOrientation
+     *            orientation of the current block
+     * @param next
+     *            next tetromino
+     * @param numFramesSinceLastTick
+     *            number of frames since the last tick
+     * @param numFramesSinceLastLock
+     *            number of frames since the last time the active block was locked in place
+     * @param numFramesSinceLastMove
+     *            number of frames since the last time the active block was moved (through gravity or player action), or
+     *            rotated
+     * @param inputStateHistory
+     *            history of the input state; includes the current frame
+     * @param blockCounter
+     *            number of blocks that have been dropped
+     * @param lines
+     *            number of lines that have been scored in this game
+     * @param numFramesUntilLinesDisappear
+     *            number of remaining frames until lines disappear
+     * @param level
+     *            level
+     * @param garbageLines
+     *            number of garbage lines to be added to this game
+     * @param totalGarbage
+     *            total number of garbage lines received in this game so far
+     */
+    public OnePlayerGameState(@NonNull List<Block> grid, int width, @NonNull Tetromino activeTetromino,
+            @NonNull Point currentBlockLocation, @NonNull Orientation currentBlockOrientation, @NonNull Tetromino next,
+            int numFramesSinceLastTick, int numFramesSinceLastLock, int numFramesSinceLastMove,
+            @NonNull InputStateHistory inputStateHistory, int blockCounter, int lines,
+            int numFramesUntilLinesDisappear, int level, int garbageLines, int totalGarbage) {
+        this(grid, width, Optional.of(activeTetromino), Optional.of(currentBlockLocation), Optional
+                .of(currentBlockOrientation), next, numFramesSinceLastTick, numFramesSinceLastLock,
+                numFramesSinceLastMove, inputStateHistory, blockCounter, lines, numFramesUntilLinesDisappear, level,
+                garbageLines, totalGarbage);
+    }
+    
+    /**
+     * Covenience constructor.
+     * 
+     * @param grid
+     *            grid
+     * @param width
+     *            width of the grid
+     * @param activeTetromino
+     *            current block
+     * @param currentBlockLocation
+     *            location of the current block
+     * @param currentBlockOrientation
+     *            orientation of the current block
+     * @param next
+     *            next tetromino
+     */
+    public OnePlayerGameState(@NonNull List<Block> grid, int width, @NonNull Tetromino activeTetromino,
+            @NonNull Point currentBlockLocation, @NonNull Orientation currentBlockOrientation,
+            @NonNull Tetromino next) {
+        this(grid, width, Optional.of(activeTetromino), Optional.of(currentBlockLocation),
+                Optional.of(currentBlockOrientation), next);
+    }
+    
+    /**
+     * Convenience constructor.
+     * 
+     * @param grid
+     *            grid
+     * @param width
+     *            width of the grid
+     * @param currentBlock
+     *            current block
+     * @param next
+     *            next tetromino
+     */
+    public OnePlayerGameState(@NonNull List<Block> grid, int width, @NonNull Tetromino activeTetromino, @NonNull Tetromino next) {
+        this(grid, width, Optional.of(activeTetromino), next);
     }
 
     /**
@@ -424,17 +516,19 @@ public class OnePlayerGameState implements GameState {
     /**
      * Computes the points occupied by the given tetromino.
      * 
-     * @param tetromino tetromino; may be null
-     * @param orientation orientation of the tetromino; may be null if tetromino is null
-     * @param location the tetromino's location; may be null if tetromino is null
+     * @param tetromino tetromino
+     * @param orientation orientation of the tetromino; must be present if tetromino is present
+     * @param location the tetromino's location; must be present if tetromino is present
      * @return points occupied by the given tetromino; empty set if the given tetromino is null
      */
-    private Set<Point> getBlockPoints(Tetromino tetromino, Orientation orientation, Point location) {
+    private Set<Point> getBlockPoints(Optional<Tetromino> tetromino, Optional<Orientation> orientation, Optional<Point> location) {
         Set<Point> result;
-        if (tetromino == null) {
+        // TODO refactor
+        if (!tetromino.isPresent()) {
             result = Collections.emptySet();
         } else {
-            result = translate(tetromino.getPoints(orientation), location.getX(), location.getY());
+            result = translate(tetromino.get().getPoints(orientation.get()), location.get().getX(),
+                    location.get().getY());
         }
         return result;
     }
@@ -491,7 +585,7 @@ public class OnePlayerGameState implements GameState {
      *             if there is no active block
      */
     private boolean canMove(int deltaX, int deltaY) {
-        if (activeTetromino == null) {
+        if (!activeTetromino.isPresent()) {
             throw new IllegalStateException("no active block");
         }
         
@@ -567,17 +661,18 @@ public class OnePlayerGameState implements GameState {
      * 
      * @return ghost location
      */
-    public Point getGhostLocation() {
-        Point result;
+    public Optional<Point> getGhostLocation() {
+        Optional<Point> result;
         
-        if (activeTetromino != null) {
+        // TODO refactor
+        if (activeTetromino.isPresent()) {
             int deltaY = 0;
             while (canMove(0, deltaY - 1)) {
                 deltaY = deltaY - 1;
             }
-            result = new Point(currentBlockLocation.getX(), currentBlockLocation.getY() + deltaY);
+            result = Optional.of(new Point(currentBlockLocation.get().getX(), currentBlockLocation.get().getY() + deltaY));
         } else {
-            result = null;
+            result = Optional.empty();
         }
         return result;
     }

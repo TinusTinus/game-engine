@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.engine.speedcurve;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Block;
@@ -91,8 +92,8 @@ public abstract class SpeedCurveTester {
      */
     private OnePlayerGameState createGameState(int level) {
         List<Block> grid = Collections.nCopies(220, null);
-        OnePlayerGameState state = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.Z, 0, 0, 0,
-                InputStateHistory.NEW, 0, level * 10, 0, level, 0, 0);
+        OnePlayerGameState state = new OnePlayerGameState(grid, 10, Optional.empty(), Optional.empty(),
+                Optional.empty(), Tetromino.Z, 0, 0, 0, InputStateHistory.NEW, 0, level * 10, 0, level, 0, 0);
         return state;
     }
     

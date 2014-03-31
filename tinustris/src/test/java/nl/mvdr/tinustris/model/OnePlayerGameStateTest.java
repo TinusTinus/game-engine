@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
@@ -107,7 +108,7 @@ public class OnePlayerGameStateTest {
         Assert.assertEquals(8, gameState.getWidth());
         Assert.assertEquals(8, gameState.getHeight());
         Assert.assertEquals(grid, gameState.getGrid());
-        Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino());
+        Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino().get());
         Assert.assertEquals(Tetromino.Z, gameState.getNext());
     }
 
@@ -122,7 +123,7 @@ public class OnePlayerGameStateTest {
         Assert.assertEquals(4, gameState.getWidth());
         Assert.assertEquals(6, gameState.getHeight());
         Assert.assertEquals(grid, gameState.getGrid());
-        Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino());
+        Assert.assertEquals(Tetromino.L, gameState.getActiveTetromino().get());
         Assert.assertEquals(Tetromino.Z, gameState.getNext());
     }
 
@@ -268,7 +269,7 @@ public class OnePlayerGameStateTest {
     @Test
     public void testIsToppedFullGridNoActiveBlock() {
         List<Block> grid = createGrid(220, Block.J);
-        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, null, Tetromino.I);
+        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Optional.empty(), Tetromino.I);
         log.info(gameState.toString());
 
         Assert.assertTrue(gameState.isTopped());
@@ -617,7 +618,7 @@ public class OnePlayerGameStateTest {
         OnePlayerGameState gameState = new OnePlayerGameState();
         log.info(gameState.toString());
 
-        Assert.assertNull(gameState.getGhostLocation());
+        Assert.assertFalse(gameState.getGhostLocation().isPresent());
     }
     
     /** Tests the getGhostLocation method when the currently active block is on the floor. */
@@ -629,7 +630,7 @@ public class OnePlayerGameStateTest {
                 Tetromino.I);
         log.info(gameState.toString());
 
-        Assert.assertEquals(blockLocation, gameState.getGhostLocation());
+        Assert.assertEquals(blockLocation, gameState.getGhostLocation().get());
     }
     
     /** Tests the getGhostLocation method when the currently active block is just above the floor. */
@@ -641,7 +642,7 @@ public class OnePlayerGameStateTest {
                 Tetromino.I);
         log.info(gameState.toString());
 
-        Assert.assertEquals(new Point(1, -1), gameState.getGhostLocation());
+        Assert.assertEquals(new Point(1, -1), gameState.getGhostLocation().get());
     }
     
     /** Tests the getGhostLocation method when the currently active block is far above the floor. */
@@ -653,7 +654,7 @@ public class OnePlayerGameStateTest {
                 Tetromino.I);
         log.info(gameState.toString());
 
-        Assert.assertEquals(new Point(1, -1), gameState.getGhostLocation());
+        Assert.assertEquals(new Point(1, -1), gameState.getGhostLocation().get());
     }
     
     
@@ -668,7 +669,7 @@ public class OnePlayerGameStateTest {
                 Tetromino.I);
         log.info(gameState.toString());
 
-        Assert.assertEquals(blockLocation, gameState.getGhostLocation());
+        Assert.assertEquals(blockLocation, gameState.getGhostLocation().get());
     }
     
     /** Tests the {@link OnePlayerGameState#isFullLine(int)} method in case of a fully empty grid. */
@@ -689,7 +690,8 @@ public class OnePlayerGameStateTest {
         for (int x = 0; x != 10; x++) {
             grid.set(x, Block.values()[x % Block.values().length]);
         }
-        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.I);
+        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Optional.empty(), Optional.empty(),
+                Optional.empty(), Tetromino.I);
         log.info(gameState.toString());
 
         Assert.assertTrue(gameState.isFullLine(0));
@@ -703,7 +705,8 @@ public class OnePlayerGameStateTest {
         for (int x = 10; x != 20; x++) {
             grid.set(x, Block.values()[x % Block.values().length]);
         }
-        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.I);
+        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Optional.empty(), Optional.empty(),
+                Optional.empty(), Tetromino.I);
         log.info(gameState.toString());
 
         Assert.assertFalse(gameState.isFullLine(0));
@@ -719,7 +722,8 @@ public class OnePlayerGameStateTest {
         grid.set(3, Block.L);
         grid.set(5, Block.L);
         grid.set(6, Block.L);
-        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, null, null, null, Tetromino.I);
+        OnePlayerGameState gameState = new OnePlayerGameState(grid, 10, Optional.empty(), Optional.empty(),
+                Optional.empty(), Tetromino.I);
         log.info(gameState.toString());
 
         Assert.assertFalse(gameState.isFullLine(0));
