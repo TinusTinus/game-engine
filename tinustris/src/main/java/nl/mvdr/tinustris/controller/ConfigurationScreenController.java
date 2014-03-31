@@ -130,7 +130,7 @@ public class ConfigurationScreenController {
         try {
             String name = "Player " + (index + 1);
         
-            Tab tab = new Tab(name);
+            Tab tab = new Tab();
         
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/PlayerConfiguration.fxml"));
             Parent parent = loader.load();
@@ -140,6 +140,10 @@ public class ConfigurationScreenController {
             
             // also initialise and save the controller
             PlayerConfigurationController controller = loader.getController();
+            
+            tab.textProperty().bind(controller.nameProperty());
+            controller.nameProperty().set(name);
+            
             if (index == playerConfigurationControllers.size()) {
                 playerConfigurationControllers.add(controller);
             } else if (index < playerConfigurationControllers.size()) {

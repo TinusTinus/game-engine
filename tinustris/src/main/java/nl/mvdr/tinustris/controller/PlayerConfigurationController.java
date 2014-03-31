@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.controller;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -46,5 +47,9 @@ public class PlayerConfigurationController {
             log.debug(this.toString());
         }
     }
-
+    
+    /** @return player name property */
+    StringProperty nameProperty() {
+        return this.nameTextField.textProperty();
+    }
 }
