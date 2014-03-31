@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import net.java.games.input.Component;
 
 /**
@@ -15,7 +14,6 @@ import net.java.games.input.Component;
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
-@ToString
 public class InputMapping {
     /** Component. */
     @Getter(AccessLevel.PACKAGE)
@@ -29,5 +27,12 @@ public class InputMapping {
     boolean isPressed() {
         float pollData = component.getPollData();
         return matcher.test(pollData);
+    }
+    
+    /** {@inheritDoc} */
+    @Override
+    public String toString() {
+        // TODO better toString
+        return component.getName();
     }
 }
