@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,9 +19,6 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.stage.Stage;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Behavior;
@@ -39,9 +37,6 @@ import nl.mvdr.tinustris.input.JInputControllerConfiguration;
  */
 @Slf4j
 @ToString
-@NoArgsConstructor
-// All args constructor for use in unit tests.
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ConfigurationScreenController {
     /** Radio button for 2D graphics. */
     @FXML
@@ -58,7 +53,41 @@ public class ConfigurationScreenController {
     /** Tab pane for player configuration. */
     @FXML
     private TabPane playerTabPane;
+    
+    /** Controllers for the contents of the player tabs. */
+    private final List<PlayerConfigurationController> playerConfigurationControllers;
 
+    /** Constructor. */
+    public ConfigurationScreenController() {
+        super();
+        this.playerConfigurationControllers = new ArrayList<>();
+    }
+
+    /**
+     * Constructor which initialises all fields. Intended for unit tests, since at runtime the user interface components
+     * will be injected after initialisation.
+     * 
+     * @param graphics2DRadioButton
+     *            radio button for 2D graphics
+     * @param graphics3DRadioButton
+     *            radio button for 3D graphics
+     * @param behaviorComboBox
+     *            combo box for choosing game behavior
+     * @param startLevelTextField
+     *            text field for entering the game's starting level
+     * @param playerTabPane
+     *            tab pane for player configuration
+     */
+    ConfigurationScreenController(RadioButton graphics2DRadioButton, RadioButton graphics3DRadioButton, ComboBox<Behavior> behaviorComboBox, TextField startLevelTextField, TabPane playerTabPane) {
+        this();
+        
+        this.graphics2DRadioButton = graphics2DRadioButton;
+        this.graphics3DRadioButton = graphics3DRadioButton;
+        this.behaviorComboBox = behaviorComboBox;
+        this.startLevelTextField = startLevelTextField;
+        this.playerTabPane = playerTabPane;
+    }
+    
     /** Initialisation method. */
     @FXML
     // default visibility for unit test
@@ -79,7 +108,7 @@ public class ConfigurationScreenController {
         
         startLevelTextField.textProperty().addListener(this::handleStartLevelTextFieldValueChanged);
 
-        playerTabPane.getTabs().add(0, createPlayerTab());
+        insertPlayerTab(0);
         playerTabPane.getSelectionModel().select(0);
         playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
         playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
@@ -93,23 +122,34 @@ public class ConfigurationScreenController {
     /**
      * Creates a new player tab, including its contents.
      * 
-     * @param tab tab to be initialised
+     * @param index index where to insert the new tab
      */
-    private Tab createPlayerTab() {
-        log.info("Initialising player tab.");
-        
-        String name = "Player " + playerTabPane.getTabs().size();
-        
-        Tab tab = new Tab(name);
-        
+    private void insertPlayerTab(int index) {
+        log.info("Initialising player tab for index {}.", index);
+
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource("/PlayerConfiguration.fxml"));
+            String name = "Player " + (index + 1);
+        
+            Tab tab = new Tab(name);
+        
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PlayerConfiguration.fxml"));
+            Parent parent = loader.load();
             tab.setContent(parent);
+            
+            this.playerTabPane.getTabs().add(index, tab);
+            
+            // also initialise and save the controller
+            PlayerConfigurationController controller = loader.getController();
+            if (index == playerConfigurationControllers.size()) {
+                playerConfigurationControllers.add(controller);
+            } else if (index < playerConfigurationControllers.size()) {
+                playerConfigurationControllers.add(index, controller);
+            } else {
+                throw new IllegalStateException();
+            }
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load fxml definition.", e);
         }
-        
-        return tab;
     }
 
     /**
@@ -186,8 +226,15 @@ public class ConfigurationScreenController {
      */
     private void handlePlayerTabListChanged(Change<? extends Tab> change) {
         log.info("Player tab list changed: " + change);
-
-        // only allow closing a tab when there are at least two
+        
+        // for any removed tabs: also remove the associated controller
+        while (change.next()) {
+            if (change.wasRemoved()) {
+                playerConfigurationControllers.remove(change.getFrom());
+            }
+        }
+        
+        // only allow closing a tab when there are at least two left
         TabClosingPolicy policy;
         if (2 < change.getList().size()) {
             policy = TabClosingPolicy.SELECTED_TAB;
@@ -214,14 +261,16 @@ public class ConfigurationScreenController {
                 playerTabPane.getTabs().get(newValue.intValue()).getText());
 
         int selectedIndex = newValue.intValue();
+
         if (selectedIndex == playerTabPane.getTabs().size() - 1) {
             // add player tab clicked
-
-            Tab tab = createPlayerTab();
-            playerTabPane.getTabs().add(playerTabPane.getTabs().size() - 1, tab);
+            
+            // insert a tab
+            int index = playerTabPane.getTabs().size() - 1;
+            insertPlayerTab(index);
 
             // make sure the new tab is selected
-            playerTabPane.getSelectionModel().select(tab);
+            playerTabPane.getSelectionModel().select(index);
         }
     }
 
