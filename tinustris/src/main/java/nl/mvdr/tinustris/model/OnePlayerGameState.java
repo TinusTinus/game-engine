@@ -579,9 +579,7 @@ public class OnePlayerGameState implements GameState {
      *             if there is no active block
      */
     private boolean canMove(int deltaX, int deltaY) {
-        if (!activeTetromino.isPresent()) {
-            throw new IllegalStateException("no active block");
-        }
+        activeTetromino.orElseThrow(() -> new IllegalStateException("no active block"));
         
         Set<Point> newPosition = translate(getCurrentActiveBlockPoints(), deltaX, deltaY);
         return isWithinBounds(newPosition) && !containsBlock(newPosition);
