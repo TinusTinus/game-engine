@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.gui;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -30,18 +31,18 @@ import nl.mvdr.tinustris.model.Block;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 enum BlockStyle {
     /** Currently active blocks; that is, the tetromino that is currently being controlled by the player. */
-    ACTIVE(1, null, false, false), 
+    ACTIVE(1, Optional.empty(), false, false), 
     /** Blocks that have already been dropped down. */
-    GRID(1, null, true, false),
+    GRID(1, Optional.empty(), true, false),
     /**
      * Ghost blocks, that is, the blocks that indicate where the currently active block would land if dropped
      * straight down.
      */
-    GHOST(.1, Color.WHITE, false, false),
+    GHOST(.1, Optional.of(Color.WHITE), false, false),
     /** Grid block that is part of a line and about to disappear. */
-    DISAPPEARING(1, null, false, true),
+    DISAPPEARING(1, Optional.empty(), false, true),
     /** Next block to appear. */
-    NEXT(1, null, false, false);
+    NEXT(1, Optional.empty(), false, false);
 
     /** The number of milliseconds in a second. */
     private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -60,8 +61,9 @@ enum BlockStyle {
     
     /** Opacity. */
     private final double opacity;
-    /** Stroke for the block. May be null (for a stroke equal to the tetromino's color). */
-    private final Paint stroke;
+    /** Stroke for the block. If left empty, the stroke is equal to the tetromino's color. */
+    @NonNull
+    private final Optional<Paint> stroke;
     /** Indicates whether the block should be shown a shade darker than normal. */
     private final boolean darker;
     /** Indicates whether the block should fade out. */
@@ -128,11 +130,7 @@ enum BlockStyle {
     private void applyStroke(Rectangle rectangle, Block block) {
         rectangle.setStrokeWidth(2);
         rectangle.setStrokeType(StrokeType.INSIDE);
-        if (stroke != null) {
-            rectangle.setStroke(stroke);
-        } else {
-            rectangle.setStroke(COLORS.get(block));
-        }
+        rectangle.setStroke(stroke.orElse(COLORS.get(block)));
     }
 
     /**
