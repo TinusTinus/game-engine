@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.input;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -22,4 +23,12 @@ public class InputAndMapping {
     /** Mapping. */
     @NonNull
     private final Set<InputMapping> mapping;
+    
+    /** @return formatted version of the input mapping */
+    public String getMappingFormatted() {
+        Set<String> descriptions = mapping.stream()
+            .map(InputMapping::toString)
+            .collect(Collectors.toSet());
+        return String.join(", ", descriptions);
+    }
 }

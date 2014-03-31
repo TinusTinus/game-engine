@@ -27,7 +27,7 @@
 				</TableColumn>
 				<TableColumn prefWidth="127.0" text="Button / Key">
 					<cellValueFactory>
-						<PropertyValueFactory property="mapping" />
+						<PropertyValueFactory property="mappingFormatted" />
 					</cellValueFactory>
 				</TableColumn>
 			</columns>
