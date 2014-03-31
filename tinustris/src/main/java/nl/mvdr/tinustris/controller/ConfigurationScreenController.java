@@ -79,10 +79,10 @@ public class ConfigurationScreenController {
         
         startLevelTextField.textProperty().addListener(this::handleStartLevelTextFieldValueChanged);
 
+        playerTabPane.getTabs().add(0, createPlayerTab());
+        playerTabPane.getSelectionModel().select(0);
         playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
         playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
-        
-        initPlayerTab(playerTabPane.getTabs().get(0));
 
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
@@ -91,12 +91,16 @@ public class ConfigurationScreenController {
     }
 
     /**
-     * Initialises the contents of a player tab.
+     * Creates a new player tab, including its contents.
      * 
      * @param tab tab to be initialised
      */
-    private void initPlayerTab(Tab tab) {
+    private Tab createPlayerTab() {
         log.info("Initialising player tab.");
+        
+        String name = "Player " + playerTabPane.getTabs().size();
+        
+        Tab tab = new Tab(name);
         
         try {
             Parent parent = FXMLLoader.load(getClass().getResource("/PlayerConfiguration.fxml"));
@@ -104,6 +108,8 @@ public class ConfigurationScreenController {
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load fxml definition.", e);
         }
+        
+        return tab;
     }
 
     /**
@@ -211,9 +217,7 @@ public class ConfigurationScreenController {
         if (selectedIndex == playerTabPane.getTabs().size() - 1) {
             // add player tab clicked
 
-            String defaultPlayerName = "Player " + playerTabPane.getTabs().size();
-            Tab tab = new Tab(defaultPlayerName);
-            initPlayerTab(tab);
+            Tab tab = createPlayerTab();
             playerTabPane.getTabs().add(playerTabPane.getTabs().size() - 1, tab);
 
             // make sure the new tab is selected

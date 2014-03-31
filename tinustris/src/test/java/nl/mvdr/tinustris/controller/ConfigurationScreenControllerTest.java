@@ -14,7 +14,6 @@ import nl.mvdr.tinustris.configuration.Behavior;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -22,7 +21,6 @@ import org.junit.Test;
  * 
  * @author Martijn van de Rijdt
  */
-@Ignore // TODO fix these test cases
 public class ConfigurationScreenControllerTest {
     /** Setup method. */
     @Before
@@ -50,7 +48,8 @@ public class ConfigurationScreenControllerTest {
     public void testAddPlayer() {
         TabPane playerTabPane = new TabPane();
         Tab addPlayerTab = new Tab("+");
-        playerTabPane.getTabs().addAll(new Tab("Player 1"), addPlayerTab);
+        // note that the initialisation will add player 1
+        playerTabPane.getTabs().addAll(addPlayerTab);
         Button removePlayerButton = new Button();
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
@@ -67,7 +66,8 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testRemoveThreePlayers() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().addAll(new Tab("Player 1"), new Tab("Player 2"), new Tab("Player 3"), new Tab("+"));
+        // note that the initialisation will add player 1
+        playerTabPane.getTabs().addAll(new Tab("Player 2"), new Tab("Player 3"), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
@@ -82,7 +82,8 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testRemoveTwoPlayers() {
         TabPane playerTabPane = new TabPane();
-        playerTabPane.getTabs().addAll(new Tab("Player 1"), new Tab("Player 2"), new Tab("+"));
+        // note that the initialisation will add player 1
+        playerTabPane.getTabs().addAll(new Tab("Player 2"), new Tab("+"));
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
