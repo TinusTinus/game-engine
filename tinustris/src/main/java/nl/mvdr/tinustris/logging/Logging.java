@@ -1,11 +1,12 @@
 package nl.mvdr.tinustris.logging;
 
-import org.slf4j.bridge.SLF4JBridgeHandler;
+import java.util.Optional;
 
-import nl.mvdr.tinustris.gui.Tinustris;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
  * Logging utility class.
@@ -19,13 +20,7 @@ public class Logging {
     /** Logs some version info. */
     public static void logVersionInfo() {
         if (log.isInfoEnabled()) {
-            String version = retrieveVersion();
-            if (version != null) {
-                log.info("Application version: " + version);
-            } else {
-                log.info("Application version unknown.");
-            }
-
+            log.info("Application version: " + retrieveVersion().orElse("unknown"));
             log.info("Classpath: " + System.getProperty("java.class.path"));
             log.info("Library path: " + System.getProperty("java.library.path"));
             log.info("Java vendor: " + System.getProperty("java.vendor"));
@@ -39,17 +34,11 @@ public class Logging {
     /**
      * Returns the version number from the jar manifest file.
      * 
-     * @return version number, or null if it cannot be determined
+     * @return version number if available
      */
-    private static String retrieveVersion() {
-        String result;
-        Package p = Tinustris.class.getPackage();
-        if (p != null) {
-            result = p.getImplementationVersion();
-        } else {
-            result = null;
-        }
-        return result;
+    private static Optional<String> retrieveVersion() {
+        return Optional.ofNullable(Logging.class.getPackage())
+            .map(Package::getImplementationVersion);
     }
     
     /** Sets an uncaught exception handler, which logs all exceptions, on the current thread. */
