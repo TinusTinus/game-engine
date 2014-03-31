@@ -656,19 +656,13 @@ public class OnePlayerGameState implements GameState {
      * @return ghost location
      */
     public Optional<Point> getGhostLocation() {
-        Optional<Point> result;
-        
-        // TODO refactor
-        if (activeTetromino.isPresent()) {
+        return currentBlockLocation.map(location -> {
             int deltaY = 0;
             while (canMove(0, deltaY - 1)) {
                 deltaY = deltaY - 1;
             }
-            result = Optional.of(new Point(currentBlockLocation.get().getX(), currentBlockLocation.get().getY() + deltaY));
-        } else {
-            result = Optional.empty();
-        }
-        return result;
+            return location.translate(0, deltaY);
+        });
     }
     
     /**
@@ -697,7 +691,7 @@ public class OnePlayerGameState implements GameState {
             result.append('|');
             for (int x = 0; x != width; x++) {
                 if (currentBlockPoints.contains(new Point(x, y))) {
-                    result.append(activeTetromino);
+                    result.append(activeTetromino.get());
                 } else if (ghostPoints.contains(new Point(x, y))) {
                     result.append('_');
                 } else {
