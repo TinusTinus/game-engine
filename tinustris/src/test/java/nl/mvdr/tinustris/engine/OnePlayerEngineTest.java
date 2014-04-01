@@ -20,7 +20,6 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -140,7 +139,6 @@ public class OnePlayerEngineTest {
      * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method
      * where the player inputs both a hard drop and a hold.
      */
-    @Ignore // TODO fix!
     @Test
     public void testNextStateHardDropAndHold() {
         OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
@@ -159,7 +157,6 @@ public class OnePlayerEngineTest {
      * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method
      * where the player inputs both a hard drop and a soft drop.
      */
-    @Ignore // TODO fix!
     @Test
     public void testNextStateHardDropAndSoftDrop() {
         OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),

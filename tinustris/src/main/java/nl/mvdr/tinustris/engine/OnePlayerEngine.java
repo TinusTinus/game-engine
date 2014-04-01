@@ -183,6 +183,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
             actions.add(Action.LOCK);
         }
         
+        actions.sort(Action::compareTo);
+        
         return actions;
     }
     
@@ -319,6 +321,10 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return updated game state
      */
     private OnePlayerGameState lockBlock(OnePlayerGameState state) {
+        // Check if there is still an active tetromino; it may have been locked in place by a Move Down or Lock.
+        OnePlayerGameState result;
+        if (state.getActiveTetromino().isPresent()) {
+        
         int width = state.getWidth();
         int height = state.getHeight();
         
@@ -343,12 +349,15 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
         }
         int lines = state.getLines() + linesScored;
 
-        OnePlayerGameState result = new OnePlayerGameState(grid, width, Optional.empty(), Optional.empty(),
-                Optional.empty(), state.getNext(), 0, 0, 0, state.getInputStateHistory(), state.getBlockCounter(),
-                lines, numFramesUntilLinesDisappear, state.getLevel(), state.getGarbageLines(), state.getTotalGarbage());
+            result = new OnePlayerGameState(grid, width, Optional.empty(), Optional.empty(), Optional.empty(),
+                    state.getNext(), 0, 0, 0, state.getInputStateHistory(), state.getBlockCounter(), lines,
+                    numFramesUntilLinesDisappear, state.getLevel(), state.getGarbageLines(), state.getTotalGarbage());
         
         if (linesScored != 0 && log.isDebugEnabled()) {
             log.debug(result.toString());
+        }
+        } else {
+            result = state;
         }
         
         return result;
@@ -556,10 +565,13 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      */
     private OnePlayerGameState executeInstantDrop(OnePlayerGameState state) {
         OnePlayerGameState result = state;
-        while (result.canMoveDown()) {
-            result = moveDown(result);
+        // Check if there is still an active tetromino; it may have been locked in place by a Move Down or Lock.
+        if (result.getActiveTetromino().isPresent()) {
+            while (result.canMoveDown()) {
+                result = moveDown(result);
+            }
+            result = lockBlock(result);
         }
-        result = lockBlock(result);
         return result;
     }
     
