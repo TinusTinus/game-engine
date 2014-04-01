@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.input;
 
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -13,11 +12,11 @@ import net.java.games.input.Controller;
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter(AccessLevel.PACKAGE)
+@RequiredArgsConstructor
+@Getter
 @ToString
 @EqualsAndHashCode
-class ControllerAndInputMapping {
+public class ControllerAndInputMapping {
     /** Controller. */
     @NonNull
     private final Controller controller;

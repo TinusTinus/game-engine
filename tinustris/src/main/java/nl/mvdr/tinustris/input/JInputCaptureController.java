@@ -25,7 +25,7 @@ import net.java.games.input.ControllerEnvironment;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class JInputCaptureController implements Callable<ControllerAndInputMapping> {
+public class JInputCaptureController implements Callable<Optional<ControllerAndInputMapping>> {
     /** Callback which is invoked as the call is about to complete. */
     private final Runnable callback;
     
@@ -37,9 +37,9 @@ public class JInputCaptureController implements Callable<ControllerAndInputMappi
     
     /** {@inheritDoc} */
     @Override
-    public ControllerAndInputMapping call() {
-        ControllerAndInputMapping result = waitForComponentAction();
-        waitUntilReleased(result.getMapping().getComponent(), result.getController());
+    public Optional<ControllerAndInputMapping> call() {
+        Optional<ControllerAndInputMapping> result = waitForComponentAction();
+        result.ifPresent(r -> waitUntilReleased(r.getMapping().getComponent(), r.getController()));
         callback.run();
         return result;
     }
@@ -51,7 +51,7 @@ public class JInputCaptureController implements Callable<ControllerAndInputMappi
      * @return input mapping and its corresponding controller
      */
     // default visibility for integration test
-    ControllerAndInputMapping waitForComponentAction() {
+    Optional<ControllerAndInputMapping> waitForComponentAction() {
         log.info("Waiting for component action.");
         List<Controller> controllers = Stream.of(ControllerEnvironment.getDefaultEnvironment().getControllers())
                 .filter(controller -> controller.getType() == Type.KEYBOARD || controller.getType() == Type.GAMEPAD)
@@ -59,7 +59,7 @@ public class JInputCaptureController implements Callable<ControllerAndInputMappi
         log.info("Using controllers: " + controllers);
 
         Optional<ControllerAndInputMapping> result = Optional.empty();
-        while (!result.isPresent()) {
+        while (!result.isPresent() && sleep()) {
             controllers.forEach(Controller::poll);
             
             Function<Controller, Stream<ControllerAndInputMapping>> toControllerAndInputMappingStream = 
@@ -69,15 +69,11 @@ public class JInputCaptureController implements Callable<ControllerAndInputMappi
                 .flatMap(toControllerAndInputMappingStream)
                 .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
                 .findFirst();
-            
-            if (!result.isPresent()) {
-                sleep();
-            }
         }
         
-        log.info("Mapped: " + result.get());
+        log.info("Result: " + result.map(ControllerAndInputMapping::toString).orElse("not available"));
 
-        return result.get();
+        return result;
     }
     
     /**
@@ -90,12 +86,9 @@ public class JInputCaptureController implements Callable<ControllerAndInputMappi
         log.info("Waiting for component {} of controller {} to be released.", component, controller);
         
         controller.poll();
-        while(isPressed(component)) {
-            sleep();
+        while(isPressed(component) && sleep()) {
             controller.poll();
         }
-        
-        log.info("Released.");
     }
 
     /**
@@ -123,13 +116,20 @@ public class JInputCaptureController implements Callable<ControllerAndInputMappi
         return result;
     }
     
-    /** Lets the thread sleep for a brief while (through {@link Thread#sleep(long)}). */
-    private void sleep() {
+    /** 
+     * Lets the thread sleep for a brief while (through {@link Thread#sleep(long)}).
+     * 
+     * @return true if the sleep operation terminated normally, false if it was interrupted
+     */
+    private boolean sleep() {
+        boolean result;
         try {
             Thread.sleep(100);
+            result = true;
         } catch (InterruptedException e) {
             log.info("Interrupted.", e);
-            Thread.currentThread().interrupt();
+            result = false;
         }
+        return result;
     }
 }

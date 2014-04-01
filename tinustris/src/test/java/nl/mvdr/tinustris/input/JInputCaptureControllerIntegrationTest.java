@@ -67,7 +67,7 @@ public class JInputCaptureControllerIntegrationTest {
     public void testWaitForComponentAction() {
         JInputCaptureController controller = new JInputCaptureController();
 
-        ControllerAndInputMapping result = controller.waitForComponentAction();
+        ControllerAndInputMapping result = controller.waitForComponentAction().get();
 
         Assert.assertNotNull(result);
         log.info(result.toString());
