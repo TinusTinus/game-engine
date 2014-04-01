@@ -1,9 +1,18 @@
 package nl.mvdr.tinustris.controller;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import lombok.extern.slf4j.Slf4j;
+import net.java.games.input.Controller;
 import nl.mvdr.tinustris.input.Input;
+import nl.mvdr.tinustris.input.InputMapping;
 
 /**
  * Controller for ithe input configuration screen.
@@ -19,6 +28,19 @@ public class InputConfigurationController {
     @FXML
     private Label descriptionLabel;
     
+    /** Controllers that the player has used so far. */
+    private final Set<Controller> controllers;
+    /** Input mapping that the user has input so far. */
+    private final Map<Input, InputMapping> mapping;
+    
+    /** Constructor. */
+    public InputConfigurationController() {
+        super();
+        
+        this.controllers = new HashSet<>();
+        this.mapping = new HashMap<>();
+    }
+
     /** Initialisation method. */
     // default visibility for unit test
     @FXML
@@ -28,25 +50,29 @@ public class InputConfigurationController {
             log.debug(this.toString());
         }
 
+        updateLabels();
+
         // TODO more initialisation
-        
-        Input input = Input.LEFT;
-        updateLabels(input);
-        
+
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
         }
     }
 
-    /**
-     * Updates the label text for the given input.
-     * 
-     * @param input input
-     */
-    private void updateLabels(Input input) {
+    /** Updates the label text for the next input to be defined. */
+    private void updateLabels() {
+        Input input = nextInput().get();
         buttonPromptLabel.setText(String.format("Please press the button for %s.", input));
         descriptionLabel.setText(input.getDescription());
+    }
+    
+    /** @return next input to be defined by the user */
+    private Optional<Input> nextInput() {
+        return Stream.of(Input.values())
+            .filter(input -> !mapping.containsKey(input))
+            .sorted()
+            .findFirst();
     }
     
     /** Handler for the cancel button. */
