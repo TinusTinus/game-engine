@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -20,6 +21,7 @@ import nl.mvdr.tinustris.input.ControllerAndInputMapping;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputMapping;
 import nl.mvdr.tinustris.input.JInputCaptureController;
+import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Controller for ithe input configuration screen.
@@ -31,7 +33,7 @@ public class InputConfigurationController {
     /** Controllers that the player has used so far. */
     private final Set<Controller> controllers;
     /** Input mapping that the user has input so far. */
-    private final Map<Input, InputMapping> mapping;
+    private final Map<Input, Set<InputMapping>> mapping;
     
     /** Executor service for running the capture controller. */
     private final ExecutorService executorService;
@@ -109,14 +111,16 @@ public class InputConfigurationController {
             Optional<ControllerAndInputMapping> captured = futureMapping.get();
             captured.ifPresent(controllerAndInputMapping -> {
                 controllers.add(controllerAndInputMapping.getController());
-                mapping.put(nextInput(), controllerAndInputMapping.getMapping());
+                mapping.put(nextInput(), Collections.singleton(controllerAndInputMapping.getMapping()));
                 log.info("Current mapping: " + mapping);
                 
                 if (Stream.of(Input.values())
                         .allMatch(mapping::containsKey)) {
                     // all inputs have been mapped!
                     executorService.shutdownNow();
-                    // TODO all buttons have been mapped, complete succesfully and return to the previous controller
+                    
+                    // TODO input configuration completed succesfully, return to the previous controller
+                    log.info(buildConfiguration().toString());
                 } else {
                     startListeningForNextInput();
                 }
@@ -136,5 +140,13 @@ public class InputConfigurationController {
         executorService.shutdownNow();
         
         // TODO return to the previous controller
+    }
+    /**
+     * Creates a JInputControllerConfiguration based on the values entered by the user.
+     * 
+     * @return configuration for this player
+     */
+    private JInputControllerConfiguration buildConfiguration() {
+        return new JInputControllerConfiguration(mapping, controllers); 
     }
 }
