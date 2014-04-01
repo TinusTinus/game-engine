@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Component;
 import net.java.games.input.Component.Identifier.Axis;
@@ -23,12 +24,23 @@ import net.java.games.input.ControllerEnvironment;
  * @author Martijn van de Rijdt
  */
 @Slf4j
+@RequiredArgsConstructor
 public class JInputCaptureController implements Callable<ControllerAndInputMapping> {
+    /** Callback which is invoked as the call is about to complete. */
+    private final Runnable callback;
+    
+    /** Constructor. */
+    public JInputCaptureController() {
+        super();
+        callback = () -> {};
+    }
+    
     /** {@inheritDoc} */
     @Override
     public ControllerAndInputMapping call() {
         ControllerAndInputMapping result = waitForComponentAction();
         waitUntilReleased(result.getMapping().getComponent(), result.getController());
+        callback.run();
         return result;
     }
     

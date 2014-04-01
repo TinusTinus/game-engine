@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 import javafx.fxml.FXML;
@@ -13,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Controller;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputMapping;
+import nl.mvdr.tinustris.input.JInputCaptureController;
 
 /**
  * Controller for ithe input configuration screen.
@@ -32,6 +35,10 @@ public class InputConfigurationController {
     private final Set<Controller> controllers;
     /** Input mapping that the user has input so far. */
     private final Map<Input, InputMapping> mapping;
+    /** Capture controller. */
+    private final JInputCaptureController captureController;
+    /** Executor service for running the capture controller. */
+    private final ExecutorService executorService;
     
     /** Constructor. */
     public InputConfigurationController() {
@@ -39,6 +46,9 @@ public class InputConfigurationController {
         
         this.controllers = new HashSet<>();
         this.mapping = new HashMap<>();
+        
+        this.captureController = new JInputCaptureController(this::inputCaptured);
+        this.executorService = Executors.newSingleThreadExecutor(runnable -> new Thread(runnable, "Input Configuration"));
     }
 
     /** Initialisation method. */
@@ -51,9 +61,9 @@ public class InputConfigurationController {
         }
 
         updateLabels();
-
-        // TODO more initialisation
-
+        
+        executorService.submit(captureController);
+        
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
@@ -73,6 +83,12 @@ public class InputConfigurationController {
             .filter(input -> !mapping.containsKey(input))
             .sorted()
             .findFirst();
+    }
+    
+    private void inputCaptured() {
+        log.info("Input captured.");
+        
+        // TODO handle
     }
     
     /** Handler for the cancel button. */
