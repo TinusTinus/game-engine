@@ -174,6 +174,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
                     .filter(inputState::isPressed)
                     .filter(input -> previousState.getInputStateHistory().getNumberOfFrames(input) % INPUT_FRAMES == 0)
                     .map(Input::getAction)
+                    .sorted()
                     .collect(Collectors.toList()));
         
         // process lock delay

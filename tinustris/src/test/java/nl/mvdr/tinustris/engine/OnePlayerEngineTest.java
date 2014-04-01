@@ -140,8 +140,8 @@ public class OnePlayerEngineTest {
      * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method
      * where the player inputs both a hard drop and a hold.
      */
-    @Test
     @Ignore // TODO fix!
+    @Test
     public void testNextStateHardDropAndHold() {
         OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
                 new DummyLevelSystem(), new DummyGenerator<>());
@@ -155,6 +155,26 @@ public class OnePlayerEngineTest {
         Assert.assertNotNull(state);
     }
 
+    /**
+     * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method
+     * where the player inputs both a hard drop and a soft drop.
+     */
+    @Ignore // TODO fix!
+    @Test
+    public void testNextStateHardDropAndSoftDrop() {
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
+                new DummyLevelSystem(), new DummyGenerator<>());
+        OnePlayerGameState state = createGameStateForHardDropTest();
+        // have the active block be right where it will lock in place
+        state = state.withCurrentBlockLocation(state.getGhostLocation());
+        log.info("Before: " + state);
+        InputState inputState = input -> input == Input.HARD_DROP || input == Input.SOFT_DROP;
+        
+        state = engine.computeNextState(state, Collections.singletonList(inputState));
+
+        log.info("After: " + state);
+        Assert.assertNotNull(state);
+    }
     
     /**
      * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method with a hard drop input
