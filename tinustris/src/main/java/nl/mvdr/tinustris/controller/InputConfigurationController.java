@@ -147,6 +147,7 @@ public class InputConfigurationController {
      * @return configuration for this player
      */
     private JInputControllerConfiguration buildConfiguration() {
-        return new JInputControllerConfiguration(mapping, controllers); 
+        return new JInputControllerConfiguration(Collections.unmodifiableMap(mapping),
+                Collections.unmodifiableSet(controllers)); 
     }
 }
