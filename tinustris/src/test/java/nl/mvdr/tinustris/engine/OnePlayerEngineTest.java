@@ -20,6 +20,7 @@ import nl.mvdr.tinustris.model.Point;
 import nl.mvdr.tinustris.model.Tetromino;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -86,7 +87,7 @@ public class OnePlayerEngineTest {
         OnePlayerGameState state = new OnePlayerGameState();
         InputState inputState = input -> false;
         
-        state = engine.computeNextState(state, Arrays.asList(inputState));
+        state = engine.computeNextState(state, Collections.singletonList(inputState));
 
         log.info(state.toString());
         Assert.assertNotNull(state);
@@ -129,11 +130,31 @@ public class OnePlayerEngineTest {
         log.info("Before: " + state);
         InputState inputState = input -> input == Input.HARD_DROP;
         
-        state = engine.computeNextState(state, Arrays.asList(inputState));
+        state = engine.computeNextState(state, Collections.singletonList(inputState));
 
         log.info("After: " + state);
         Assert.assertNotNull(state);
     }
+    
+    /**
+     * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method
+     * where the player inputs both a hard drop and a hold.
+     */
+    @Test
+    @Ignore // TODO fix!
+    public void testNextStateHardDropAndHold() {
+        OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
+                new DummyLevelSystem(), new DummyGenerator<>());
+        OnePlayerGameState state = createGameStateForHardDropTest();
+        log.info("Before: " + state);
+        InputState inputState = input -> input == Input.HARD_DROP || input == Input.HOLD;
+        
+        state = engine.computeNextState(state, Collections.singletonList(inputState));
+
+        log.info("After: " + state);
+        Assert.assertNotNull(state);
+    }
+
     
     /**
      * Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method with a hard drop input
@@ -147,7 +168,7 @@ public class OnePlayerEngineTest {
         log.info("Before: " + state);
         InputState inputState = input -> input == Input.HARD_DROP;
         
-        state = engine.computeNextState(state, Arrays.asList(inputState));
+        state = engine.computeNextState(state, Collections.singletonList(inputState));
 
         log.info("After: " + state);
         Assert.assertNotNull(state);
