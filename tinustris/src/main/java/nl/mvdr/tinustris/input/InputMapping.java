@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.function.Predicate;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
@@ -21,14 +19,12 @@ public class InputMapping {
     @Getter(AccessLevel.PACKAGE)
     @NonNull
     private final Component component;
-    /** Predicate to determine whether the component's poll data indicates that the input has been pressed. */
-    @NonNull
-    private final Predicate<Float> matcher;
+    /** The value the component must have in order to count as pressed.. */
+    private final float pressedValue;
     
     /** @return whether the input is pressed */
     boolean isPressed() {
-        float pollData = component.getPollData();
-        return matcher.test(pollData);
+        return component.getPollData() == pressedValue;
     }
     
     /** {@inheritDoc} */
@@ -38,21 +34,21 @@ public class InputMapping {
         
         if (component.getIdentifier() == Axis.POV) {
             // d-pad
-            if (matcher.test(POV.UP)) {
+            if (pressedValue == POV.UP) {
                 result = "D-pad up";
-            } else if (matcher.test(POV.UP_RIGHT)) {
+            } else if (pressedValue == POV.UP_RIGHT) {
                 result = "D-pad up-right";
-            } else if (matcher.test(POV.RIGHT)) {
+            } else if (pressedValue == POV.RIGHT) {
                 result = "D-pad right";
-            } else if (matcher.test(POV.DOWN_RIGHT)) {
+            } else if (pressedValue == POV.DOWN_RIGHT) {
                 result = "D-pad down-right";
-            } else if (matcher.test(POV.DOWN)) {
+            } else if (pressedValue == POV.DOWN) {
                 result = "D-pad down";
-            } else if (matcher.test(POV.DOWN_LEFT)) {
+            } else if (pressedValue == POV.DOWN_LEFT) {
                 result = "D-pad down-left";
-            } else if (matcher.test(POV.LEFT)) {
+            } else if (pressedValue == POV.LEFT) {
                 result = "D-pad left";
-            } else if (matcher.test(POV.UP_LEFT)) {
+            } else if (pressedValue == POV.UP_LEFT) {
                 result = "D-pad up-left";
             } else {
                 // unknown value

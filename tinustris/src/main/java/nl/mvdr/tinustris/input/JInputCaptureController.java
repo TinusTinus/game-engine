@@ -64,7 +64,7 @@ public class JInputCaptureController implements Callable<Optional<ControllerAndI
             
             Function<Controller, Stream<ControllerAndInputMapping>> toControllerAndInputMappingStream = 
                 controller -> Stream.of(controller.getComponents())
-                    .map(component -> new ControllerAndInputMapping(controller, new InputMapping(component, f -> f == component.getPollData())));
+                    .map(component -> new ControllerAndInputMapping(controller, new InputMapping(component, component.getPollData())));
             result = controllers.stream()
                 .flatMap(toControllerAndInputMappingStream)
                 .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
