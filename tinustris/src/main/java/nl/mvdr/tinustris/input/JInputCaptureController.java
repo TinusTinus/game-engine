@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.input;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,14 +23,23 @@ import net.java.games.input.ControllerEnvironment;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-public class JInputCaptureController {
+public class JInputCaptureController implements Callable<ControllerAndInputMapping> {
+    /** {@inheritDoc} */
+    @Override
+    public ControllerAndInputMapping call() {
+        ControllerAndInputMapping result = waitForComponentAction();
+        waitUntilReleased(result.getMapping().getComponent(), result.getController());
+        return result;
+    }
+    
     /**
      * Periodically polls for user input. As soon as the user activates a JInput component, this method returns that
      * component as well as its corresponding controller.
      * 
      * @return input mapping and its corresponding controller
      */
-    public ControllerAndInputMapping waitForComponentAction() {
+    // default visibility for integration test
+    ControllerAndInputMapping waitForComponentAction() {
         log.info("Waiting for component action.");
         List<Controller> controllers = Stream.of(ControllerEnvironment.getDefaultEnvironment().getControllers())
                 .filter(controller -> controller.getType() == Type.KEYBOARD || controller.getType() == Type.GAMEPAD)
@@ -64,12 +74,16 @@ public class JInputCaptureController {
      * @param component component to be checked
      * @param controller corresponding controller
      */
-    public void waitUntilReleased(Component component, Controller controller) {
+    private void waitUntilReleased(Component component, Controller controller) {
+        log.info("Waiting for component {} of controller {} to be released.", component, controller);
+        
         controller.poll();
         while(isPressed(component)) {
             sleep();
             controller.poll();
         }
+        
+        log.info("Released.");
     }
 
     /**
@@ -102,7 +116,7 @@ public class JInputCaptureController {
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
-            log.error("Unexpected interrupt!", e);
+            log.info("Interrupted.", e);
             Thread.currentThread().interrupt();
         }
     }

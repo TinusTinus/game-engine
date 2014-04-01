@@ -78,16 +78,13 @@ public class JInputCaptureControllerIntegrationTest {
      * 
      * This test method shows a JavaFX application window which has focus. The user should press a valid input (button
      * or key or other supported input) before the test times out, then release it again. The result is logged.
+     * @throws Exception unexpected exception
      */
     @Ignore
     @Test(timeout = 5000)
-    public void testWaitForRelease() {
+    public void testWaitForRelease() throws Exception {
         JInputCaptureController controller = new JInputCaptureController();
-        ControllerAndInputMapping result = controller.waitForComponentAction();
-        log.info(result.toString());
         
-        controller.waitUntilReleased(result.getMapping().getComponent(), result.getController());
-        
-        log.info("Released.");
+        controller.call();
     }
 }
