@@ -1,7 +1,7 @@
 package nl.mvdr.tinustris.controller;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -53,7 +53,7 @@ public class InputConfigurationController {
         super();
         
         this.controllers = new HashSet<>();
-        this.mapping = new HashMap<>();
+        this.mapping = new EnumMap<>(Input.class);
         
         this.executorService = Executors.newSingleThreadExecutor(runnable -> new Thread(runnable, "Input Configuration"));
     }
