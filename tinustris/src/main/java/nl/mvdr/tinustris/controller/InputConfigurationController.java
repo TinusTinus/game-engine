@@ -10,11 +10,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Controller;
 import nl.mvdr.tinustris.input.ControllerAndInputMapping;
@@ -47,6 +49,13 @@ public class InputConfigurationController {
     
     /** Future for the last task that has been submitted to the executorService. */
     private Future<Optional<ControllerAndInputMapping>> futureMapping;
+    
+    /** Callback to be called if the input configuration is cancelled. */
+    @Setter
+    private Runnable handleCancelled;
+    /** Callback to be called if the input configuration is completed succesfully. */
+    @Setter
+    private Consumer<JInputControllerConfiguration> handleSuccess;
     
     /** Constructor. */
     public InputConfigurationController() {
@@ -118,9 +127,7 @@ public class InputConfigurationController {
                         .allMatch(mapping::containsKey)) {
                     // all inputs have been mapped!
                     executorService.shutdownNow();
-                    
-                    // TODO input configuration completed succesfully, return to the previous controller
-                    log.info(buildConfiguration().toString());
+                    handleSuccess.accept(buildConfiguration());
                 } else {
                     startListeningForNextInput();
                 }
@@ -139,7 +146,7 @@ public class InputConfigurationController {
         
         executorService.shutdownNow();
         
-        // TODO return to the previous controller
+        handleCancelled.run();
     }
     /**
      * Creates a JInputControllerConfiguration based on the values entered by the user.

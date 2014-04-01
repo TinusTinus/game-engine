@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.controller;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -10,8 +11,12 @@ import java.util.stream.Stream;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
+import javafx.stage.Stage;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
@@ -86,6 +91,7 @@ public class PlayerConfigurationController {
      * @param configuration configuration
      */
     void updateInputConfiguration(JInputControllerConfiguration configuration) {
+        log.info("Updating input configuration to: " + configuration);
         this.inputConfiguration = configuration;
         updateInputTable();
     }
@@ -118,7 +124,33 @@ public class PlayerConfigurationController {
     /** Handler for the input configuration button. */
     @FXML
     private void startButtonConfiguration() {
-        log.info("Configure buttons activated for " + nameProperty().get());
-        // TODO
+        try {
+            log.info("Configure buttons activated for " + nameProperty().get());
+
+            Stage stage = retrieveStage();
+
+            Scene originalScene = stage.getScene();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/InputConfiguration.fxml"));
+            
+            Region region = loader.load();
+            region.setPrefSize(originalScene.getWidth(), originalScene.getHeight());
+            stage.setScene(new Scene(region));
+            
+            InputConfigurationController controller = loader.getController();
+            controller.setHandleCancelled(() -> stage.setScene(originalScene));
+            controller.setHandleSuccess(configuration -> {
+                updateInputConfiguration(configuration);
+                stage.setScene(originalScene);
+            });
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to load fxml definition.", e);
+        }
     }
+    
+    /** @return current stage */
+    private Stage retrieveStage() {
+        return (Stage)nameTextField.getScene().getWindow();
+    }
+
 }
