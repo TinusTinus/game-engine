@@ -32,6 +32,6 @@
 		</TableView>
 		<Button layoutX="104.0" layoutY="363.0" mnemonicParsing="false"
 			text="Configure buttons" AnchorPane.bottomAnchor="14.0"
-			AnchorPane.rightAnchor="16.0" />
+			AnchorPane.rightAnchor="16.0" onAction="#startButtonConfiguration" />
 	</children>
 </AnchorPane>

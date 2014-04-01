@@ -114,4 +114,11 @@ public class PlayerConfigurationController {
     PlayerConfiguration buildConfiguration() {
         return new PlayerConfigurationImpl(nameProperty().getValue(), inputConfiguration); 
     }
+    
+    /** Handler for the input configuration button. */
+    @FXML
+    private void startButtonConfiguration() {
+        log.info("Configure buttons activated for " + nameProperty().get());
+        // TODO
+    }
 }
