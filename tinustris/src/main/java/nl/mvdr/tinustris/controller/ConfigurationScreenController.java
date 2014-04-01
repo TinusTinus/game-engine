@@ -298,13 +298,18 @@ public class ConfigurationScreenController {
         Configuration configuration = buildConfiguration();
         log.info("Configuration: " + configuration);
         
-        Stage stage = (Stage)behaviorComboBox.getScene().getWindow();
+        Stage stage = retrieveStage();
         
         Tinustris tinustris = new Tinustris();
         
         stage.setOnHidden(event -> tinustris.stopGameLoop());
         
         tinustris.start(stage, configuration);
+    }
+
+    /** @return current stage */
+    private Stage retrieveStage() {
+        return (Stage)behaviorComboBox.getScene().getWindow();
     }
     
     /**
