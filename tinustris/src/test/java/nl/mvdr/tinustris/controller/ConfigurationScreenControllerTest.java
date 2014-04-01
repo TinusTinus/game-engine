@@ -37,7 +37,7 @@ public class ConfigurationScreenControllerTest {
      */
     @Test
     public void testInitialisation() {
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), new TextField("0"), new TabPane());
 
         controller.initialize();
@@ -51,7 +51,7 @@ public class ConfigurationScreenControllerTest {
         // note that the initialisation will add player 1
         playerTabPane.getTabs().addAll(addPlayerTab);
         Button removePlayerButton = new Button();
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
 
@@ -68,7 +68,7 @@ public class ConfigurationScreenControllerTest {
         TabPane playerTabPane = new TabPane();
         // note that the initialisation will add player 1
         playerTabPane.getTabs().addAll(new Tab("Player 2"), new Tab("Player 3"), new Tab("+"));
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
 
@@ -84,7 +84,7 @@ public class ConfigurationScreenControllerTest {
         TabPane playerTabPane = new TabPane();
         // note that the initialisation will add player 1
         playerTabPane.getTabs().addAll(new Tab("Player 2"), new Tab("+"));
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), new TextField("0"), playerTabPane);
         controller.initialize();
 
@@ -99,7 +99,7 @@ public class ConfigurationScreenControllerTest {
     public void testChooseTGM() {
         ComboBox<Behavior> behaviorComboBox = new ComboBox<>();
         TextField startLevelTextField = new TextField("0");
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), behaviorComboBox, startLevelTextField, new TabPane());
         controller.initialize();
         
@@ -113,7 +113,7 @@ public class ConfigurationScreenControllerTest {
     public void testChooseGameBoy() {
         ComboBox<Behavior> behaviorComboBox = new ComboBox<>();
         TextField startLevelTextField = new TextField("0");
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), behaviorComboBox, startLevelTextField, new TabPane());
         controller.initialize();
         
@@ -126,7 +126,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testSetStartLevel0() {
         TextField startLevelTextField = new TextField("10");
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
         controller.initialize();
         
@@ -139,7 +139,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testSetStartLevel10() {
         TextField startLevelTextField = new TextField("0");
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
         controller.initialize();
         
@@ -152,7 +152,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testSetStartLevelNegative() {
         TextField startLevelTextField = new TextField("10");
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
         controller.initialize();
         
@@ -165,7 +165,7 @@ public class ConfigurationScreenControllerTest {
     @Test
     public void testSetStartLevelLetters() {
         TextField startLevelTextField = new TextField("10");
-        ConfigurationScreenController controller = new ConfigurationScreenControllerNoJinput(new RadioButton(),
+        ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
                 new RadioButton(), new ComboBox<>(), startLevelTextField, new TabPane());
         controller.initialize();
         

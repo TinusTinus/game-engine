@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.configuration;
 
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
+import nl.mvdr.tinustris.input.NoSuitableControllerException;
 
 /**
  * Configuration for a player.
@@ -14,6 +15,12 @@ public interface PlayerConfiguration {
     
     /** @return configuration for JInputController for this player */
     default JInputControllerConfiguration getJInputControllerConfiguration() {
-        return JInputControllerConfiguration.defaultConfiguration();
+        JInputControllerConfiguration result;
+        try {
+            result = JInputControllerConfiguration.defaultConfiguration();
+        } catch (NoSuitableControllerException e) {
+            throw new IllegalStateException(e);
+        }
+        return result;
     }
 }

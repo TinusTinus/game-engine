@@ -28,6 +28,7 @@ import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.gui.Tinustris;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
+import nl.mvdr.tinustris.input.NoSuitableControllerException;
 
 /**
  * Controller for a configuration screen.
@@ -121,9 +122,13 @@ public class ConfigurationScreenController {
     }
 
     /** Initialises the first player configuration controller. */
-    // protected visibility as an extension point for unit tests
-    protected void initFirstController() {
-        playerConfigurationControllers.get(0).updateInputConfiguration(JInputControllerConfiguration.defaultConfiguration());
+    private void initFirstController() {
+        try {
+            JInputControllerConfiguration configuration = JInputControllerConfiguration.defaultConfiguration();
+            playerConfigurationControllers.get(0).updateInputConfiguration(configuration);
+        } catch (NoSuitableControllerException e) {
+            log.info("Unable to set default controller configuration; leaving the default.", e);
+        }
     }
 
     /**

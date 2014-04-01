@@ -44,9 +44,13 @@ public class JInputControllerIntegrationTest {
         log.info("java.library.path: " + System.getProperty("java.library.path"));
     }
 
-    /** Tests the getInputState method, using the default button mapping. */
+    /** 
+     * Tests the getInputState method, using the default button mapping.
+     * 
+     * @throws NoSuitableControllerException unexpected exception
+     */
     @Test
-    public void test() {
+    public void test() throws NoSuitableControllerException {
         JInputController inputController = new JInputController(JInputControllerConfiguration.defaultConfiguration());
         log.info("Controller: " + inputController);
 

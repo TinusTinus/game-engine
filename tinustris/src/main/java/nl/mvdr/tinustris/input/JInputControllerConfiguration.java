@@ -49,7 +49,7 @@ public class JInputControllerConfiguration {
      * 
      * @return default configuration
      */
-    public static JInputControllerConfiguration defaultConfiguration() {
+    public static JInputControllerConfiguration defaultConfiguration() throws NoSuitableControllerException {
         return defaultKeyboardConfiguration();
     }
 
@@ -58,11 +58,12 @@ public class JInputControllerConfiguration {
      * and other actions to Z, X and C. At least one keyboard controller must be present.
      * 
      * @return default keyboard configuration
+     * @throws NoSuitableControllerException in case there is no keyboard
      */
-    public static JInputControllerConfiguration defaultKeyboardConfiguration() {
+    public static JInputControllerConfiguration defaultKeyboardConfiguration() throws NoSuitableControllerException {
         Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
         if (controllersFromEnvironment.length == 0) {
-            throw new IllegalStateException(
+            throw new NoSuitableControllerException(
                     "No controllers present."
                     + " This may mean JInput is not present on java.library.path,"
                     + " or that JInput could not find any input devices.");
@@ -74,7 +75,7 @@ public class JInputControllerConfiguration {
             .filter(controller -> controller.getType() == Type.KEYBOARD)
             .collect(Collectors.toSet());
         if (controllers.isEmpty()) {
-            throw new IllegalStateException("No keyboard present!");
+            throw new NoSuitableControllerException("No keyboard present!");
         }
         log.info("Using keyboard controllers: " + controllers);
         
@@ -107,11 +108,12 @@ public class JInputControllerConfiguration {
      * wireless XBox 360 controller.
      * 
      * @return default gamepad configuration
+     * @throws NoSuitableControllerException in case there is no gamepad
      */
-    public static JInputControllerConfiguration defaultGamepadConfiguration() {
+    public static JInputControllerConfiguration defaultGamepadConfiguration() throws NoSuitableControllerException {
         Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
         if (controllersFromEnvironment.length == 0) {
-            throw new IllegalStateException(
+            throw new NoSuitableControllerException(
                     "No controllers present."
                     + " This may mean JInput is not present on java.library.path,"
                     + " or that JInput could not find any input devices.");
@@ -123,7 +125,7 @@ public class JInputControllerConfiguration {
             .filter(controller -> controller.getType() == Type.GAMEPAD)
             .collect(Collectors.toSet());
         if (controllers.isEmpty()) {
-            throw new IllegalStateException("No gamepad present!");
+            throw new NoSuitableControllerException("No gamepad present!");
         }
         log.info("Using gamepad controllers: " + controllers);
         
