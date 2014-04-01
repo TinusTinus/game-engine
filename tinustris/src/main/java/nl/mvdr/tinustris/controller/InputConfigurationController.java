@@ -65,8 +65,7 @@ public class InputConfigurationController {
             log.debug(this.toString());
         }
 
-        updateLabels();
-        submitCapture();
+        startListeningForNextInput();
         
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
@@ -74,28 +73,32 @@ public class InputConfigurationController {
         }
     }
 
-    /** Updates the label text for the next input to be defined. */
-    private void updateLabels() {
-        Input input = nextInput().get();
+    /** Starts listening for the next input value. */
+    private void startListeningForNextInput() {
+        Input input = nextInput();
+        
+        log.info("Start listening for input " + input);
+        
+        // update the label text
         buttonPromptLabel.setText(String.format("Please press the button for %s.", input));
         descriptionLabel.setText(input.getDescription());
-    }
-    
-    private void submitCapture() {
+        
+        // start the capture controller
         futureMapping = executorService.submit(new JInputCaptureController(this::inputCaptured));
     }
-    
+
     /** @return next input to be defined by the user */
-    private Optional<Input> nextInput() {
+    private Input nextInput() {
         return Stream.of(Input.values())
             .filter(input -> !mapping.containsKey(input))
             .sorted()
-            .findFirst();
+            .findFirst()
+            .get();
     }
     
     /** Callback, to be run on the input capture thread, called when an ibput has succesfully been captured. */
     private void inputCaptured() {
-        log.info("Input captured.");
+        log.info("Input capture complete.");
         
         Platform.runLater(this::processCapturedInput);
     }
@@ -104,29 +107,31 @@ public class InputConfigurationController {
     private void processCapturedInput() {
         try {
             Optional<ControllerAndInputMapping> captured = futureMapping.get();
-            
             captured.ifPresent(controllerAndInputMapping -> {
                 controllers.add(controllerAndInputMapping.getController());
-                mapping.put(nextInput().get(), controllerAndInputMapping.getMapping());
+                mapping.put(nextInput(), controllerAndInputMapping.getMapping());
+                log.info("Current mapping: " + mapping);
+                
+                if (Stream.of(Input.values())
+                        .allMatch(mapping::containsKey)) {
+                    // all inputs have been mapped!
+                    executorService.shutdownNow();
+                    // TODO all buttons have been mapped, complete succesfully and return to the previous controller
+                } else {
+                    startListeningForNextInput();
+                }
             });
         } catch (InterruptedException | ExecutionException e) {
             log.error("Unexpected exception!", e);
-        }
-        
-        if (nextInput().isPresent()) {
-            updateLabels();
-            submitCapture();
-        } else {
-            // all inputs have been mapped
-            executorService.shutdownNow();
-            // TODO all buttons have been mapped, complete succesfully and return to the previous controller
+            cancel();
         }
     }
     
     /** Handler for the cancel button. */
     @FXML
     private void cancel() {
-        log.info("Cancel button activated.");
+        log.info("Shutting down thread pool."
+                + " This may result in an InterruptedException in the input configuration thread.");
         
         executorService.shutdownNow();
         
