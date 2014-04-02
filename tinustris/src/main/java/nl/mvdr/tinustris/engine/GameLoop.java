@@ -50,12 +50,7 @@ public class GameLoop<S extends GameState> {
     /** Indicates whether the game is paused. */
     private boolean paused;
     
-    /**
-     * Starts the game loop.
-     * 
-     * @param label
-     *            the label onto which the game state is drawn
-     */
+    /** Starts the game loop. */
     public void start() {
         running = true;
         paused = false;

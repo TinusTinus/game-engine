@@ -246,13 +246,13 @@ public class OnePlayerGameState implements GameState {
     /**
      * Constructor.
      * 
-     * If currentBlock is present, it is spawned at the default spawn location.
+     * If activeTetromino is present, it is spawned at the default spawn location.
      * 
      * @param grid
      *            grid
      * @param width
      *            width of the grid
-     * @param currentBlock
+     * @param activeTetromino
      *            current block
      * @param next
      *            next tetromino
@@ -340,7 +340,7 @@ public class OnePlayerGameState implements GameState {
      *            grid
      * @param width
      *            width of the grid
-     * @param currentBlock
+     * @param activeTetromino
      *            current block
      * @param next
      *            next tetromino

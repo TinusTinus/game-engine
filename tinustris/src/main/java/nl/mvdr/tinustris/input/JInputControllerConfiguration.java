@@ -48,6 +48,7 @@ public class JInputControllerConfiguration {
      * arrow keys and other actions to Z, X and C. At least one keyboard controller must be present.
      * 
      * @return default configuration
+     * @throws NoSuitableControllerException in case there is no suitable controller
      */
     public static JInputControllerConfiguration defaultConfiguration() throws NoSuitableControllerException {
         return defaultKeyboardConfiguration();
