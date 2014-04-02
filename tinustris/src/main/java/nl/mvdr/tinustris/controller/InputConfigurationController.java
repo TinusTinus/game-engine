@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Controller;
 import nl.mvdr.tinustris.input.ControllerAndInputMapping;
@@ -31,6 +32,7 @@ import nl.mvdr.tinustris.input.JInputControllerConfiguration;
  * @author Martijn van de Rijdt
  */
 @Slf4j
+@ToString
 public class InputConfigurationController {
     /** Controllers that the player has used so far. */
     private final Set<Controller> controllers;
