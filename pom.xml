@@ -20,6 +20,7 @@
 		<lombok.version>1.12.6</lombok.version>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
+		<maven-javadocs-plugin.version>2.9.1</maven-javadocs-plugin.version>
 		<maven-nativedependencies-plugin.version>0.0.7</maven-nativedependencies-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
 		<slf4j.version>1.7.6</slf4j.version>
@@ -90,6 +91,11 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
 					<version>${maven-source-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadocs-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>com.googlecode.mavennatives</groupId>
