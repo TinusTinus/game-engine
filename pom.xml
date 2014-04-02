@@ -3,7 +3,7 @@
 
 	<groupId>nl.mvdr.tinustris</groupId>
 	<artifactId>tinustris-parent</artifactId>
-	<version>2.0-SNAPSHOT</version>
+	<version>2.0</version>
 	<packaging>pom</packaging>
 	<name>Tinustris Parent</name>
 
@@ -109,7 +109,7 @@
 		<connection>scm:git:https://github.com/TinusTinus/tinustris.git</connection>
 		<developerConnection>scm:git:git@github.com:TinusTinus/tinustris.git</developerConnection>
 		<url>https://github.com/TinusTinus/tinustris</url>
-		<tag>HEAD</tag>
+		<tag>tinustris-parent-2.0</tag>
 	</scm>
 
 	<distributionManagement>
