@@ -10,8 +10,10 @@ import java.util.stream.Stream;
 
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -121,14 +123,19 @@ public class PlayerConfigurationController {
         return new PlayerConfigurationImpl(nameProperty().getValue(), inputConfiguration); 
     }
     
-    /** Handler for the input configuration button. */
+    /**
+     * Handler for the input configuration button.
+     * 
+     * @param event action event leading to this method call
+     */
     @FXML
-    private void startButtonConfiguration() {
+    private void startButtonConfiguration(ActionEvent event) {
         try {
             log.info("Configure buttons activated for " + nameProperty().get());
 
-            Stage stage = retrieveStage();
-
+            Node source = (Node)event.getSource();
+            Stage stage = (Stage)source.getScene().getWindow();
+            
             Scene originalScene = stage.getScene();
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/InputConfiguration.fxml"));
@@ -147,10 +154,4 @@ public class PlayerConfigurationController {
             throw new IllegalStateException("Unable to load fxml definition.", e);
         }
     }
-    
-    /** @return current stage */
-    private Stage retrieveStage() {
-        return (Stage)nameTextField.getScene().getWindow();
-    }
-
 }
