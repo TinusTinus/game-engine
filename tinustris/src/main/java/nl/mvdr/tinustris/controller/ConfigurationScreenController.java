@@ -8,8 +8,10 @@ import java.util.stream.Stream;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener.Change;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
@@ -292,26 +294,22 @@ public class ConfigurationScreenController {
 
     /** Starts the game. */
     @FXML
-    private void startGame() {
+    private void startGame(ActionEvent event) {
         log.info("Start game button activated.");
 
         Configuration configuration = buildConfiguration();
         log.info("Configuration: " + configuration);
         
-        Stage stage = retrieveStage();
+        Node source = (Node)event.getSource();
+        Stage stage = (Stage)source.getScene().getWindow();
         
         Tinustris tinustris = new Tinustris();
         
-        stage.setOnHidden(event -> tinustris.stopGameLoop());
+        stage.setOnHidden(e -> tinustris.stopGameLoop());
         
         tinustris.start(stage, configuration);
     }
 
-    /** @return current stage */
-    private Stage retrieveStage() {
-        return (Stage)behaviorComboBox.getScene().getWindow();
-    }
-    
     /**
      * Creates a Configuration based on the values entered by the user.
      * 
