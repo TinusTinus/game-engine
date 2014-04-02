@@ -98,6 +98,8 @@ public class InputConfigurationController {
         
         // start the capture controller
         futureMapping = executorService.submit(new JInputCaptureController(this::inputCaptured));
+        
+        // TODO shut down the thread pool if the application is closed at this point!
     }
 
     /** @return next input to be defined by the user */
