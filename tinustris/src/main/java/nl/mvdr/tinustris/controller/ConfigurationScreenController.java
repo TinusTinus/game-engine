@@ -292,7 +292,11 @@ public class ConfigurationScreenController {
         }
     }
 
-    /** Starts the game. */
+    /**
+     * Starts the game.
+     * 
+     * @param event action event leading to this method call
+     */
     @FXML
     private void startGame(ActionEvent event) {
         log.info("Start game button activated.");
