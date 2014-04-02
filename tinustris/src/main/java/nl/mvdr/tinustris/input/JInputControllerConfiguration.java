@@ -72,7 +72,7 @@ public class JInputControllerConfiguration {
         
         // find the keyboard controller(s)
         Set<Controller> controllers = Stream.of(controllersFromEnvironment)
-            .map(JInputControllerConfiguration::log)
+            .peek(JInputControllerConfiguration::log)
             .filter(controller -> controller.getType() == Type.KEYBOARD)
             .collect(Collectors.toSet());
         if (controllers.isEmpty()) {
@@ -122,7 +122,7 @@ public class JInputControllerConfiguration {
         
         // find the gamepad controller(s)
         Set<Controller> controllers = Stream.of(controllersFromEnvironment)
-            .map(JInputControllerConfiguration::log)
+            .peek(JInputControllerConfiguration::log)
             .filter(controller -> controller.getType() == Type.GAMEPAD)
             .collect(Collectors.toSet());
         if (controllers.isEmpty()) {
@@ -172,10 +172,9 @@ public class JInputControllerConfiguration {
      *            controller
      * @return the input
      */
-    private static Controller log(Controller controller) {
+    private static void log(Controller controller) {
         log.info("Controller found: {}, type: {}, class: {}", controller, controller.getType(), controller.getClass()
                 .getName());
-        return controller;
     }
 
     /**
