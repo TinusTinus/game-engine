@@ -9,6 +9,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import nl.mvdr.tinustris.model.Tetromino;
 
@@ -179,12 +181,12 @@ public class RandomTetrominoGeneratorTest {
      */
     private Tetromino testMultithreaded(final RandomTetrominoGenerator generator) throws InterruptedException,
             ExecutionException {
-        Callable<Tetromino> getTetrominoTask = () -> generator.get(10);
-        List<Future<Tetromino>> futures = new LinkedList<>();
         ExecutorService service = Executors.newFixedThreadPool(NUM_THREADS);
-        for (int i = 0; i != NUM_THREADS; i++) {
-            futures.add(service.submit(getTetrominoTask));
-        }
+        Callable<Tetromino> getTetrominoTask = () -> generator.get(10);
+        List<Future<Tetromino>> futures = IntStream.range(0, NUM_THREADS)
+            .mapToObj(i -> getTetrominoTask)
+            .map(service::submit)
+            .collect(Collectors.toList());
         
         // wait for all threads to complete and combine the results into a Set
         Set<Tetromino> results = EnumSet.noneOf(Tetromino.class);
