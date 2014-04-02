@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.engine;
 
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -188,11 +187,15 @@ public class RandomTetrominoGeneratorTest {
             .collect(Collectors.toList());
         
         // wait for all threads to complete and combine the results into a Set
-        Set<Tetromino> results = EnumSet.noneOf(Tetromino.class);
-        for (Future<Tetromino> future: futures) {
-            Tetromino result = future.get();
-            results.add(result);
-        }
+        Set<Tetromino> results = futures.stream()
+            .map(future -> {
+                try {
+                    return future.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    throw new AssertionError("Unexpected exception." , e);
+                }
+            })
+            .collect(Collectors.toSet());
         
         // check that each thread resulted in the same, non-null, value
         Assert.assertFalse(results.contains(null));
