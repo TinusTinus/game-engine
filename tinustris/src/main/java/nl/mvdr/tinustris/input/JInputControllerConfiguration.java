@@ -180,18 +180,18 @@ public class JInputControllerConfiguration {
     /**
      * Returns the component with the given identifier.
      * 
-     * @param keyboard
-     *            keyboard controller
+     * @param controller
+     *            controller
      * @param identifier
      *            component identifier
-     * @return component corresponding to the given key
+     * @return component corresponding to the given identifier
      * @throws IllegalStateException
      *             in case the key cannot be found
      */
-    private static Component getComponent(Controller keyboard, Identifier identifier) {
-        Component component = keyboard.getComponent(identifier);
+    private static Component getComponent(Controller controller, Identifier identifier) {
+        Component component = controller.getComponent(identifier);
         if (component == null) {
-            throw new IllegalStateException("Unable to find key: " + identifier);
+            throw new IllegalStateException("Unable to find identifier: " + identifier);
         }
         return component;
     }
