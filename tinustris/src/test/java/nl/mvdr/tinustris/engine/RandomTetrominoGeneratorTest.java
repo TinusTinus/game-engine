@@ -1,7 +1,6 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.EnumSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
