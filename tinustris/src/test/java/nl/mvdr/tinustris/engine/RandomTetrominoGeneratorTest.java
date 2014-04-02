@@ -194,7 +194,8 @@ public class RandomTetrominoGeneratorTest {
             results.add(result);
         }
         
-        // check that each thread resulted in the same value
+        // check that each thread resulted in the same, non-null, value
+        Assert.assertFalse(results.contains(null));
         Assert.assertEquals("more than one unique tetromino returned", 1, results.size());
         
         // return the tetromino
