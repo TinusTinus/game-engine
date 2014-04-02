@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -98,8 +99,6 @@ public class InputConfigurationController {
         
         // start the capture controller
         futureMapping = executorService.submit(new JInputCaptureController(this::inputCaptured));
-        
-        // TODO shut down the thread pool if the application is closed at this point!
     }
 
     /** @return next input to be defined by the user */
@@ -160,5 +159,15 @@ public class InputConfigurationController {
     private JInputControllerConfiguration buildConfiguration() {
         return new JInputControllerConfiguration(Collections.unmodifiableMap(mapping),
                 Collections.unmodifiableSet(controllers)); 
+    }
+
+    /**
+     * Registers an onHidden event on the given stage, to make sure the executor service is shut down when the user
+     * closes the window. Should be called right after the input controller has been created.
+     * 
+     * @param stage stage
+     */
+    void registerOnHidden(Stage stage) {
+        stage.setOnHidden(event -> executorService.shutdownNow());
     }
 }

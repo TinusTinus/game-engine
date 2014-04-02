@@ -150,6 +150,7 @@ public class PlayerConfigurationController {
                 updateInputConfiguration(configuration);
                 stage.setScene(originalScene);
             });
+            controller.registerOnHidden(stage);
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load fxml definition.", e);
         }
