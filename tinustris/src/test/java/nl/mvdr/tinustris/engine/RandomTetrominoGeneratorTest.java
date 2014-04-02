@@ -120,8 +120,8 @@ public class RandomTetrominoGeneratorTest {
         RandomTetrominoGenerator generator0 = new RandomTetrominoGenerator(SEED);
         RandomTetrominoGenerator generator1 = new RandomTetrominoGenerator(SEED);
         
-        Tetromino tetromino0 = generator0.get(10_000);
-        Tetromino tetromino1 = generator1.get(10_000);
+        Tetromino tetromino0 = generator0.get(100);
+        Tetromino tetromino1 = generator1.get(100);
         
         Assert.assertEquals(tetromino0, tetromino1);
     }
