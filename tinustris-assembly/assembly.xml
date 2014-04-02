@@ -10,6 +10,7 @@
 		<fileSet>
 			<directory>${basedir}/files</directory>
 			<outputDirectory>/</outputDirectory>
+			<lineEnding>unix</lineEnding>
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/natives</directory>
