@@ -179,13 +179,7 @@ public class RandomTetrominoGeneratorTest {
      */
     private Tetromino testMultithreaded(final RandomTetrominoGenerator generator) throws InterruptedException,
             ExecutionException {
-        Callable<Tetromino> getTetrominoTask = new Callable<Tetromino>() {
-            /** {@inheritDoc} */
-            @Override
-            public Tetromino call() {
-                return generator.get(10);
-            }
-        };
+        Callable<Tetromino> getTetrominoTask = () -> generator.get(10);
         List<Future<Tetromino>> futures = new LinkedList<>();
         ExecutorService service = Executors.newFixedThreadPool(NUM_THREADS);
         for (int i = 0; i != NUM_THREADS; i++) {
