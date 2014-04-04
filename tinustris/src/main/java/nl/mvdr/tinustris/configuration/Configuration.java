@@ -19,6 +19,7 @@ public interface Configuration {
      * @return configurations
      */
     default List<PlayerConfiguration> getPlayerConfigurations() {
+        // default configuration with an empty player name
         return Collections.singletonList(() -> "");
     }
     
