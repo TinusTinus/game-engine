@@ -44,6 +44,8 @@ class OnePlayerGameRenderer extends Group implements GameRenderer<OnePlayerGameS
     /**
      * Constructor.
      * 
+     * @param playerName
+     *            player's name
      * @param widthInBlocks
      *            width of the grid in blocks
      * @param heightInBlocks
@@ -51,7 +53,7 @@ class OnePlayerGameRenderer extends Group implements GameRenderer<OnePlayerGameS
      * @param blockCreator
      *            block creator
      */
-    OnePlayerGameRenderer(int widthInBlocks, int heightInBlocks, @NonNull BlockCreator blockCreator) {
+    OnePlayerGameRenderer(@NonNull String playerName, int widthInBlocks, int heightInBlocks, @NonNull BlockCreator blockCreator) {
         super();
         
         GridRenderer gridGroup = new GridRenderer(blockCreator);
@@ -62,8 +64,8 @@ class OnePlayerGameRenderer extends Group implements GameRenderer<OnePlayerGameS
         renderers = Collections.unmodifiableList(
             Arrays.asList(gridGroup, nextBlockRenderer, linesRenderer, levelRenderer, gameOverRenderer));
         
-        Group gridWindow = createWindow("", gridGroup, MARGIN, MARGIN, widthInBlocks * GridRenderer.BLOCK_SIZE, 
-                heightInBlocks * BlockGroupRenderer.BLOCK_SIZE);
+        Group gridWindow = createWindow(playerName.toUpperCase(), gridGroup, MARGIN, MARGIN, widthInBlocks
+                * GridRenderer.BLOCK_SIZE, heightInBlocks * BlockGroupRenderer.BLOCK_SIZE);
         Group nextBlockWindow = createWindow("NEXT", nextBlockRenderer,
                 2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
                 MARGIN,

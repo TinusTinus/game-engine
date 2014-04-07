@@ -55,13 +55,12 @@ public class Tinustris {
         
         BlockCreator blockCreator = configuration.getGraphicsStyle().makeBlockCreator();
         
-        int numPlayers = configuration.getPlayerConfigurations().size();
-        
         int widthInBlocks = OnePlayerGameState.DEFAULT_WIDTH;
         int heightInBlocks = OnePlayerGameState.DEFAULT_HEIGHT - OnePlayerGameState.VANISH_ZONE_HEIGHT;
         
-        List<OnePlayerGameRenderer> onePlayerRenderers = IntStream.range(0, numPlayers)
-            .mapToObj(i -> new OnePlayerGameRenderer(widthInBlocks, heightInBlocks, blockCreator))
+        List<OnePlayerGameRenderer> onePlayerRenderers = configuration.getPlayerConfigurations().stream()
+            .map(PlayerConfiguration::getName)
+            .map(name -> new OnePlayerGameRenderer(name, widthInBlocks, heightInBlocks, blockCreator))
             .collect(Collectors.toList());
         
         FlowPane parent = new FlowPane(MARGIN, MARGIN);
