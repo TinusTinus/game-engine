@@ -60,12 +60,11 @@ public class JInputCaptureController implements Callable<Optional<ControllerAndI
 
         Optional<ControllerAndInputMapping> result = Optional.empty();
         while (!result.isPresent() && sleep()) {
-            controllers.forEach(Controller::poll);
-            
             Function<Controller, Stream<ControllerAndInputMapping>> toControllerAndInputMappingStream = 
                 controller -> Stream.of(controller.getComponents())
                     .map(component -> new ControllerAndInputMapping(controller, new InputMapping(component, component.getPollData())));
             result = controllers.stream()
+                .peek(Controller::poll)
                 .flatMap(toControllerAndInputMappingStream)
                 .filter(controllerAndInputMapping -> isPressed(controllerAndInputMapping.getMapping().getComponent()))
                 .findFirst();
