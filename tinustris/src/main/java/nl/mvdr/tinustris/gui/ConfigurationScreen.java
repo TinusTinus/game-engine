@@ -28,6 +28,7 @@ public class ConfigurationScreen extends Application {
         
         Parent parent = FXMLLoader.load(getClass().getResource("/Configuration.fxml"));
         
+        primaryStage.setTitle("Tinustris - configuration");
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
     }
