@@ -39,7 +39,6 @@ public class TinustrisTestContext extends Application {
     @Override
     public void start(Stage stage) {
         log.info("Starting application.");
-        Logging.logVersionInfo();
         Logging.setUncaughtExceptionHandler();
         
         tinustris.start(stage, new Configuration() {});
@@ -64,6 +63,8 @@ public class TinustrisTestContext extends Application {
      */
     public static void main(String[] args) {
         log.info("Starting Tinustris.");
+
+        Logging.logVersionInfo();
         
         // JInput uses java.util.logging; redirect to slf4j.
         Logging.installSlf4jBridge();

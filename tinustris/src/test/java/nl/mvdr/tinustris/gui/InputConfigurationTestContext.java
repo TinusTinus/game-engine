@@ -32,7 +32,6 @@ public class InputConfigurationTestContext extends Application {
     public void start(Stage primaryStage) throws IOException {
         log.info("Starting application.");
         
-        Logging.logVersionInfo();
         Logging.setUncaughtExceptionHandler();
         
         Parent parent = FXMLLoader.load(getClass().getResource("/InputConfiguration.fxml"));
@@ -48,6 +47,8 @@ public class InputConfigurationTestContext extends Application {
      */
     public static void main(String[] args) {
         log.info("Starting Input configuration screen.");
+        
+        Logging.logVersionInfo();
         
         // JInput uses java.util.logging; redirect to slf4j.
         Logging.installSlf4jBridge();
