@@ -21,10 +21,10 @@ public enum Input {
     SOFT_DROP(Action.MOVE_DOWN, "Soft drop", "Accelerates the tetromino's descent."),
     /** Instantly drops the currently active block. */
     HARD_DROP(Action.HARD_DROP, "Hard drop", "Instantly drops the tetromino down."),
-    /** Rotates the currently active block 90 degrees clockwise. */
-    TURN_RIGHT(Action.TURN_RIGHT, "Turn right", "Rotates the tetromino 90 degrees clockwise."),
     /** Rotates the currently active block 90 degrees counter-clockwise. */
     TURN_LEFT(Action.TURN_LEFT, "Turn left", "Rotates the tetromino 90 degrees counter-clockwise."),
+    /** Rotates the currently active block 90 degrees clockwise. */
+    TURN_RIGHT(Action.TURN_RIGHT, "Turn right", "Rotates the tetromino 90 degrees clockwise."),
     /** Swaps the currently active block and the next block. */
     HOLD(Action.HOLD, "Hold", "Swaps the current tetromino with the next one.");
     
