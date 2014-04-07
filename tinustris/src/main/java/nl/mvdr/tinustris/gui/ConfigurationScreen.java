@@ -23,7 +23,6 @@ public class ConfigurationScreen extends Application {
     public void start(Stage primaryStage) throws IOException {
         log.info("Starting application.");
         
-        Logging.logVersionInfo();
         Logging.setUncaughtExceptionHandler();
         
         Parent parent = FXMLLoader.load(getClass().getResource("/Configuration.fxml"));
@@ -40,6 +39,8 @@ public class ConfigurationScreen extends Application {
      */
     public static void main(String[] args) {
         log.info("Starting Tinustris configuration screen.");
+
+        Logging.logVersionInfo();
         
         // JInput uses java.util.logging; redirect to slf4j.
         Logging.installSlf4jBridge();
