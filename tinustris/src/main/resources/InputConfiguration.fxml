@@ -21,6 +21,6 @@
 			</font>
 		</Label>
 		<Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel"
-			text="Cancel" />
+			text="Cancel" focusTraversable="false" />
 	</children>
 </FlowPane>
