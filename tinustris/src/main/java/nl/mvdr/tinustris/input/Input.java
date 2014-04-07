@@ -14,17 +14,17 @@ import nl.mvdr.tinustris.model.Action;
 @Getter
 public enum Input {
     /** Moves the currently active block left. */
-    LEFT(Action.MOVE_LEFT, "Move left", "Shifts the tetromino one column to the left."),
+    LEFT(Action.MOVE_LEFT, "Move Left", "Shifts the tetromino one column to the left."),
     /** Moves the currently active block right. */
-    RIGHT(Action.MOVE_RIGHT, "Move right", "Shifts the tetromino one column to the right."),
+    RIGHT(Action.MOVE_RIGHT, "Move Right", "Shifts the tetromino one column to the right."),
     /** Accelerates the currently active block's descent. */
-    SOFT_DROP(Action.MOVE_DOWN, "Soft drop", "Accelerates the tetromino's descent."),
+    SOFT_DROP(Action.MOVE_DOWN, "Soft Drop", "Accelerates the tetromino's descent."),
     /** Instantly drops the currently active block. */
-    HARD_DROP(Action.HARD_DROP, "Hard drop", "Instantly drops the tetromino down."),
+    HARD_DROP(Action.HARD_DROP, "Hard Drop", "Instantly drops the tetromino down."),
     /** Rotates the currently active block 90 degrees counter-clockwise. */
-    TURN_LEFT(Action.TURN_LEFT, "Turn left", "Rotates the tetromino 90 degrees counter-clockwise."),
+    TURN_LEFT(Action.TURN_LEFT, "Turn Left", "Rotates the tetromino 90 degrees counter-clockwise."),
     /** Rotates the currently active block 90 degrees clockwise. */
-    TURN_RIGHT(Action.TURN_RIGHT, "Turn right", "Rotates the tetromino 90 degrees clockwise."),
+    TURN_RIGHT(Action.TURN_RIGHT, "Turn Right", "Rotates the tetromino 90 degrees clockwise."),
     /** Swaps the currently active block and the next block. */
     HOLD(Action.HOLD, "Hold", "Swaps the current tetromino with the next one.");
     
