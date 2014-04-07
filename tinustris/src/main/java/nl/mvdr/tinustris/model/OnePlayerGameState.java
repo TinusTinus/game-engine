@@ -35,32 +35,29 @@ public class OnePlayerGameState implements GameState {
     /**
      * The basin of blocks.
      * 
-     * Element (i, j) of the grid is represented by grid[i * width + j]. If the element is null, that space in the grid
-     * is empty; otherwise it contains a block. The specific Tetromino value indicates the tetromino that the block was
-     * originally a part of, which may affect how it is represented graphically.
+     * Element (i, j) of the grid is represented by grid[i * width + j]. If the element is empty, that space in the grid
+     * is empty; otherwise it contains a block. The specific Block value may affect how it is represented graphically.
      * 
-     * The current block (that the payer is still controlling as it falls) is not contained in the grid.
+     * The current tetromino (that the payer is still controlling as it falls) is not contained in the grid.
      * 
-     * Note that the top two rows of the grid should not be visible.
+     * Note that the top two (see VANISH_ZONE_HEIGHT) rows of the grid should not be visible.
      * 
-     * The value of this field is not modified; in fact it should preferably be an unmodifiable list.
+     * The contents of this list may not be modified; in fact it should preferably be an unmodifiable list.
      */
     @NonNull
     @Wither
     private final List<Optional<Block>> grid;
     /** Width of the grid. */
     private final int width;
-    /** 
-     * Active tetromino. May be null, if the game is in the process of showing a cutscene (like a disappearing line). 
-     */
+    /** Active tetromino. May be empty, if the game is in the process of showing a "cutscene" (like a disappearing line). */
     @NonNull
     @Wither
     private final Optional<Tetromino> activeTetromino;
-    /** The active tetromino's location. May be null if activeTetromino is null as well. */
+    /** The active tetromino's location. May be empty if activeTetromino is empty as well. */
     @NonNull
     @Wither
     private final Optional<Point> currentBlockLocation;
-    /** The current block's orientation. May be null if activeTetromino is null as well. */
+    /** The current block's orientation. May be empty if activeTetromino is empty as well. */
     @NonNull
     @Wither
     private final Optional<Orientation> currentBlockOrientation;
@@ -121,9 +118,9 @@ public class OnePlayerGameState implements GameState {
      * constructor is not particularly useful for production code, but may be useful in unit tests.
      * 
      * @param width
-     *            width of the basin, should be at least 1
+     *            width of the basin, should be at least MIN_WIDTH
      * @param height
-     *            height of the basin, should be at least 3
+     *            height of the basin, should be at least MIN_HEIGHT
      */
     OnePlayerGameState(int width, int height) {
         super();
