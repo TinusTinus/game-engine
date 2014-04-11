@@ -22,7 +22,7 @@ import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.GapGenerator;
 import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
-import nl.mvdr.tinustris.engine.RandomGenerator;
+import nl.mvdr.tinustris.engine.Generator;
 import nl.mvdr.tinustris.engine.RandomTetrominoGenerator;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
@@ -98,8 +98,8 @@ public class Tinustris {
                 .map(JInputController::new)
                 .collect(Collectors.toList());
         
-        RandomGenerator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
-        RandomGenerator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
+        Generator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
+        Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
         

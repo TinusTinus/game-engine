@@ -8,7 +8,7 @@ package nl.mvdr.tinustris.engine;
  * @author Martijn van de Rijdt
  */
 @FunctionalInterface
-interface Generator<S> {
+public interface Generator<S> {
     /**
      * Returns value i.
      * 
