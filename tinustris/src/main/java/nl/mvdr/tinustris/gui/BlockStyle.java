@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.gui;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -31,18 +32,18 @@ import nl.mvdr.tinustris.model.Block;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 enum BlockStyle {
     /** Currently active blocks; that is, the tetromino that is currently being controlled by the player. */
-    ACTIVE(1, Optional.empty(), false, false), 
+    ACTIVE(1, Optional.empty(), Function.identity(), false), 
     /** Blocks that have already been dropped down. */
-    GRID(1, Optional.empty(), true, false),
+    GRID(1, Optional.empty(), color -> color.darker(), false),
     /**
      * Ghost blocks, that is, the blocks that indicate where the currently active block would land if dropped
      * straight down.
      */
-    GHOST(.1, Optional.of(Color.WHITE), false, false),
+    GHOST(.1, Optional.of(Color.WHITE), Function.identity(), false),
     /** Grid block that is part of a line and about to disappear. */
-    DISAPPEARING(1, Optional.empty(), false, true),
+    DISAPPEARING(1, Optional.empty(), Function.identity(), true),
     /** Next block to appear. */
-    NEXT(1, Optional.empty(), false, false);
+    NEXT(1, Optional.empty(), Function.identity(), false);
 
     /** The number of milliseconds in a second. */
     private static final int MILLISECONDS_PER_SECOND = 1000;
@@ -64,8 +65,8 @@ enum BlockStyle {
     /** Stroke for the block. If left empty, the stroke is equal to the tetromino's color. */
     @NonNull
     private final Optional<Paint> stroke;
-    /** Indicates whether the block should be shown a shade darker than normal. */
-    private final boolean darker;
+    /** Modifier for the color of the block. */
+    private final Function<Color, Color> modifyColor;
     /** Indicates whether the block should fade out. */
     private final boolean disappearingAnimation;
 
@@ -176,9 +177,7 @@ enum BlockStyle {
      */
     private Color getColor(Block block) {
         Color color = COLORS.get(block);
-        if (darker) {
-            color = color.darker();
-        }
+        color = modifyColor.apply(color);
         return color;
     }
 
