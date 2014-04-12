@@ -2,9 +2,10 @@ package nl.mvdr.tinustris.model;
 
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -154,11 +155,8 @@ public enum Tetromino {
      * @return set of the given values
      */
     private static Set<Point> createSet(Point... values) {
-        Set<Point> set = new HashSet<>(values.length);
-        for (Point point: values) {
-            set.add(point);
-        }
-        set = Collections.unmodifiableSet(set);
-        return set;
+        return Collections.unmodifiableSet(
+                Stream.of(values)
+                .collect(Collectors.toSet()));
     }
 }
