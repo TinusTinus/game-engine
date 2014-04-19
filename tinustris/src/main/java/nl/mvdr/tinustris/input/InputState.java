@@ -1,12 +1,14 @@
 package nl.mvdr.tinustris.input;
 
+import java.io.Serializable;
+
 /**
  * The state of all inputs at a given moment in time.
  * 
  * @author Martijn van de Rijdt
  */
 @FunctionalInterface
-public interface InputState {
+public interface InputState extends Serializable {
 
     /**
      * Indicates whether the given input is pressed.
