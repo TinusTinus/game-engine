@@ -8,7 +8,7 @@ import nl.mvdr.tinustris.gui.GraphicsStyle;
 /**
  * Game configuration.
  * 
- * Sensible defaults have been included for all methods, using default methods.
+ * Sensible defaults have been included for all configuration properties, using default methods.
  * 
  * @author Martijn van de Rijdt
  */
