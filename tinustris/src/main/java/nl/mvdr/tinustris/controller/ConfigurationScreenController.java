@@ -268,7 +268,8 @@ public class ConfigurationScreenController {
             }
         }
         
-        // only allow closing a tab when there are at least two left
+        // Only allow closing a tab when there are at least two player tabs left.
+        // Note that the tab containing the "+" also counts for one.
         TabClosingPolicy policy;
         if (2 < change.getList().size()) {
             policy = TabClosingPolicy.SELECTED_TAB;
