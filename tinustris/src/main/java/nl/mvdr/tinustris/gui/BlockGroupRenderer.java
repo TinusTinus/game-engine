@@ -65,7 +65,9 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
     private void update(List<Optional<Group>> groups) {
         if (getChildren().isEmpty()) {
             // first frame
-            groups.forEach(group -> getChildren().add(group.get()));
+            groups.stream()
+                .map(Optional<Group>::get)
+                .forEach(group -> getChildren().add(group));
         } else {
             // update
             IntStream.range(0, groups.size()).forEach(i -> 
