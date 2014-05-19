@@ -17,7 +17,7 @@ import nl.mvdr.tinustris.engine.speedcurve.TheGrandMasterSpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.TinustrisSpeedCurve;
 
 /**
- * Specifies the behavior of the game. This includes things like gravity, lock delay and the wa levels work.
+ * Specifies the behavior of the game. This includes things like gravity, lock delay and the way levels work.
  * 
  * @author Martijn van de Rijdt
  */
