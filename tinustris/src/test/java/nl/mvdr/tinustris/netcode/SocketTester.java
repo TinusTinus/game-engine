@@ -20,6 +20,8 @@ import nl.mvdr.tinustris.input.InputState;
 public class SocketTester {
     /** Port nuber. */
     private static final int PORT = 8080;
+    /** Number of objects to write and read. */
+    private static final int NUM_OBJECTS = 100;
 
     /**
      * Main method.
@@ -32,21 +34,22 @@ public class SocketTester {
         new Thread(() -> {
             try (Socket socket = new ServerSocket(PORT).accept()) {
                 ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                Object object = in.readObject();
-
-                log.info("Read: " + object);
+                for (int i = 0; i != NUM_OBJECTS; i++) {
+                    log.info("Read: " + in.readObject());
+                }
             } catch (IOException | ClassNotFoundException e) {
                 log.error("Unexpected exception.", e);
             }
         }, "server").start();
-        
+
         // client socket: connects to server and writes an object
         try (Socket socket = new Socket("localhost", PORT)) {
-            InputState object = input -> false;
-            log.info("Writing: " + object);
-            
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            out.writeObject(object);
+            for (int i = 0; i != NUM_OBJECTS; i++) {
+                InputState object = input -> false;
+                log.info("Writing: " + object);
+                out.writeObject(object);
+            }
         } catch (IOException e) {
             log.error("Unexpected exception.", e);
         }
