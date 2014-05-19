@@ -38,7 +38,7 @@ abstract class BlockGroupRenderer extends Group implements GameRenderer<OnePlaye
     
     /**
      * Creates all groups of blocks based on the given game state. In case a group would be equal to the group already
-     * rendered, a null value may be inserted into the list. In this case the old group is not rerendered.
+     * rendered, an empty value may be inserted into the list. In this case the old group is not rerendered.
      * 
      * @param gameState new game state
      * @return list of groups; may contain null values
