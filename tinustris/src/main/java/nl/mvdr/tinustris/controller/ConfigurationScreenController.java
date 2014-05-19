@@ -301,11 +301,10 @@ public class ConfigurationScreenController {
             // add player tab clicked
             
             // insert a tab
-            int index = playerTabPane.getTabs().size() - 1;
-            insertPlayerTab(index);
+            insertPlayerTab(selectedIndex);
 
             // make sure the new tab is selected
-            playerTabPane.getSelectionModel().select(index);
+            playerTabPane.getSelectionModel().select(selectedIndex);
         }
     }
 
