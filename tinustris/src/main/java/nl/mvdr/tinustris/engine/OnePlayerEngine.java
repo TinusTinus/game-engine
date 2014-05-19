@@ -395,7 +395,8 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      */
     private boolean isFullLine(int y, int width, List<Optional<Block>> grid) {
         return IntStream.range(0, width)
-            .allMatch(x -> grid.get(x + y * width).isPresent());
+            .mapToObj(x -> grid.get(x + y * width))
+            .allMatch(Optional<Block>::isPresent);
     }
 
     /**
