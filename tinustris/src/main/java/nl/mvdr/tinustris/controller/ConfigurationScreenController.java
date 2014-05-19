@@ -99,28 +99,44 @@ public class ConfigurationScreenController {
             log.debug(this.toString());
         }
 
-        Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
-                radioButton -> radioButton.setOnAction(event -> log.info("Activated " + radioButton.getText())));
-        Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
-                radioButton -> radioButton.setDisable(!toGraphicsStyle(radioButton).isAvailable()));
-
-        behaviorComboBox.setOnAction(event -> updateStartLevelTextField());
-        behaviorComboBox.getItems().setAll(Behavior.values());
-        behaviorComboBox.getSelectionModel().select(Behavior.defaultBehavior());
-        
-        startLevelTextField.textProperty().addListener(this::handleStartLevelTextFieldValueChanged);
-
-        insertPlayerTab(0);
-        playerTabPane.getSelectionModel().select(0);
-        playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
-        playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
-        
+        initGraphicsRadioButtons();
+        initBehaviorComboBox();
+        initStartLevelTextField();
+        initPlayerTabPane();
         initFirstController();
 
         log.info("Initialisation complete.");
         if (log.isDebugEnabled()) {
             log.debug(this.toString());
         }
+    }
+
+    /** Initialises the radio buttons used to select a graphical style. */
+    private void initGraphicsRadioButtons() {
+        Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
+                radioButton -> radioButton.setOnAction(event -> log.info("Activated " + radioButton.getText())));
+        Stream.of(graphics2DRadioButton, graphics3DRadioButton).forEach(
+                radioButton -> radioButton.setDisable(!toGraphicsStyle(radioButton).isAvailable()));
+    }
+
+    /** Initialises the combo box for entering selecting game engine behavior. */
+    private void initBehaviorComboBox() {
+        behaviorComboBox.setOnAction(event -> updateStartLevelTextField());
+        behaviorComboBox.getItems().setAll(Behavior.values());
+        behaviorComboBox.getSelectionModel().select(Behavior.defaultBehavior());
+    }
+
+    /** Initialises the text field for entering the starting level. */
+    private void initStartLevelTextField() {
+        startLevelTextField.textProperty().addListener(this::handleStartLevelTextFieldValueChanged);
+    }
+
+    /** Initialises the tab pane containing player configurations. */
+    private void initPlayerTabPane() {
+        insertPlayerTab(0);
+        playerTabPane.getSelectionModel().select(0);
+        playerTabPane.getTabs().addListener(this::handlePlayerTabListChanged);
+        playerTabPane.getSelectionModel().selectedIndexProperty().addListener(this::handlePlayerTabSelectionChanged);
     }
 
     /** Initialises the first player configuration controller. */
