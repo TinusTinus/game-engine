@@ -25,13 +25,12 @@ import nl.mvdr.tinustris.model.GameState;
 public class GameLoop<S extends GameState> {
     /** Update rate for the game state. */
     public static final double GAME_HERTZ = 60.0;
-    
-    /** How much time each frame should take for our target frame rate, in nanoseconds. */
+    /** How much time each frame should take for our target update rate, in nanoseconds. */
     private static final double TIME_BETWEEN_UPDATES = 1_000_000_000 / GAME_HERTZ;
      /** At the very most we will update the game this many times before a new render. **/
     private static final int MAX_UPDATES_BEFORE_RENDER = 5;
-    /** Target frame rate for the game. */
-    private static final double TARGET_FPS = 60;
+    /** Target frame rate for rendering the game. May be lower than the update rate. */
+    private static final double TARGET_FPS = GAME_HERTZ;
     /** Target time between renders, in nanoseconds. */
     private static final double TARGET_TIME_BETWEEN_RENDERS = 1_000_000_000 / TARGET_FPS;
     
@@ -67,10 +66,9 @@ public class GameLoop<S extends GameState> {
         // The moment the game was last rendered.
         double lastRenderTime = System.nanoTime();
 
-        int fps = 60;
-        int frameCount = 0;
-
-        // Simple way of finding FPS.
+        // Number of frames processed in the current second.
+        int framesThisSecond = 0;
+        // Start of the current second.
         int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
 
         S gameState = gameEngine.initGameState();
@@ -104,15 +102,14 @@ public class GameLoop<S extends GameState> {
 
                     // Render.
                     gameRenderer.render(gameState);
-                    frameCount++;
+                    framesThisSecond++;
                     lastRenderTime = now;
 
-                    // Update the frames we got.
+                    // Log the number of frames.
                     int thisSecond = (int) (lastUpdateTime / 1_000_000_000);
-                    if (thisSecond > lastSecondTime) {
-                        log.info("New second: " + thisSecond + ", frame count: " + frameCount + ", fps: " + fps);
-                        fps = frameCount;
-                        frameCount = 0;
+                    if (lastSecondTime < thisSecond) {
+                        log.info("New second: {}, frames in previous second: {}.", thisSecond, framesThisSecond);
+                        framesThisSecond = 0;
                         lastSecondTime = thisSecond;
                     }
 
