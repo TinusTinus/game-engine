@@ -24,9 +24,9 @@ import nl.mvdr.tinustris.model.GameState;
 @ToString
 public class GameLoop<S extends GameState> {
     /** Update rate for the game state. */
-    public static final double GAME_HERTZ = 60.0;
+    private static final double GAME_HERTZ = 60.0;
     /** How much time each frame should take for our target update rate, in nanoseconds. */
-    private static final double TIME_BETWEEN_UPDATES = 1_000_000_000 / GAME_HERTZ;
+    public static final double TIME_BETWEEN_UPDATES = 1_000_000_000 / GAME_HERTZ;
      /** At the very most we will update the game this many times before a new render. **/
     private static final int MAX_UPDATES_BEFORE_RENDER = 5;
     /** Target frame rate for rendering the game. May be lower than the update rate. */

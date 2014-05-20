@@ -45,8 +45,8 @@ enum BlockStyle {
     /** Next block to appear. */
     NEXT(1, Optional.empty(), Function.identity(), false);
 
-    /** The number of milliseconds in a second. */
-    private static final int MILLISECONDS_PER_SECOND = 1000;
+    /** The number of nanoseconds in a millisecond. */
+    private static final int NANOSECONDS_PER_MILLISECOND = 1_000_000;
     /** Color mapping for each type of tetromino. */
     @SuppressWarnings("serial") // this map is for internal use only, will not be serialised
     private static final Map<Block, Color> COLORS = new EnumMap<Block, Color>(Block.class) {{
@@ -230,6 +230,6 @@ enum BlockStyle {
      * @return time in seconds
      */
     private int framesToMilliseconds(int frames) {
-        return frames * MILLISECONDS_PER_SECOND / (int) GameLoop.GAME_HERTZ;
+        return (int)(frames * GameLoop.TIME_BETWEEN_UPDATES / NANOSECONDS_PER_MILLISECOND);
     }
 }
