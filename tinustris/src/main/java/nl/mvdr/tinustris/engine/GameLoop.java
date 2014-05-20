@@ -101,7 +101,7 @@ public class GameLoop<S extends GameState> {
                             .collect(Collectors.toList());
                         
                         Map<Integer, InputState> inputStateMap = IntStream.range(0, inputStates.size())
-                            // TODO filter: local states only
+                            .filter(i -> inputControllers.get(i).isLocal())
                             .mapToObj(Integer::valueOf)
                             .collect(Collectors.toMap(Function.identity(), inputStates::get));
                         publisher.publish(new FrameAndInputStatesContainer(totalUpdateCount, inputStateMap));

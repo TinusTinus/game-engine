@@ -5,7 +5,6 @@ package nl.mvdr.tinustris.input;
  * 
  * @author Martijn van de Rijdt
  */
-@FunctionalInterface
 public interface InputController {
     /**
      * Retrieves the current input state.
@@ -13,4 +12,7 @@ public interface InputController {
      * @return input state
      */
     InputState getInputState();
+
+    /** @return whether this input controller is local */
+    boolean isLocal();
 }

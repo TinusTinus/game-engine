@@ -18,4 +18,10 @@ public class DummyInputController implements InputController {
     public InputState getInputState() {
         return input -> false;
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isLocal() {
+        return true;
+    }
 }

@@ -38,4 +38,10 @@ public class RemotePlayerInputController implements InputController {
             .map(Entry<Integer, InputState>::getValue)
             .orElse(input -> false);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isLocal() {
+        return false;
+    }
 }

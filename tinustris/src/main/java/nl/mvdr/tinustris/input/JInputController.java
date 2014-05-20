@@ -46,4 +46,10 @@ public class JInputController implements InputController {
             .stream()
             .anyMatch(InputMapping::isPressed);
     }
+
+    /** {@inheritDoc} */
+    @Override
+    public boolean isLocal() {
+        return true;
+    }
 }
