@@ -84,10 +84,11 @@ public class GameLoop<S extends GameState> {
 
                 if (!paused) {
                     // Do as many game updates as we need to, potentially playing catchup.
-                    while (now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER) {
+                    while (TIME_BETWEEN_UPDATES < now - lastUpdateTime && updateCount < MAX_UPDATES_BEFORE_RENDER) {
                         List<InputState> inputStates = inputControllers.stream()
                             .map(controller -> controller.getInputState())
                             .collect(Collectors.toList());
+                        
                         gameState = gameEngine.computeNextState(gameState, inputStates);
 
                         lastUpdateTime += TIME_BETWEEN_UPDATES;
