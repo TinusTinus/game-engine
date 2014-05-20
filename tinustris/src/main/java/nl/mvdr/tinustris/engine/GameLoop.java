@@ -96,15 +96,7 @@ public class GameLoop<S extends GameState> {
                 if (!paused) {
                     // Do as many game updates as we need to, potentially playing catchup.
                     while (TIME_BETWEEN_UPDATES < now - lastUpdateTime && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                        List<InputState> inputStates = inputControllers.stream()
-                            .map(controller -> controller.getInputState())
-                            .collect(Collectors.toList());
-                        
-                        Map<Integer, InputState> inputStateMap = IntStream.range(0, inputStates.size())
-                            .filter(i -> inputControllers.get(i).isLocal())
-                            .mapToObj(Integer::valueOf)
-                            .collect(Collectors.toMap(Function.identity(), inputStates::get));
-                        publisher.publish(new FrameAndInputStatesContainer(totalUpdateCount, inputStateMap));
+                        List<InputState> inputStates = retrieveAndPublishInputStates(totalUpdateCount);
                         
                         gameState = gameEngine.computeNextState(gameState, inputStates);
 
@@ -153,6 +145,28 @@ public class GameLoop<S extends GameState> {
         }
         running = false;
         log.info("Finished main game loop. Final game state: " + gameState);
+    }
+
+    /**
+     * Retrieves the current inputs for all players.
+     * 
+     * @param updateIndex index of the current frame / update
+     * @return inputs
+     */
+    private List<InputState> retrieveAndPublishInputStates(int updateIndex) {
+        // Get the input states.
+        List<InputState> inputStates = inputControllers.stream()
+            .map(controller -> controller.getInputState())
+            .collect(Collectors.toList());
+        
+        // Publish the local input states via the publisher to any remote game instances.
+        Map<Integer, InputState> inputStateMap = IntStream.range(0, inputStates.size())
+            .filter(i -> inputControllers.get(i).isLocal())
+            .mapToObj(Integer::valueOf)
+            .collect(Collectors.toMap(Function.identity(), inputStates::get));
+        publisher.publish(new FrameAndInputStatesContainer(updateIndex, inputStateMap));
+        
+        return inputStates;
     }
 
     /** Stops the game loop. */
