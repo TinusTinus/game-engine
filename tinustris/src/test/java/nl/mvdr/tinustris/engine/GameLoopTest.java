@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.engine;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class GameLoopTest {
         // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
         Thread.sleep(50);
     }
-    
+
     /**
      * Starts, pauses, unpauses then stops the game loop.
      * 
@@ -130,6 +131,26 @@ public class GameLoopTest {
         // sleep to give the game loop thread time to clean up and log that it is finished
         Thread.sleep(50);
     }
+
+    /**
+     * Starts a game loop with a remote input controller and a local one. Only the local inputs should be published.
+     * 
+     * @throws InterruptedException
+     *             unexpected exception
+     */
+    @Test
+    public void testPublishOnlyLocalInput() throws InterruptedException {
+        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+                Arrays.asList(new DummyInputController(false), new DummyInputController(true)), new DummyGameEngine(),
+                new DummyRenderer<>(), new DummyInputPublisher());
+        
+        gameLoop.start();
+        Thread.sleep(2000);
+        gameLoop.stop();
+        // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
+        Thread.sleep(50);
+    }
+
     
     /** Tests the constructor with a null value for the input controller. */
     @Test(expected = NullPointerException.class)
