@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import lombok.EqualsAndHashCode;
@@ -17,7 +18,10 @@ import nl.mvdr.tinustris.input.InputState;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public class FrameAndInputStatesContainer {
+public class FrameAndInputStatesContainer implements Serializable {
+    /** Serial version UID. */
+    private static final long serialVersionUID = 1L;
+    
     /** Frame / update index. */
     private final int frame;
     /** Input states, indexed by player index. */
