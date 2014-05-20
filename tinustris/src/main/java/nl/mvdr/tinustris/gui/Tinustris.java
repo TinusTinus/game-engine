@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -30,6 +31,7 @@ import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Tetromino;
 import nl.mvdr.tinustris.netcode.InputPublisher;
+import nl.mvdr.tinustris.netcode.ObjectOutputStreamsInputPublisher;
 
 /**
  * Class which can start a game of Tinustris.
@@ -103,8 +105,7 @@ public class Tinustris {
         Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
-        // TODO use an actual publisher!
-        InputPublisher publisher = c -> {};
+        InputPublisher publisher = new ObjectOutputStreamsInputPublisher(Collections.emptyList());
         
         if (numPlayers == 1) {
             // single player
