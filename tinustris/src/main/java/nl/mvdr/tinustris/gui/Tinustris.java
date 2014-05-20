@@ -104,7 +104,7 @@ public class Tinustris {
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
         // TODO use an actual publisher!
-        InputPublisher publisher = c -> log.debug("Publish: {}", c);
+        InputPublisher publisher = c -> {};
         
         if (numPlayers == 1) {
             // single player
