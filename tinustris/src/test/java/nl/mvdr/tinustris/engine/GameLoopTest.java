@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.engine;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyInputController;
@@ -10,6 +11,7 @@ import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.DummyGameState;
 import nl.mvdr.tinustris.netcode.DummyInputPublisher;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -140,15 +142,20 @@ public class GameLoopTest {
      */
     @Test
     public void testPublishOnlyLocalInput() throws InterruptedException {
+        DummyInputPublisher publisher = new DummyInputPublisher();
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
                 Arrays.asList(new DummyInputController(false), new DummyInputController(true)), new DummyGameEngine(),
-                new DummyRenderer<>(), new DummyInputPublisher());
+                new DummyRenderer<>(), publisher);
         
         gameLoop.start();
         Thread.sleep(2000);
         gameLoop.stop();
         // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
         Thread.sleep(50);
+        
+        IntStream.range(0, publisher.getPublishedStates().size())
+            .forEach(i -> Assert.assertEquals("Unexpected frame index", i, publisher.getPublishedStates().get(i).getFrame()));
+        // TODO check that only states for player 1 occur
     }
 
     
