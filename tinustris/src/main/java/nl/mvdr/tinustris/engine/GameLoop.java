@@ -156,7 +156,7 @@ public class GameLoop<S extends GameState> {
     private List<InputState> retrieveAndPublishInputStates(int updateIndex) {
         // Get the input states.
         List<InputState> inputStates = inputControllers.stream()
-            .map(controller -> controller.getInputState())
+            .map(InputController::getInputState)
             .collect(Collectors.toList());
         
         // Publish the local input states via the publisher to any remote game instances.
