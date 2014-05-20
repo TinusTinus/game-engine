@@ -29,6 +29,7 @@ import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.Tetromino;
+import nl.mvdr.tinustris.netcode.InputPublisher;
 
 /**
  * Class which can start a game of Tinustris.
@@ -102,10 +103,12 @@ public class Tinustris {
         Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
+        // TODO use an actual publisher!
+        InputPublisher publisher = c -> log.debug("Publish: {}", c);
         
         if (numPlayers == 1) {
             // single player
-            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0));
+            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0), publisher);
         } else {
             // local multiplayer
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
@@ -113,7 +116,7 @@ public class Tinustris {
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
-            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer);
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, publisher);
         }
 
         log.info("Ready to start game loop: " + gameLoop);

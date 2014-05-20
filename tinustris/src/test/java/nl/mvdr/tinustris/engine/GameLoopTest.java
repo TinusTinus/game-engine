@@ -7,6 +7,7 @@ import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.DummyGameState;
+import nl.mvdr.tinustris.netcode.DummyInputPublisher;
 
 import org.junit.Test;
 
@@ -25,7 +26,8 @@ public class GameLoopTest {
     @Test
     public void testStartAndStop() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
-                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
+                new DummyInputPublisher());
         
         gameLoop.start();
         Thread.sleep(2000);
@@ -43,7 +45,8 @@ public class GameLoopTest {
     @Test
     public void testStartPauseUnpauseStop() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
-                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
+                new DummyInputPublisher());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -66,7 +69,8 @@ public class GameLoopTest {
     @Test
     public void testStartToggleToggleStop() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
-                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
+                new DummyInputPublisher());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -89,7 +93,8 @@ public class GameLoopTest {
     @Test
     public void testStopGameWhilePaused() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
-                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>());
+                Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
+                new DummyInputPublisher());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -119,7 +124,7 @@ public class GameLoopTest {
         };
         
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), engine,
-                new DummyRenderer<DummyGameState>());
+                new DummyRenderer<DummyGameState>(), new DummyInputPublisher());
         
         gameLoop.start();
         // sleep to give the game loop thread time to clean up and log that it is finished
@@ -129,19 +134,25 @@ public class GameLoopTest {
     /** Tests the constructor with a null value for the input controller. */
     @Test(expected = NullPointerException.class)
     public void testNullController() {
-        new GameLoop<>(null, new DummyGameEngine(), new DummyRenderer<>());
+        new GameLoop<>(null, new DummyGameEngine(), new DummyRenderer<>(), new DummyInputPublisher());
     }
     
     /** Tests the constructor with a null value for the game engine. */
     @Test(expected = NullPointerException.class)
     public void testNullEngine() {
-        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), null, new DummyRenderer<>());
+        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), null, new DummyRenderer<>(), new DummyInputPublisher());
     }
 
     
     /** Tests the constructor with a null value for the renderer. */
     @Test(expected = NullPointerException.class)
     public void testNullRenderer() {
-        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(), null);
+        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(), null, new DummyInputPublisher());
+    }
+    
+    /** Tests the constructor with a null value for the publisher. */
+    @Test(expected = NullPointerException.class)
+    public void testNullPublisher() {
+        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(), null);
     }
 }

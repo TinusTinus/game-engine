@@ -1,7 +1,10 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.GameRenderer;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputState;
+import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.netcode.InputPublisher;
 
 /**
  * Offers functionality for starting and stopping the game loop.
@@ -43,6 +48,9 @@ public class GameLoop<S extends GameState> {
     /** Game renderer. */
     @NonNull
     private final GameRenderer<S> gameRenderer;
+    /** Input publisher. */
+    @NonNull
+    private final InputPublisher publisher;
 
     /** Indicates whether the game should be running. */
     private boolean running;
@@ -91,6 +99,12 @@ public class GameLoop<S extends GameState> {
                         List<InputState> inputStates = inputControllers.stream()
                             .map(controller -> controller.getInputState())
                             .collect(Collectors.toList());
+                        
+                        Map<Integer, InputState> inputStateMap = IntStream.range(0, inputStates.size())
+                            // TODO filter: local states only
+                            .mapToObj(Integer::valueOf)
+                            .collect(Collectors.toMap(Function.identity(), inputStates::get));
+                        publisher.publish(new FrameAndInputStatesContainer(totalUpdateCount, inputStateMap));
                         
                         gameState = gameEngine.computeNextState(gameState, inputStates);
 
