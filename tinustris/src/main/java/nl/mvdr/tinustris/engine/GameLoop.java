@@ -70,6 +70,9 @@ public class GameLoop<S extends GameState> {
         int framesThisSecond = 0;
         // Start of the current second.
         int lastSecondTime = (int) (lastUpdateTime / 1_000_000_000);
+        
+        // Total frame counter.
+        int totalUpdateCount = 0;
 
         S gameState = gameEngine.initGameState();
 
@@ -93,6 +96,7 @@ public class GameLoop<S extends GameState> {
 
                         lastUpdateTime += TIME_BETWEEN_UPDATES;
                         updateCount++;
+                        totalUpdateCount++;
                     }
 
                     // If for some reason an update takes forever, we don't want to do an insane number of catchups.
@@ -109,7 +113,7 @@ public class GameLoop<S extends GameState> {
                     // Log the number of frames.
                     int thisSecond = (int) (lastUpdateTime / 1_000_000_000);
                     if (lastSecondTime < thisSecond) {
-                        log.info("New second: {}, frames in previous second: {}.", thisSecond, framesThisSecond);
+                        log.info("New second: {}, frames in previous second: {}, total update count: {}.", thisSecond, framesThisSecond, totalUpdateCount);
                         framesThisSecond = 0;
                         lastSecondTime = thisSecond;
                     }
