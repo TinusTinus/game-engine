@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.input;
 import java.util.Set;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -13,10 +12,9 @@ import lombok.ToString;
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
-@Getter
 @EqualsAndHashCode
 @ToString
-public class InputStateImpl implements InputState {
+class InputStateImpl implements InputState {
     /** Generated serial version UID. */
     private static final long serialVersionUID = 1L;
     /** Pressed inputs. */
