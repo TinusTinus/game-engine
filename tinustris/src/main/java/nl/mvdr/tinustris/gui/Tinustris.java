@@ -47,7 +47,6 @@ public class Tinustris {
     /** Game loop. */
     private GameLoop<?> gameLoop;
 
-
     /**
      * Starts the game.
      * 
