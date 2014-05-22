@@ -9,6 +9,7 @@ import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.DummyGameState;
+import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.SingleGameStateHolder;
 import nl.mvdr.tinustris.netcode.DummyInputPublisher;
 
@@ -156,7 +157,10 @@ public class GameLoopTest {
         
         IntStream.range(0, publisher.getPublishedStates().size())
             .forEach(i -> Assert.assertEquals("Unexpected frame index", i, publisher.getPublishedStates().get(i).getFrame()));
-        // TODO check that only states for player 1 occur
+        publisher.getPublishedStates().stream()
+            .flatMap(container -> container.getInputStates().keySet().stream())
+            .mapToInt(Integer::valueOf)
+            .forEach(i -> Assert.assertEquals("Expected only states for player 1.", 1, i));
     }
 
     
