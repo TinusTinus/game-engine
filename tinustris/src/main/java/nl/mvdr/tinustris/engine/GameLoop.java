@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -53,6 +54,7 @@ public class GameLoop<S extends GameState> {
     private final InputPublisher publisher;
 
     /** Indicates whether the game should be running. */
+    @Getter
     private boolean running;
     /** Indicates whether the game is paused. */
     private boolean paused;
