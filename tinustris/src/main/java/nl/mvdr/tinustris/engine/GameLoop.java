@@ -16,6 +16,7 @@ import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.GameStateHolder;
 import nl.mvdr.tinustris.netcode.InputPublisher;
 
 /**
@@ -49,6 +50,9 @@ public class GameLoop<S extends GameState> {
     /** Game renderer. */
     @NonNull
     private final GameRenderer<S> gameRenderer;
+    /** Game state holder. */
+    @NonNull
+    private final GameStateHolder<S> holder;
     /** Input publisher. */
     @NonNull
     private final InputPublisher publisher;
@@ -84,14 +88,14 @@ public class GameLoop<S extends GameState> {
         // Total frame counter.
         int totalUpdateCount = 0;
 
-        S gameState = gameEngine.initGameState();
+        holder.addGameState(gameEngine.initGameState());
 
-        gameRenderer.render(gameState);
+        gameRenderer.render(holder.retrieveLatestGameState());
 
         log.info("Starting main game loop.");
 
         try {
-            while (running && !gameState.isGameOver()) {
+            while (running && !holder.retrieveLatestGameState().isGameOver()) {
                 double now = System.nanoTime();
                 int updateCount = 0;
 
@@ -100,7 +104,9 @@ public class GameLoop<S extends GameState> {
                     while (TIME_BETWEEN_UPDATES < now - lastUpdateTime && updateCount < MAX_UPDATES_BEFORE_RENDER) {
                         List<InputState> inputStates = retrieveAndPublishInputStates(totalUpdateCount);
                         
-                        gameState = gameEngine.computeNextState(gameState, inputStates);
+                        S gameState = holder.retrieveLatestGameState();
+                        gameState = gameEngine.computeNextState(holder.retrieveLatestGameState(), inputStates);
+                        holder.addGameState(gameState);
 
                         lastUpdateTime += TIME_BETWEEN_UPDATES;
                         updateCount++;
@@ -114,7 +120,7 @@ public class GameLoop<S extends GameState> {
                     }
 
                     // Render.
-                    gameRenderer.render(gameState);
+                    gameRenderer.render(holder.retrieveLatestGameState());
                     framesThisSecond++;
                     lastRenderTime = now;
 
@@ -146,7 +152,7 @@ public class GameLoop<S extends GameState> {
             log.error("Fatal exception encountered in game loop.", e);
         }
         running = false;
-        log.info("Finished main game loop. Final game state: " + gameState);
+        log.info("Finished main game loop. Final game state: {}", holder.retrieveLatestGameState());
     }
 
     /**

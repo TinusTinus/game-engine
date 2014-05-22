@@ -30,6 +30,7 @@ import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
+import nl.mvdr.tinustris.model.SingleGameStateHolder;
 import nl.mvdr.tinustris.model.Tetromino;
 import nl.mvdr.tinustris.netcode.InputPublisher;
 import nl.mvdr.tinustris.netcode.ObjectOutputStreamsInputPublisher;
@@ -109,7 +110,8 @@ public class Tinustris {
         
         if (numPlayers == 1) {
             // single player
-            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0), publisher);
+            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0),
+                    new SingleGameStateHolder<>(), publisher);
         } else {
             // local multiplayer
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
@@ -117,7 +119,8 @@ public class Tinustris {
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
-            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, publisher);
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, new SingleGameStateHolder<>(),
+                    publisher);
         }
 
         log.info("Ready to start game loop: " + gameLoop);
