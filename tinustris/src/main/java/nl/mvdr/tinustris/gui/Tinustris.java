@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
+import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,9 +22,9 @@ import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
 import nl.mvdr.tinustris.engine.GapGenerator;
+import nl.mvdr.tinustris.engine.Generator;
 import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
-import nl.mvdr.tinustris.engine.Generator;
 import nl.mvdr.tinustris.engine.RandomTetrominoGenerator;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
@@ -105,7 +106,7 @@ public class Tinustris {
         Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
-        InputPublisher publisher = new ObjectOutputStreamsInputPublisher(Collections.emptyList());
+        InputPublisher publisher = new ObjectOutputStreamsInputPublisher(createOutputStreams());
         
         if (numPlayers == 1) {
             // single player
@@ -123,6 +124,46 @@ public class Tinustris {
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started in separate thread.");
+    }
+
+    /**
+     * Sets up the list of output streams to which inputs should be written.
+     * 
+     * @return list of output streams
+     */
+    private List<ObjectOutputStream> createOutputStreams() {
+        return Collections.emptyList();
+
+        // The following implementation is for testing purposes only.
+        // TODO clean up or remove.
+//        List<ObjectOutputStream> result;
+//        
+//        int port = 8080;
+//        
+//        // server socket: reads an object and logs it
+//        new Thread(() -> {
+//            try (Socket socket = new ServerSocket(port).accept()) {
+//                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+//                while(gameLoop == null || gameLoop.isRunning()) {
+//                    // note: the following generally will not terminate properly.
+//                    log.info("Read: {}", in.readObject());
+//                }
+//            } catch (IOException | ClassNotFoundException e) {
+//                log.error("Unexpected exception.", e);
+//            }
+//        }, "server").start();
+//
+//        // client socket
+//        try {
+//            Socket socket = new Socket("localhost", port);
+//            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+//            result = Collections.singletonList(out);
+//        } catch (IOException e) {
+//            log.error("Unexpected exception: ", e);
+//            result = Collections.emptyList();
+//        }
+//        
+//        return result;
     }
 
     /**
