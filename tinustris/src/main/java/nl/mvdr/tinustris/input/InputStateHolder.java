@@ -21,7 +21,6 @@ public class InputStateHolder implements InputController, Consumer<FrameAndInput
     /** Whether these inputs are for a local player. */
     @Getter
     private final boolean local;
-    
     /** Index of the player. */
     @Getter
     private final int playerNumber;
@@ -47,7 +46,7 @@ public class InputStateHolder implements InputController, Consumer<FrameAndInput
     /**
      * {@inheritDoc}
      * 
-     * Returns the latest known input state, or a default input state if none are known. This may be an out of date one.
+     * Returns the latest known input state, or a default input state if none are known.
      */
     @Override
     public InputState getInputState() {
