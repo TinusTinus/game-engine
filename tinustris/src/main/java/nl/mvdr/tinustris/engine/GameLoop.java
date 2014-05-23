@@ -53,7 +53,7 @@ public class GameLoop<S extends GameState> {
     /** Game state holder. */
     @NonNull
     private final GameStateHolder<S> holder;
-    /** Input publisher. */
+    /** Input listeners. */
     @NonNull
     private final List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
 
