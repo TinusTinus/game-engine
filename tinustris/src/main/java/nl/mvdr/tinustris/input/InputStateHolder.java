@@ -72,11 +72,11 @@ public class InputStateHolder implements InputController, Consumer<FrameAndInput
      */
     private InputState getInputState(Optional<Integer> frame) {
         return states.entrySet()
-                .stream()
-                .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.get())
-                .max((left, right) -> Integer.compare(left.getKey(), right.getKey()))
-                .map(Entry<Integer, InputState>::getValue)
-                .orElse(input -> false);
+            .stream()
+            .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.get())
+            .max((left, right) -> Integer.compare(left.getKey(), right.getKey()))
+            .map(Entry<Integer, InputState>::getValue)
+            .orElse(input -> false);
     }
 
     /** {@inheritDoc} */
