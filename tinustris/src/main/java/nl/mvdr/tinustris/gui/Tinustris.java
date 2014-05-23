@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import java.io.ObjectOutputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -128,46 +127,6 @@ public class Tinustris {
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started in separate thread.");
-    }
-
-    /**
-     * Sets up the list of output streams to which inputs should be written.
-     * 
-     * @return list of output streams
-     */
-    private List<ObjectOutputStream> createOutputStreams() {
-        return Collections.emptyList();
-
-        // The following implementation is for testing purposes only.
-        // TODO clean up or remove.
-//        List<ObjectOutputStream> result;
-//        
-//        int port = 8080;
-//        
-//        // server socket: reads an object and logs it
-//        new Thread(() -> {
-//            try (Socket socket = new ServerSocket(port).accept()) {
-//                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-//                while(gameLoop == null || gameLoop.isRunning()) {
-//                    // note: the following generally will not terminate properly.
-//                    log.info("Read: {}", in.readObject());
-//                }
-//            } catch (IOException | ClassNotFoundException e) {
-//                log.error("Unexpected exception.", e);
-//            }
-//        }, "server").start();
-//
-//        // client socket
-//        try {
-//            Socket socket = new Socket("localhost", port);
-//            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-//            result = Collections.singletonList(out);
-//        } catch (IOException e) {
-//            log.error("Unexpected exception: ", e);
-//            result = Collections.emptyList();
-//        }
-//        
-//        return result;
     }
 
     /**
