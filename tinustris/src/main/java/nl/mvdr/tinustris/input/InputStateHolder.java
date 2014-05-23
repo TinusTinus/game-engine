@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.model;
+package nl.mvdr.tinustris.input;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +8,7 @@ import java.util.function.Consumer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import nl.mvdr.tinustris.input.InputController;
-import nl.mvdr.tinustris.input.InputState;
+import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 
 /**
  * Contains all known inputs for a given player up until this point.
