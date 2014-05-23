@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.input;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import lombok.EqualsAndHashCode;
@@ -50,11 +51,32 @@ public class InputStateHolder implements InputController, Consumer<FrameAndInput
      */
     @Override
     public InputState getInputState() {
+        return getInputState(Optional.empty());
+    }
+    
+    /**
+     * Returns the latest known input state at the given frame / update index, or a default input state if none are known.
+     * 
+     * @param frame frame / update index
+     * @return input state
+     */
+    public InputState getInputState(int frame) {
+        return getInputState(Optional.of(Integer.valueOf(frame)));
+    }
+    
+    /**
+     * Returns the latest known input state at the given frame / update index, or a default input state if none are known.
+     * 
+     * @param frame frame / update index; if empty, the very latest value is returned
+     * @return input state
+     */
+    private InputState getInputState(Optional<Integer> frame) {
         return states.entrySet()
-            .stream()
-            .max((left, right) -> Integer.compare(left.getKey(), right.getKey()))
-            .map(Entry<Integer, InputState>::getValue)
-            .orElse(input -> false);
+                .stream()
+                .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.get())
+                .max((left, right) -> Integer.compare(left.getKey(), right.getKey()))
+                .map(Entry<Integer, InputState>::getValue)
+                .orElse(input -> false);
     }
 
     /** {@inheritDoc} */
