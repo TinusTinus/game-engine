@@ -55,7 +55,7 @@ public class GameLoop<S extends GameState> {
     private final GameStateHolder<S> holder;
     /** Input publisher. */
     @NonNull
-    private final Consumer<FrameAndInputStatesContainer> publisher;
+    private final List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
 
     /** Indicates whether the game should be running. */
     @Getter
@@ -167,12 +167,12 @@ public class GameLoop<S extends GameState> {
             .map(InputController::getInputState)
             .collect(Collectors.toList());
         
-        // Publish the local input states via the publisher to any remote game instances.
+        // Inform listeners of new local inputs
         Map<Integer, InputState> inputStateMap = IntStream.range(0, inputStates.size())
             .filter(i -> inputControllers.get(i).isLocal())
             .mapToObj(Integer::valueOf)
             .collect(Collectors.toMap(Function.identity(), inputStates::get));
-        publisher.accept(new FrameAndInputStatesContainer(updateIndex, inputStateMap));
+        localInputListeners.forEach(listener -> listener.accept(new FrameAndInputStatesContainer(updateIndex, inputStateMap)));
         
         return inputStates;
     }

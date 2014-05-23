@@ -3,12 +3,14 @@ package nl.mvdr.tinustris.engine;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyInputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.DummyGameState;
+import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.SingleGameStateHolder;
 import nl.mvdr.tinustris.netcode.DummyInputPublisher;
 
@@ -31,7 +33,7 @@ public class GameLoopTest {
     public void testStartAndStop() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
-                new SingleGameStateHolder<>(), new DummyInputPublisher());
+                new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
         gameLoop.start();
         Thread.sleep(2000);
@@ -50,7 +52,7 @@ public class GameLoopTest {
     public void testStartPauseUnpauseStop() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
-                new SingleGameStateHolder<>(), new DummyInputPublisher());
+                new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -74,7 +76,7 @@ public class GameLoopTest {
     public void testStartToggleToggleStop() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
-                new SingleGameStateHolder<>(), new DummyInputPublisher());
+                new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -98,7 +100,7 @@ public class GameLoopTest {
     public void testStopGameWhilePaused() throws InterruptedException {
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
-                new SingleGameStateHolder<>(), new DummyInputPublisher());
+                new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
         gameLoop.start();
         // sleep to give the game loop thread a chance to get started
@@ -126,9 +128,10 @@ public class GameLoopTest {
                 return DummyGameState.GAME_OVER;
             }
         };
-        
-        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), engine,
-                new DummyRenderer<DummyGameState>(), new SingleGameStateHolder<>(), new DummyInputPublisher());
+
+        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+                Collections.singletonList(new DummyInputController()), engine, new DummyRenderer<DummyGameState>(),
+                new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>> emptyList());
         
         gameLoop.start();
         // sleep to give the game loop thread time to clean up and log that it is finished
@@ -146,7 +149,7 @@ public class GameLoopTest {
         DummyInputPublisher publisher = new DummyInputPublisher();
         GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
                 Arrays.asList(new DummyInputController(false), new DummyInputController(true)), new DummyGameEngine(),
-                new DummyRenderer<>(), new SingleGameStateHolder<>(), publisher);
+                new DummyRenderer<>(), new SingleGameStateHolder<>(), Collections.singletonList(publisher));
         
         gameLoop.start();
         Thread.sleep(2000);
@@ -167,28 +170,29 @@ public class GameLoopTest {
     @Test(expected = NullPointerException.class)
     public void testNullController() {
         new GameLoop<>(null, new DummyGameEngine(), new DummyRenderer<>(), new SingleGameStateHolder<>(),
-                new DummyInputPublisher());
+                Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
     }
 
     /** Tests the constructor with a null value for the game engine. */
     @Test(expected = NullPointerException.class)
     public void testNullEngine() {
         new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), null,
-                new DummyRenderer<>(), new SingleGameStateHolder<>(), new DummyInputPublisher());
+                new DummyRenderer<>(), new SingleGameStateHolder<>(),
+                Collections.<Consumer<FrameAndInputStatesContainer>> emptyList());
     }
 
     /** Tests the constructor with a null value for the renderer. */
     @Test(expected = NullPointerException.class)
     public void testNullRenderer() {
         new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
-                null, new SingleGameStateHolder<>(), new DummyInputPublisher());
+                null, new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>> emptyList());
     }
 
     /** Tests the constructor with a null value for the holder. */
     @Test(expected = NullPointerException.class)
     public void testNullHolder() {
         new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
-                new DummyRenderer<>(), null, new DummyInputPublisher());
+                new DummyRenderer<>(), null, Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
     }
     
     /** Tests the constructor with a null value for the publisher. */

@@ -34,7 +34,6 @@ import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.SingleGameStateHolder;
 import nl.mvdr.tinustris.model.Tetromino;
-import nl.mvdr.tinustris.netcode.ObjectOutputStreamsInputPublisher;
 
 
 /**
@@ -108,12 +107,13 @@ public class Tinustris {
         Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
-        Consumer<FrameAndInputStatesContainer> publisher = new ObjectOutputStreamsInputPublisher(createOutputStreams());
+        List<Consumer<FrameAndInputStatesContainer>> localInputListeners =
+                Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
         
         if (numPlayers == 1) {
             // single player
             gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0),
-                    new SingleGameStateHolder<>(), publisher);
+                    new SingleGameStateHolder<>(), localInputListeners);
         } else {
             // local multiplayer
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
@@ -122,7 +122,7 @@ public class Tinustris {
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
             gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, new SingleGameStateHolder<>(),
-                    publisher);
+                    localInputListeners);
         }
 
         log.info("Ready to start game loop: " + gameLoop);
