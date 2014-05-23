@@ -82,6 +82,18 @@ public class InputStateHolder implements InputController, Consumer<FrameAndInput
     /** {@inheritDoc} */
     @Override
     public void accept(FrameAndInputStatesContainer t) {
-        states.put(Integer.valueOf(t.getFrame()), t.getInputStates().get(Integer.valueOf(playerNumber)));
+        InputState state = t.getInputStates().get(Integer.valueOf(playerNumber));
+        putState(t.getFrame(), state);
     }
-}
+
+    /**
+     * Saves an additional input state.
+     * 
+     * @param frame frame / update index
+     * @param state state
+     * @return state
+     */
+    public InputState putState(int frame, InputState state) {
+        return states.put(Integer.valueOf(frame), state);
+    }
+}    
