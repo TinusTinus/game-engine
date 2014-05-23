@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.engine;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -17,7 +18,6 @@ import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.GameStateHolder;
-import nl.mvdr.tinustris.netcode.InputPublisher;
 
 /**
  * Offers functionality for starting and stopping the game loop.
@@ -55,7 +55,7 @@ public class GameLoop<S extends GameState> {
     private final GameStateHolder<S> holder;
     /** Input publisher. */
     @NonNull
-    private final InputPublisher publisher;
+    private final Consumer<FrameAndInputStatesContainer> publisher;
 
     /** Indicates whether the game should be running. */
     @Getter
@@ -172,7 +172,7 @@ public class GameLoop<S extends GameState> {
             .filter(i -> inputControllers.get(i).isLocal())
             .mapToObj(Integer::valueOf)
             .collect(Collectors.toMap(Function.identity(), inputStates::get));
-        publisher.publish(new FrameAndInputStatesContainer(updateIndex, inputStateMap));
+        publisher.accept(new FrameAndInputStatesContainer(updateIndex, inputStateMap));
         
         return inputStates;
     }

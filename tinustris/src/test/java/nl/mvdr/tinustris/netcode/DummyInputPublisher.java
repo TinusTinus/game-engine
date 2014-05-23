@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.netcode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import lombok.Getter;
 import lombok.ToString;
@@ -9,14 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 
 /**
- * Dummy implementation of {@link InputPublisher}.
+ * Dummy publisher of local input states.
  * 
  * @author Martijn van de Rijdt
  */
 @Slf4j
 @Getter
 @ToString
-public class DummyInputPublisher implements InputPublisher {
+public class DummyInputPublisher implements Consumer<FrameAndInputStatesContainer> {
     /** Published states. */
     private final List<FrameAndInputStatesContainer> publishedStates;
     
@@ -28,7 +29,7 @@ public class DummyInputPublisher implements InputPublisher {
     
     /** {@inheritDoc} */
     @Override
-    public void publish(FrameAndInputStatesContainer states) {
+    public void accept(FrameAndInputStatesContainer states) {
         log.debug("Publish {}", states);
         this.publishedStates.add(states);
     }
