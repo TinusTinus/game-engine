@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.model;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -27,12 +26,7 @@ public class SingleGameStateHolder<S extends GameState> implements GameStateHold
         this.gameState = Optional.of(state);
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @throws NoSuchElementException
-     *             if addGameState has not yet been called
-     */
+    /** {@inheritDoc} */
     @Override
     public S retrieveLatestGameState() {
         return gameState.get();
