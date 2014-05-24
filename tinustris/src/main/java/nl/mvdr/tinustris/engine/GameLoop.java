@@ -170,7 +170,7 @@ public class GameLoop<S extends GameState> {
         // Inform listeners of new local inputs
         Map<Integer, InputState> inputStateMap = IntStream.range(0, inputStates.size())
             .filter(i -> inputControllers.get(i).isLocal())
-            .mapToObj(Integer::valueOf)
+            .boxed()
             .collect(Collectors.toMap(Function.identity(), inputStates::get));
         localInputListeners.forEach(listener -> listener.accept(new FrameAndInputStatesContainer(updateIndex, inputStateMap)));
         
