@@ -57,7 +57,8 @@ public class AllGameStateHolderTest {
     public void testInputForOtherPlayer() {
         InputStateHolder inputHolder = new InputStateHolder(true);
         AllGameStateHolder<DummyGameState> gameStateHolder = 
-                new AllGameStateHolder<>(Arrays.asList(new InputStateHolder(false), inputHolder));
+            new AllGameStateHolder<>(Arrays.asList(
+                new InputStateHolder(false), inputHolder, new InputStateHolder(false), new InputStateHolder(true)));
         InputState state = i -> true;
         @SuppressWarnings("serial")
         Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{

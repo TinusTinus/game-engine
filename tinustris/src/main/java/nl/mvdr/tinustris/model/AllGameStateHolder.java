@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -57,9 +56,7 @@ public class AllGameStateHolder<S extends GameState> implements GameStateHolder<
     /** {@inheritDoc} */
     @Override
     public void accept(FrameAndInputStatesContainer t) {
-        IntStream.range(0, inputStateHolders.size())
-            .filter(i -> inputStateHolders.get(i).isLocal())
-            .filter(i -> t.getInputStates().keySet().contains(Integer.valueOf(i)))
-            .forEach(i -> inputStateHolders.get(i).putState(t.getFrame(), t.getInputStates().get(Integer.valueOf(i))));
+        t.getInputStates().entrySet().stream()
+            .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
     }
 }
