@@ -20,9 +20,6 @@ public class InputStateHolder implements InputController {
     /** Whether these inputs are for a local player. */
     @Getter
     private final boolean local;
-    /** Index of the player. */
-    @Getter
-    private final int playerNumber;
     
     /** Map of frame index to the received input states. */
     private final Map<Integer, InputState> states;
@@ -35,11 +32,10 @@ public class InputStateHolder implements InputController {
      * @param playerNumber
      *            index of the player
      */
-    public InputStateHolder(boolean local, int playerNumber) {
+    public InputStateHolder(boolean local) {
         super();
         this.states = new HashMap<>();
         this.local = local;
-        this.playerNumber = playerNumber;
     }
     
     /**

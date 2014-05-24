@@ -14,7 +14,7 @@ public class InputStateHolderTest {
     /** Test the {@link InputStateHolder#getInputState()} method. */
     @Test
     public void testGetInputStateDefaultValue() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
+        InputStateHolder holder = new InputStateHolder(true);
         
         InputState state = holder.getInputState();
         
@@ -25,7 +25,7 @@ public class InputStateHolderTest {
     /** Test the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexedDefaultValue() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
+        InputStateHolder holder = new InputStateHolder(true);
         
         InputState state = holder.getInputState(123);
         
@@ -36,7 +36,7 @@ public class InputStateHolderTest {
     /** Test the {@link InputStateHolder#getInputState()} method. */
     @Test
     public void testGetInputState() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
+        InputStateHolder holder = new InputStateHolder(true);
         InputState state = input -> true;
         holder.putState(0, state);
         
@@ -46,7 +46,7 @@ public class InputStateHolderTest {
     /** Test the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexed() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
+        InputStateHolder holder = new InputStateHolder(true);
         InputState state = input -> true;
         holder.putState(0, state);
         
@@ -56,7 +56,7 @@ public class InputStateHolderTest {
     /** Test the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexedGreater() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
+        InputStateHolder holder = new InputStateHolder(true);
         InputState state = input -> true;
         holder.putState(0, state);
         
@@ -66,7 +66,7 @@ public class InputStateHolderTest {
     /** Test the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexedLess() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
+        InputStateHolder holder = new InputStateHolder(true);
         InputState state = input -> true;
         holder.putState(1, state);
         

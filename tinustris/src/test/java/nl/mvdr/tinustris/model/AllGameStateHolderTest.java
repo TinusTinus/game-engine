@@ -55,9 +55,9 @@ public class AllGameStateHolderTest {
     /** Test the {@link AllGameStateHolder#accept(FrameAndInputStatesContainer)} method. */
     @Test
     public void testInputForOtherPlayer() {
-        InputStateHolder inputHolder = new InputStateHolder(true, 1);
+        InputStateHolder inputHolder = new InputStateHolder(true);
         AllGameStateHolder<DummyGameState> gameStateHolder = 
-                new AllGameStateHolder<>(Arrays.asList(new InputStateHolder(false, 0), inputHolder));
+                new AllGameStateHolder<>(Arrays.asList(new InputStateHolder(false), inputHolder));
         InputState state = i -> true;
         @SuppressWarnings("serial")
         Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{
@@ -72,9 +72,9 @@ public class AllGameStateHolderTest {
     /** Test the {@link AllGameStateHolder#accept(FrameAndInputStatesContainer)} method. */
     @Test
     public void testInputForOwnPlayer() {
-        InputStateHolder inputHolder = new InputStateHolder(true, 1);
+        InputStateHolder inputHolder = new InputStateHolder(true);
         AllGameStateHolder<DummyGameState> gameStateHolder = 
-                new AllGameStateHolder<>(Arrays.asList(new InputStateHolder(false, 0), inputHolder));
+                new AllGameStateHolder<>(Arrays.asList(new InputStateHolder(false), inputHolder));
         InputState state = i -> true;
         @SuppressWarnings("serial")
         Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{
