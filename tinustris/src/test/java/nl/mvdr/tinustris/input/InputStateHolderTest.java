@@ -1,10 +1,6 @@
 package nl.mvdr.tinustris.input;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Stream;
-
-import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -75,35 +71,5 @@ public class InputStateHolderTest {
         holder.putState(1, state);
         
         Assert.assertNotEquals(state, holder.getInputState(0));
-    }
-    
-    /** Test the {@link InputStateHolder#accept(FrameAndInputStatesContainer)} method. */
-    @Test
-    public void testInputForOtherPlayer() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
-        InputState state = i -> true;
-        @SuppressWarnings("serial")
-        Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{
-            put(3, state);
-        }};
-        
-        holder.accept(new FrameAndInputStatesContainer(0, inputStates));
-        
-        Assert.assertNotEquals(state, holder.getInputState());
-    }
-    
-    /** Test the {@link InputStateHolder#accept(FrameAndInputStatesContainer)} method. */
-    @Test
-    public void testInputForOwnPlayer() {
-        InputStateHolder holder = new InputStateHolder(true, 1);
-        InputState state = i -> true;
-        @SuppressWarnings("serial")
-        Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{
-            put(1, state);
-        }};
-        
-        holder.accept(new FrameAndInputStatesContainer(0, inputStates));
-        
-        Assert.assertSame(state, holder.getInputState());
     }
 }

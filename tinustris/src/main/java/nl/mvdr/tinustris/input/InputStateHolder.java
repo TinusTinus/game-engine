@@ -4,12 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 
 /**
  * Contains all known inputs for a given player up until this point.
@@ -18,7 +16,7 @@ import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
  */
 @ToString
 @EqualsAndHashCode
-public class InputStateHolder implements InputController, Consumer<FrameAndInputStatesContainer> {
+public class InputStateHolder implements InputController {
     /** Whether these inputs are for a local player. */
     @Getter
     private final boolean local;
@@ -77,13 +75,6 @@ public class InputStateHolder implements InputController, Consumer<FrameAndInput
             .max((left, right) -> Integer.compare(left.getKey(), right.getKey()))
             .map(Entry<Integer, InputState>::getValue)
             .orElse(input -> false);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public void accept(FrameAndInputStatesContainer t) {
-        InputState state = t.getInputStates().get(Integer.valueOf(playerNumber));
-        putState(t.getFrame(), state);
     }
 
     /**
