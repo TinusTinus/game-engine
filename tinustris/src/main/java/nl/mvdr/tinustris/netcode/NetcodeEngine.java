@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import nl.mvdr.tinustris.engine.GameEngine;
+import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.GameState;
@@ -79,6 +81,16 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
     public void accept(FrameAndInputStatesContainer t) {
         t.getInputStates().entrySet()
             .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
+        
+        IntStream.range(t.getFrame() + 1, states.size())
+            .forEach(frame -> {
+                S previousState = states.get(frame - 1);
+                List<InputState> inputStates = inputStateHolders.stream()
+                    .map(holder -> holder.getInputState(frame - 1))
+                    .collect(Collectors.toList());
+                S newState = gameEngine.computeNextState(previousState, inputStates);
+                states.set(frame, newState);
+            });
     }
     
     /**

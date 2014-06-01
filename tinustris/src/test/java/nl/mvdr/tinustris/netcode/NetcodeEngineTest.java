@@ -188,4 +188,26 @@ public class NetcodeEngineTest {
         
         Assert.assertTrue(holder.isGameOver());        
     }
+    
+    /**
+     * Tests the {@link NetcodeEngine#accept(FrameAndInputStatesContainer)} method, where input states need to be
+     * updated.
+     */
+    @SuppressWarnings("serial") // local test maps, not to be serialised
+    @Test
+    public void testRecomputeState() {
+        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(
+                Arrays.asList(new InputStateHolder(false), new InputStateHolder(true)),
+                new DummyGameEngine());
+        holder.addGameState(DummyGameState.GAME_NOT_OVER);
+        holder.accept(new FrameAndInputStatesContainer(0, new HashMap<Integer, InputState>() {{
+            put(0, input -> false);
+        }}));
+        holder.addGameState(DummyGameState.GAME_OVER);
+        holder.accept(new FrameAndInputStatesContainer(0, new HashMap<Integer, InputState>() {{
+            put(1, input -> false);
+        }}));
+        
+        Assert.assertEquals(DummyGameState.GAME_NOT_OVER, holder.retrieveLatestGameState());        
+    }
 }
