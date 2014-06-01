@@ -26,6 +26,7 @@ import nl.mvdr.tinustris.model.GameStateHolder;
  *            game state type
  * @author Martijn van de Rijdt
  */
+// TODO think about / improve synchronisation
 @ToString
 @EqualsAndHashCode
 public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, Consumer<FrameAndInputStatesContainer> {
