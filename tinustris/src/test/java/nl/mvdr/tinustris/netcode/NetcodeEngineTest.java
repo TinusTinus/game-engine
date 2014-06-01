@@ -12,10 +12,8 @@ import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.model.DummyGameState;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.GameState;
-import nl.mvdr.tinustris.netcode.NetcodeEngine;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -111,7 +109,7 @@ public class NetcodeEngineTest {
                 new DummyGameEngine());
         holder.addGameState(DummyGameState.GAME_OVER);
         
-        Assert.assertTrue(holder.isGameOver());        
+        Assert.assertTrue(holder.isGameOver());
     }
 
     /**
@@ -145,7 +143,6 @@ public class NetcodeEngineTest {
      */
     @SuppressWarnings("serial") // local test maps, not to be serialised
     @Test
-    @Ignore // TODO implement this functionality
     public void testGameOverAfterSeveralStatesIncompleteInputs() {
         NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(
                 Arrays.asList(new InputStateHolder(false), new InputStateHolder(true)),
