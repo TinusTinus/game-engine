@@ -80,7 +80,7 @@ public class InputStateHolder implements InputController {
      * 
      * @param frame frame / update index
      * @param state state
-     * @return state
+     * @return previous state value, or null if unavailable
      */
     public InputState putState(int frame, @NonNull InputState state) {
         return states.put(Integer.valueOf(frame), state);
