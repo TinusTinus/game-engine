@@ -98,7 +98,7 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
                     .filter(i -> states.get(i).isGameOver())
                     .findFirst()
                     .getAsInt();
-            result =  inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame));    
+            result = inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame));    
         }
         
         return result;
