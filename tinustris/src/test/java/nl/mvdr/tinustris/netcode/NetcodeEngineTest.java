@@ -60,7 +60,7 @@ public class NetcodeEngineTest {
         holder.retrieveLatestGameState();
     }
     
-    /** Test the {@link NetcodeEngine#accept(FrameAndInputStatesContainer)} method. */
+    /** Tests the {@link NetcodeEngine#accept(FrameAndInputStatesContainer)} method. */
     @Test
     public void testInputForOtherPlayer() {
         InputStateHolder inputHolder = new InputStateHolder(true);
@@ -79,7 +79,7 @@ public class NetcodeEngineTest {
         Assert.assertNotEquals(state, inputHolder.getInputState());
     }
     
-    /** Test the {@link NetcodeEngine#accept(FrameAndInputStatesContainer)} method. */
+    /** Tests the {@link NetcodeEngine#accept(FrameAndInputStatesContainer)} method. */
     @Test
     public void testInputForOwnPlayer() {
         InputStateHolder inputHolder = new InputStateHolder(true);
