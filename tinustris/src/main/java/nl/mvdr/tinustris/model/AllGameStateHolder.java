@@ -56,7 +56,7 @@ public class AllGameStateHolder<S extends GameState> implements GameStateHolder<
     /** {@inheritDoc} */
     @Override
     public void accept(FrameAndInputStatesContainer t) {
-        t.getInputStates().entrySet().stream()
+        t.getInputStates().entrySet()
             .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
     }
 }
