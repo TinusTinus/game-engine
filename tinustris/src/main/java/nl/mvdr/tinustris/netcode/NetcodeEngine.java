@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.netcode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.OptionalInt;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
@@ -84,14 +83,21 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
     /**
      * {@inheritDoc}
      * 
-     * The game is not certain to be over until all inputs are known.
+     * The game is only certainly over, if there is a game over state where all inputs leading up to that state are
+     * known.
      */
     @Override
     public boolean isGameOver() {
-        OptionalInt frame = IntStream.range(0, states.size())
-            .filter(i -> states.get(i).isGameOver())
-            .findFirst();
+        boolean result = retrieveLatestGameState().isGameOver();
         
-        return frame.isPresent() && inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame.getAsInt()));
+        if (result) {
+            int frame = IntStream.range(0, states.size())
+                    .filter(i -> states.get(i).isGameOver())
+                    .findFirst()
+                    .getAsInt();
+            result =  inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame));    
+        }
+        
+        return result;
     }
 }
