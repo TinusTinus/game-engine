@@ -3,7 +3,9 @@ package nl.mvdr.tinustris.netcode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.OptionalInt;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -86,8 +88,10 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
      */
     @Override
     public boolean isGameOver() {
-        int frame = states.size() - 1;
-        return states.get(frame).isGameOver()
-                && inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame));
+        OptionalInt frame = IntStream.range(0, states.size())
+            .filter(i -> states.get(i).isGameOver())
+            .findFirst();
+        
+        return frame.isPresent() && inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame.getAsInt()));
     }
 }
