@@ -11,7 +11,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class InputStateHolderTest {
-    /** Test the {@link InputStateHolder#getInputState()} method. */
+    /** Tests the {@link InputStateHolder#getInputState()} method. */
     @Test
     public void testGetInputStateDefaultValue() {
         InputStateHolder holder = new InputStateHolder(true);
@@ -22,7 +22,7 @@ public class InputStateHolderTest {
             .forEach(input -> Assert.assertFalse(state.isPressed(input)));
     }
     
-    /** Test the {@link InputStateHolder#getInputState(int)} method. */
+    /** Tests the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexedDefaultValue() {
         InputStateHolder holder = new InputStateHolder(true);
@@ -33,7 +33,7 @@ public class InputStateHolderTest {
             .forEach(input -> Assert.assertFalse(state.isPressed(input)));
     }
 
-    /** Test the {@link InputStateHolder#getInputState()} method. */
+    /** Tests the {@link InputStateHolder#getInputState()} method. */
     @Test
     public void testGetInputState() {
         InputStateHolder holder = new InputStateHolder(true);
@@ -43,7 +43,7 @@ public class InputStateHolderTest {
         Assert.assertSame(state, holder.getInputState());
     }
     
-    /** Test the {@link InputStateHolder#getInputState(int)} method. */
+    /** Tests the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexed() {
         InputStateHolder holder = new InputStateHolder(true);
@@ -53,7 +53,7 @@ public class InputStateHolderTest {
         Assert.assertSame(state, holder.getInputState(0));
     }
     
-    /** Test the {@link InputStateHolder#getInputState(int)} method. */
+    /** Tests the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexedGreater() {
         InputStateHolder holder = new InputStateHolder(true);
@@ -63,7 +63,7 @@ public class InputStateHolderTest {
         Assert.assertSame(state, holder.getInputState(1));
     }
     
-    /** Test the {@link InputStateHolder#getInputState(int)} method. */
+    /** Tests the {@link InputStateHolder#getInputState(int)} method. */
     @Test
     public void testGetInputStateIndexedLess() {
         InputStateHolder holder = new InputStateHolder(true);
