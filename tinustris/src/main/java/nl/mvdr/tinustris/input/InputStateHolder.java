@@ -96,7 +96,6 @@ public class InputStateHolder implements InputController {
     public boolean allInputsKnownUntil(int frame) {
         return IntStream.range(0, frame)
             .boxed()
-            .map(states::get)
-            .allMatch(state -> state != null);
+            .allMatch(states.keySet()::contains);
     }
 }    
