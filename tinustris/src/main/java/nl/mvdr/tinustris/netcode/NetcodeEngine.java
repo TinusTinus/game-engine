@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.model;
+package nl.mvdr.tinustris.netcode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,17 @@ import java.util.function.Consumer;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import nl.mvdr.tinustris.input.InputStateHolder;
+import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
+import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.model.GameStateHolder;
 
 /**
- * Holder class that saves a history of all game states.
+ * Main netcode engine.
+ * 
+ * Usage: make sure an instance of this class is registered with the main GameLoop as both the game state holder and a
+ * local input state listener.
+ * 
+ * TODO imrove the usage notes
  * 
  * @param <S>
  *            game state type
@@ -18,14 +26,14 @@ import nl.mvdr.tinustris.input.InputStateHolder;
  */
 @ToString
 @EqualsAndHashCode
-public class AllGameStateHolder<S extends GameState> implements GameStateHolder<S>, Consumer<FrameAndInputStatesContainer> {
+public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, Consumer<FrameAndInputStatesContainer> {
     /** List of states. */
     private final List<S> states;
     /** List of input state holders. Index in the list corresponds to the player number. */
     private final List<InputStateHolder> inputStateHolders;
 
     /** Constructor. */
-    public AllGameStateHolder(List<InputStateHolder> inputStateHolders) {
+    public NetcodeEngine(List<InputStateHolder> inputStateHolders) {
         super();
         this.states = new ArrayList<>();
         this.inputStateHolders = inputStateHolders;

@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.model;
+package nl.mvdr.tinustris.netcode;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,33 +8,37 @@ import java.util.NoSuchElementException;
 
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHolder;
+import nl.mvdr.tinustris.model.DummyGameState;
+import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
+import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.tinustris.netcode.NetcodeEngine;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Test class for {@link AllGameStateHolder}.
+ * Test class for {@link NetcodeEngine}.
  * 
  * @author Martijn van de Rijdt
  */
-public class AllGameStateHolderTest {
+public class NetcodeEngineTest {
     /**
-     * Tests {@link AllGameStateHolder#addGameState(GameState)} and {@link AllGameStateHolder#retrieveLatestGameState()}.
+     * Tests {@link NetcodeEngine#addGameState(GameState)} and {@link NetcodeEngine#retrieveLatestGameState()}.
      */
     @Test
     public void testAddAndRetrieve() {
-        AllGameStateHolder<DummyGameState> holder = new AllGameStateHolder<>(Collections.<InputStateHolder> emptyList());
+        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList());
 
         holder.addGameState(DummyGameState.GAME_NOT_OVER);
         Assert.assertEquals(DummyGameState.GAME_NOT_OVER, holder.retrieveLatestGameState());
     }
 
     /**
-     * Tests {@link AllGameStateHolder#addGameState(GameState)} and {@link AllGameStateHolder#retrieveLatestGameState()}.
+     * Tests {@link NetcodeEngine#addGameState(GameState)} and {@link NetcodeEngine#retrieveLatestGameState()}.
      */
     @Test
     public void testAddAndRetrieveMultipleTimes() {
-        AllGameStateHolder<DummyGameState> holder = new AllGameStateHolder<>(Collections.<InputStateHolder> emptyList());
+        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList());
 
         holder.addGameState(DummyGameState.GAME_NOT_OVER);
         Assert.assertEquals(DummyGameState.GAME_NOT_OVER, holder.retrieveLatestGameState());
@@ -44,20 +48,20 @@ public class AllGameStateHolderTest {
         Assert.assertEquals(DummyGameState.GAME_OVER, holder.retrieveLatestGameState());
     }
 
-    /** Tests {@link AllGameStateHolder#retrieveLatestGameState()} in case no state has been added yet. */
+    /** Tests {@link NetcodeEngine#retrieveLatestGameState()} in case no state has been added yet. */
     @Test(expected = NoSuchElementException.class)
     public void testRetrieveWithoutAdd() {
-        AllGameStateHolder<DummyGameState> holder = new AllGameStateHolder<>(Collections.<InputStateHolder> emptyList());
+        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList());
 
         holder.retrieveLatestGameState();
     }
     
-    /** Test the {@link AllGameStateHolder#accept(FrameAndInputStatesContainer)} method. */
+    /** Test the {@link NetcodeEngine#accept(FrameAndInputStatesContainer)} method. */
     @Test
     public void testInputForOtherPlayer() {
         InputStateHolder inputHolder = new InputStateHolder(true);
-        AllGameStateHolder<DummyGameState> gameStateHolder = 
-            new AllGameStateHolder<>(Arrays.asList(
+        NetcodeEngine<DummyGameState> gameStateHolder = 
+            new NetcodeEngine<>(Arrays.asList(
                 new InputStateHolder(false), inputHolder, new InputStateHolder(false), new InputStateHolder(true)));
         InputState state = i -> true;
         @SuppressWarnings("serial")
@@ -70,12 +74,12 @@ public class AllGameStateHolderTest {
         Assert.assertNotEquals(state, inputHolder.getInputState());
     }
     
-    /** Test the {@link AllGameStateHolder#accept(FrameAndInputStatesContainer)} method. */
+    /** Test the {@link NetcodeEngine#accept(FrameAndInputStatesContainer)} method. */
     @Test
     public void testInputForOwnPlayer() {
         InputStateHolder inputHolder = new InputStateHolder(true);
-        AllGameStateHolder<DummyGameState> gameStateHolder = 
-                new AllGameStateHolder<>(Arrays.asList(new InputStateHolder(false), inputHolder));
+        NetcodeEngine<DummyGameState> gameStateHolder = 
+                new NetcodeEngine<>(Arrays.asList(new InputStateHolder(false), inputHolder));
         InputState state = i -> true;
         @SuppressWarnings("serial")
         Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{
