@@ -78,4 +78,6 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
         t.getInputStates().entrySet()
             .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
     }
+    
+    // TODO implement isGameOver correctly
 }
