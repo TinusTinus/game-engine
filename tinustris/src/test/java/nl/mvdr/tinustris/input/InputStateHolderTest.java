@@ -138,4 +138,12 @@ public class InputStateHolderTest {
         
         Assert.assertFalse(holder.allInputsKnownUntil(3));
     }
+    
+    /** Tests the {@link InputStateHolder#putState(int, InputState)} in case a null value is passed in. */
+    @Test(expected = NullPointerException.class)
+    public void testPutNullState() {
+        InputStateHolder holder = new InputStateHolder(true);
+        
+        holder.putState(0, null);
+    }
 }

@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.ToString;
 
 /**
@@ -81,7 +82,7 @@ public class InputStateHolder implements InputController {
      * @param state state
      * @return state
      */
-    public InputState putState(int frame, InputState state) {
+    public InputState putState(int frame, @NonNull InputState state) {
         return states.put(Integer.valueOf(frame), state);
     }
     
