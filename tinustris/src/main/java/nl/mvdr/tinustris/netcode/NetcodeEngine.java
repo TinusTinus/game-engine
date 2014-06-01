@@ -91,6 +91,9 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
         boolean result = retrieveLatestGameState().isGameOver();
         
         if (result) {
+            // Note: if the following turns into a performance problem, it can also be implemented using a binary
+            // search, or a linear search starting at the end, since all game over states should be at the end of the
+            // list.
             int frame = IntStream.range(0, states.size())
                     .filter(i -> states.get(i).isGameOver())
                     .findFirst()
