@@ -25,7 +25,7 @@ public interface GameStateHolder<S extends GameState> {
      */
     S retrieveLatestGameState();
     
-    /** @return whether the game is over */
+    /** @return whether the game is definitely over */
     default boolean isGameOver() {
         return retrieveLatestGameState().isGameOver();
     }
