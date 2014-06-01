@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import nl.mvdr.tinustris.engine.DummyGameEngine;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.model.DummyGameState;
@@ -27,7 +28,8 @@ public class NetcodeEngineTest {
      */
     @Test
     public void testAddAndRetrieve() {
-        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList());
+        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList(),
+                new DummyGameEngine());
 
         holder.addGameState(DummyGameState.GAME_NOT_OVER);
         Assert.assertEquals(DummyGameState.GAME_NOT_OVER, holder.retrieveLatestGameState());
@@ -38,7 +40,8 @@ public class NetcodeEngineTest {
      */
     @Test
     public void testAddAndRetrieveMultipleTimes() {
-        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList());
+        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList(),
+                new DummyGameEngine());
 
         holder.addGameState(DummyGameState.GAME_NOT_OVER);
         Assert.assertEquals(DummyGameState.GAME_NOT_OVER, holder.retrieveLatestGameState());
@@ -51,7 +54,8 @@ public class NetcodeEngineTest {
     /** Tests {@link NetcodeEngine#retrieveLatestGameState()} in case no state has been added yet. */
     @Test(expected = NoSuchElementException.class)
     public void testRetrieveWithoutAdd() {
-        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList());
+        NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList(),
+                new DummyGameEngine());
 
         holder.retrieveLatestGameState();
     }
@@ -61,8 +65,9 @@ public class NetcodeEngineTest {
     public void testInputForOtherPlayer() {
         InputStateHolder inputHolder = new InputStateHolder(true);
         NetcodeEngine<DummyGameState> gameStateHolder = 
-            new NetcodeEngine<>(Arrays.asList(
-                new InputStateHolder(false), inputHolder, new InputStateHolder(false), new InputStateHolder(true)));
+            new NetcodeEngine<>(
+                Arrays.asList(new InputStateHolder(false), inputHolder, new InputStateHolder(false), new InputStateHolder(true)),
+                new DummyGameEngine());
         InputState state = i -> true;
         @SuppressWarnings("serial")
         Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{
@@ -78,8 +83,8 @@ public class NetcodeEngineTest {
     @Test
     public void testInputForOwnPlayer() {
         InputStateHolder inputHolder = new InputStateHolder(true);
-        NetcodeEngine<DummyGameState> gameStateHolder = 
-                new NetcodeEngine<>(Arrays.asList(new InputStateHolder(false), inputHolder));
+        NetcodeEngine<DummyGameState> gameStateHolder = new NetcodeEngine<>(
+            Arrays.asList(new InputStateHolder(false), inputHolder), new DummyGameEngine());
         InputState state = i -> true;
         @SuppressWarnings("serial")
         Map<Integer, InputState> inputStates = new HashMap<Integer, InputState>() {{
