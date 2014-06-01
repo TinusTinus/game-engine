@@ -21,7 +21,7 @@ import nl.mvdr.tinustris.input.InputStateHolder;
 public class AllGameStateHolder<S extends GameState> implements GameStateHolder<S>, Consumer<FrameAndInputStatesContainer> {
     /** List of states. */
     private final List<S> states;
-    /** List of input state holders. Index in the liust corresponds to the player number. */
+    /** List of input state holders. Index in the list corresponds to the player number. */
     private final List<InputStateHolder> inputStateHolders;
 
     /** Constructor. */
