@@ -3,7 +3,7 @@ package nl.mvdr.tinustris.input;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
+import java.util.OptionalInt;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -45,7 +45,7 @@ public class InputStateHolder implements InputController {
      */
     @Override
     public InputState getInputState() {
-        return getInputState(Optional.empty());
+        return getInputState(OptionalInt.empty());
     }
     
     /**
@@ -55,7 +55,7 @@ public class InputStateHolder implements InputController {
      * @return input state
      */
     public InputState getInputState(int frame) {
-        return getInputState(Optional.of(Integer.valueOf(frame)));
+        return getInputState(OptionalInt.of(frame));
     }
     
     /**
@@ -64,10 +64,10 @@ public class InputStateHolder implements InputController {
      * @param frame frame / update index; if empty, the very latest value is returned
      * @return input state
      */
-    private InputState getInputState(Optional<Integer> frame) {
+    private InputState getInputState(OptionalInt frame) {
         return states.entrySet()
             .stream()
-            .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.get())
+            .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.getAsInt())
             .max((left, right) -> Integer.compare(left.getKey(), right.getKey()))
             .map(Entry<Integer, InputState>::getValue)
             .orElse(input -> false);
