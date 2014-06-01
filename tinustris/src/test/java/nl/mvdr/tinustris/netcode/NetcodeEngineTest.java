@@ -23,9 +23,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class NetcodeEngineTest {
-    /**
-     * Tests {@link NetcodeEngine#addGameState(GameState)} and {@link NetcodeEngine#retrieveLatestGameState()}.
-     */
+    /** Tests {@link NetcodeEngine#addGameState(GameState)} and {@link NetcodeEngine#retrieveLatestGameState()}. */
     @Test
     public void testAddAndRetrieve() {
         NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList(),
@@ -35,9 +33,7 @@ public class NetcodeEngineTest {
         Assert.assertEquals(DummyGameState.GAME_NOT_OVER, holder.retrieveLatestGameState());
     }
 
-    /**
-     * Tests {@link NetcodeEngine#addGameState(GameState)} and {@link NetcodeEngine#retrieveLatestGameState()}.
-     */
+    /** Tests {@link NetcodeEngine#addGameState(GameState)} and {@link NetcodeEngine#retrieveLatestGameState()}. */
     @Test
     public void testAddAndRetrieveMultipleTimes() {
         NetcodeEngine<DummyGameState> holder = new NetcodeEngine<>(Collections.<InputStateHolder> emptyList(),
