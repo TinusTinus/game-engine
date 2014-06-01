@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -82,5 +83,20 @@ public class InputStateHolder implements InputController {
      */
     public InputState putState(int frame, InputState state) {
         return states.put(Integer.valueOf(frame), state);
+    }
+    
+    /**
+     * Indicates whether this holder contains all input states for frames up to, but not including, the given frame
+     * index.
+     * 
+     * @param frame
+     *            frame index
+     * @return whether all input states are known
+     */
+    public boolean allInputsKnownUntil(int frame) {
+        return IntStream.range(0, frame)
+            .boxed()
+            .map(states::get)
+            .allMatch(state -> state != null);
     }
 }    

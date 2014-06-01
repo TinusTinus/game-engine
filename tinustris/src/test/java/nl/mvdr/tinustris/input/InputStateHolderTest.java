@@ -72,4 +72,70 @@ public class InputStateHolderTest {
         
         Assert.assertNotEquals(state, holder.getInputState(0));
     }
+    
+    /** Tests the {@link InputStateHolder#allInputsKnownUntil(int)} method. */
+    @Test
+    public void testAllInputsKnownZero() {
+        InputStateHolder holder = new InputStateHolder(true);
+        
+        Assert.assertTrue(holder.allInputsKnownUntil(0));
+    }
+    
+    /** Tests the {@link InputStateHolder#allInputsKnownUntil(int)} method. */
+    @Test
+    public void testAllInputsKnownNegative() {
+        InputStateHolder holder = new InputStateHolder(true);
+        
+        Assert.assertTrue(holder.allInputsKnownUntil(-1));
+    }
+
+    /** Tests the {@link InputStateHolder#allInputsKnownUntil(int)} method. */
+    @Test
+    public void testAllInputsKnownEmptyOne() {
+        InputStateHolder holder = new InputStateHolder(true);
+        
+        Assert.assertFalse(holder.allInputsKnownUntil(1));
+    }
+    
+    /** Tests the {@link InputStateHolder#allInputsKnownUntil(int)} method. */
+    @Test
+    public void testAllInputsKnownNoneMissing() {
+        InputStateHolder holder = new InputStateHolder(true);
+        holder.putState(0, input -> false);
+        holder.putState(1, input -> false);
+        holder.putState(2, input -> false);
+        
+        Assert.assertTrue(holder.allInputsKnownUntil(3));
+    }
+    
+    /** Tests the {@link InputStateHolder#allInputsKnownUntil(int)} method. */
+    @Test
+    public void testAllInputsKnownOldIndex() {
+        InputStateHolder holder = new InputStateHolder(true);
+        holder.putState(0, input -> false);
+        holder.putState(1, input -> false);
+        holder.putState(2, input -> false);
+        
+        Assert.assertTrue(holder.allInputsKnownUntil(2));
+    }
+    
+    /** Tests the {@link InputStateHolder#allInputsKnownUntil(int)} method. */
+    @Test
+    public void testAllInputsKnownMiddleMissingMissing() {
+        InputStateHolder holder = new InputStateHolder(true);
+        holder.putState(0, input -> false);
+        holder.putState(2, input -> false);
+        
+        Assert.assertFalse(holder.allInputsKnownUntil(3));
+    }
+    
+    /** Tests the {@link InputStateHolder#allInputsKnownUntil(int)} method. */
+    @Test
+    public void testAllInputsKnownLastMissing() {
+        InputStateHolder holder = new InputStateHolder(true);
+        holder.putState(0, input -> false);
+        holder.putState(1, input -> false);
+        
+        Assert.assertFalse(holder.allInputsKnownUntil(3));
+    }
 }
