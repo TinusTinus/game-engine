@@ -68,7 +68,7 @@ public class InputStateHolder implements InputController {
         return states.entrySet()
             .stream()
             .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.getAsInt())
-            .max((left, right) -> Integer.compare(left.getKey(), right.getKey()))
+            .max((left, right) -> Integer.compare(left.getKey().intValue(), right.getKey().intValue()))
             .map(Entry<Integer, InputState>::getValue)
             .orElse(input -> false);
     }
