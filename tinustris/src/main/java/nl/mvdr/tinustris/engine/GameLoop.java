@@ -95,7 +95,6 @@ public class GameLoop<S extends GameState> {
         log.info("Starting main game loop.");
 
         try {
-            // TODO the following guard may not be correct in a netcode game!
             while (running && !holder.isGameOver()) {
                 double now = System.nanoTime();
                 int updateCount = 0;
