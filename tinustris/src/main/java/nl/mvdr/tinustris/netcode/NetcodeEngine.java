@@ -79,7 +79,11 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
             .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
     }
     
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * 
+     * The game is not certain to be over until all inputs are known.
+     */
     @Override
     public boolean isGameOver() {
         int frame = states.size() - 1;
