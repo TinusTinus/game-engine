@@ -82,6 +82,8 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
         t.getInputStates().entrySet()
             .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
         
+        // If this is an old input (that is to say, a remote input for an older frame):
+        // recompute the game states after it based on the new input value.
         IntStream.range(t.getFrame() + 1, states.size())
             .forEach(frame -> {
                 S previousState = states.get(frame - 1);
