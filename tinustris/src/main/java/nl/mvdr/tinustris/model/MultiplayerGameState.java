@@ -38,7 +38,8 @@ public class MultiplayerGameState implements GameState {
      * @return targets
      */
     public static List<Integer> defaultTargets(int numberOfPlayers) {
-        return IntStream.range(0, numberOfPlayers).map(i -> (i + 1) % numberOfPlayers)
+        return IntStream.range(0, numberOfPlayers)
+                .map(i -> (i + 1) % numberOfPlayers)
                 .collect(ArrayList<Integer>::new, ArrayList<Integer>::add, ArrayList<Integer>::addAll);
     }
 

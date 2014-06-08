@@ -31,5 +31,4 @@ public class SingleGameStateHolder<S extends GameState> implements GameStateHold
     public S retrieveLatestGameState() {
         return gameState.get();
     }
-
 }
