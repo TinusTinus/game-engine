@@ -28,7 +28,6 @@ import nl.mvdr.tinustris.model.GameStateHolder;
  *            game state type
  * @author Martijn van de Rijdt
  */
-// TODO think about / improve synchronisation
 @ToString
 @EqualsAndHashCode
 public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, Consumer<FrameAndInputStatesContainer> {
@@ -69,6 +68,7 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
     /** {@inheritDoc} */
     @Override
     public S retrieveLatestGameState() {
+        // Note that states can only grow, never shrink. There is no need for addition synchronisation for this method.
         if (states.isEmpty()) {
             throw new NoSuchElementException("No state added yet.");
         }
