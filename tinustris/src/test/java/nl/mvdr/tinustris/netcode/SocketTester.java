@@ -18,7 +18,7 @@ import nl.mvdr.tinustris.input.InputState;
  */
 @Slf4j
 public class SocketTester {
-    /** Port nuber. */
+    /** Port number. */
     private static final int PORT = 8080;
     /** Number of objects to write and read. */
     private static final int NUM_OBJECTS = 100;
