@@ -19,6 +19,7 @@ import nl.mvdr.tinustris.gui.GraphicsStyle;
 @RequiredArgsConstructor
 @Getter
 public class ConfigurationImpl implements Configuration {
+    /** Configuration per player. */
     @NonNull
     private List<PlayerConfiguration> playerConfigurations;
     /** Graphical style for the blocks in the grid. */
