@@ -14,30 +14,36 @@ import org.junit.Test;
  */
 @Slf4j
 public class ConfigurationImplTest {
-    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int))}. */
+    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
     @Test
     public void testConstructor() {
         ConfigurationImpl configuration = new ConfigurationImpl(Collections.singletonList(() -> ""),
-                GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0);
+                GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0, new NetcodeConfiguration(){});
 
         log.info(configuration.toString());
     }
 
-    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int))}. */
+    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullPlayerConfiguration() {
-        new ConfigurationImpl(null, GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0);
+        new ConfigurationImpl(null, GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0, new NetcodeConfiguration(){});
     }
     
-    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int))}. */
+    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullStyle() {
-        new ConfigurationImpl(Collections.singletonList(() -> ""), null, Behavior.defaultBehavior(), 0);
+        new ConfigurationImpl(Collections.singletonList(() -> ""), null, Behavior.defaultBehavior(), 0, new NetcodeConfiguration(){});
     }
 
-    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int))}. */
+    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullBehavior() {
-        new ConfigurationImpl(Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(), null, 0);
+        new ConfigurationImpl(Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(), null, 0, new NetcodeConfiguration(){});
+    }
+    
+    /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
+    @Test(expected = NullPointerException.class)
+    public void testConstructorNullNetcodeConfig() {
+        new ConfigurationImpl(Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0, null);
     }
 }

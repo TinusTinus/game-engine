@@ -49,4 +49,9 @@ public interface Configuration {
     default int getStartLevel() {
         return 0;
     }
+    
+    /** @return configuration for networking */
+    default NetcodeConfiguration getNetcodeConfiguration() {
+        return new NetcodeConfiguration(){};
+    }
 }

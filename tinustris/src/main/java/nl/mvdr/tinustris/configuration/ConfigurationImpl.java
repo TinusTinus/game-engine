@@ -30,4 +30,8 @@ public class ConfigurationImpl implements Configuration {
     private final Behavior behavior;
     /** Starting level. */
     private final int startLevel;
+    /** Netcode configuration. */
+    @NonNull
+    private final NetcodeConfiguration netcodeConfiguration;
+    
 }
