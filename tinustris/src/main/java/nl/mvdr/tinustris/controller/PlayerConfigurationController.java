@@ -120,7 +120,7 @@ public class PlayerConfigurationController {
      * @return configuration for this player
      */
     PlayerConfiguration buildConfiguration() {
-        return new PlayerConfigurationImpl(nameProperty().getValue(), inputConfiguration); 
+        return new PlayerConfigurationImpl(nameProperty().getValue(), inputConfiguration);
     }
     
     /**
