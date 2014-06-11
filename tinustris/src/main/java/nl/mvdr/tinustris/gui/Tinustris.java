@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Configuration;
+import nl.mvdr.tinustris.configuration.LocalPlayerConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
@@ -27,7 +28,9 @@ import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
 import nl.mvdr.tinustris.engine.RandomTetrominoGenerator;
 import nl.mvdr.tinustris.input.InputController;
+import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.input.JInputController;
+import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -98,8 +101,7 @@ public class Tinustris {
         
         List<InputController> inputControllers = configuration.getPlayerConfigurations()
                 .stream()
-                .map(PlayerConfiguration::getJInputControllerConfiguration)
-                .map(JInputController::new)
+                .map(this::createInputController)
                 .collect(Collectors.toList());
         
         Generator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
@@ -127,6 +129,25 @@ public class Tinustris {
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started in separate thread.");
+    }
+    
+    /**
+     * Creates an input controller based on the given player configuration.
+     * 
+     * @param playerConfiguration player config
+     * @return input controller
+     */
+    private InputController createInputController(PlayerConfiguration playerConfiguration) {
+        InputController result;
+        if (playerConfiguration instanceof LocalPlayerConfiguration) {
+            JInputControllerConfiguration inputControllerConfiguration = ((LocalPlayerConfiguration) playerConfiguration)
+                    .getJInputControllerConfiguration();
+            result = new JInputController(inputControllerConfiguration);
+        } else {
+            // remote player
+            result = new InputStateHolder(false);
+        }
+        return result;
     }
 
     /**
