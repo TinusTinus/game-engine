@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -32,10 +33,12 @@ import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
+import nl.mvdr.tinustris.model.GameStateHolder;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.SingleGameStateHolder;
 import nl.mvdr.tinustris.model.Tetromino;
+import nl.mvdr.tinustris.netcode.NetcodeEngine;
 
 
 /**
@@ -108,15 +111,29 @@ public class Tinustris {
         Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
-        List<Consumer<FrameAndInputStatesContainer>> localInputListeners =
-                Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
-        
         if (numPlayers == 1) {
-            // single player
+            // single player game
+            List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
+            GameStateHolder<OnePlayerGameState> holder;
+            if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
+                // ...with spectators!
+                List<InputStateHolder> inputStateHolders = inputControllers.stream()
+                        .map(this::convertToInputStateHolder)
+                        .collect(Collectors.toList());
+                NetcodeEngine<OnePlayerGameState> netcodeEngine = new NetcodeEngine<>(inputStateHolders, onePlayerEngine);
+                holder = netcodeEngine;
+                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser
+            } else {
+                holder = new SingleGameStateHolder<>();
+                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
+            }
+            
             gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0),
-                    new SingleGameStateHolder<>(), localInputListeners);
+                    holder, localInputListeners);
         } else {
-            // multiplayer
+            // multiplayer game
+            List<Consumer<FrameAndInputStatesContainer>> localInputListeners =
+                    Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
             List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, numPlayers)
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
@@ -146,6 +163,24 @@ public class Tinustris {
         } else {
             // remote player
             result = new InputStateHolder(false);
+        }
+        return result;
+    }
+    
+    /**
+     * Returns an input state holder for the given input controller.
+     * 
+     * @param controller controller to be converted
+     * @return holder
+     */
+    private InputStateHolder convertToInputStateHolder(InputController controller) {
+        InputStateHolder result;
+        if (controller instanceof InputStateHolder) {
+            result = (InputStateHolder) controller;
+        } else if (controller.isLocal()) {
+            result = new InputStateHolder(true);
+        } else {
+            throw new IllegalArgumentException("Unexpected type of remote input controller: " + controller);
         }
         return result;
     }
