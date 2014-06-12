@@ -134,12 +134,13 @@ public class Tinustris {
             // multiplayer game
             List<Consumer<FrameAndInputStatesContainer>> localInputListeners =
                     Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
+            GameStateHolder<MultiplayerGameState> holder = new SingleGameStateHolder<>();
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
             List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, numPlayers)
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
-            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, new SingleGameStateHolder<>(),
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, holder,
                     localInputListeners);
         }
 
