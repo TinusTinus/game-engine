@@ -33,6 +33,7 @@ import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
+import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.GameStateHolder;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -117,10 +118,7 @@ public class Tinustris {
             GameStateHolder<OnePlayerGameState> holder;
             if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
                 // ...with spectators!
-                List<InputStateHolder> inputStateHolders = inputControllers.stream()
-                        .map(this::convertToInputStateHolder)
-                        .collect(Collectors.toList());
-                NetcodeEngine<OnePlayerGameState> netcodeEngine = new NetcodeEngine<>(inputStateHolders, onePlayerEngine);
+                NetcodeEngine<OnePlayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, onePlayerEngine);
                 holder = netcodeEngine;
                 localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser
             } else {
@@ -148,7 +146,7 @@ public class Tinustris {
         gameLoop.start();
         log.info("Game loop started in separate thread.");
     }
-    
+
     /**
      * Creates an input controller based on the given player configuration.
      * 
@@ -185,6 +183,23 @@ public class Tinustris {
         }
         return result;
     }
+    
+    /**
+     * Creates a netcode engine
+     * 
+     * @param inputControllers all input controllers for this game; all remote input controllers are expected to be InputStateHolders as well
+     * @param gameEngine game engine
+     * @return new netcode engine
+     */
+    private <S extends GameState> NetcodeEngine<S> createNetcodeEngine(List<InputController> inputControllers,
+            GameEngine<S> gameEngine) {
+        List<InputStateHolder> inputStateHolders = inputControllers.stream()
+                .map(this::convertToInputStateHolder)
+                .collect(Collectors.toList());
+        NetcodeEngine<S> netcodeEngine = new NetcodeEngine<>(inputStateHolders, gameEngine);
+        return netcodeEngine;
+    }
+
 
     /**
      * Creates a light at (around) the given location.
