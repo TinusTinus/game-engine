@@ -31,8 +31,6 @@ public class InputStateHolder implements InputController {
      * 
      * @param local
      *            whether these inputs are for a local player
-     * @param playerNumber
-     *            index of the player
      */
     public InputStateHolder(boolean local) {
         super();
