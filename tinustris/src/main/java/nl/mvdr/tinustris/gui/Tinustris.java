@@ -138,6 +138,14 @@ public class Tinustris {
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
+            if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
+                NetcodeEngine<MultiplayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, gameEngine);
+                holder = netcodeEngine;
+                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser
+            } else {
+                holder = new SingleGameStateHolder<>();
+                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
+            }
             gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, holder,
                     localInputListeners);
         }
