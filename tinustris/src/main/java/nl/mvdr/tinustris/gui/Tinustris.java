@@ -130,9 +130,8 @@ public class Tinustris {
                     holder, localInputListeners);
         } else {
             // multiplayer game
-            List<Consumer<FrameAndInputStatesContainer>> localInputListeners =
-                    Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
-            GameStateHolder<MultiplayerGameState> holder = new SingleGameStateHolder<>();
+            List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
+            GameStateHolder<MultiplayerGameState> holder;
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
             List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, numPlayers)
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
