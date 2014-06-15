@@ -16,8 +16,7 @@ import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
-// TODO rename to LocalPlayerConfigurationInpl
-public class PlayerConfigurationImpl implements LocalPlayerConfiguration {
+public class LocalPlayerConfigurationImpl implements LocalPlayerConfiguration {
     /** Player name. */
     @NonNull
     private final String name;

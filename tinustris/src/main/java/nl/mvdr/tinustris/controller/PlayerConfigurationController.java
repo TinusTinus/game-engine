@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
-import nl.mvdr.tinustris.configuration.PlayerConfigurationImpl;
+import nl.mvdr.tinustris.configuration.LocalPlayerConfigurationImpl;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputAndMapping;
 import nl.mvdr.tinustris.input.InputMapping;
@@ -120,7 +120,7 @@ public class PlayerConfigurationController {
      * @return configuration for this player
      */
     PlayerConfiguration buildConfiguration() {
-        return new PlayerConfigurationImpl(nameProperty().getValue(), inputConfiguration);
+        return new LocalPlayerConfigurationImpl(nameProperty().getValue(), inputConfiguration);
     }
     
     /**
