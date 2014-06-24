@@ -1,5 +1,8 @@
 package nl.mvdr.tinustris.configuration;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Configuration parameters for the netcode.
  * 
@@ -8,6 +11,11 @@ package nl.mvdr.tinustris.configuration;
 public interface NetcodeConfiguration {
     /** @return whether this game is a networked game */
     default boolean isNetworkedGame() {
-        return false;
+        return !getRemotes().isEmpty();
+    }
+    
+    /** @return configuration for each remote game instance */
+    default List<RemoteConfiguration> getRemotes() {
+        return Collections.emptyList();
     }
 }
