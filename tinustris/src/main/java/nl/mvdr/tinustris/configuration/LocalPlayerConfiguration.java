@@ -11,7 +11,6 @@ import nl.mvdr.tinustris.input.NoSuitableControllerException;
 @FunctionalInterface
 public interface LocalPlayerConfiguration extends PlayerConfiguration {
     /** @return configuration for JInputController for this player */
-    // TODO move to LocalPlayerConfiguration
     default JInputControllerConfiguration getJInputControllerConfiguration() {
         JInputControllerConfiguration result;
         try {
