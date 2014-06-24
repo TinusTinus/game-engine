@@ -120,7 +120,7 @@ public class Tinustris {
                 // ...with spectators!
                 NetcodeEngine<OnePlayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, onePlayerEngine);
                 holder = netcodeEngine;
-                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser
+                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser per remote instance
             } else {
                 holder = new SingleGameStateHolder<>();
                 localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
@@ -140,7 +140,7 @@ public class Tinustris {
             if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
                 NetcodeEngine<MultiplayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, gameEngine);
                 holder = netcodeEngine;
-                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser
+                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser per remote instance
             } else {
                 holder = new SingleGameStateHolder<>();
                 localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
