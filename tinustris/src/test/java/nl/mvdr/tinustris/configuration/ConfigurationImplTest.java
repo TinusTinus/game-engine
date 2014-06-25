@@ -18,7 +18,7 @@ public class ConfigurationImplTest {
     @Test
     public void testConstructor() {
         ConfigurationImpl configuration = new ConfigurationImpl(Collections.singletonList(() -> ""),
-                GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0, new NetcodeConfiguration(){});
+                GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0, Collections::emptyList);
 
         log.info(configuration.toString());
     }
@@ -26,19 +26,19 @@ public class ConfigurationImplTest {
     /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullPlayerConfiguration() {
-        new ConfigurationImpl(null, GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0, new NetcodeConfiguration(){});
+        new ConfigurationImpl(null, GraphicsStyle.defaultStyle(), Behavior.defaultBehavior(), 0, Collections::emptyList);
     }
     
     /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullStyle() {
-        new ConfigurationImpl(Collections.singletonList(() -> ""), null, Behavior.defaultBehavior(), 0, new NetcodeConfiguration(){});
+        new ConfigurationImpl(Collections.singletonList(() -> ""), null, Behavior.defaultBehavior(), 0, Collections::emptyList);
     }
 
     /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullBehavior() {
-        new ConfigurationImpl(Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(), null, 0, new NetcodeConfiguration(){});
+        new ConfigurationImpl(Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(), null, 0, Collections::emptyList);
     }
     
     /** Test method for {@link ConfigurationImpl#ConfigurationImpl(java.util.List, GraphicsStyle, Behavior, int, NetcodeConfiguration)))}. */

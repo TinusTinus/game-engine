@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Behavior;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.configuration.ConfigurationImpl;
-import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.gui.Tinustris;
@@ -347,6 +347,6 @@ public class ConfigurationScreenController {
         
         int startLevel = Integer.parseInt(startLevelTextField.getText());
         
-        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, new NetcodeConfiguration(){});
+        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, Collections::emptyList);
     }
 }

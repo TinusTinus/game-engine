@@ -52,6 +52,6 @@ public interface Configuration {
     
     /** @return configuration for networking */
     default NetcodeConfiguration getNetcodeConfiguration() {
-        return new NetcodeConfiguration(){};
+        return Collections::emptyList;
     }
 }
