@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collections;
+import java.util.Optional;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -75,7 +76,7 @@ public class TinustrisNetcodeTestContext extends Application {
         try {
             socket = new Socket("localhost", PORT);
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            RemoteConfiguration remote = new RemoteConfiguration(out, null);
+            RemoteConfiguration remote = new RemoteConfiguration(out, Optional.empty());
             NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remote);
 
             Configuration configuration = new ConfigurationImpl(

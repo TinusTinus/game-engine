@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.configuration;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Optional;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,7 +23,10 @@ public class RemoteConfiguration {
     /** Open stream for outputting information. */
     @NonNull
     private final ObjectOutputStream outputStream;
-    /** Open stream for reading information. */
-    // TODO @NonNull
-    private final ObjectInputStream inputStream;
+    /**
+     * Open stream for reading information. Only required if this remote game instance actually has active players. In
+     * other words, this field can remain empty for remote spectators.
+     */
+    @NonNull
+    private final Optional<ObjectInputStream> inputStream;
 }

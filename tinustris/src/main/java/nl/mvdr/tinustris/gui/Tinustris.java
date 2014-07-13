@@ -1,9 +1,12 @@
 package nl.mvdr.tinustris.gui;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -21,6 +24,7 @@ import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.configuration.LocalPlayerConfiguration;
+import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
@@ -141,7 +145,8 @@ public class Tinustris {
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
             if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
-                NetcodeEngine<MultiplayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, gameEngine);
+                NetcodeEngine<MultiplayerGameState> netcodeEngine = createNetcodeEngineAndStartRemoteInputListeners(
+                        configuration.getNetcodeConfiguration(), inputControllers, gameEngine);
                 holder = netcodeEngine;
                 localInputListeners = Arrays.asList(netcodeEngine, createOutputPublisher(configuration));
             } else {
@@ -206,9 +211,24 @@ public class Tinustris {
         }
         return result;
     }
-    
+
     /**
-     * Creates a netcode engine
+     * Creates a netcode engine, and starts a thread for each remote game instance to listen for remote inputs.
+     * 
+     * @param NetcodeConfiguration netcode configuration
+     * @param inputControllers all input controllers for this game; all remote input controllers are expected to be InputStateHolders as well
+     * @param gameEngine game engine
+     * @return new netcode engine
+     */
+    private <S extends GameState> NetcodeEngine<S> createNetcodeEngineAndStartRemoteInputListeners(
+            NetcodeConfiguration configuration, List<InputController> inputControllers, GameEngine<S> gameEngine) {
+        NetcodeEngine<S> netcodeEngine = createNetcodeEngine(inputControllers, gameEngine);
+        startRemoteInputListeners(configuration, netcodeEngine);
+        return netcodeEngine;
+    }
+
+    /**
+     * Creates a netcode engine.
      * 
      * @param inputControllers all input controllers for this game; all remote input controllers are expected to be InputStateHolders as well
      * @param gameEngine game engine
@@ -222,6 +242,33 @@ public class Tinustris {
         return new NetcodeEngine<>(inputStateHolders, gameEngine);
     }
 
+    /**
+     * Starts a thread for each remote input provider. Whenever a new remote input is received, it is passed into the
+     * netcode engine.
+     * 
+     * @param configuration
+     */
+    private <S extends GameState> void startRemoteInputListeners(NetcodeConfiguration configuration, NetcodeEngine<S> netcodeEngine) {
+        configuration.getRemotes().stream()
+            .map(remoteConfiguration -> remoteConfiguration.getInputStream())
+            .filter(Optional<ObjectInputStream>::isPresent)
+            .map(Optional<ObjectInputStream>::get)
+            .map(in -> (Runnable) (() -> {
+                try {
+                    while (true) {
+                        FrameAndInputStatesContainer container = (FrameAndInputStatesContainer) in.readObject();
+                        // TODO remove logging
+                        log.debug("Received input {}", container);
+                        netcodeEngine.accept(container);
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    // TODO actual error handling
+                    log.error("Unexpected exception!", e);
+                }
+            }))
+            .map(runnable -> new Thread(runnable, "Input reader " + runnable.hashCode()))
+            .forEach(Thread::start);
+    }    
 
     /**
      * Creates a light at (around) the given location.
