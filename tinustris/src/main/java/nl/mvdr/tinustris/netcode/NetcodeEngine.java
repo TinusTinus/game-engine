@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.netcode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.OptionalInt;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -111,11 +112,10 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
             // Note: if the following turns into a performance problem, it can also be implemented using a binary
             // search, or a linear search starting at the end, since all game over states should be at the end of the
             // list.
-            int frame = IntStream.range(0, states.size())
+            OptionalInt frame = IntStream.range(0, states.size())
                     .filter(i -> states.get(i).isGameOver())
-                    .findFirst()
-                    .getAsInt();
-            result = inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame));    
+                    .findFirst();
+            result = !frame.isPresent() || inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame.getAsInt()));    
         }
         
         return result;
