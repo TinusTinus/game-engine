@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -40,6 +41,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.SingleGameStateHolder;
 import nl.mvdr.tinustris.model.Tetromino;
 import nl.mvdr.tinustris.netcode.NetcodeEngine;
+import nl.mvdr.tinustris.netcode.ObjectOutputStreamsInputPublisher;
 
 
 /**
@@ -112,6 +114,7 @@ public class Tinustris {
         Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
+        
         if (numPlayers == 1) {
             // single player game
             List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
@@ -120,7 +123,7 @@ public class Tinustris {
                 // ...with spectators!
                 NetcodeEngine<OnePlayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, onePlayerEngine);
                 holder = netcodeEngine;
-                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser per remote instance
+                localInputListeners = Arrays.asList(netcodeEngine, createOutputPublisher(configuration));
             } else {
                 holder = new SingleGameStateHolder<>();
                 localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
@@ -140,7 +143,7 @@ public class Tinustris {
             if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
                 NetcodeEngine<MultiplayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, gameEngine);
                 holder = netcodeEngine;
-                localInputListeners = Arrays.asList(netcodeEngine); // TODO also add an ObjectOutputStreamsInputPubliser per remote instance
+                localInputListeners = Arrays.asList(netcodeEngine, createOutputPublisher(configuration));
             } else {
                 holder = new SingleGameStateHolder<>();
                 localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
@@ -152,6 +155,19 @@ public class Tinustris {
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started in separate thread.");
+    }
+
+    /**
+     * Creates an output publisher based on the given configuration.
+     * 
+     * @param configuration configuration
+     * @return output publisher
+     */
+    private ObjectOutputStreamsInputPublisher createOutputPublisher(Configuration configuration) {
+        List<ObjectOutputStream> outputStreams = configuration.getNetcodeConfiguration().getRemotes().stream()
+                .map(remoteConfiguration -> remoteConfiguration.getOutputStream())
+                .collect(Collectors.toList());
+        return new ObjectOutputStreamsInputPublisher(outputStreams);
     }
 
     /**
