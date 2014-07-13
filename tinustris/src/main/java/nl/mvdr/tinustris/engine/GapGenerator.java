@@ -24,7 +24,7 @@ public class GapGenerator extends RandomGenerator<Integer> {
      * @param width
      *            width of the playing field
      */
-    GapGenerator(long randomSeed, int width) {
+    public GapGenerator(long randomSeed, int width) {
         super(randomSeed, width, Integer::valueOf, "Gap");
     }
 }

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -83,7 +84,8 @@ public class TinustrisNetcodeTestContext extends Application {
             NetcodeConfiguration netcodeConfiguration0 = () -> Collections.singletonList(remote0);
             Configuration configuration0 = new ConfigurationImpl(
                     Collections.singletonList((LocalPlayerConfiguration) () -> ""), GraphicsStyle.defaultStyle(),
-                    Behavior.defaultBehavior(), 0, netcodeConfiguration0);
+                    Behavior.defaultBehavior(), 0, netcodeConfiguration0, new Random().nextLong(), 
+                    new Random().nextLong());
             gameInstances.get(0).start(stage, configuration0);
             
             ObjectInputStream in = new ObjectInputStream(sockets.get(1).getInputStream());
@@ -91,7 +93,8 @@ public class TinustrisNetcodeTestContext extends Application {
             NetcodeConfiguration netcodeConfiguration1 = () -> Collections.singletonList(remote1);
             Configuration configuration1 = new ConfigurationImpl(
                     Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(),
-                    Behavior.defaultBehavior(), 0, netcodeConfiguration1);
+                    Behavior.defaultBehavior(), 0, netcodeConfiguration1, configuration0.getGapRandomSeed(),
+                    configuration0.getTetrominoRandomSeed());
             gameInstances.get(1).start(new Stage(), configuration1);
         } catch (IOException e) {
             log.error("Unexpected exception.", e);

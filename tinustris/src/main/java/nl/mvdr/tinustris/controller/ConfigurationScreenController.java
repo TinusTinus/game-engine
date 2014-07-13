@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -347,6 +348,7 @@ public class ConfigurationScreenController {
         
         int startLevel = Integer.parseInt(startLevelTextField.getText());
         
-        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, Collections::emptyList);
+        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, Collections::emptyList,
+                new Random().nextLong(), new Random().nextLong());
     }
 }

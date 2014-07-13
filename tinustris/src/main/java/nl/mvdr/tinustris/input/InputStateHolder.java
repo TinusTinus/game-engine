@@ -16,6 +16,7 @@ import lombok.ToString;
  * 
  * @author Martijn van de Rijdt
  */
+// TODO watch out for ConcurrentModificationExceptions
 @ToString
 @EqualsAndHashCode
 public class InputStateHolder implements InputController {

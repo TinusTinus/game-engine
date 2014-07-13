@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.configuration;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 
@@ -13,9 +14,6 @@ import nl.mvdr.tinustris.gui.GraphicsStyle;
  * @author Martijn van de Rijdt
  */
 public interface Configuration {
-    
-    // TODO add random seed(s)
-    
     /** 
      * Configuration for each of the players in this game. Should contain at least one value.
      * 
@@ -56,5 +54,15 @@ public interface Configuration {
     /** @return configuration for networking */
     default NetcodeConfiguration getNetcodeConfiguration() {
         return Collections::emptyList;
+    }
+    
+    /** @return random seed for the gap generator */
+    default long getGapRandomSeed() {
+        return new Random().nextLong();
+    }
+    
+    /** @return random seed for the tetromino generator */
+    default long getTetrominoRandomSeed() {
+        return new Random().nextLong();
     }
 }

@@ -114,8 +114,8 @@ public class Tinustris {
                 .map(this::createInputController)
                 .collect(Collectors.toList());
         
-        Generator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator();
-        Generator<Integer> gapGenerator = new GapGenerator(OnePlayerGameState.DEFAULT_WIDTH);
+        Generator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator(configuration.getTetrominoRandomSeed());
+        Generator<Integer> gapGenerator = new GapGenerator(configuration.getGapRandomSeed(), OnePlayerGameState.DEFAULT_WIDTH);
         GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
         
