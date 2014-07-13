@@ -219,8 +219,7 @@ public class Tinustris {
         List<InputStateHolder> inputStateHolders = inputControllers.stream()
                 .map(this::convertToInputStateHolder)
                 .collect(Collectors.toList());
-        NetcodeEngine<S> netcodeEngine = new NetcodeEngine<>(inputStateHolders, gameEngine);
-        return netcodeEngine;
+        return new NetcodeEngine<>(inputStateHolders, gameEngine);
     }
 
 
