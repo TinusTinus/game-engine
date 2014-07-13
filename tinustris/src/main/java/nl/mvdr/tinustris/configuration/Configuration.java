@@ -13,6 +13,9 @@ import nl.mvdr.tinustris.gui.GraphicsStyle;
  * @author Martijn van de Rijdt
  */
 public interface Configuration {
+    
+    // TODO add random seed(s)
+    
     /** 
      * Configuration for each of the players in this game. Should contain at least one value.
      * 
