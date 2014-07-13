@@ -16,7 +16,6 @@ import lombok.ToString;
  * 
  * @author Martijn van de Rijdt
  */
-// TODO watch out for ConcurrentModificationExceptions
 @ToString
 @EqualsAndHashCode
 public class InputStateHolder implements InputController {
@@ -66,12 +65,14 @@ public class InputStateHolder implements InputController {
      * @return input state
      */
     private InputState getInputState(OptionalInt frame) {
-        return states.entrySet()
-            .stream()
-            .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.getAsInt())
-            .max((left, right) -> Integer.compare(left.getKey().intValue(), right.getKey().intValue()))
-            .map(Entry<Integer, InputState>::getValue)
-            .orElse(input -> false);
+        synchronized(states) {
+            return states.entrySet()
+                .stream()
+                .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.getAsInt())
+                .max((left, right) -> Integer.compare(left.getKey().intValue(), right.getKey().intValue()))
+                .map(Entry<Integer, InputState>::getValue)
+                .orElse(input -> false);
+        }
     }
 
     /**
@@ -82,7 +83,9 @@ public class InputStateHolder implements InputController {
      * @return previous state value, or null if unavailable
      */
     public InputState putState(int frame, @NonNull InputState state) {
-        return states.put(Integer.valueOf(frame), state);
+        synchronized(states) {
+            return states.put(Integer.valueOf(frame), state);
+        }
     }
     
     /**
@@ -94,8 +97,10 @@ public class InputStateHolder implements InputController {
      * @return whether all input states are known
      */
     public boolean allInputsKnownUntil(int frame) {
-        return IntStream.range(0, frame)
-            .boxed()
-            .allMatch(states.keySet()::contains);
+        synchronized(states) {
+            return IntStream.range(0, frame)
+                .boxed()
+                .allMatch(states.keySet()::contains);
+        }
     }
 }    
