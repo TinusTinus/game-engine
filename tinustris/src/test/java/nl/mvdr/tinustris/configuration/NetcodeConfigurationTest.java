@@ -53,6 +53,6 @@ public class NetcodeConfigurationTest {
             throw new RuntimeException("Unexpected I/O exception", e);
         }
 
-        return new RemoteConfiguration(outputStream, Optional.of(inputStream));
+        return new RemoteConfiguration(Optional.of(outputStream), Optional.of(inputStream));
     }
 }

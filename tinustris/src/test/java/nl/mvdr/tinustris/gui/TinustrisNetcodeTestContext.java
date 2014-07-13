@@ -5,8 +5,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -42,16 +47,28 @@ public class TinustrisNetcodeTestContext extends Application {
     /** Port number. */
     private static final int PORT = 8080;
     
-    /** Tinustris instance. */
-    private final Tinustris tinustris;
+    /** Tinustris instances. */
+    private final List<Tinustris> gameInstances;
     
     /** Socket. */
-    private Socket socket;
+    private final List<Socket> sockets;
     
     /** Constructor. */
     public TinustrisNetcodeTestContext() {
         super();
-        this.tinustris = new Tinustris();
+        
+        this.gameInstances = Arrays.asList(new Tinustris(), new Tinustris());
+        
+        try {
+            Future<Socket> serverSocketFuture = Executors.newSingleThreadExecutor().submit(() -> new ServerSocket(PORT).accept());
+            Socket clientSocket = new Socket("localhost", PORT);
+            
+            this.sockets = Arrays.asList(clientSocket, serverSocketFuture.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new IllegalStateException("Unable to open server socket.", e);
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to open client socket.", e);
+        }
     }
     
     /** {@inheritDoc} */
@@ -60,30 +77,22 @@ public class TinustrisNetcodeTestContext extends Application {
         log.info("Starting application.");
         Logging.setUncaughtExceptionHandler();
         
-        // server socket: reads an object and logs it
-        new Thread(() -> {
-            try (Socket socket = new ServerSocket(PORT).accept()) {
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                // TODO termination!
-                while (true) {
-                    log.info("Read: " + in.readObject());
-                }
-            } catch (IOException | ClassNotFoundException e) {
-                log.error("Unexpected exception.", e);
-            }
-        }, "server").start();
-
         try {
-            socket = new Socket("localhost", PORT);
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            RemoteConfiguration remote = new RemoteConfiguration(out, Optional.empty());
-            NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remote);
-
-            Configuration configuration = new ConfigurationImpl(
+            ObjectOutputStream out = new ObjectOutputStream(sockets.get(0).getOutputStream());
+            RemoteConfiguration remote0 = new RemoteConfiguration(Optional.of(out), Optional.empty());
+            NetcodeConfiguration netcodeConfiguration0 = () -> Collections.singletonList(remote0);
+            Configuration configuration0 = new ConfigurationImpl(
                     Collections.singletonList((LocalPlayerConfiguration) () -> ""), GraphicsStyle.defaultStyle(),
-                    Behavior.defaultBehavior(), 0, netcodeConfiguration);
+                    Behavior.defaultBehavior(), 0, netcodeConfiguration0);
+            gameInstances.get(0).start(stage, configuration0);
             
-            tinustris.start(stage, configuration);
+            ObjectInputStream in = new ObjectInputStream(sockets.get(1).getInputStream());
+            RemoteConfiguration remote1 = new RemoteConfiguration(Optional.empty(), Optional.of(in));
+            NetcodeConfiguration netcodeConfiguration1 = () -> Collections.singletonList(remote1);
+            Configuration configuration1 = new ConfigurationImpl(
+                    Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(),
+                    Behavior.defaultBehavior(), 0, netcodeConfiguration1);
+            gameInstances.get(1).start(new Stage(), configuration1);
         } catch (IOException e) {
             log.error("Unexpected exception.", e);
         }
@@ -94,10 +103,16 @@ public class TinustrisNetcodeTestContext extends Application {
     public void stop() throws Exception {
         log.info("Stopping the application.");
         
-        tinustris.stopGameLoop();
+        gameInstances.forEach(Tinustris::stopGameLoop);
         
-        socket.close();
-        
+        sockets.forEach(socket -> {
+            try {
+                socket.close();
+            } catch (Exception e) {
+                log.error("Failed to close socket.", e);
+            }
+        });
+
         super.stop();
         log.info("Stopped.");
     }

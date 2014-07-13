@@ -125,7 +125,8 @@ public class Tinustris {
             GameStateHolder<OnePlayerGameState> holder;
             if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
                 // ...with spectators!
-                NetcodeEngine<OnePlayerGameState> netcodeEngine = createNetcodeEngine(inputControllers, onePlayerEngine);
+                NetcodeEngine<OnePlayerGameState> netcodeEngine = createNetcodeEngineAndStartRemoteInputListeners(
+                        configuration.getNetcodeConfiguration(), inputControllers, onePlayerEngine);
                 holder = netcodeEngine;
                 localInputListeners = Arrays.asList(netcodeEngine, createOutputPublisher(configuration));
             } else {
@@ -171,6 +172,8 @@ public class Tinustris {
     private ObjectOutputStreamsInputPublisher createOutputPublisher(Configuration configuration) {
         List<ObjectOutputStream> outputStreams = configuration.getNetcodeConfiguration().getRemotes().stream()
                 .map(remoteConfiguration -> remoteConfiguration.getOutputStream())
+                .filter(Optional<ObjectOutputStream>::isPresent)
+                .map(Optional<ObjectOutputStream>::get)
                 .collect(Collectors.toList());
         return new ObjectOutputStreamsInputPublisher(outputStreams);
     }
@@ -257,8 +260,6 @@ public class Tinustris {
                 try {
                     while (true) {
                         FrameAndInputStatesContainer container = (FrameAndInputStatesContainer) in.readObject();
-                        // TODO remove logging
-                        log.debug("Received input {}", container);
                         netcodeEngine.accept(container);
                     }
                 } catch (IOException | ClassNotFoundException e) {

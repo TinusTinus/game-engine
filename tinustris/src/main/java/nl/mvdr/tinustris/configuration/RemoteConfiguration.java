@@ -20,9 +20,12 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class RemoteConfiguration {
-    /** Open stream for outputting information. */
+    /**
+     * Open stream for outputting information. Only required if the local game instance actually has active players. In
+     * other words, this field can remain empty if this game instance is only for spectating.
+     */
     @NonNull
-    private final ObjectOutputStream outputStream;
+    private final Optional<ObjectOutputStream> outputStream;
     /**
      * Open stream for reading information. Only required if this remote game instance actually has active players. In
      * other words, this field can remain empty for remote spectators.
