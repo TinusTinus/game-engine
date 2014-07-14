@@ -17,8 +17,8 @@ class GameOverRenderer extends GreenTextLabel implements GameRenderer<OnePlayerG
     /** {@inheritDoc} */
     @Override
     public void render(OnePlayerGameState gameState) {
-        if (!getParent().isVisible() && gameState.isTopped()) {
-            runOnJavaFXThread(() -> getParent().setVisible(true));
+        if (getParent().isVisible() != gameState.isTopped()) {
+            runOnJavaFXThread(() -> getParent().setVisible(gameState.isTopped()));
         }
     }
     

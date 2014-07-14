@@ -37,7 +37,7 @@ public class GameOverRendererTest {
         Assert.assertFalse(group.isVisible());
     }
     
-    /** Test case where the parent is already visibly. */
+    /** Test case where the parent is already visible. */
     @Test
     public void testNotToppedVisible() {
         OnePlayerGameState state = new OnePlayerGameState();
@@ -47,7 +47,7 @@ public class GameOverRendererTest {
         
         renderer.render(state);
         
-        Assert.assertTrue(group.isVisible());
+        Assert.assertFalse(group.isVisible());
     }
     
     /** Test case where the game is over. */
@@ -63,7 +63,7 @@ public class GameOverRendererTest {
         Assert.assertTrue(group.isVisible());
     }
     
-    /** Test case where the parent is already visibly. */
+    /** Test case where the parent is already visible. */
     @Test
     public void testToppedVisible() {
         OnePlayerGameState state = createToppedGameState();
