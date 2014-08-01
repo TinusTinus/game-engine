@@ -15,19 +15,19 @@ import org.junit.Test;
  */
 @Slf4j
 public class MultiplayerGameStateTest {
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullList() {
         new MultiplayerGameState(null);
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorNullValues() {
         new MultiplayerGameState(Arrays.<OnePlayerGameState>asList(null, null));
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}. */
     @Test(expected = IllegalArgumentException.class)
     public void testConstructorOneValue() {
         OnePlayerGameState state = new OnePlayerGameState();
@@ -35,7 +35,7 @@ public class MultiplayerGameStateTest {
         new MultiplayerGameState(Collections.singletonList(state));
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorFirstValueNull() {
         OnePlayerGameState state = new OnePlayerGameState();
@@ -43,7 +43,7 @@ public class MultiplayerGameStateTest {
         new MultiplayerGameState(Arrays.asList(null, state));
     }
     
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}. */
     @Test(expected = NullPointerException.class)
     public void testConstructorSecondValueNull() {
         OnePlayerGameState state = new OnePlayerGameState();
@@ -51,7 +51,7 @@ public class MultiplayerGameStateTest {
         new MultiplayerGameState(Arrays.asList(state, null));
     }
     
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}. */
     @Test
     public void testConstructorTwoPlayers() {
         OnePlayerGameState state = new OnePlayerGameState();
@@ -59,7 +59,7 @@ public class MultiplayerGameStateTest {
         new MultiplayerGameState(Arrays.asList(state, state));
     }
 
-    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}. */
+    /** Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}. */
     @Test
     public void testConstructorThreePlayers() {
         OnePlayerGameState state = new OnePlayerGameState();
@@ -68,7 +68,7 @@ public class MultiplayerGameStateTest {
     }
 
     /**
-     * Test case for {@link MultiplayerGameState#MultiplayerGameState(List<OnePlayerGameState>)}.
+     * Test case for {@link MultiplayerGameState#MultiplayerGameState(java.util.List)}.
      * 
      * Passes in a null value. One value is too few arguments (there should be at least two players), and null values
      * are not allowed. Depending on the order of validation we should get either a NullPointerException or an
