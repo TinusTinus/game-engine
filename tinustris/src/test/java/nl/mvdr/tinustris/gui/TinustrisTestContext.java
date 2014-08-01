@@ -41,7 +41,7 @@ public class TinustrisTestContext extends Application {
         log.info("Starting application.");
         Logging.setUncaughtExceptionHandler();
         
-        tinustris.start(stage, new Configuration() {});
+        tinustris.start(stage, new Configuration() { /* all defaults */ });
     }
     
     /** {@inheritDoc} */
