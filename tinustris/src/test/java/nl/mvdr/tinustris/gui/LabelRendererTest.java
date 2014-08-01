@@ -24,7 +24,7 @@ public class LabelRendererTest {
         new JFXPanel();
     }
     
-    /** Tests {@link LabelRenderer#render(OnePlayerGameState)}. */
+    /** Tests {@link LabelRenderer#render(nl.mvdr.tinustris.model.GameState)}. */
     @Test
     public void testRender() {
         LabelRenderer<DummyGameState> renderer = createLabelRenderer();
@@ -37,7 +37,7 @@ public class LabelRendererTest {
         Assert.assertNotEquals("", text);
     }
     
-    /** Tests {@link LabelRenderer#render(OnePlayerGameState)} in case the text stays the same. */
+    /** Tests {@link LabelRenderer#render(nl.mvdr.tinustris.model.GameState)} in case the text stays the same. */
     @Test
     public void testRenderSameValue() {
         LabelRenderer<DummyGameState> renderer = createLabelRenderer();
@@ -52,7 +52,7 @@ public class LabelRendererTest {
         Assert.assertNotEquals("", text);
     }
     
-    /** Tests {@link LabelRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LabelRenderer#render(nl.mvdr.tinustris.model.GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         LabelRenderer<DummyGameState> renderer = createLabelRenderer();

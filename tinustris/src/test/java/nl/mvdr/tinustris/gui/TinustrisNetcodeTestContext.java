@@ -28,9 +28,6 @@ import nl.mvdr.tinustris.logging.Logging;
 /**
  * Main class, whose main method starts Tinustris with a netcode configuration.
  * 
- * Workaround for the fact that the test classpath (which contains useful things such as a log4j configuration) does not
- * seem to be available when running {@link Tinustris#main(String[])} directly in Eclipse Kepler.
- * 
  * This class relies on JInput's native libraries. These are not available by default. If you want to run this
  * class, make sure that the java.library.path system property contains target/natives in this project directory.
  * 

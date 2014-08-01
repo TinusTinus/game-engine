@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 @Slf4j
 public class GridRendererTest {
-    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)}. */
+    /** Tests {@link GridRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRenderSimpleState() {
         GridRenderer renderer = createGridGroup();
@@ -35,7 +35,7 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with the same game state twice. */
+    /** Tests {@link GridRenderer#render(OnePlayerGameState)} with the same game state twice. */
     @Test
     public void testRenderSimpleStateTwice() {
         GridRenderer renderer = createGridGroup();
@@ -47,7 +47,7 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)}. */
+    /** Tests {@link GridRenderer#render(OnePlayerGameState)}. */
     @Test
     public void testRender() {
         GridRenderer renderer = createGridGroup();
@@ -59,7 +59,7 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
 
-    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with the same game state twice. */
+    /** Tests {@link GridRenderer#render(OnePlayerGameState)} with the same game state twice. */
     @Test
     public void testRenderTwice() {
         GridRenderer renderer = createGridGroup();
@@ -72,7 +72,7 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with two different game states. */
+    /** Tests {@link GridRenderer#render(OnePlayerGameState)} with two different game states. */
     @Test
     public void testRenderTwiceWithDifferentStates() {
         GridRenderer renderer = createGridGroup();
@@ -83,7 +83,7 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} with a full line. */
+    /** Tests {@link GridRenderer#render(OnePlayerGameState)} with a full line. */
     @Test
     public void testRenderWithFullLine() {
         GridRenderer renderer = createGridGroup();
@@ -93,7 +93,7 @@ public class GridRendererTest {
         Assert.assertFalse(renderer.getChildren().isEmpty());
     }
     
-    /** Tests {@link GridRenderer#render(Label, OnePlayerGameState)} when a null value of GameState is passed in. */
+    /** Tests {@link GridRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         GridRenderer renderer = createGridGroup();

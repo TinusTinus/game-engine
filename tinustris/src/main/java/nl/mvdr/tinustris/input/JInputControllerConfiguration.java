@@ -170,7 +170,6 @@ public class JInputControllerConfiguration {
      * 
      * @param controller
      *            controller
-     * @return the input
      */
     private static void log(Controller controller) {
         log.info("Controller found: {}, type: {}, class: {}", controller, controller.getType(), controller.getClass()

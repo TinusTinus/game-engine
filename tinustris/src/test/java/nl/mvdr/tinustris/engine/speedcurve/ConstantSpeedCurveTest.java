@@ -12,7 +12,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class ConstantSpeedCurveTest {
-    /** Test case which tests {@link ConstantSpeedCurve#ConstantSpeedCurve(int, int)}. */
+    /** Test case which tests {@link ConstantSpeedCurve#ConstantSpeedCurve(int, int, int, int)}. */
     @Test
     public void testConstructor() {
         new ConstantSpeedCurve(1, 2, 3, 4);

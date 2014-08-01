@@ -14,7 +14,7 @@ import org.junit.Test;
  */
 @Slf4j
 public class BlockStyleTest {
-    /** Tests {@link BlockStyle#apply(Rectangle, Block)} for all possible styles and tetrominoes. */
+    /** Tests {@link BlockStyle#apply(Rectangle, Block, int, int)} for all possible styles and tetrominoes. */
     @Test
     public void testApplyRectangle() {
         Rectangle rectangle = new Rectangle(10, 10);
@@ -27,20 +27,20 @@ public class BlockStyleTest {
         }
     }
     
-    /** Tests {@link BlockStyle#apply(Rectangle, Block)} for a null tetromino value. */
+    /** Tests {@link BlockStyle#apply(Rectangle, Block, int, int)} for a null tetromino value. */
     @Test(expected = NullPointerException.class)
     public void testApplyNullTetrominoRectangle() {
         Rectangle rectangle = new Rectangle(10, 10);
         BlockStyle.ACTIVE.apply(rectangle, null, 25, 0);
     }
     
-    /** Tests {@link BlockStyle#apply(Rectangle, Block)} for a null rectangle value. */
+    /** Tests {@link BlockStyle#apply(Rectangle, Block, int, int)} for a null rectangle value. */
     @Test(expected = NullPointerException.class)
     public void testApplyNullRectangleRectangle() {
         BlockStyle.ACTIVE.apply((Rectangle)null, Block.I, 25, 0);
     }
     
-    /** Tests {@link BlockStyle#apply(Box, Block)} for all possible styles and tetrominoes. */
+    /** Tests {@link BlockStyle#apply(javafx.scene.shape.Shape3D, Block, int, int)} for all possible styles and tetrominoes. */
     @Test
     public void testApplyBox() {
         Box box = new Box();
@@ -53,14 +53,14 @@ public class BlockStyleTest {
         }
     }
     
-    /** Tests {@link BlockStyle#apply(Box, Block)} for a null tetromino value. */
+    /** Tests {@link BlockStyle#apply(javafx.scene.shape.Shape3D, Block, int, int)} for a null tetromino value. */
     @Test(expected = NullPointerException.class)
     public void testApplyNullTetrominoBox() {
         Box box = new Box();
         BlockStyle.ACTIVE.apply(box, null, 25, 0);
     }
     
-    /** Tests {@link BlockStyle#apply(Box, Block)} for a null rectangle value. */
+    /** Tests {@link BlockStyle#apply(javafx.scene.shape.Shape3D, Block, int, int)} for a null box value. */
     @Test(expected = NullPointerException.class)
     public void testApplyNullRectangleBox() {
         BlockStyle.ACTIVE.apply((Box)null, Block.I, 25, 0);

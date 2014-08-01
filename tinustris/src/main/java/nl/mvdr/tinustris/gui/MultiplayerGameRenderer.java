@@ -24,7 +24,7 @@ class MultiplayerGameRenderer implements GameRenderer<MultiplayerGameState> {
     /** 
      * {@inheritDoc} 
      * 
-     * The value of {@link playerIndex} must be a valid index in the value of gameState.
+     * The value of {@link #playerIndex} must be a valid index in the value of gameState.
      */
     @Override
     public void render(@NonNull MultiplayerGameState gameState) {

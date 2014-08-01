@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import nl.mvdr.tinustris.model.DummyGameState;
-import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +15,7 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class CompositeRendererTest {
-    /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
+    /** Tests {@link CompositeRenderer#render(nl.mvdr.tinustris.model.GameState)}. */
     @Test
     public void testRenderEmptyList() {
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(Collections.emptyList());
@@ -24,7 +23,7 @@ public class CompositeRendererTest {
         renderer.render(DummyGameState.GAME_NOT_OVER);
     }
     
-    /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
+    /** Tests {@link CompositeRenderer#render(nl.mvdr.tinustris.model.GameState)}. */
     @Test
     public void testRenderOneRenderer() {
         DummyRenderer<DummyGameState> dummyRenderer = new DummyRenderer<>();
@@ -36,7 +35,7 @@ public class CompositeRendererTest {
         Assert.assertSame(DummyGameState.GAME_NOT_OVER, dummyRenderer.getLastRenderedState());
     }
     
-    /** Tests {@link CompositeRenderer#render(OnePlayerGameState)}. */
+    /** Tests {@link CompositeRenderer#render(nl.mvdr.tinustris.model.GameState)}. */
     @Test
     public void testRenderTwoRenderers() {
         DummyRenderer<DummyGameState> dummyRenderer0 = new DummyRenderer<>();
@@ -50,7 +49,7 @@ public class CompositeRendererTest {
         Assert.assertSame(DummyGameState.GAME_NOT_OVER, dummyRenderer1.getLastRenderedState());
     }
     
-    /** Tests {@link LabelRenderer#render(OnePlayerGameState)} when a null value of GameState is passed in. */
+    /** Tests {@link LabelRenderer#render(nl.mvdr.tinustris.model.GameState)} when a null value of GameState is passed in. */
     @Test(expected = NullPointerException.class)
     public void testNullState() {
         CompositeRenderer<DummyGameState> renderer = new CompositeRenderer<>(Collections.emptyList());
