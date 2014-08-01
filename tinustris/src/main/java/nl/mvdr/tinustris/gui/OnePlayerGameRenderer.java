@@ -65,21 +65,21 @@ class OnePlayerGameRenderer extends Group implements GameRenderer<OnePlayerGameS
             Arrays.asList(gridGroup, nextBlockRenderer, linesRenderer, levelRenderer, gameOverRenderer));
         
         Group gridWindow = createWindow(playerName.toUpperCase(), gridGroup, MARGIN, MARGIN, widthInBlocks
-                * GridRenderer.BLOCK_SIZE, heightInBlocks * BlockGroupRenderer.BLOCK_SIZE);
+                * BlockGroupRenderer.BLOCK_SIZE, heightInBlocks * BlockGroupRenderer.BLOCK_SIZE);
         Group nextBlockWindow = createWindow("NEXT", nextBlockRenderer,
                 2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
                 MARGIN,
-                4 * GridRenderer.BLOCK_SIZE,
-                4 * GridRenderer.BLOCK_SIZE);
+                4 * BlockGroupRenderer.BLOCK_SIZE,
+                4 * BlockGroupRenderer.BLOCK_SIZE);
         Group linesWindow = createWindow("LINES", linesRenderer,
                 2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
-                2 * MARGIN + 2 * BORDER_SIZE + 4 * GridRenderer.BLOCK_SIZE,
-                4 * GridRenderer.BLOCK_SIZE,
+                2 * MARGIN + 2 * BORDER_SIZE + 4 * BlockGroupRenderer.BLOCK_SIZE,
+                4 * BlockGroupRenderer.BLOCK_SIZE,
                 TEXT_WINDOW_HEIGHT);
         Group levelWindow = createWindow("LEVEL", levelRenderer,
                 2 * MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE + 2 * BORDER_SIZE,
-                3 * MARGIN + 4 * BORDER_SIZE + 4 * GridRenderer.BLOCK_SIZE + TEXT_WINDOW_HEIGHT,
-                4 * GridRenderer.BLOCK_SIZE,
+                3 * MARGIN + 4 * BORDER_SIZE + 4 * BlockGroupRenderer.BLOCK_SIZE + TEXT_WINDOW_HEIGHT,
+                4 * BlockGroupRenderer.BLOCK_SIZE,
                 TEXT_WINDOW_HEIGHT);
         Group gameOverWindow = createWindow("", gameOverRenderer,
                 (MARGIN + widthInBlocks * BlockGroupRenderer.BLOCK_SIZE) / 2 - GAME_OVER_LABEL_WIDTH / 2,
