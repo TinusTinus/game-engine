@@ -45,7 +45,7 @@ public class MultiplayerGameState implements GameState {
 
     /**
      * Convenience constructor, only provided for use in unit tests. Targets should be explicitly specified by users 
-     * of this class; use {@link #MultiplayerGameState(List, List) instead in production code.
+     * of this class; use {@link #MultiplayerGameState(List, List)} instead in production code.
      * 
      * @param states
      *            game states; one for each individual player; must contain at least two states and no null values
