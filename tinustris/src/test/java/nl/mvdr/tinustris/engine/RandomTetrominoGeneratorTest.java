@@ -129,14 +129,9 @@ public class RandomTetrominoGeneratorTest {
     /**
      * Test case where {@link RandomTetrominoGenerator#get(int)} is called from several different threads. We expect
      * each call to return the same tetromino.
-     * 
-     * @throws ExecutionException
-     *             unexpected exception
-     * @throws InterruptedException
-     *             unexpected exception
      */
     @Test
-    public void testGetMultiThreaded() throws ExecutionException, InterruptedException {
+    public void testGetMultiThreaded() {
         // repeat the test a few times, to increase the likelyhood of failure in case of synchronisation bugs
         for (int i = 0; i != 100; i++) {
             RandomTetrominoGenerator generator = new RandomTetrominoGenerator();
@@ -145,17 +140,11 @@ public class RandomTetrominoGeneratorTest {
         }
     }
     
-    /**
-     * Tests whether generators with the same random seed also result in the same value, in a multithreaded environment.
-     * @throws ExecutionException
-     *             unexpected exception
-     * @throws InterruptedException
-     *             unexpected exception
-     */
+    /** Tests whether generators with the same random seed also result in the same value, in a multithreaded environment. */
     @Test
-    public void testRepeatableMultithreaded() throws InterruptedException, ExecutionException {
+    public void testRepeatableMultithreaded() {
         // repeat the test a few times, to increase the likelyhood of failure in case of synchronisation bugs
-        for (int i = 0; i != 100; i++){
+        for (int i = 0; i != 100; i++) {
             RandomTetrominoGenerator generator0 = new RandomTetrominoGenerator(SEED);
             RandomTetrominoGenerator generator1 = new RandomTetrominoGenerator(SEED);
 
@@ -171,14 +160,9 @@ public class RandomTetrominoGeneratorTest {
      * each thread results in the same tetromino value.
      * 
      * @param generator generator
-     * @throws ExecutionException
-     *             unexpected exception
-     * @throws InterruptedException
-     *             unexpected exception
      * @return tetromino value
      */
-    private Tetromino testMultithreaded(final RandomTetrominoGenerator generator) throws InterruptedException,
-            ExecutionException {
+    private Tetromino testMultithreaded(final RandomTetrominoGenerator generator) {
         ExecutorService service = Executors.newFixedThreadPool(NUM_THREADS);
         Callable<Tetromino> getTetrominoTask = () -> generator.get(10);
         List<Future<Tetromino>> futures = IntStream.range(0, NUM_THREADS)
