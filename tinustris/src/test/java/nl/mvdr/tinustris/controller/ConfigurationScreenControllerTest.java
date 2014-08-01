@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.controller;
 
-import java.io.IOException;
-
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -30,11 +28,7 @@ public class ConfigurationScreenControllerTest {
         new JFXPanel();
     }
 
-    /**
-     * Test method for {@link ConfigurationScreenController#initialize()}.
-     * 
-     * @throws IOException unexpected exception
-     */
+    /** Test method for {@link ConfigurationScreenController#initialize()}. */
     @Test
     public void testInitialisation() {
         ConfigurationScreenController controller = new ConfigurationScreenController(new RadioButton(),
