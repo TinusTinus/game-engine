@@ -27,15 +27,15 @@ public class NetcodeConfigurationTest {
 
     /** Test method for {@link NetcodeConfiguration#isNetworkedGame()}. */
     @Test
-    public void testIsNetworkedGameSingleRemote() throws IOException {
+    public void testIsNetworkedGameSingleRemote() {
         NetcodeConfiguration configuration = () -> Collections.singletonList(createRemoteConfiguration());
 
         Assert.assertTrue(configuration.isNetworkedGame());
     }
 
-    /** Test method for {@link NetcodeConfigurationImpl#isNetworkedGame()}. */
+    /** Test method for {@link NetcodeConfiguration#isNetworkedGame()}. */
     @Test
-    public void testIsNetworkedGameMultipleRemotes() throws IOException {
+    public void testIsNetworkedGameMultipleRemotes() {
         NetcodeConfiguration configuration = () -> Arrays.asList(createRemoteConfiguration(),
                 createRemoteConfiguration());
 

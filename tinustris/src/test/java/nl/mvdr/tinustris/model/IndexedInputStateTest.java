@@ -23,7 +23,11 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class IndexedInputStateTest {
-    /** Serialises an indexed input state. */
+    /**
+     * Serialises an indexed input state.
+     * 
+     * @throws IOException unexpected input/output exception
+     */
     @Test
     public void serialize() throws IOException {
         IndexedInputState state = new IndexedInputState(3, input -> false);
