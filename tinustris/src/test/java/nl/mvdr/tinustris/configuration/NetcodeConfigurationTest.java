@@ -48,7 +48,7 @@ public class NetcodeConfigurationTest {
         ObjectInputStream inputStream;
         try {
             outputStream = new ObjectOutputStream(new ByteArrayOutputStream());
-            inputStream = new ObjectInputStream() { };
+            inputStream = new ObjectInputStream() { /* subclassed only because default constructor is protected */ };
         } catch (IOException e) {
             throw new RuntimeException("Unexpected I/O exception", e);
         }
