@@ -16,7 +16,7 @@ public class TheGrandMaster2MasterSpeedCurveTest extends SpeedCurveTester {
     
     /**
      * Test case which tests whether
-     * {@link TheGrandMaster2MasterSpeedCurve#computeInternalGravity(OnePlayerGameState)} results in a
+     * {@link TheGrandMaster2MasterSpeedCurve#computeInternalGravity(nl.mvdr.tinustris.model.OnePlayerGameState)} results in a
      * 20G speed at the highest level.
      */
     @Test
