@@ -15,7 +15,7 @@ interface BlockCreator {
      * 
      * @param xCoordinate
      *            x coordinate on screen
-     * @param y
+     * @param yCoordinate
      *            y coordinate on screen
      * @param size
      *            size of the block
