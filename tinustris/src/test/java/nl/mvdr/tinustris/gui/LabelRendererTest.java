@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.gui;
 import javafx.embed.swing.JFXPanel;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.DummyGameState;
-import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;
 import org.junit.Before;
