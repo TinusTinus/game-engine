@@ -29,12 +29,6 @@ public class JInputCaptureController implements Callable<Optional<ControllerAndI
     /** Callback which is invoked as the call is about to complete. */
     private final Runnable callback;
     
-    /** Constructor. */
-    public JInputCaptureController() {
-        super();
-        callback = () -> {};
-    }
-    
     /** {@inheritDoc} */
     @Override
     public Optional<ControllerAndInputMapping> call() {

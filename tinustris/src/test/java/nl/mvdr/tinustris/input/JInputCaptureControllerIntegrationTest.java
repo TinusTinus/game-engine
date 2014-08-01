@@ -65,7 +65,7 @@ public class JInputCaptureControllerIntegrationTest {
     @Ignore
     @Test(timeout = 5000)
     public void testWaitForComponentAction() {
-        JInputCaptureController controller = new JInputCaptureController();
+        JInputCaptureController controller = new JInputCaptureController(() -> { /* do nothing */ });
 
         ControllerAndInputMapping result = controller.waitForComponentAction().get();
 
@@ -83,7 +83,7 @@ public class JInputCaptureControllerIntegrationTest {
     @Ignore
     @Test(timeout = 5000)
     public void testWaitForRelease() throws Exception {
-        JInputCaptureController controller = new JInputCaptureController();
+        JInputCaptureController controller = new JInputCaptureController(() -> { /* do nothing */ });
         
         controller.call();
     }
