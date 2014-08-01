@@ -162,12 +162,12 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
                 OnePlayerGameState result;
-                if (previousState == playerOneState) {
-                    result = previousState.withLines(1);
+                if (prevState == playerOneState) {
+                    result = prevState.withLines(1);
                 } else {
-                    result = previousState;
+                    result = prevState;
                 }
                 return result;
             }
@@ -194,12 +194,12 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
                 OnePlayerGameState result;
-                if (previousState == playerOneState) {
-                    result = previousState.withLines(2);
+                if (prevState == playerOneState) {
+                    result = prevState.withLines(2);
                 } else {
-                    result = previousState;
+                    result = prevState;
                 }
                 return result;
             }
@@ -225,12 +225,12 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
                 OnePlayerGameState result;
-                if (previousState == playerOneState) {
-                    result = previousState.withLines(3);
+                if (prevState == playerOneState) {
+                    result = prevState.withLines(3);
                 } else {
-                    result = previousState;
+                    result = prevState;
                 }
                 return result;
             }
@@ -256,12 +256,12 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
                 OnePlayerGameState result;
-                if (previousState == playerOneState) {
-                    result = previousState.withLines(4);
+                if (prevState == playerOneState) {
+                    result = prevState.withLines(4);
                 } else {
-                    result = previousState;
+                    result = prevState;
                 }
                 return result;
             }
@@ -288,12 +288,12 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
                 OnePlayerGameState result;
-                if (previousState == playerOneState) {
-                    result = previousState.withLines(2);
+                if (prevState == playerOneState) {
+                    result = prevState.withLines(2);
                 } else {
-                    result = previousState;
+                    result = prevState;
                 }
                 return result;
             }
@@ -321,12 +321,12 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
                 OnePlayerGameState result;
-                if (previousState == playerOneState) {
-                    result = previousState.withLines(3);
+                if (prevState == playerOneState) {
+                    result = prevState.withLines(3);
                 } else {
-                    result = previousState;
+                    result = prevState;
                 }
                 return result;
             }
@@ -354,12 +354,12 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
                 OnePlayerGameState result;
-                if (previousState == playerOneState) {
-                    result = previousState.withLines(4);
+                if (prevState == playerOneState) {
+                    result = prevState.withLines(4);
                 } else {
-                    result = previousState;
+                    result = prevState;
                 }
                 return result;
             }
