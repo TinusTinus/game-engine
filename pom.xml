@@ -17,7 +17,7 @@
 		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
 		<jinput.version>2.0.5</jinput.version>
 		<junit.version>4.11</junit.version>
-		<lombok.version>1.14.2</lombok.version>
+		<lombok.version>1.14.4</lombok.version>
 		<maven-assembly-plugin.version>2.2-beta-4</maven-assembly-plugin.version>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
