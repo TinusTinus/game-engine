@@ -1,6 +1,5 @@
 package nl.mvdr.tinustris.engine.speedcurve;
 
-import nl.mvdr.tinustris.engine.speedcurve.ConstantSpeedCurve;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 import org.junit.Assert;

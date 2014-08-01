@@ -18,7 +18,7 @@ public interface GameEngine<S extends GameState> {
      * 
      * @return new game state
      */
-    public S initGameState();
+    S initGameState();
 
     /**
      * Computes the next game state based on the previous one and the state of the controls.

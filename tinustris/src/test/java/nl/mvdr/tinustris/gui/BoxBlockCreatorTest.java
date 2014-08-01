@@ -12,7 +12,10 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class BoxBlockCreatorTest {
-    /** Test method for {@link BoxBlockCreator#createBlock(double, double, double, nl.mvdr.tinustris.model.Block, BlockStyle, int, int)}. */
+    /**
+     * Test method for
+     * {@link BoxBlockCreator#createBlock(double, double, double, nl.mvdr.tinustris.model.Block, BlockStyle, int, int)}.
+     */
     @Test
     public void testCreate() {
         BoxBlockCreator creator = new BoxBlockCreator();

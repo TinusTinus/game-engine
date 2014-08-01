@@ -1,7 +1,5 @@
 package nl.mvdr.tinustris.logging;
 
-import nl.mvdr.tinustris.logging.Logging;
-
 import org.junit.Test;
 
 /**

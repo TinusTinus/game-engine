@@ -12,7 +12,10 @@ import org.junit.Test;
  * @author Martijn van de Rijdt
  */
 public class RectangleBlockCreatorTest {
-    /** Test method for {@link RectangleBlockCreator#createBlock(double, double, double, nl.mvdr.tinustris.model.Block, BlockStyle, int, int)}. */
+    /**
+     * Test method for
+     * {@link RectangleBlockCreator#createBlock(double, double, double, nl.mvdr.tinustris.model.Block, BlockStyle, int, int)}.
+     */
     @Test
     public void testCreate() {
         RectangleBlockCreator creator = new RectangleBlockCreator();
