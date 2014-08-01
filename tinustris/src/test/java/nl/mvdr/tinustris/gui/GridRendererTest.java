@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.model.Block;
