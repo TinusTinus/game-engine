@@ -31,7 +31,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartAndStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
                 new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
@@ -50,7 +50,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartPauseUnpauseStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
                 new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
@@ -74,7 +74,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartToggleToggleStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
                 new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
@@ -98,7 +98,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStopGameWhilePaused() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController()), new DummyGameEngine(), new DummyRenderer<>(),
                 new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
         
@@ -129,7 +129,7 @@ public class GameLoopTest {
             }
         };
 
-        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController()), engine, new DummyRenderer<DummyGameState>(),
                 new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>> emptyList());
         
@@ -147,7 +147,7 @@ public class GameLoopTest {
     @Test
     public void testPublishOnlyLocalInput() throws InterruptedException {
         DummyInputPublisher publisher = new DummyInputPublisher();
-        GameLoop<DummyGameState> gameLoop = new GameLoop<DummyGameState>(
+        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
                 Arrays.asList(new DummyInputController(false), new DummyInputController(true)), new DummyGameEngine(),
                 new DummyRenderer<>(), new SingleGameStateHolder<>(), Collections.singletonList(publisher));
         
@@ -184,21 +184,21 @@ public class GameLoopTest {
     /** Tests the constructor with a null value for the renderer. */
     @Test(expected = NullPointerException.class)
     public void testNullRenderer() {
-        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
+        new GameLoop<>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
                 null, new SingleGameStateHolder<>(), Collections.<Consumer<FrameAndInputStatesContainer>> emptyList());
     }
 
     /** Tests the constructor with a null value for the holder. */
     @Test(expected = NullPointerException.class)
     public void testNullHolder() {
-        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
+        new GameLoop<>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
                 new DummyRenderer<>(), null, Collections.<Consumer<FrameAndInputStatesContainer>>emptyList());
     }
     
     /** Tests the constructor with a null value for the publisher. */
     @Test(expected = NullPointerException.class)
     public void testNullPublisher() {
-        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
+        new GameLoop<>(Collections.singletonList(new DummyInputController()), new DummyGameEngine(),
                 new DummyRenderer<>(), new SingleGameStateHolder<>(), null);
     }
 }
