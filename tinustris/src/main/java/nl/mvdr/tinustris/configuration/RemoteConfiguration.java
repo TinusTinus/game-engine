@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 /**
- * Configuration for a remote instance of the application.
+ * Configuration for a remote instance of the game.
  * 
  * @author Martijn van de Rijdt
  */
