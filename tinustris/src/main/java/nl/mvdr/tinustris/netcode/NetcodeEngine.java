@@ -63,37 +63,43 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
      */
     @Override
     public void addGameState(S state) {
-        states.add(state);
+        synchronized (states) {
+            states.add(state);    
+        }
     }
 
     /** {@inheritDoc} */
     @Override
     public S retrieveLatestGameState() {
-        // Note that states can only grow, never shrink. There is no need for additional synchronisation for this method.
-        if (states.isEmpty()) {
-            throw new NoSuchElementException("No state added yet.");
+        synchronized (states) {
+            if (states.isEmpty()) {
+                throw new NoSuchElementException("No state added yet.");
+            }
+
+            return states.get(states.size() - 1);
         }
-        
-        return states.get(states.size() - 1);
     }
 
     /** {@inheritDoc} */
     @Override
     public void accept(FrameAndInputStatesContainer t) {
-        t.getInputStates().entrySet()
-            .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
+        synchronized (states) {
+
+            t.getInputStates().entrySet()
+                .forEach(entry -> inputStateHolders.get(entry.getKey()).putState(t.getFrame(), entry.getValue()));
         
-        // If this is an old input (that is to say, a remote input for an older frame):
-        // recompute the game states after it based on the new input value.
-        IntStream.range(t.getFrame() + 1, states.size())
-            .forEach(frame -> {
-                S previousState = states.get(frame - 1);
-                List<InputState> inputStates = inputStateHolders.stream()
-                    .map(holder -> holder.getInputState(frame - 1))
-                    .collect(Collectors.toList());
-                S newState = gameEngine.computeNextState(previousState, inputStates);
-                states.set(frame, newState);
-            });
+            // If this is an old input (that is to say, a remote input for an older frame):
+            // recompute the game states after it based on the new input value.
+            IntStream.range(t.getFrame() + 1, states.size())
+                .forEach(frame -> {
+                    S previousState = states.get(frame - 1);
+                    List<InputState> inputStates = inputStateHolders.stream()
+                        .map(holder -> holder.getInputState(frame - 1))
+                        .collect(Collectors.toList());
+                    S newState = gameEngine.computeNextState(previousState, inputStates);
+                    states.set(frame, newState);
+                });
+        }
     }
     
     /**
@@ -104,20 +110,22 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
      */
     @Override
     public boolean isGameOver() {
-        boolean result = retrieveLatestGameState().isGameOver();
-        
-        if (result) {
-            // Check if all inputs are known, up until the first game over frame.
+        synchronized (states) {
+            boolean result = retrieveLatestGameState().isGameOver();
+           
+            if (result) {
+                // Check if all inputs are known, up until the first game over frame.
             
-            // Note: if the following turns into a performance problem, it can also be implemented using a binary
-            // search, or a linear search starting at the end, since all game over states should be at the end of the
-            // list.
-            OptionalInt frame = IntStream.range(0, states.size())
+                // Note: if the following turns into a performance problem, it can also be implemented using a binary
+                // search, or a linear search starting at the end, since all game over states should be at the end of the
+                // list.
+                OptionalInt frame = IntStream.range(0, states.size())
                     .filter(i -> states.get(i).isGameOver())
                     .findFirst();
-            result = frame.isPresent() && inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame.getAsInt()));    
+                result = frame.isPresent() && inputStateHolders.stream().allMatch(holder -> holder.allInputsKnownUntil(frame.getAsInt()));
+            }
+            
+            return result;
         }
-        
-        return result;
     }
 }
