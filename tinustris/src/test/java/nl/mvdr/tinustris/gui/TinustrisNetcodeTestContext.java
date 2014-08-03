@@ -62,10 +62,8 @@ public class TinustrisNetcodeTestContext extends Application {
             Socket clientSocket = new Socket("localhost", PORT);
             
             this.sockets = Arrays.asList(clientSocket, serverSocketFuture.get());
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException | ExecutionException | IOException e) {
             throw new IllegalStateException("Unable to open server socket.", e);
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to open client socket.", e);
         }
     }
     
