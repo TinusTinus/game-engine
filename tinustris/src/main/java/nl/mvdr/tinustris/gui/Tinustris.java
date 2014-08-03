@@ -293,7 +293,6 @@ public class Tinustris {
             // ... instert a delay between 1 and 100 milliseconds
             int delay = 1 + random.nextInt(99);
             try {
-                log.debug("Simulating {} milliseconds of lag", delay);
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
                 log.warn("Unexpected interrupt while trying to simulate lag.", e);
