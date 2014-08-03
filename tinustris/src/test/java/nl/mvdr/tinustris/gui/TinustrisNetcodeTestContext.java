@@ -55,7 +55,7 @@ public class TinustrisNetcodeTestContext extends Application {
     public TinustrisNetcodeTestContext() {
         super();
         
-        this.gameInstances = Arrays.asList(new Tinustris(), new Tinustris());
+        this.gameInstances = Arrays.asList(new Tinustris(true), new Tinustris(true));
         
         try {
             Future<Socket> serverSocketFuture = Executors.newSingleThreadExecutor().submit(() -> new ServerSocket(PORT).accept());

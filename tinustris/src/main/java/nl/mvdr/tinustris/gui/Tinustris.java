@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -21,6 +22,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.configuration.LocalPlayerConfiguration;
@@ -47,19 +49,27 @@ import nl.mvdr.tinustris.model.Tetromino;
 import nl.mvdr.tinustris.netcode.NetcodeEngine;
 import nl.mvdr.tinustris.netcode.ObjectOutputStreamsInputPublisher;
 
-
 /**
  * Class which can start a game of Tinustris.
  * 
  * @author Martijn van de Rijdt
  */
 @Slf4j
+@RequiredArgsConstructor
 public class Tinustris {
     /** Size of the margin between the display for each player in a multiplayer game. */
     private static final int MARGIN = 20;
+
+    /** Indicates whether netcode components should simulate lag. */
+    private final boolean lagSimulation;
     
     /** Game loop. */
     private GameLoop<?> gameLoop;
+    
+    /** Constructor. */
+    public Tinustris() {
+        this(false);
+    }
 
     /**
      * Starts the game.
@@ -259,6 +269,10 @@ public class Tinustris {
             .map(in -> (Runnable) (() -> {
                 try {
                     while (true) {
+                        if (lagSimulation) {
+                            simulateLag();
+                        }
+                        
                         FrameAndInputStatesContainer container = (FrameAndInputStatesContainer) in.readObject();
                         netcodeEngine.accept(container);
                     }
@@ -269,6 +283,22 @@ public class Tinustris {
             }))
             .map(runnable -> new Thread(runnable, "Input reader " + runnable.hashCode()))
             .forEach(Thread::start);
+    }
+
+    /** Simulates lag. Can be used for local netcode tests. */
+    private void simulateLag() {
+        Random random = new Random();
+        // 10% of the time...
+        if (random.nextInt(100) < 10) {
+            // ... instert a delay between 1 and 100 milliseconds
+            int delay = 1 + random.nextInt(99);
+            try {
+                log.debug("Simulating {} milliseconds of lag", delay);
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                log.warn("Unexpected interrupt while trying to simulate lag.", e);
+            }
+        }
     }    
 
     /**
