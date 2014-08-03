@@ -69,7 +69,7 @@ public class NetcodeEngine<S extends GameState> implements GameStateHolder<S>, C
     /** {@inheritDoc} */
     @Override
     public S retrieveLatestGameState() {
-        // Note that states can only grow, never shrink. There is no need for addition synchronisation for this method.
+        // Note that states can only grow, never shrink. There is no need for additional synchronisation for this method.
         if (states.isEmpty()) {
             throw new NoSuchElementException("No state added yet.");
         }
