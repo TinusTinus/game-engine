@@ -161,6 +161,7 @@ public class Tinustris {
                 holder = netcodeEngine;
                 localInputListeners = Arrays.asList(netcodeEngine, createOutputPublisher(configuration));
             } else {
+                // local multiplayer, no spectators
                 holder = new SingleGameStateHolder<>();
                 localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
             }
