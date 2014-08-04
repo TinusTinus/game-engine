@@ -112,7 +112,7 @@ enum BlockStyle {
         // See: https://javafx-jira.kenai.com/browse/RT-28874
         // For now, just hide blocks which are supposed to be opaque (in practice: ghost blocks).
         if (opacity < 1) {
-            shape.setVisible(false);;
+            shape.setVisible(false);
         }
         applyColor(shape, block);
         // Fade out does not work either, for the same reason.
