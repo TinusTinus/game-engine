@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.configuration;
 
-import java.util.function.Function;
+import java.util.function.IntFunction;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ public enum Behavior {
     @Getter
     private final String name;
     /** Factory which can create snew LevelSystem instances. */
-    private final Function<Integer, LevelSystem> levelSystemFactory;
+    private final IntFunction<LevelSystem> levelSystemFactory;
     /** Indicates whether the level system supports a starting level. */
     @Getter
     private final boolean startLevelSupported;
