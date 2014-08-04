@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class DummyApplication extends Application {
     /** {@inheritDoc} */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Scene scene = new Scene(new Label("This is a dummy application."));
         primaryStage.setScene(scene);
         primaryStage.setTitle("Dummy Application");
