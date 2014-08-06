@@ -1,9 +1,14 @@
 package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Collections;
+import java.util.Optional;
+import java.util.Random;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -12,6 +17,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
+import nl.mvdr.tinustris.configuration.RemoteConfiguration;
+import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 
 /**
@@ -32,8 +40,6 @@ public class HostingController {
     
     /** Indicates whether the user activated the cancel button. */
     private boolean cancelled;
-    /** Socket. Null initially; gets a value when / if the remote player connects. */
-    private Socket socket;
     
     /** The cancel button. */
     @FXML
@@ -55,13 +61,18 @@ public class HostingController {
     
     /** Waits for a remote player to connect. */
     private void waitForRemotePlayer() {
+        ObjectOutputStream out = null;
+        ObjectInputStream in = null;
+
         // TODO should we close the server socket?
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             serverSocket.setSoTimeout(TIMEOUT);
             log.info("Starting to listen for remote player.");
-            while (socket == null && !cancelled) {
+            while ((out == null || in == null) && !cancelled) {
                 try {
-                    socket = serverSocket.accept();
+                    Socket socket = serverSocket.accept();
+                    out = new ObjectOutputStream(socket.getOutputStream());
+                    in = new ObjectInputStream(socket.getInputStream());
                     log.info("Remote player connected!");
                 } catch (SocketTimeoutException e) {
                     log.info("An expected socket timeout occurred: remote player did not connect in the last {} milliseconds.",
@@ -74,23 +85,53 @@ public class HostingController {
             // TODO show the user an error message?
         }
         
-        if (socket != null) {
-            // TODO offload to the JavaFX thread: move onto the ConfigurationScreen with the newly configured Socket
+        if (out != null && in != null) {
+            RemoteConfiguration remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
+            NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remoteConfiguration);
+            Random random = new Random();
+            long gapSeed = random.nextLong();
+            long tetrominoSeed = random.nextLong();
+            ConfigurationScreenController controller = new ConfigurationScreenController(netcodeConfiguration, gapSeed, tetrominoSeed);
+            
+            Platform.runLater(() -> goToConfigurationScreen(controller));
         } else {
             // User has cancelled or an exception has occurred.
-            Platform.runLater(() -> {
-                Stage stage = (Stage) cancelButton.getScene().getWindow();
-                NetplayConfigurationScreen firstScreen = new NetplayConfigurationScreen();
-                try {
-                    firstScreen.start(stage);
-                } catch (IOException e) {
-                    // Should not occur. In order to get to the Hosting screen the Netplay Configuration screen must
-                    // have already been loaded succesfully once.
-                    // Log the error and let the user close the wondow.
-                    log.error("Unexpected I/O exception.", e);
-                }
-            });
+            Platform.runLater(this::returnToFirstScreen);
         }
+    }
+    
+    /**
+     * Moves the user on to the configuration screen, using the given controller.
+     * 
+     * @param controller controller
+     */
+    private void goToConfigurationScreen(ConfigurationScreenController controller) {
+        ConfigurationScreen configurationScreen = new ConfigurationScreen(controller);
+        try {
+            configurationScreen.start(retrieveStage());
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+    
+    /** Returns the user to the netplay configuration screen. */
+    private void returnToFirstScreen() {
+        Stage stage = retrieveStage();
+        NetplayConfigurationScreen firstScreen = new NetplayConfigurationScreen();
+        try {
+            firstScreen.start(stage);
+        } catch (IOException e) {
+            // Should not occur. In order to get to the Hosting screen the Netplay Configuration screen must
+            // have already been loaded succesfully once.
+            // Log the error and let the user close the wondow.
+            throw new IllegalStateException(e);
+        }
+
+    }
+
+    /** Gets the stage associated to this controller. */
+    private Stage retrieveStage() {
+        return (Stage) cancelButton.getScene().getWindow();
     }
     
     /**

@@ -68,6 +68,11 @@ public class ConfigurationScreenController {
     /** Random seed for the tetromino generator. */
     private final long tetrominoRandomSeed;
 
+    // TODO in case of a netcode game:
+    // * rename the Start button to Ready
+    // * don't start until both players have readied up
+    // * remove the ability to add / remove players
+    
     /**
      * Constructor.
      * 
