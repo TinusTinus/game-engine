@@ -11,11 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.logging.Logging;
 
 /**
- * Main class which opens the configuration screen.
+ * Configuration screen for selecting graphics style, player controls etc..
  * 
  * @author Martijn van de Rijdt
  */
-//When testing the application in Eclipse, don't run this class directly. Use ConfigurationScreenTestContext instead.
 @Slf4j
 public class ConfigurationScreen extends Application {
     /** {@inheritDoc} */
@@ -30,21 +29,5 @@ public class ConfigurationScreen extends Application {
         primaryStage.setTitle("Tinustris - configuration");
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
-    }
-    
-    /**
-     * Main method.
-     * 
-     * @param args commandline arguments; these are passed on to JavaFX
-     */
-    public static void main(String[] args) {
-        log.info("Starting Tinustris configuration screen.");
-
-        Logging.logVersionInfo();
-        
-        // JInput uses java.util.logging; redirect to slf4j.
-        Logging.installSlf4jBridge();
-
-        launch(args);
     }
 }

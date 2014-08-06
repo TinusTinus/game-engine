@@ -1,10 +1,11 @@
 package nl.mvdr.tinustris.gui;
 
+import javafx.application.Application;
+import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.logging.Logging;
+
 /**
- * Main class, whose main method simply calls {@link ConfigurationScreen#main(String[])}.
- * 
- * Workaround for the fact that the test classpath (which contains useful things such as a log4j configuration) does not
- * seem to be available when running {@link ConfigurationScreen#main(String[])} directly in Eclipse Kepler.
+ * Main class that starts a {@link ConfigurationScreen}.
  * 
  * This class relies on JInput's native libraries. These are not available by default. If you want to run this
  * class, make sure that the java.library.path system property contains target/natives in this project directory.
@@ -18,14 +19,21 @@ package nl.mvdr.tinustris.gui;
  * 
  * @author Martijn van de Rijdt
  */
+@Slf4j
 public class ConfigurationScreenTestContext {
     /**
-     * Calls {@link ConfigurationScreen#main(String[])}.
+     * Main method.
      * 
-     * @param args
-     *            command line parameters
+     * @param args commandline arguments; these are passed on to JavaFX
      */
     public static void main(String[] args) {
-        ConfigurationScreen.main(args);
+        log.info("Starting Tinustris configuration screen.");
+
+        Logging.logVersionInfo();
+        
+        // JInput uses java.util.logging; redirect to slf4j.
+        Logging.installSlf4jBridge();
+
+        Application.launch(ConfigurationScreen.class, args);
     }
 }
