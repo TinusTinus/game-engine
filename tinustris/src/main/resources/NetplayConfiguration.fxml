@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="134.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<RadioButton id="offlineRadioButton" layoutX="80.0" layoutY="15.0" mnemonicParsing="false" selected="true" text="Offline game">
+		<RadioButton id="offlineRadioButton" layoutX="80.0" layoutY="16.0" mnemonicParsing="false" selected="true" text="Offline game">
 			<toggleGroup>
 				<ToggleGroup fx:id="netplaySelectionToggleGroup" />
 			</toggleGroup>
