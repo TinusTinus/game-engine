@@ -4,7 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="134.0" prefWidth="310.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="134.0" prefWidth="310.0"
+		xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+		fx:controller="nl.mvdr.tinustris.controller.NetplayConfigurationScreenController">
 	<children>
 		<RadioButton id="offlineRadioButton" layoutX="80.0" layoutY="16.0" mnemonicParsing="false" selected="true" text="Offline game">
 			<toggleGroup>
@@ -14,6 +16,6 @@
 		<RadioButton id="hostRadioButton" layoutX="80.0" layoutY="40.0" mnemonicParsing="false" text="Host 1v1 Network Game" toggleGroup="$netplaySelectionToggleGroup" />
 		<RadioButton id="joinRadioButton" layoutX="80.0" layoutY="64.0" mnemonicParsing="false" text="Join 1v1 Network Game" toggleGroup="$netplaySelectionToggleGroup" />
 
-		<Button id="nextButton" layoutX="133.0" layoutY="95.0" mnemonicParsing="false" text="Next" />
+		<Button id="nextButton" layoutX="133.0" layoutY="95.0" mnemonicParsing="false" text="Next" onAction="#next" />
 	</children>
 </AnchorPane>
