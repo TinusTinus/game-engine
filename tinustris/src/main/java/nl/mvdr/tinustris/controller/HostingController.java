@@ -5,10 +5,14 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 
 /**
  * Controller for the hosting game screen, where the user is waiting for a remote player to connect.
@@ -16,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Martijn van de Rijdt
  */
 @Slf4j
+@ToString
 public class HostingController {
     /** Port used for online multiplayer. */
     private static final int PORT = 8082; // TODO move this constant somewhere else for reuse
@@ -30,6 +35,10 @@ public class HostingController {
     /** Socket. Null initially; gets a value when / if the remote player connects. */
     private Socket socket;
     
+    /** The cancel button. */
+    @FXML
+    private Button cancelButton;
+    
     /** Constructor. */
     public HostingController() {
         super();
@@ -41,6 +50,7 @@ public class HostingController {
     private void initialize() {
         log.info("Initialising.");
         new Thread(this::waitForRemotePlayer, "Hosting").start();
+        log.info("Controller initialised: {}", this);
     }
     
     /** Waits for a remote player to connect. */
@@ -68,7 +78,18 @@ public class HostingController {
             // TODO offload to the JavaFX thread: move onto the ConfigurationScreen with the newly configured Socket
         } else {
             // User has cancelled or an exception has occurred.
-            // TODO exit the application, or return to the first screen
+            Platform.runLater(() -> {
+                Stage stage = (Stage) cancelButton.getScene().getWindow();
+                NetplayConfigurationScreen firstScreen = new NetplayConfigurationScreen();
+                try {
+                    firstScreen.start(stage);
+                } catch (IOException e) {
+                    // Should not occur. In order to get to the Hosting screen the Netplay Configuration screen must
+                    // have already been loaded succesfully once.
+                    // Log the error and let the user close the wondow.
+                    log.error("Unexpected I/O exception.", e);
+                }
+            });
         }
     }
     
@@ -86,8 +107,7 @@ public class HostingController {
         this.cancelled = true;
         
         // Cancel has been succesfully completed, disable the cancel button so the user knows something has happened.
-        Node node = (Node)actionEvent.getSource();
-        node.setDisable(true);
+        cancelButton.setDisable(true);
     }
     
     // TODO also cancel when exiting the application through other means than the cancel button!

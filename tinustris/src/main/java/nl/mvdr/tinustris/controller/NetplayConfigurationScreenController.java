@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.stage.Stage;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.HostingScreen;
@@ -17,6 +18,7 @@ import nl.mvdr.tinustris.gui.HostingScreen;
  * @author Martijn van de Rijdt
  */
 @Slf4j
+@ToString
 public class NetplayConfigurationScreenController {
     /** Radio button for an offline game. */
     @FXML
@@ -27,6 +29,12 @@ public class NetplayConfigurationScreenController {
     /** Radio button for joining a netplay game. */
     @FXML
     private RadioButton joinRadioButton;
+    
+    /** Performs the initialisation. */
+    @FXML
+    private void initialize() {
+        log.info("Controller initialised: {}", this);
+    }
     
     /**
      * Handles the player activating the "next" button.
