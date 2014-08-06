@@ -54,7 +54,7 @@ public class HostingController {
                     log.info("Remote player connected!");
                 } catch (SocketTimeoutException e) {
                     log.info("An expected socket timeout occurred: remote player did not connect in the last {} milliseconds.", TIMEOUT);
-                    log.debug("Socket timeout", e);
+                    log.debug("Socket timeout.", e);
                 }
             }
         } catch (IOException e) {
