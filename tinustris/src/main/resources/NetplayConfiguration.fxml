@@ -8,13 +8,13 @@
 		xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 		fx:controller="nl.mvdr.tinustris.controller.NetplayConfigurationScreenController">
 	<children>
-		<RadioButton id="offlineRadioButton" layoutX="80.0" layoutY="16.0" mnemonicParsing="false" selected="true" text="Offline Game">
+		<RadioButton fx:id="offlineRadioButton" layoutX="80.0" layoutY="16.0" mnemonicParsing="false" selected="true" text="Offline Game">
 			<toggleGroup>
 				<ToggleGroup fx:id="netplaySelectionToggleGroup" />
 			</toggleGroup>
 		</RadioButton>
-		<RadioButton id="hostRadioButton" layoutX="80.0" layoutY="40.0" mnemonicParsing="false" text="Host 1v1 Network Game" toggleGroup="$netplaySelectionToggleGroup" />
-		<RadioButton id="joinRadioButton" layoutX="80.0" layoutY="64.0" mnemonicParsing="false" text="Join 1v1 Network Game" toggleGroup="$netplaySelectionToggleGroup" />
+		<RadioButton fx:id="hostRadioButton" layoutX="80.0" layoutY="40.0" mnemonicParsing="false" text="Host 1v1 Network Game" toggleGroup="$netplaySelectionToggleGroup" />
+		<RadioButton fx:id="joinRadioButton" layoutX="80.0" layoutY="64.0" mnemonicParsing="false" text="Join 1v1 Network Game" toggleGroup="$netplaySelectionToggleGroup" />
 
 		<Button id="nextButton" layoutX="133.0" layoutY="95.0" mnemonicParsing="false" text="Next" onAction="#next" />
 	</children>
