@@ -9,6 +9,7 @@ import javafx.scene.control.Toggle;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
+import nl.mvdr.tinustris.gui.HostingScreen;
 
 /**
  * Controller for the netplay configuration screen.
@@ -59,7 +60,7 @@ public class NetplayConfigurationScreenController {
         if (selectedRadioButton == offlineRadioButton) {
             result = new ConfigurationScreen();
         } else if (selectedRadioButton == hostRadioButton) {
-            throw new UnsupportedOperationException(); // TODO
+            result = new HostingScreen();
         } else if (selectedRadioButton == joinRadioButton) {
             throw new UnsupportedOperationException(); // TODO
         } else {
