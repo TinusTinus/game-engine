@@ -88,9 +88,11 @@ public class HostingController {
         if (out != null && in != null) {
             RemoteConfiguration remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
             NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remoteConfiguration);
+            
             Random random = new Random();
             long gapSeed = random.nextLong();
             long tetrominoSeed = random.nextLong();
+            
             ConfigurationScreenController controller = new ConfigurationScreenController(netcodeConfiguration, gapSeed, tetrominoSeed);
             
             Platform.runLater(() -> goToConfigurationScreen(controller));
