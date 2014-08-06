@@ -106,9 +106,30 @@ public class HostingController {
         long gapSeed = random.nextLong();
         long tetrominoSeed = random.nextLong();
         
-        // TODO publish these seeds to the remote player!
+        // Publish the random seeds to remote players.
+        netcodeConfiguration.getRemotes().stream()
+            .map(RemoteConfiguration::getOutputStream)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .forEach(stream -> publishSeeds(stream, gapSeed, tetrominoSeed));
         
         return new ConfigurationScreenController(netcodeConfiguration, gapSeed, tetrominoSeed);
+    }
+    
+    /**
+     * Publishes the given seeds to the given output stream.
+     * 
+     * @param stream stream
+     * @param gapSeed random seed for gap generator
+     * @param tetrominoSeed random seed for tetromino generator
+     */
+    private void publishSeeds(ObjectOutputStream stream, long gapSeed, long tetrominoSeed) {
+        try {
+            stream.writeLong(gapSeed);
+            stream.writeLong(tetrominoSeed);
+        } catch (IOException e) {
+            log.error("Write failed.", e); // TODO better error handling?
+        }
     }
     
     /**
