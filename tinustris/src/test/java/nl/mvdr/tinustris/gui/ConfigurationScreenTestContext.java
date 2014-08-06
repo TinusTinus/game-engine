@@ -1,6 +1,9 @@
 package nl.mvdr.tinustris.gui;
 
+import java.io.IOException;
+
 import javafx.application.Application;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.logging.Logging;
 
@@ -20,7 +23,14 @@ import nl.mvdr.tinustris.logging.Logging;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-public class ConfigurationScreenTestContext {
+public class ConfigurationScreenTestContext extends ConfigurationScreen {
+    /** {@inheritDoc} */
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        Logging.setUncaughtExceptionHandler();
+        super.start(primaryStage);
+    }
+    
     /**
      * Main method.
      * 
@@ -34,6 +44,6 @@ public class ConfigurationScreenTestContext {
         // JInput uses java.util.logging; redirect to slf4j.
         Logging.installSlf4jBridge();
 
-        Application.launch(ConfigurationScreen.class, args);
+        Application.launch(args);
     }
 }

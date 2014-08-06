@@ -8,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.tinustris.logging.Logging;
 
 /**
  * Configuration screen for selecting graphics style, player controls etc..
@@ -21,8 +20,6 @@ public class ConfigurationScreen extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         log.info("Starting application.");
-        
-        Logging.setUncaughtExceptionHandler();
         
         Parent parent = FXMLLoader.load(getClass().getResource("/Configuration.fxml"));
         
