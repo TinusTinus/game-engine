@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -61,18 +62,18 @@ public class HostingController {
     
     /** Waits for a remote player to connect. */
     private void waitForRemotePlayer() {
-        ObjectOutputStream out = null;
-        ObjectInputStream in = null;
-
+        RemoteConfiguration remoteConfiguration = null; 
+        
         // TODO should we close the server socket?
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             serverSocket.setSoTimeout(TIMEOUT);
             log.info("Starting to listen for remote player.");
-            while ((out == null || in == null) && !cancelled) {
+            while (remoteConfiguration == null && !cancelled) {
                 try {
                     Socket socket = serverSocket.accept();
-                    out = new ObjectOutputStream(socket.getOutputStream());
-                    in = new ObjectInputStream(socket.getInputStream());
+                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                    remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
                     log.info("Remote player connected!");
                 } catch (SocketTimeoutException e) {
                     log.info("An expected socket timeout occurred: remote player did not connect in the last {} milliseconds.",
@@ -85,9 +86,9 @@ public class HostingController {
             // TODO show the user an error message?
         }
         
-        if (out != null && in != null) {
-            RemoteConfiguration remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
-            NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remoteConfiguration);
+        if (remoteConfiguration != null) {
+            List<RemoteConfiguration> remoteConfigurations = Collections.singletonList(remoteConfiguration);
+            NetcodeConfiguration netcodeConfiguration = () -> remoteConfigurations;
             
             Random random = new Random();
             long gapSeed = random.nextLong();
