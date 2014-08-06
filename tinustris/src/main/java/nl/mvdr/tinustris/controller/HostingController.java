@@ -86,21 +86,29 @@ public class HostingController {
             // TODO show the user an error message?
         }
         
-        if (remoteConfiguration.isPresent()) {
-            List<RemoteConfiguration> remoteConfigurations = Collections.singletonList(remoteConfiguration.get());
-            NetcodeConfiguration netcodeConfiguration = () -> remoteConfigurations;
-            
-            Random random = new Random();
-            long gapSeed = random.nextLong();
-            long tetrominoSeed = random.nextLong();
-            
-            ConfigurationScreenController controller = new ConfigurationScreenController(netcodeConfiguration, gapSeed, tetrominoSeed);
-            
-            Platform.runLater(() -> goToConfigurationScreen(controller));
-        } else {
-            // User has cancelled or an exception has occurred.
-            Platform.runLater(this::returnToFirstScreen);
-        }
+        Runnable runnable = remoteConfiguration.filter(r -> !cancelled)
+            .map(Collections::singletonList)
+            .map(remoteConfigurations -> (NetcodeConfiguration)(() -> remoteConfigurations))
+            .map(this::createConfigurationScreenController)
+            .map(controller -> (Runnable)() -> goToConfigurationScreen(controller))
+            .orElse(this::returnToFirstScreen);
+        Platform.runLater(runnable);
+    }
+
+    /**
+     * Creates a configuration screen controller based on the given netcode configuration. Also initialises the random seed values.
+     * 
+     * @param netcodeConfiguration netcode configuration
+     * @return controller
+     */
+    private ConfigurationScreenController createConfigurationScreenController(NetcodeConfiguration netcodeConfiguration) {
+        Random random = new Random();
+        long gapSeed = random.nextLong();
+        long tetrominoSeed = random.nextLong();
+        
+        // TODO publish these seeds to the remote player!
+        
+        return new ConfigurationScreenController(netcodeConfiguration, gapSeed, tetrominoSeed);
     }
     
     /**
