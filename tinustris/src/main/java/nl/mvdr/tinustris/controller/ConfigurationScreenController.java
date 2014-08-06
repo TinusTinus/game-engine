@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Behavior;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.configuration.ConfigurationImpl;
+import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.gui.Tinustris;
@@ -60,11 +61,31 @@ public class ConfigurationScreenController {
     
     /** Controllers for the contents of the player tabs. */
     private final List<PlayerConfigurationController> playerConfigurationControllers;
+    /** Netcode configuration. */
+    private final NetcodeConfiguration netcodeConfiguration;
+    /** Random seed for the gap generator. */
+    private final long gapRandomSeed;
+    /** Random seed for the tetromino generator. */
+    private final long tetrominoRandomSeed;
 
-    /** Constructor. */
-    public ConfigurationScreenController() {
+    /**
+     * Constructor.
+     * 
+     * @param netcodeConfiguration netcode configuration
+     * @param gapRandomSeed random seed for the gap generator
+     * @param tetrominoRandomSeed random seed for the tetromino generator
+     */
+    public ConfigurationScreenController(NetcodeConfiguration netcodeConfiguration, long gapRandomSeed, long tetrominoRandomSeed) {
         super();
         this.playerConfigurationControllers = new ArrayList<>();
+        this.netcodeConfiguration = netcodeConfiguration;
+        this.gapRandomSeed = gapRandomSeed;
+        this.tetrominoRandomSeed = tetrominoRandomSeed;
+    }
+    
+    /** Constructor for an offline game. */
+    public ConfigurationScreenController() {
+        this(Collections::emptyList, new Random().nextLong(), new Random().nextLong());
     }
 
     /**
@@ -348,7 +369,7 @@ public class ConfigurationScreenController {
         
         int startLevel = Integer.parseInt(startLevelTextField.getText());
         
-        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, Collections::emptyList,
-                new Random().nextLong(), new Random().nextLong());
+        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, netcodeConfiguration,
+            gapRandomSeed, tetrominoRandomSeed);
     }
 }
