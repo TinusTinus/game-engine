@@ -62,18 +62,18 @@ public class HostingController {
     
     /** Waits for a remote player to connect. */
     private void waitForRemotePlayer() {
-        RemoteConfiguration remoteConfiguration = null; 
+        Optional<RemoteConfiguration> remoteConfiguration = Optional.empty(); 
         
         // TODO should we close the server socket?
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             serverSocket.setSoTimeout(TIMEOUT);
             log.info("Starting to listen for remote player.");
-            while (remoteConfiguration == null && !cancelled) {
+            while (!remoteConfiguration.isPresent() && !cancelled) {
                 try {
                     Socket socket = serverSocket.accept();
                     ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
                     ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-                    remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
+                    remoteConfiguration = Optional.of(new RemoteConfiguration(Optional.of(out), Optional.of(in)));
                     log.info("Remote player connected!");
                 } catch (SocketTimeoutException e) {
                     log.info("An expected socket timeout occurred: remote player did not connect in the last {} milliseconds.",
@@ -86,8 +86,8 @@ public class HostingController {
             // TODO show the user an error message?
         }
         
-        if (remoteConfiguration != null) {
-            List<RemoteConfiguration> remoteConfigurations = Collections.singletonList(remoteConfiguration);
+        if (remoteConfiguration.isPresent()) {
+            List<RemoteConfiguration> remoteConfigurations = Collections.singletonList(remoteConfiguration.get());
             NetcodeConfiguration netcodeConfiguration = () -> remoteConfigurations;
             
             Random random = new Random();
