@@ -9,7 +9,6 @@ import javafx.scene.control.Toggle;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Controller for the netplay configuration screen.
@@ -60,9 +59,9 @@ public class NetplayConfigurationScreenController {
         if (selectedRadioButton == offlineRadioButton) {
             result = new ConfigurationScreen();
         } else if (selectedRadioButton == hostRadioButton) {
-            throw new NotImplementedException(); // TODO
+            throw new UnsupportedOperationException(); // TODO
         } else if (selectedRadioButton == joinRadioButton) {
-            throw new NotImplementedException(); // TODO
+            throw new UnsupportedOperationException(); // TODO
         } else {
             // Should not occur; there is a default radio button selection and there is no way to deselect.
             throw new IllegalStateException("Unexpected selection: " + selectedRadioButton);
