@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.controller.ConfigurationScreenController;
 import nl.mvdr.tinustris.logging.Logging;
 
 /**
@@ -24,6 +25,11 @@ import nl.mvdr.tinustris.logging.Logging;
  */
 @Slf4j
 public class ConfigurationScreenTestContext extends ConfigurationScreen {
+    /** Constructor. */
+    public ConfigurationScreenTestContext() {
+        super(new ConfigurationScreenController());
+    }
+    
     /** {@inheritDoc} */
     @Override
     public void start(Stage primaryStage) throws IOException {

@@ -66,7 +66,7 @@ public class NetplayConfigurationScreenController {
         
         Toggle selectedRadioButton = offlineRadioButton.getToggleGroup().getSelectedToggle();
         if (selectedRadioButton == offlineRadioButton) {
-            result = new ConfigurationScreen();
+            result = new ConfigurationScreen(new ConfigurationScreenController());
         } else if (selectedRadioButton == hostRadioButton) {
             result = new HostingScreen();
         } else if (selectedRadioButton == joinRadioButton) {
