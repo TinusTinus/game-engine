@@ -30,6 +30,7 @@ public class HostingController {
     /** Socket. Null initially; gets a value when / if the remote player connects. */
     private Socket socket;
     
+    /** Constructor. */
     public HostingController() {
         super();
         this.cancelled = false;
@@ -53,17 +54,20 @@ public class HostingController {
                     socket = serverSocket.accept();
                     log.info("Remote player connected!");
                 } catch (SocketTimeoutException e) {
-                    log.info("An expected socket timeout occurred: remote player did not connect in the last {} milliseconds.", TIMEOUT);
+                    log.info("An expected socket timeout occurred: remote player did not connect in the last {} milliseconds.",
+                        TIMEOUT);
                     log.debug("Socket timeout.", e);
                 }
             }
         } catch (IOException e) {
             log.error("Unexpected exception.", e);
+            // TODO show the user an error message?
         }
         
         if (socket != null) {
             // TODO offload to the JavaFX thread: move onto the ConfigurationScreen with the newly configured Socket
         } else {
+            // User has cancelled or an exception has occurred.
             // TODO exit the application, or return to the first screen
         }
     }
@@ -77,8 +81,11 @@ public class HostingController {
     private void cancel(ActionEvent actionEvent) {
         log.info("Cancel button activated.");
         
+        // Make sure the server socket stops waiting for a remote connection.
+        // This will happen asynchronously and may take up to TIMEOUT seconds.
         this.cancelled = true;
         
+        // Cancel has been succesfully completed, disable the cancel button so the user knows something has happened.
         Node node = (Node)actionEvent.getSource();
         node.setDisable(true);
     }
