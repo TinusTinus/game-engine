@@ -30,8 +30,6 @@ import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 @Slf4j
 @ToString
 public class HostingController {
-    /** Port used for online multiplayer. */
-    private static final int PORT = 8082; // TODO move this constant somewhere else for reuse
     /**
      * Timeout while waiting for a remote player. This governs how often the hosting thread checks whether the user has
      * clicked cancel.
@@ -64,7 +62,7 @@ public class HostingController {
         Optional<RemoteConfiguration> remoteConfiguration = Optional.empty(); 
         
         // TODO should we close the server socket?
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+        try (ServerSocket serverSocket = new ServerSocket(NetcodeConfiguration.PORT)) {
             serverSocket.setSoTimeout(TIMEOUT);
             log.info("Starting to listen for remote player.");
             while (!remoteConfiguration.isPresent() && !cancelled) {

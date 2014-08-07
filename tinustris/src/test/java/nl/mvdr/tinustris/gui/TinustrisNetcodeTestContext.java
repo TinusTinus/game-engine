@@ -42,9 +42,6 @@ import nl.mvdr.tinustris.logging.Logging;
  */
 @Slf4j
 public class TinustrisNetcodeTestContext extends Application {
-    /** Port number. */
-    private static final int PORT = 8082;
-    
     /** Tinustris instances. */
     private final List<Tinustris> gameInstances;
     
@@ -58,8 +55,8 @@ public class TinustrisNetcodeTestContext extends Application {
         this.gameInstances = Arrays.asList(new Tinustris(true), new Tinustris(true));
         
         try {
-            Future<Socket> serverSocketFuture = Executors.newSingleThreadExecutor().submit(() -> new ServerSocket(PORT).accept());
-            Socket clientSocket = new Socket("localhost", PORT);
+            Future<Socket> serverSocketFuture = Executors.newSingleThreadExecutor().submit(() -> new ServerSocket(NetcodeConfiguration.PORT).accept());
+            Socket clientSocket = new Socket("localhost", NetcodeConfiguration.PORT);
             
             this.sockets = Arrays.asList(clientSocket, serverSocketFuture.get());
         } catch (InterruptedException | ExecutionException | IOException e) {
