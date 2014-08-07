@@ -90,7 +90,7 @@ public class HostingController {
             .map(remoteConfigurations -> (NetcodeConfiguration)(() -> remoteConfigurations))
             .map(this::createConfigurationScreenController)
             .map(controller -> (Runnable)() -> goToConfigurationScreen(controller))
-            .orElse(this::returnToFirstScreen);
+            .orElse(this::returnToNetplayConfigurationScreen);
         Platform.runLater(runnable);
     }
 
@@ -146,7 +146,7 @@ public class HostingController {
     }
     
     /** Returns the user to the netplay configuration screen. */
-    private void returnToFirstScreen() {
+    private void returnToNetplayConfigurationScreen() {
         Stage stage = retrieveStage();
         NetplayConfigurationScreen firstScreen = new NetplayConfigurationScreen();
         try {
