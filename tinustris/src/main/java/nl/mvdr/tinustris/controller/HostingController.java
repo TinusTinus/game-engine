@@ -7,7 +7,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -158,7 +157,6 @@ public class HostingController {
             // Log the error and let the user close the wondow.
             throw new IllegalStateException(e);
         }
-
     }
 
     /** Gets the stage associated to this controller. */
