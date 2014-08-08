@@ -11,6 +11,7 @@ import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.HostingScreen;
+import nl.mvdr.tinustris.gui.JoiningScreen;
 
 /**
  * Controller for the netplay configuration screen.
@@ -70,7 +71,7 @@ public class NetplayConfigurationScreenController {
         } else if (selectedRadioButton == hostRadioButton) {
             result = new HostingScreen();
         } else if (selectedRadioButton == joinRadioButton) {
-            throw new UnsupportedOperationException(); // TODO
+            result = new JoiningScreen();
         } else {
             // Should not occur; there is a default radio button selection and there is no way to deselect.
             throw new IllegalStateException("Unexpected selection: " + selectedRadioButton);

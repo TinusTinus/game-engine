@@ -10,20 +10,20 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Configuration screen for hosting a game and waiting for a remote player to connect.
+ * Configuration screen for joining a remote game.
  * 
  * @author Martijn van de Rijdt
  */
 @Slf4j
-public class HostingScreen extends Application {
+public class JoiningScreen extends Application {
     /** {@inheritDoc} */
     @Override
     public void start(Stage primaryStage) throws IOException {
         log.info("Starting application.");
         
-        Parent parent = FXMLLoader.load(getClass().getResource("/Hosting.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/Joining.fxml"));
         
-        primaryStage.setTitle("Tinustris - hosting");
+        primaryStage.setTitle("Tinustris - joining");
         primaryStage.setScene(new Scene(parent));
         primaryStage.show();
     }

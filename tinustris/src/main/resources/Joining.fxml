@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="101.0" prefWidth="259.0"
+		xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+		fx:controller="nl.mvdr.tinustris.controller.JoiningController">
+	<children>
+		<Label layoutX="20.0048828125" layoutY="24.5" text="IP / Hostname" />
+		<TextField layoutX="107.0" layoutY="21.0" prefHeight="25.0" prefWidth="133.0" fx:id="hostTextField" />
+		<Button layoutX="188.0" layoutY="63.0" mnemonicParsing="false" text="Cancel" onAction="#cancel" />
+		<Button layoutX="107.0" layoutY="63.0" mnemonicParsing="false" text="Join Game" onAction="#join" />
+	</children>
+</AnchorPane>
