@@ -87,7 +87,9 @@ public class TinustrisNetcodeTestContext extends Application {
                     Collections.singletonList(() -> ""), GraphicsStyle.defaultStyle(),
                     Behavior.defaultBehavior(), 0, netcodeConfiguration1, configuration0.getGapRandomSeed(),
                     configuration0.getTetrominoRandomSeed());
-            gameInstances.get(1).start(new Stage(), configuration1);
+            Stage secondStage = new Stage();
+            gameInstances.get(1).start(secondStage, configuration1);
+            stage.setX(stage.getX() + stage.getWidth());
         } catch (IOException e) {
             log.error("Unexpected exception.", e);
         }

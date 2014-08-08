@@ -30,6 +30,7 @@ public class NetplayConfigurationScreenTestContextTwice extends NetplayConfigura
         // second window
         Stage secondStage = new Stage();
         super.start(secondStage);
+        secondStage.setX(secondStage.getX() + secondStage.getWidth());
     }
     
     /**
