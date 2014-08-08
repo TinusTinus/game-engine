@@ -9,7 +9,7 @@
 		fx:controller="nl.mvdr.tinustris.controller.JoiningController">
 	<children>
 		<Label layoutX="20.0" layoutY="24.5" text="IP / Hostname" />
-		<TextField layoutX="107.0" layoutY="21.0" prefHeight="25.0" prefWidth="133.0" fx:id="hostTextField" />
+		<TextField layoutX="107.0" layoutY="21.0" prefHeight="25.0" prefWidth="133.0" fx:id="hostTextField" text="127.0.0.1" />
 		<Button layoutX="188.0" layoutY="63.0" mnemonicParsing="false" text="Cancel" onAction="#cancel" />
 		<Button layoutX="107.0" layoutY="63.0" mnemonicParsing="false" text="Join Game" onAction="#join" />
 	</children>
