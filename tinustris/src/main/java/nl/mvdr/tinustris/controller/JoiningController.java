@@ -67,12 +67,12 @@ public class JoiningController {
     @FXML
     private void join() {
         log.info("Joining game.");
-        // TODO implement
         
         String hostname = hostTextField.getText();
         
         log.info("Attempting to join: {}", hostname);
-        
+
+        // TODO don't do all this I/O on the user interface thread
         // TODO don't close the socket here?????
         try (Socket socket = new Socket("localhost", NetcodeConfiguration.PORT)) {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
