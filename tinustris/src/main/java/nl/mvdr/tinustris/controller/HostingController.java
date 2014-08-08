@@ -122,7 +122,9 @@ public class HostingController {
      */
     private void publishSeeds(ObjectOutputStream stream, long gapSeed, long tetrominoSeed) {
         try {
+            log.info("Publishing gap generator seed: {}", gapSeed);
             stream.writeLong(gapSeed);
+            log.info("Publishing tetromino generator seed: {}", tetrominoSeed);
             stream.writeLong(tetrominoSeed);
         } catch (IOException e) {
             log.error("Write failed.", e); // TODO better error handling?
