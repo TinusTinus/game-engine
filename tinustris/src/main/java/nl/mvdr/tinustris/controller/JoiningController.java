@@ -14,6 +14,7 @@ import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.client.config.ClientNetworkConfig;
 import com.hazelcast.core.HazelcastInstance;
 
 /**
@@ -67,10 +68,10 @@ public class JoiningController {
     private void join() {
         log.info("Joining game.");
         
-        String hostname = hostTextField.getText();
-        
+        ClientNetworkConfig networkConfig = new ClientNetworkConfig();
+        networkConfig.addAddress(hostTextField.getText() + ":5701");
         ClientConfig hazelcastConfiguration = new ClientConfig();
-        hazelcastConfiguration.addAddress(hostname + ":5701");
+        hazelcastConfiguration.setNetworkConfig(networkConfig);
         HazelcastInstance hazelcast = HazelcastClient.newHazelcastClient(hazelcastConfiguration);
         
         BlockingQueue<Long> queue = hazelcast.getQueue("randomSeeds");
