@@ -20,7 +20,7 @@ package nl.mvdr.tinustris.gui;
  */
 public class NetplayConfigurationScreenTestContext {
     /**
-     * Calls {@link ConfigurationScreen#main(String[])}.
+     * Calls {@link NetplayConfigurationScreen#main(String[])}.
      * 
      * @param args
      *            command line parameters
