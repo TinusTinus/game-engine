@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
@@ -18,7 +19,6 @@ import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 
 import com.hazelcast.config.Config;
-import com.hazelcast.config.NetworkConfig;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
@@ -62,13 +62,14 @@ public class HostingController {
         Config hazelcastConfig = new Config("Tinustris");
         hazelcastConfig.getNetworkConfig().setPort(NetcodeConfiguration.PORT);
         HazelcastInstance hazelcast = Hazelcast.newHazelcastInstance(hazelcastConfig);
-        
+
         Random random = new Random();
         long gapSeed = random.nextLong();
         long tetrominoSeed = random.nextLong();
-        BlockingQueue<Long> queue = hazelcast.getQueue("randomSeeds");
-        queue.offer(gapSeed);
-        queue.offer(tetrominoSeed);
+        
+        List<Long> seeds = hazelcast.getList("randomSeeds");
+        seeds.add(gapSeed);
+        seeds.add(tetrominoSeed);
         
         log.info("Offered seeds: {}, {}", gapSeed, tetrominoSeed);
         

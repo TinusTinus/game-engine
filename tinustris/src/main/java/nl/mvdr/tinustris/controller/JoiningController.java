@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 import javafx.fxml.FXML;
@@ -74,9 +75,10 @@ public class JoiningController {
         hazelcastConfiguration.setNetworkConfig(networkConfig);
         HazelcastInstance hazelcast = HazelcastClient.newHazelcastClient(hazelcastConfiguration);
         
-        BlockingQueue<Long> queue = hazelcast.getQueue("randomSeeds");
-        long gapSeed = queue.poll();
-        long tetrominoSeed = queue.poll();
+        List<Long> seeds = hazelcast.getList("randomSeeds");
+        
+        long gapSeed = seeds.get(0);
+        long tetrominoSeed = seeds.get(1);
         
         log.info("Received seeds: {}, {}", gapSeed, tetrominoSeed);
         
