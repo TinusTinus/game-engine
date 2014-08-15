@@ -69,7 +69,7 @@ public class JoiningController {
         log.info("Joining game.");
         
         ClientNetworkConfig networkConfig = new ClientNetworkConfig();
-        networkConfig.addAddress(hostTextField.getText() + ":5701");
+        networkConfig.addAddress(hostTextField.getText() + ":" + NetcodeConfiguration.PORT);
         ClientConfig hazelcastConfiguration = new ClientConfig();
         hazelcastConfiguration.setNetworkConfig(networkConfig);
         HazelcastInstance hazelcast = HazelcastClient.newHazelcastClient(hazelcastConfiguration);

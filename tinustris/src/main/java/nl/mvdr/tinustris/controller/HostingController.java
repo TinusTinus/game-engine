@@ -60,6 +60,7 @@ public class HostingController {
     /** Waits for a remote player to connect. */
     private void waitForRemotePlayer() {
         Config hazelcastConfig = new Config("Tinustris");
+        hazelcastConfig.getNetworkConfig().setPort(NetcodeConfiguration.PORT);
         HazelcastInstance hazelcast = Hazelcast.newHazelcastInstance(hazelcastConfig);
         
         Random random = new Random();
