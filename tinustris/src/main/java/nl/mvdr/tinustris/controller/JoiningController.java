@@ -2,10 +2,7 @@ package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.concurrent.BlockingQueue;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -13,9 +10,11 @@ import javafx.stage.Stage;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
-import nl.mvdr.tinustris.configuration.RemoteConfiguration;
-import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
+
+import com.hazelcast.client.HazelcastClient;
+import com.hazelcast.client.config.ClientConfig;
+import com.hazelcast.core.HazelcastInstance;
 
 /**
  * Controller for the joining screen.
@@ -70,22 +69,32 @@ public class JoiningController {
         
         String hostname = hostTextField.getText();
         
-        log.info("Attempting to join: {}", hostname);
-
-        // TODO don't do all this I/O on the user interface thread
-        // TODO don't close the socket here?????
-        try (Socket socket = new Socket("localhost", NetcodeConfiguration.PORT)) {
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            RemoteConfiguration remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
-            NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remoteConfiguration);
-            ConfigurationScreenController controller = createConfigurationScreenController(netcodeConfiguration, in);
-            ConfigurationScreen configurationScreen = new ConfigurationScreen(controller);
-            configurationScreen.start(retrieveStage());
-        } catch (IOException e) {
-            log.error("Unexpected exception.", e);
-            // TODO show the user an error message: Unable to connect to ...
-        }
+        ClientConfig hazelcastConfiguration = new ClientConfig();
+        hazelcastConfiguration.addAddress(hostname + ":5701");
+        HazelcastInstance hazelcast = HazelcastClient.newHazelcastClient(hazelcastConfiguration);
+        
+        BlockingQueue<Long> queue = hazelcast.getQueue("randomSeeds");
+        long gapSeed = queue.poll();
+        long tetrominoSeed = queue.poll();
+        
+        log.info("Received seeds: {}, {}", gapSeed, tetrominoSeed);
+        
+//        log.info("Attempting to join: {}", hostname);
+//
+//        // TODO don't do all this I/O on the user interface thread
+//        // TODO don't close the socket here?????
+//        try (Socket socket = new Socket("localhost", NetcodeConfiguration.PORT)) {
+//            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+//            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+//            RemoteConfiguration remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
+//            NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remoteConfiguration);
+//            ConfigurationScreenController controller = createConfigurationScreenController(netcodeConfiguration, in);
+//            ConfigurationScreen configurationScreen = new ConfigurationScreen(controller);
+//            configurationScreen.start(retrieveStage());
+//        } catch (IOException e) {
+//            log.error("Unexpected exception.", e);
+//            // TODO show the user an error message: Unable to connect to ...
+//        }
     }
     
     /**

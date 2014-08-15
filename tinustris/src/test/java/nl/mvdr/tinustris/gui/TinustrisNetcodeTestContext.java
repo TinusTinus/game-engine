@@ -125,6 +125,8 @@ public class TinustrisNetcodeTestContext extends Application {
 
         Logging.logVersionInfo();
         
+        Logging.setUpHazelcastLogging();
+        
         // JInput uses java.util.logging; redirect to slf4j.
         Logging.installSlf4jBridge();
         

@@ -24,6 +24,16 @@
 			<groupId>net.java.jinput</groupId>
 			<artifactId>jinput</artifactId>
 		</dependency>
+		
+		<!-- Networking -->
+		<dependency>
+			<groupId>com.hazelcast</groupId>
+			<artifactId>hazelcast</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.hazelcast</groupId>
+			<artifactId>hazelcast-client</artifactId>
+		</dependency>
 
 		<!-- Compile-time assistance -->
 		<dependency>

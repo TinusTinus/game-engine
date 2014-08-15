@@ -2,7 +2,9 @@ package nl.mvdr.tinustris.gui;
 
 import java.io.IOException;
 
+import nl.mvdr.tinustris.logging.Logging;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Starts the Tinustris netcode configuration screen twice, both instances with the same testing configuration. Useful
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
  * 
  * @author Martijn van de Rijdt
  */
+@Slf4j
 public class NetplayConfigurationScreenTestContextTwice extends NetplayConfigurationScreen {
     /** {@inheritDoc} */
     @Override
@@ -40,6 +43,15 @@ public class NetplayConfigurationScreenTestContextTwice extends NetplayConfigura
      *            command-line parameters
      */
     public static void main(String[] args) {
+        log.info("Starting the Tinustris netcode configuration screen... TWICE!");
+        
+        Logging.logVersionInfo();
+        
+        Logging.setUpHazelcastLogging();
+        
+        // JInput uses java.util.logging; redirect to slf4j.
+        Logging.installSlf4jBridge();
+        
         launch(args);
     }
 }
