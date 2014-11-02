@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.controller;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
