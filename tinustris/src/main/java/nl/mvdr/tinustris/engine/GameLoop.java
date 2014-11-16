@@ -74,6 +74,8 @@ public class GameLoop<S extends GameState> {
     /** Game loop. Should be run on a dedicated thread. */
     // based on: Game Loops! by Eli Delventhal (http://www.java-gaming.org/index.php?topic=24220.0)
     private void gameLoop() {
+        log.info("Starting game loop.");
+        
         // The moment the game state was last updated.
         double lastUpdateTime = System.nanoTime();
         // The moment the game was last rendered.
