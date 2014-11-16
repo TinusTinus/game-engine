@@ -114,12 +114,6 @@ public class GameLoop<S extends GameState> {
                         totalUpdateCount++;
                     }
 
-                    // If for some reason an update takes forever, we don't want to do an insane number of catchups.
-                    // If you were doing some sort of game that needed to keep EXACT time, you would get rid of this.
-                    if (now - lastUpdateTime > TIME_BETWEEN_UPDATES) {
-                        lastUpdateTime = now - TIME_BETWEEN_UPDATES;
-                    }
-
                     // Render.
                     gameRenderer.render(holder.retrieveLatestGameState());
                     framesThisSecond++;
