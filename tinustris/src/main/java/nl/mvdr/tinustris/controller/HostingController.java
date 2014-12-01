@@ -31,9 +31,9 @@ import com.hazelcast.core.HazelcastInstance;
 @Slf4j
 @ToString
 public class HostingController {
-    
+    /** Random seed for the gap generator. */
     private final long gapSeed;
-    
+    /** Random seed for the tetromino generator. */
     private final long tetrominoSeed;
     
     /** The cancel button. */
