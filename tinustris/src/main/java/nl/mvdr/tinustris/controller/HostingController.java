@@ -2,8 +2,10 @@ package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,8 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
+import nl.mvdr.tinustris.hazelcast.ClientAddedListener;
 
 import com.hazelcast.config.Config;
+import com.hazelcast.core.Client;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
@@ -26,52 +30,79 @@ import com.hazelcast.core.HazelcastInstance;
 @Slf4j
 @ToString
 public class HostingController {
-    /** Indicates whether the user activated the cancel button. */
-    private boolean cancelled;
+    
+    private final long gapSeed;
+    
+    private final long tetrominoSeed;
     
     /** The cancel button. */
     @FXML
     private Button cancelButton;
     
+    /** Hazelcast instance. */
+    private Optional<HazelcastInstance> hazelcast;
+    
+    /** Identification string of the client listener. */
+    private Optional<String> listenerId;
+    
     /** Constructor. */
     public HostingController() {
         super();
-        this.cancelled = false;
+        
+        this.hazelcast = Optional.empty();
+        this.listenerId = Optional.empty();
+        
+        Random random = new Random();
+        this.gapSeed = random.nextLong();
+        this.tetrominoSeed = random.nextLong();
     }
     
     /** Performs the initialisation. */
     @FXML
     private void initialize() {
         log.info("Initialising.");
-        new Thread(this::waitForRemotePlayer, "Hosting").start();
+        startWaitingForRemotePlayer();
         log.info("Controller initialised: {}", this);
     }
     
-    /** Waits for a remote player to connect. */
-    private void waitForRemotePlayer() {
+    /** Initialises a Hazelcast instance and starts waiting for a remote player to connect. */
+    private void startWaitingForRemotePlayer() {
+        // Initialise Hazelcast.
         Config hazelcastConfig = new Config("Tinustris");
         hazelcastConfig.getNetworkConfig().setPort(NetcodeConfiguration.PORT);
-        HazelcastInstance hazelcast = Hazelcast.newHazelcastInstance(hazelcastConfig);
+        hazelcast = Optional.of(Hazelcast.newHazelcastInstance(hazelcastConfig));
+        log.info("Created Hazelcast instance.");
 
-        Random random = new Random();
-        long gapSeed = random.nextLong();
-        long tetrominoSeed = random.nextLong();
-        
-        List<Long> seeds = hazelcast.getList("randomSeeds");
+        // Offer the random seeds.
+        List<Long> seeds = hazelcast.get().getList("randomSeeds");
         seeds.add(gapSeed);
         seeds.add(tetrominoSeed);
-        
         log.info("Offered seeds: {}, {}", gapSeed, tetrominoSeed);
-        
-//        // TODO move on to configuration screen if succesfully connected, or return to netcode configuration screen if cancelled
+
+        // Add listener which will be notified when / if a client joins.
+        ClientAddedListener listener = this::handleClientAdded;
+        String id = hazelcast.get().getClientService().addClientListener(listener);
+        listenerId = Optional.of(id);
     }
     
-    /**
-     * Moves the user on to the configuration screen, using the given controller.
+    /** 
+     * Handles when a second player connects to this game.
      * 
-     * @param controller controller
+     * @param client newly added client
      */
-    private void goToConfigurationScreen(ConfigurationScreenController controller) {
+    private void handleClientAdded(Client client) {
+        log.info("Client joined: {}", client);
+        listenerId.ifPresent(id -> {
+            listenerId = Optional.empty();
+            hazelcast.get().getClientService().removeClientListener(id);
+            Platform.runLater(this::goToConfigurationScreen);
+        });
+    }
+    
+    /** Moves the user on to the configuration screen. */
+    private void goToConfigurationScreen() {
+        ConfigurationScreenController controller = new ConfigurationScreenController(() -> hazelcast, gapSeed, tetrominoSeed);
+        
         ConfigurationScreen configurationScreen = new ConfigurationScreen(controller);
         try {
             configurationScreen.start(retrieveStage());
@@ -108,12 +139,12 @@ public class HostingController {
     private void cancel(ActionEvent actionEvent) {
         log.info("Cancel button activated.");
         
-        // Make sure the server socket stops waiting for a remote connection.
-        // This will happen asynchronously and may take up to TIMEOUT seconds.
-        this.cancelled = true;
-        
-        // Cancel has been succesfully completed, disable the cancel button so the user knows something has happened.
         cancelButton.setDisable(true);
+        
+        hazelcast.get().shutdown();
+        hazelcast = Optional.empty();
+        
+        returnToNetplayConfigurationScreen();
     }
     
     // TODO also cancel when exiting the application through other means than the cancel button!

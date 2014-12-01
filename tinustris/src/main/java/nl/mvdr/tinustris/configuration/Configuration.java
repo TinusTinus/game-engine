@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.configuration;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import nl.mvdr.tinustris.gui.GraphicsStyle;
@@ -53,7 +54,7 @@ public interface Configuration {
     
     /** @return configuration for networking */
     default NetcodeConfiguration getNetcodeConfiguration() {
-        return new NetcodeConfiguration() { /* empty */ };
+        return () -> Optional.empty();
     }
     
     /** @return random seed for the gap generator */
