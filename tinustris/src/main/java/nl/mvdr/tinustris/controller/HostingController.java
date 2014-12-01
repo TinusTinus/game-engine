@@ -61,7 +61,7 @@ public class HostingController {
     @FXML
     private void initialize() {
         log.info("Initialising.");
-        startWaitingForRemotePlayer();
+        new Thread(this::startWaitingForRemotePlayer, "InitHostingController" + hashCode()).start();
         log.info("Controller initialised: {}", this);
     }
     
