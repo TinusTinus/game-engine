@@ -15,7 +15,7 @@
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
 		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
-		<hazelcast.version>3.3.2</hazelcast.version>
+		<hazelcast.version>3.3.3</hazelcast.version>
 		<jinput.version>2.0.6</jinput.version>
 		<junit.version>4.11</junit.version>
 		<lombok.version>1.14.8</lombok.version>
