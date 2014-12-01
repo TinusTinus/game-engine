@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
+import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 
 import com.hazelcast.client.HazelcastClient;
@@ -62,25 +64,38 @@ public class JoiningController {
         firstScreen.start(stage);
     }
     
-    /** Handler for the join button. */
+    /**
+     * Handler for the join button.
+     * 
+     * @throws IOException in case the configuration screen cannot be loaded
+     */
     @FXML
-    private void join() {
+    private void join() throws IOException {
         log.info("Joining game.");
-        
         ClientNetworkConfig networkConfig = new ClientNetworkConfig();
         networkConfig.addAddress(hostTextField.getText() + ":" + NetcodeConfiguration.PORT);
         ClientConfig hazelcastConfiguration = new ClientConfig();
         hazelcastConfiguration.setNetworkConfig(networkConfig);
         HazelcastInstance hazelcast = HazelcastClient.newHazelcastClient(hazelcastConfiguration);
+        log.info("Succesfully joined the Hazelcast cluster.");
+        // TODO catch IllegalStateException (?) and show the user an error message if connecting fails
         
         List<Long> seeds = hazelcast.getList("randomSeeds");
-        
         long gapSeed = seeds.get(0);
         long tetrominoSeed = seeds.get(1);
-        
         log.info("Received seeds: {}, {}", gapSeed, tetrominoSeed);
         
-        // TODO move on to configuration screen
+        goToConfigurationScreen(hazelcast, gapSeed, tetrominoSeed);
+    }
+    
+    /** 
+     * Moves the user on to the configuration screen.
+     * @throws IOException in case the configuration screen cannot be loaded
+     */
+    private void goToConfigurationScreen(HazelcastInstance hazelcast, long gapSeed, long tetrominoSeed) throws IOException {
+        ConfigurationScreenController controller = new ConfigurationScreenController(() -> Optional.of(hazelcast), gapSeed, tetrominoSeed);
+        ConfigurationScreen configurationScreen = new ConfigurationScreen(controller);
+        configurationScreen.start(retrieveStage());
     }
     
     /** Gets the stage associated to this controller. */

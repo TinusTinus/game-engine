@@ -111,18 +111,18 @@ public class HostingController {
         }
     }
     
-    /** Returns the user to the netplay configuration screen. */
-    private void returnToNetplayConfigurationScreen() {
+    /**
+     * Returns the user to the netplay configuration screen.
+     * 
+     * @throws IOException
+     *             In case the netplay configuration screen's fxml cannot be loaded. This should not occur. In order to
+     *             get to the Hosting screen the Netplay Configuration screen must have already been loaded succesfully
+     *             once. Let the thread's exception handler log the error and let the user close the window manually.
+     */
+    private void returnToNetplayConfigurationScreen() throws IOException {
         Stage stage = retrieveStage();
         NetplayConfigurationScreen firstScreen = new NetplayConfigurationScreen();
-        try {
-            firstScreen.start(stage);
-        } catch (IOException e) {
-            // Should not occur. In order to get to the Hosting screen the Netplay Configuration screen must
-            // have already been loaded succesfully once.
-            // Log the error and let the user close the wondow.
-            throw new IllegalStateException(e);
-        }
+        firstScreen.start(stage);
     }
 
     /** Gets the stage associated to this controller. */
@@ -134,14 +134,18 @@ public class HostingController {
      * Handles the user activating the cancel button.
      * 
      * @param actionEvent action event that lead to this method call
+     * @throws IOException
+     *             In case the netplay configuration screen's fxml cannot be loaded. This should not occur. In order to
+     *             get to the Hosting screen the Netplay Configuration screen must have already been loaded succesfully
+     *             once. Let the thread's exception handler log the error and let the user close the window manually.
      */
     @FXML
-    private void cancel(ActionEvent actionEvent) {
+    private void cancel(ActionEvent actionEvent) throws IOException {
         log.info("Cancel button activated.");
         
         cancelButton.setDisable(true);
         
-        hazelcast.get().shutdown();
+        hazelcast.ifPresent(HazelcastInstance::shutdown);
         hazelcast = Optional.empty();
         
         returnToNetplayConfigurationScreen();
