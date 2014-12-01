@@ -67,7 +67,7 @@ public class HostingController {
     
     /** Initialises a Hazelcast instance and starts waiting for a remote player to connect. */
     private void startWaitingForRemotePlayer() {
-        // Initialise Hazelcast.
+        log.info("Initialising Hazelcast.");
         Config hazelcastConfig = new Config("Tinustris");
         hazelcastConfig.getNetworkConfig().setPort(NetcodeConfiguration.PORT);
         hazelcast = Optional.of(Hazelcast.newHazelcastInstance(hazelcastConfig));
