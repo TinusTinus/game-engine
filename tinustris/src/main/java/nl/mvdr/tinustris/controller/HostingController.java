@@ -1,9 +1,7 @@
 package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -13,7 +11,6 @@ import javafx.stage.Stage;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
-import nl.mvdr.tinustris.configuration.RemoteConfiguration;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 
@@ -29,12 +26,6 @@ import com.hazelcast.core.HazelcastInstance;
 @Slf4j
 @ToString
 public class HostingController {
-    /**
-     * Timeout while waiting for a remote player. This governs how often the hosting thread checks whether the user has
-     * clicked cancel.
-     */
-    private static final int TIMEOUT = 5000;
-    
     /** Indicates whether the user activated the cancel button. */
     private boolean cancelled;
     
@@ -72,76 +63,7 @@ public class HostingController {
         
         log.info("Offered seeds: {}, {}", gapSeed, tetrominoSeed);
         
-//        Optional<RemoteConfiguration> remoteConfiguration = Optional.empty(); 
-//        
-//        // TODO should we close the server socket?
-//        try (ServerSocket serverSocket = new ServerSocket(NetcodeConfiguration.PORT)) {
-//            serverSocket.setSoTimeout(TIMEOUT);
-//            log.info("Starting to listen for remote player.");
-//            while (!remoteConfiguration.isPresent() && !cancelled) {
-//                try {
-//                    Socket socket = serverSocket.accept();
-//                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-//                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-//                    remoteConfiguration = Optional.of(new RemoteConfiguration(Optional.of(out), Optional.of(in)));
-//                    log.info("Remote player connected!");
-//                } catch (SocketTimeoutException e) {
-//                    log.info("An expected socket timeout occurred: remote player did not connect in the last {} milliseconds.",
-//                        TIMEOUT);
-//                    log.debug("Socket timeout.", e);
-//                }
-//            }
-//        } catch (IOException e) {
-//            log.error("Unexpected exception.", e);
-//            // TODO show the user an error message?
-//        }
-//        
-//        Runnable runnable = remoteConfiguration.filter(r -> !cancelled)
-//            .map(Collections::singletonList)
-//            .map(remoteConfigurations -> (NetcodeConfiguration)(() -> remoteConfigurations))
-//            .map(this::createConfigurationScreenController)
-//            .map(controller -> (Runnable)() -> goToConfigurationScreen(controller))
-//            .orElse(this::returnToNetplayConfigurationScreen);
-//        Platform.runLater(runnable);
-    }
-
-    /**
-     * Creates a configuration screen controller based on the given netcode configuration. Also initialises the random seed values.
-     * 
-     * @param netcodeConfiguration netcode configuration
-     * @return controller
-     */
-    private ConfigurationScreenController createConfigurationScreenController(NetcodeConfiguration netcodeConfiguration) {
-        Random random = new Random();
-        long gapSeed = random.nextLong();
-        long tetrominoSeed = random.nextLong();
-        
-        // Publish the random seeds to remote players.
-        netcodeConfiguration.getRemotes().stream()
-            .map(RemoteConfiguration::getOutputStream)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .forEach(stream -> publishSeeds(stream, gapSeed, tetrominoSeed));
-        
-        return new ConfigurationScreenController(netcodeConfiguration, gapSeed, tetrominoSeed);
-    }
-    
-    /**
-     * Publishes the given seeds to the given output stream.
-     * 
-     * @param stream stream
-     * @param gapSeed random seed for gap generator
-     * @param tetrominoSeed random seed for tetromino generator
-     */
-    private void publishSeeds(ObjectOutputStream stream, long gapSeed, long tetrominoSeed) {
-        try {
-            log.info("Publishing gap generator seed: {}", gapSeed);
-            stream.writeLong(gapSeed);
-            log.info("Publishing tetromino generator seed: {}", tetrominoSeed);
-            stream.writeLong(tetrominoSeed);
-        } catch (IOException e) {
-            log.error("Write failed.", e); // TODO better error handling?
-        }
+//        // TODO move on to configuration screen if succesfully connected, or return to netcode configuration screen if cancelled
     }
     
     /**

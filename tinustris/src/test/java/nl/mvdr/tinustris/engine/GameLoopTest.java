@@ -1,10 +1,8 @@
 package nl.mvdr.tinustris.engine;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyInputController;
@@ -12,9 +10,7 @@ import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.DummyGameState;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.SingleGameStateHolder;
-import nl.mvdr.tinustris.netcode.DummyInputPublisher;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -138,34 +134,6 @@ public class GameLoopTest {
         Thread.sleep(50);
     }
 
-    /**
-     * Starts a game loop with a remote input controller and a local one. Only the local inputs should be published.
-     * 
-     * @throws InterruptedException
-     *             unexpected exception
-     */
-    @Test
-    public void testPublishOnlyLocalInput() throws InterruptedException {
-        DummyInputPublisher publisher = new DummyInputPublisher();
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
-                Arrays.asList(new DummyInputController(false), new DummyInputController(true)), new DummyGameEngine(),
-                new DummyRenderer<>(), new SingleGameStateHolder<>(), Collections.singletonList(publisher));
-        
-        gameLoop.start();
-        Thread.sleep(2000);
-        gameLoop.stop();
-        // sleep a little longer, to give the game loop thread time to clean up and log that it is finished
-        Thread.sleep(50);
-        
-        IntStream.range(0, publisher.getPublishedStates().size())
-            .forEach(i -> Assert.assertEquals("Unexpected frame index", i, publisher.getPublishedStates().get(i).getFrame()));
-        publisher.getPublishedStates().stream()
-            .flatMap(container -> container.getInputStates().keySet().stream())
-            .mapToInt(Integer::valueOf)
-            .forEach(i -> Assert.assertEquals("Expected only states for player 1.", 1, i));
-    }
-
-    
     /** Tests the constructor with a null value for the input controller. */
     @Test(expected = NullPointerException.class)
     public void testNullController() {

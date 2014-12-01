@@ -1,7 +1,6 @@
 package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.List;
 
 import javafx.fxml.FXML;
@@ -81,48 +80,7 @@ public class JoiningController {
         
         log.info("Received seeds: {}, {}", gapSeed, tetrominoSeed);
         
-//        log.info("Attempting to join: {}", hostname);
-//
-//        // TODO don't do all this I/O on the user interface thread
-//        // TODO don't close the socket here?????
-//        try (Socket socket = new Socket("localhost", NetcodeConfiguration.PORT)) {
-//            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-//            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-//            RemoteConfiguration remoteConfiguration = new RemoteConfiguration(Optional.of(out), Optional.of(in));
-//            NetcodeConfiguration netcodeConfiguration = () -> Collections.singletonList(remoteConfiguration);
-//            ConfigurationScreenController controller = createConfigurationScreenController(netcodeConfiguration, in);
-//            ConfigurationScreen configurationScreen = new ConfigurationScreen(controller);
-//            configurationScreen.start(retrieveStage());
-//        } catch (IOException e) {
-//            log.error("Unexpected exception.", e);
-//            // TODO show the user an error message: Unable to connect to ...
-//        }
-    }
-    
-    /**
-     * Creates a configuration screen controller based on the given netcode configuration. Also initialises the random
-     * seed values.
-     * 
-     * @param netcodeConfiguration
-     *            netcode configuration
-     * @param hostStream
-     *            input stream for the host instance of the game; configuration parameters determined by the host are
-     *            read from this stream
-     * @return controller
-     * @throws IOException
-     *             in case reading the configuration parameters fails
-     */
-    private ConfigurationScreenController createConfigurationScreenController(
-            NetcodeConfiguration netcodeConfiguration, ObjectInputStream hostStream) throws IOException {
-        log.info("Reading gap generator seed.");
-        long gapSeed = hostStream.readLong();
-        log.info("Read gap generator seed: {}", gapSeed);
-        
-        log.info("Reading tetromino generator seed.");
-        long tetrominoSeed = hostStream.readLong();
-        log.info("Read tetromino generator seed: {}", tetrominoSeed);
-        
-        return new ConfigurationScreenController(netcodeConfiguration, gapSeed, tetrominoSeed);
+        // TODO move on to configuration screen
     }
     
     /** Gets the stage associated to this controller. */

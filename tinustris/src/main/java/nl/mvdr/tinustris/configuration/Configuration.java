@@ -21,7 +21,7 @@ public interface Configuration {
      */
     default List<PlayerConfiguration> getPlayerConfigurations() {
         // default configuration with an empty player name
-        return Collections.singletonList(() -> "");
+        return Collections.singletonList((LocalPlayerConfiguration) () -> "");
     }
     
     /**
@@ -53,7 +53,7 @@ public interface Configuration {
     
     /** @return configuration for networking */
     default NetcodeConfiguration getNetcodeConfiguration() {
-        return Collections::emptyList;
+        return new NetcodeConfiguration() { /* empty */ };
     }
     
     /** @return random seed for the gap generator */

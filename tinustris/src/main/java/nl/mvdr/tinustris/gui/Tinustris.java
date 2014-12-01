@@ -1,13 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -26,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.configuration.LocalPlayerConfiguration;
-import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.engine.GameEngine;
 import nl.mvdr.tinustris.engine.GameLoop;
@@ -40,14 +33,11 @@ import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
-import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.GameStateHolder;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 import nl.mvdr.tinustris.model.SingleGameStateHolder;
 import nl.mvdr.tinustris.model.Tetromino;
-import nl.mvdr.tinustris.netcode.NetcodeEngine;
-import nl.mvdr.tinustris.netcode.ObjectOutputStreamsInputPublisher;
 
 /**
  * Class which can start a game of Tinustris.
@@ -60,16 +50,8 @@ public class Tinustris {
     /** Size of the margin between the display for each player in a multiplayer game. */
     private static final int MARGIN = 20;
 
-    /** Indicates whether netcode components should simulate lag. */
-    private final boolean lagSimulation;
-    
     /** Game loop. */
     private GameLoop<?> gameLoop;
-    
-    /** Constructor. */
-    public Tinustris() {
-        this(false);
-    }
 
     /**
      * Starts the game.
@@ -134,11 +116,10 @@ public class Tinustris {
             List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
             GameStateHolder<OnePlayerGameState> holder;
             if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
-                // ...with spectators!
-                NetcodeEngine<OnePlayerGameState> netcodeEngine = createNetcodeEngineAndStartRemoteInputListeners(
-                        configuration.getNetcodeConfiguration(), inputControllers, onePlayerEngine);
-                holder = netcodeEngine;
-                localInputListeners = Arrays.asList(netcodeEngine, createOutputPublisher(configuration));
+                // ... with spectators
+                // TODO initiate networked game!
+                holder = new SingleGameStateHolder<>();
+                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
             } else {
                 holder = new SingleGameStateHolder<>();
                 localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
@@ -156,10 +137,9 @@ public class Tinustris {
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
             if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
-                NetcodeEngine<MultiplayerGameState> netcodeEngine = createNetcodeEngineAndStartRemoteInputListeners(
-                        configuration.getNetcodeConfiguration(), inputControllers, gameEngine);
-                holder = netcodeEngine;
-                localInputListeners = Arrays.asList(netcodeEngine, createOutputPublisher(configuration));
+                // TODO initiate networked game
+                holder = new SingleGameStateHolder<>();
+                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
             } else {
                 // local multiplayer, no spectators
                 holder = new SingleGameStateHolder<>();
@@ -172,21 +152,6 @@ public class Tinustris {
         log.info("Ready to start game loop: " + gameLoop);
         gameLoop.start();
         log.info("Game loop started in separate thread.");
-    }
-
-    /**
-     * Creates an output publisher based on the given configuration.
-     * 
-     * @param configuration configuration
-     * @return output publisher
-     */
-    private ObjectOutputStreamsInputPublisher createOutputPublisher(Configuration configuration) {
-        List<ObjectOutputStream> outputStreams = configuration.getNetcodeConfiguration().getRemotes().stream()
-                .map(remoteConfiguration -> remoteConfiguration.getOutputStream())
-                .filter(Optional<ObjectOutputStream>::isPresent)
-                .map(Optional<ObjectOutputStream>::get)
-                .collect(Collectors.toList());
-        return new ObjectOutputStreamsInputPublisher(outputStreams);
     }
 
     /**
@@ -207,99 +172,6 @@ public class Tinustris {
         }
         return result;
     }
-    
-    /**
-     * Returns an input state holder for the given input controller.
-     * 
-     * @param controller controller to be converted
-     * @return holder
-     */
-    private InputStateHolder convertToInputStateHolder(InputController controller) {
-        InputStateHolder result;
-        if (controller instanceof InputStateHolder) {
-            result = (InputStateHolder) controller;
-        } else if (controller.isLocal()) {
-            result = new InputStateHolder(true);
-        } else {
-            throw new IllegalArgumentException("Unexpected type of remote input controller: " + controller);
-        }
-        return result;
-    }
-
-    /**
-     * Creates a netcode engine, and starts a thread for each remote game instance to listen for remote inputs.
-     * 
-     * @param NetcodeConfiguration netcode configuration
-     * @param inputControllers all input controllers for this game; all remote input controllers are expected to be InputStateHolders as well
-     * @param gameEngine game engine
-     * @return new netcode engine
-     */
-    private <S extends GameState> NetcodeEngine<S> createNetcodeEngineAndStartRemoteInputListeners(
-            NetcodeConfiguration configuration, List<InputController> inputControllers, GameEngine<S> gameEngine) {
-        NetcodeEngine<S> netcodeEngine = createNetcodeEngine(inputControllers, gameEngine);
-        startRemoteInputListeners(configuration, netcodeEngine);
-        return netcodeEngine;
-    }
-
-    /**
-     * Creates a netcode engine.
-     * 
-     * @param inputControllers all input controllers for this game; all remote input controllers are expected to be InputStateHolders as well
-     * @param gameEngine game engine
-     * @return new netcode engine
-     */
-    private <S extends GameState> NetcodeEngine<S> createNetcodeEngine(List<InputController> inputControllers,
-            GameEngine<S> gameEngine) {
-        List<InputStateHolder> inputStateHolders = inputControllers.stream()
-                .map(this::convertToInputStateHolder)
-                .collect(Collectors.toList());
-        return new NetcodeEngine<>(inputStateHolders, gameEngine);
-    }
-
-    /**
-     * Starts a thread for each remote input provider. Whenever a new remote input is received, it is passed into the
-     * netcode engine.
-     * 
-     * @param configuration
-     */
-    private <S extends GameState> void startRemoteInputListeners(NetcodeConfiguration configuration, NetcodeEngine<S> netcodeEngine) {
-        configuration.getRemotes().stream()
-            .map(remoteConfiguration -> remoteConfiguration.getInputStream())
-            .filter(Optional<ObjectInputStream>::isPresent)
-            .map(Optional<ObjectInputStream>::get)
-            .map(in -> (Runnable) (() -> {
-                try {
-                    while (true) {
-                        if (lagSimulation) {
-                            simulateLag();
-                        }
-                        
-                        FrameAndInputStatesContainer container = (FrameAndInputStatesContainer) in.readObject();
-                        netcodeEngine.accept(container);
-                    }
-                } catch (IOException | ClassNotFoundException e) {
-                    // TODO actual error handling
-                    log.error("Unexpected exception!", e);
-                }
-            }))
-            .map(runnable -> new Thread(runnable, "Input reader " + runnable.hashCode()))
-            .forEach(Thread::start);
-    }
-
-    /** Simulates lag. Can be used for local netcode tests. */
-    private void simulateLag() {
-        Random random = new Random();
-        // 10% of the time...
-        if (random.nextInt(100) < 10) {
-            // ... instert a delay between 1 and 100 milliseconds
-            int delay = 1 + random.nextInt(99);
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                log.warn("Unexpected interrupt while trying to simulate lag.", e);
-            }
-        }
-    }    
 
     /**
      * Creates a light at (around) the given location.

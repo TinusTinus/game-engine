@@ -2,7 +2,6 @@ package nl.mvdr.tinustris.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -90,7 +89,7 @@ public class ConfigurationScreenController {
     
     /** Constructor for an offline game. */
     public ConfigurationScreenController() {
-        this(Collections::emptyList, new Random().nextLong(), new Random().nextLong());
+        this(new NetcodeConfiguration() { /* empty */}, new Random().nextLong(), new Random().nextLong());
     }
 
     /**
