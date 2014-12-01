@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
+import nl.mvdr.tinustris.hazelcast.CollectionNames;
 
 import com.hazelcast.client.HazelcastClient;
 import com.hazelcast.client.config.ClientConfig;
@@ -80,7 +81,7 @@ public class JoiningController {
         log.info("Succesfully joined the Hazelcast cluster.");
         // TODO catch IllegalStateException (?) and show the user an error message if connecting fails
         
-        List<Long> seeds = hazelcast.getList("randomSeeds");
+        List<Long> seeds = hazelcast.getList(CollectionNames.RANDOM_SEED_LIST);
         long gapSeed = seeds.get(0);
         long tetrominoSeed = seeds.get(1);
         log.info("Received seeds: {}, {}", gapSeed, tetrominoSeed);

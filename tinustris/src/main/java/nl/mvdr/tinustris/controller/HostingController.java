@@ -16,6 +16,7 @@ import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 import nl.mvdr.tinustris.hazelcast.ClientAddedListener;
+import nl.mvdr.tinustris.hazelcast.CollectionNames;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Client;
@@ -74,7 +75,7 @@ public class HostingController {
         log.info("Created Hazelcast instance.");
 
         // Offer the random seeds.
-        List<Long> seeds = hazelcast.get().getList("randomSeeds");
+        List<Long> seeds = hazelcast.get().getList(CollectionNames.RANDOM_SEED_LIST);
         seeds.add(gapSeed);
         seeds.add(tetrominoSeed);
         log.info("Offered seeds: {}, {}", gapSeed, tetrominoSeed);
