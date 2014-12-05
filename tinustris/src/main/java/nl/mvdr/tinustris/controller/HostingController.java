@@ -17,6 +17,7 @@ import nl.mvdr.tinustris.gui.ConfigurationScreen;
 import nl.mvdr.tinustris.gui.NetplayConfigurationScreen;
 import nl.mvdr.tinustris.hazelcast.ClientAddedListener;
 import nl.mvdr.tinustris.hazelcast.CollectionNames;
+import nl.mvdr.tinustris.hazelcast.LoggingListener;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Client;
@@ -72,6 +73,7 @@ public class HostingController {
         Config hazelcastConfig = new Config("Tinustris");
         hazelcastConfig.getNetworkConfig().setPort(NetcodeConfiguration.PORT);
         hazelcast = Optional.of(Hazelcast.newHazelcastInstance(hazelcastConfig));
+        LoggingListener.register(hazelcast.get());
         log.info("Created Hazelcast instance.");
 
         // Offer the random seeds.
@@ -94,6 +96,7 @@ public class HostingController {
     private void handleClientAdded(Client client) {
         log.info("Client joined: {}", client);
         listenerId.ifPresent(id -> {
+            log.info("Moving on to configuration screen.");
             listenerId = Optional.empty();
             hazelcast.get().getClientService().removeClientListener(id);
             Platform.runLater(this::goToConfigurationScreen);
