@@ -77,7 +77,7 @@ public class HostingController {
         log.info("Created Hazelcast instance.");
 
         // Offer the random seeds.
-        List<Long> seeds = hazelcast.get().getList(CollectionNames.RANDOM_SEED_LIST);
+        List<Long> seeds = hazelcast.get().getList(CollectionNames.RANDOM_SEED_LIST.toString());
         seeds.add(gapSeed);
         seeds.add(tetrominoSeed);
         log.info("Offered seeds: {}, {}", gapSeed, tetrominoSeed);

@@ -81,7 +81,7 @@ public class JoiningController {
         log.info("Succesfully joined the Hazelcast cluster.");
         // TODO catch IllegalStateException (?) and show the user an error message if connecting fails
         
-        List<Long> seeds = hazelcast.getList(CollectionNames.RANDOM_SEED_LIST);
+        List<Long> seeds = hazelcast.getList(CollectionNames.RANDOM_SEED_LIST.toString());
         long gapSeed = seeds.get(0);
         long tetrominoSeed = seeds.get(1);
         log.info("Received seeds: {}, {}", gapSeed, tetrominoSeed);
