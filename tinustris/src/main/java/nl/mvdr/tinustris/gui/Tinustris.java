@@ -45,7 +45,7 @@ public class Tinustris {
     private static final int MARGIN = 20;
 
     /** Game loop. */
-    private GameLoop<?> gameLoop;
+    private GameLoop<?, Input> gameLoop;
 
     /**
      * Starts the game.

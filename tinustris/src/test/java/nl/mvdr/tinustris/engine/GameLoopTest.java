@@ -25,7 +25,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartAndStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -43,7 +43,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartPauseUnpauseStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -66,7 +66,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartToggleToggleStop() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -89,7 +89,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStopGameWhilePaused() throws InterruptedException {
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -119,7 +119,7 @@ public class GameLoopTest {
             }
         };
 
-        GameLoop<DummyGameState> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), engine, new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
@@ -136,7 +136,7 @@ public class GameLoopTest {
     /** Tests the constructor with a null value for the game engine. */
     @Test(expected = NullPointerException.class)
     public void testNullEngine() {
-        new GameLoop<DummyGameState>(Collections.singletonList(new DummyInputController<>()), null,
+        new GameLoop<DummyGameState, Input>(Collections.singletonList(new DummyInputController<>()), null,
                 new DummyRenderer<>());
     }
 

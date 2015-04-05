@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.GameRenderer;
-import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.GameState;
@@ -18,13 +17,14 @@ import nl.mvdr.tinustris.model.GameState;
  * Offers functionality for starting and stopping the game loop.
  * 
  * @param <S> game state type
+ * @param <T> input type
  * 
  * @author Martijn van de Rijdt
  */
 @Slf4j
 @RequiredArgsConstructor
 @ToString
-public class GameLoop<S extends GameState> {
+public class GameLoop<S extends GameState, T extends Enum<T>> {
     /** Update rate for the game state. */
     private static final double GAME_HERTZ = 60.0;
     /** How much time each frame should take for our target update rate, in nanoseconds. */
@@ -38,10 +38,10 @@ public class GameLoop<S extends GameState> {
     
     /** Input controllers. */
     @NonNull
-    private final List<InputController<Input>> inputControllers;
+    private final List<InputController<T>> inputControllers;
     /** Game engine. */
     @NonNull
-    private final GameEngine<S, Input> gameEngine;
+    private final GameEngine<S, T> gameEngine;
     /** Game renderer. */
     @NonNull
     private final GameRenderer<S> gameRenderer;
@@ -92,7 +92,7 @@ public class GameLoop<S extends GameState> {
                 if (!paused) {
                     // Do as many game updates as we need to, potentially playing catchup.
                     while (TIME_BETWEEN_UPDATES < now - lastUpdateTime && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                        List<InputState<Input>> inputStates = retrieveInputStates(totalUpdateCount);
+                        List<InputState<T>> inputStates = retrieveInputStates(totalUpdateCount);
                         
                         state = gameEngine.computeNextState(state, inputStates);
 
@@ -141,7 +141,7 @@ public class GameLoop<S extends GameState> {
      * @param updateIndex index of the current frame / update
      * @return inputs
      */
-    private List<InputState<Input>> retrieveInputStates(int updateIndex) {
+    private List<InputState<T>> retrieveInputStates(int updateIndex) {
         // Get the input states.
         return inputControllers.stream()
             .map(InputController::getInputState)
