@@ -38,7 +38,7 @@ public class GameLoop<S extends GameState> {
     
     /** Input controllers. */
     @NonNull
-    private final List<InputController> inputControllers;
+    private final List<InputController<Input>> inputControllers;
     /** Game engine. */
     @NonNull
     private final GameEngine<S> gameEngine;

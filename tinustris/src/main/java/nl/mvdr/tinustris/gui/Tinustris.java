@@ -25,6 +25,7 @@ import nl.mvdr.tinustris.engine.Generator;
 import nl.mvdr.tinustris.engine.MultiplayerEngine;
 import nl.mvdr.tinustris.engine.OnePlayerEngine;
 import nl.mvdr.tinustris.engine.RandomTetrominoGenerator;
+import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
@@ -94,7 +95,7 @@ public class Tinustris {
         
         int numPlayers = onePlayerRenderers.size();
         
-        List<InputController> inputControllers = configuration.getPlayerConfigurations()
+        List<InputController<Input>> inputControllers = configuration.getPlayerConfigurations()
                 .stream()
                 .map(this::createInputController)
                 .collect(Collectors.toList());
@@ -129,7 +130,7 @@ public class Tinustris {
      * @param playerConfiguration player config
      * @return input controller
      */
-    private InputController createInputController(PlayerConfiguration playerConfiguration) {
+    private InputController<Input> createInputController(PlayerConfiguration playerConfiguration) {
         JInputControllerConfiguration inputControllerConfiguration = playerConfiguration.getJInputControllerConfiguration();
         return new JInputController(inputControllerConfiguration);
     }

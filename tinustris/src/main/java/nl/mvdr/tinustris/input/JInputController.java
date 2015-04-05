@@ -17,7 +17,7 @@ import net.java.games.input.Controller;
  */
 @RequiredArgsConstructor
 @ToString
-public class JInputController implements InputController {
+public class JInputController implements InputController<Input> {
     /** Configuration of this component. */
     @NonNull
     private final JInputControllerConfiguration configuration;

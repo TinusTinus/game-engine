@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
-public class DummyInputController implements InputController {
+public class DummyInputController implements InputController<Input> {
     /** Whether this input controller simulates a local one. */
     private final boolean local;
     
