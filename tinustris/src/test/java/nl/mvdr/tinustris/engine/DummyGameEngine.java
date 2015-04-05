@@ -11,7 +11,7 @@ import nl.mvdr.tinustris.model.DummyGameState;
  * 
  * @author Martijn van de Rijdt
  */
-public class DummyGameEngine implements GameEngine<DummyGameState> {
+public class DummyGameEngine implements GameEngine<DummyGameState, Input> {
     /** {@inheritDoc} */
     @Override
     public DummyGameState initGameState() {

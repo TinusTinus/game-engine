@@ -33,7 +33,7 @@ import nl.mvdr.tinustris.model.Tetromino;
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE) // default visibility for unit tests
 @ToString
-public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
+public class OnePlayerEngine implements GameEngine<OnePlayerGameState, Input> {
     /**
      * The number of garbage lines certain to be aligned.
      * 

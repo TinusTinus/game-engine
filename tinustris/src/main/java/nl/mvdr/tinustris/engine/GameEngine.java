@@ -2,7 +2,6 @@ package nl.mvdr.tinustris.engine;
 
 import java.util.List;
 
-import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.GameState;
 
@@ -10,10 +9,11 @@ import nl.mvdr.tinustris.model.GameState;
  * Game engine interface.
  * 
  * @param <S> game state type
+ * @param <T> input type
  * 
  * @author Martijn van de Rijdt
  */
-public interface GameEngine<S extends GameState> {
+public interface GameEngine<S extends GameState, T extends Enum<T>> {
     /**
      * Initialises the game state.
      * 
@@ -30,5 +30,5 @@ public interface GameEngine<S extends GameState> {
      *            input states for all players; the length of this list must match the number of players in the game
      * @return new game state
      */
-    S computeNextState(S previousState, List<InputState<Input>> inputStates);
+    S computeNextState(S previousState, List<InputState<T>> inputStates);
 }

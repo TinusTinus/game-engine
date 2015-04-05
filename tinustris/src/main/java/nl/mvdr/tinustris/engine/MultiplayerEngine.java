@@ -18,11 +18,11 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * @author Martijn van de Rijdt
  */
 @ToString
-public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
+public class MultiplayerEngine implements GameEngine<MultiplayerGameState, Input> {
     /** Number of players. Determines how many players will be in states created by the {@link #initGameState()} method. */
     private final int numberOfPlayers;
     /** One-player game engine. */
-    private final GameEngine<OnePlayerGameState> onePlayerEngine;
+    private final GameEngine<OnePlayerGameState, Input> onePlayerEngine;
     
     /**
      * Constructor.
@@ -33,7 +33,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
      * @param onePlayerEngine
      *            single player game engine (to which most of the computation is offloaded)
      */
-    public MultiplayerEngine(int numberOfPlayers, GameEngine<OnePlayerGameState> onePlayerEngine) {
+    public MultiplayerEngine(int numberOfPlayers, GameEngine<OnePlayerGameState, Input> onePlayerEngine) {
         super();
         
         if (numberOfPlayers < 2) {

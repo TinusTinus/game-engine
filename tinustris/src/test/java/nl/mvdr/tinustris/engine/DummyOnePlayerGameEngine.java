@@ -13,7 +13,7 @@ import nl.mvdr.tinustris.model.OnePlayerGameState;
  * @author Martijn van de Rijdt
  */
 @Slf4j
-public class DummyOnePlayerGameEngine implements GameEngine<OnePlayerGameState> {
+public class DummyOnePlayerGameEngine implements GameEngine<OnePlayerGameState, Input> {
     /** {@inheritDoc} */
     @Override
     public OnePlayerGameState initGameState() {

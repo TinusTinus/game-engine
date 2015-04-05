@@ -102,7 +102,7 @@ public class Tinustris {
         
         Generator<Tetromino> tetrominoGenerator = new RandomTetrominoGenerator(configuration.getTetrominoRandomSeed());
         Generator<Integer> gapGenerator = new GapGenerator(configuration.getGapRandomSeed(), OnePlayerGameState.DEFAULT_WIDTH);
-        GameEngine<OnePlayerGameState> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
+        GameEngine<OnePlayerGameState, Input> onePlayerEngine = new OnePlayerEngine(tetrominoGenerator,
                 configuration.getBehavior(), configuration.getStartLevel(), gapGenerator);
         
         if (numPlayers == 1) {
@@ -110,7 +110,7 @@ public class Tinustris {
             gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0));
         } else {
             // multiplayer game
-            GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
+            GameEngine<MultiplayerGameState, Input> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
             List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, numPlayers)
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
