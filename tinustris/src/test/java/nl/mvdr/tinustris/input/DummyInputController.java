@@ -8,13 +8,15 @@ import lombok.ToString;
 /**
  * Dummy implementation of {@link InputController}.
  * 
+ * @param <S> enum type containing all possible inputs from the user
+ * 
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
 @Getter
 @EqualsAndHashCode
 @ToString
-public class DummyInputController implements InputController<Input> {
+public class DummyInputController<S extends Enum<S>> implements InputController<S> {
     /** Whether this input controller simulates a local one. */
     private final boolean local;
     
@@ -29,7 +31,7 @@ public class DummyInputController implements InputController<Input> {
      * Dummy implementation which returns an input state where no input is pressed.
      */
     @Override
-    public InputState<Input> getInputState() {
+    public InputState<S> getInputState() {
         return input -> false;
     }
 }

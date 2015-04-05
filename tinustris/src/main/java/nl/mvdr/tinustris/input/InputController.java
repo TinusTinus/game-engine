@@ -13,7 +13,7 @@ public interface InputController<S extends Enum<S>> {
      * 
      * @return input state
      */
-    InputState<Input> getInputState();
+    InputState<S> getInputState();
 
     /** @return whether this input controller is local */
     boolean isLocal();
