@@ -1,11 +1,7 @@
 package nl.mvdr.tinustris.engine;
 
 import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -15,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.GameRenderer;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputState;
-import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.GameState;
 import nl.mvdr.tinustris.model.GameStateHolder;
 
@@ -53,9 +48,6 @@ public class GameLoop<S extends GameState> {
     /** Game state holder. */
     @NonNull
     private final GameStateHolder<S> holder;
-    /** Input listeners. */
-    @NonNull
-    private final List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
 
     /** Indicates whether the game should be running. */
     @Getter
@@ -103,7 +95,7 @@ public class GameLoop<S extends GameState> {
                 if (!paused) {
                     // Do as many game updates as we need to, potentially playing catchup.
                     while (TIME_BETWEEN_UPDATES < now - lastUpdateTime && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                        List<InputState> inputStates = retrieveAndPublishInputStates(totalUpdateCount);
+                        List<InputState> inputStates = retrieveInputStates(totalUpdateCount);
                         
                         S gameState = holder.retrieveLatestGameState();
                         gameState = gameEngine.computeNextState(holder.retrieveLatestGameState(), inputStates);
@@ -156,18 +148,11 @@ public class GameLoop<S extends GameState> {
      * @param updateIndex index of the current frame / update
      * @return inputs
      */
-    private List<InputState> retrieveAndPublishInputStates(int updateIndex) {
+    private List<InputState> retrieveInputStates(int updateIndex) {
         // Get the input states.
         List<InputState> inputStates = inputControllers.stream()
             .map(InputController::getInputState)
             .collect(Collectors.toList());
-        
-        // Inform listeners of new local inputs
-        Map<Integer, InputState> inputStateMap = IntStream.range(0, inputStates.size())
-            .filter(i -> inputControllers.get(i).isLocal())
-            .boxed()
-            .collect(Collectors.toMap(Function.identity(), inputStates::get));
-        localInputListeners.forEach(listener -> listener.accept(new FrameAndInputStatesContainer(updateIndex, inputStateMap)));
         
         return inputStates;
     }

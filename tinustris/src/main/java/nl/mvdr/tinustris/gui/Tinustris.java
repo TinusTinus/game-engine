@@ -1,8 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -32,7 +30,6 @@ import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputStateHolder;
 import nl.mvdr.tinustris.input.JInputController;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
-import nl.mvdr.tinustris.model.FrameAndInputStatesContainer;
 import nl.mvdr.tinustris.model.GameStateHolder;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -114,9 +111,7 @@ public class Tinustris {
         if (numPlayers == 1) {
             // single player game
             GameStateHolder<OnePlayerGameState> holder = new SingleGameStateHolder<>();
-            List<Consumer<FrameAndInputStatesContainer>> localInputListeners = Collections.emptyList();
-            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0),
-                    holder, localInputListeners);
+            gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0), holder);
         } else {
             // multiplayer game
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
@@ -126,9 +121,7 @@ public class Tinustris {
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
             // local multiplayer, no spectators
             GameStateHolder<MultiplayerGameState> holder = new SingleGameStateHolder<>();
-            List<Consumer<FrameAndInputStatesContainer>> localInputListeners = Collections.emptyList();
-            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, holder,
-                    localInputListeners);
+            gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, holder);
         }
 
         log.info("Ready to start game loop: " + gameLoop);
