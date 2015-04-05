@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.input;
+package nl.mvdr.game.input;
 
 import nl.mvdr.game.input.InputController;
 import nl.mvdr.game.input.InputState;

@@ -21,7 +21,7 @@ import javafx.util.Duration;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import nl.mvdr.tinustris.engine.GameLoop;
+import nl.mvdr.game.engine.GameLoop;
 import nl.mvdr.tinustris.model.Block;
 
 /**

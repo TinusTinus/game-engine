@@ -1,13 +1,13 @@
-package nl.mvdr.tinustris.engine;
+package nl.mvdr.game.engine;
 
 import java.util.Collections;
 import java.util.List;
 
+import nl.mvdr.game.gui.DummyRenderer;
+import nl.mvdr.game.input.DummyInput;
+import nl.mvdr.game.input.DummyInputController;
 import nl.mvdr.game.input.InputState;
-import nl.mvdr.tinustris.gui.DummyRenderer;
-import nl.mvdr.tinustris.input.DummyInputController;
-import nl.mvdr.tinustris.input.Input;
-import nl.mvdr.tinustris.model.DummyGameState;
+import nl.mvdr.game.state.DummyGameState;
 
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartAndStop() throws InterruptedException {
-        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, DummyInput> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -43,7 +43,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartPauseUnpauseStop() throws InterruptedException {
-        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, DummyInput> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -66,7 +66,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStartToggleToggleStop() throws InterruptedException {
-        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, DummyInput> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -89,7 +89,7 @@ public class GameLoopTest {
      */
     @Test
     public void testStopGameWhilePaused() throws InterruptedException {
-        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, DummyInput> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), new DummyGameEngine(), new DummyRenderer<>());
         
         gameLoop.start();
@@ -113,13 +113,13 @@ public class GameLoopTest {
         DummyGameEngine engine = new DummyGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public DummyGameState computeNextState(DummyGameState previousState, List<InputState<Input>> inputStates) {
+            public DummyGameState computeNextState(DummyGameState previousState, List<InputState<DummyInput>> inputStates) {
                 // return game state that is game over
                 return DummyGameState.GAME_OVER;
             }
         };
 
-        GameLoop<DummyGameState, Input> gameLoop = new GameLoop<>(
+        GameLoop<DummyGameState, DummyInput> gameLoop = new GameLoop<>(
                 Collections.singletonList(new DummyInputController<>()), engine, new DummyRenderer<DummyGameState>());
         
         gameLoop.start();
@@ -136,7 +136,7 @@ public class GameLoopTest {
     /** Tests the constructor with a null value for the game engine. */
     @Test(expected = NullPointerException.class)
     public void testNullEngine() {
-        new GameLoop<DummyGameState, Input>(Collections.singletonList(new DummyInputController<>()), null,
+        new GameLoop<DummyGameState, DummyInput>(Collections.singletonList(new DummyInputController<>()), null,
                 new DummyRenderer<>());
     }
 
