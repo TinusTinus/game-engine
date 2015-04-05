@@ -98,7 +98,7 @@
 				</executions>
 			</plugin>
 			<!-- extract (jinput's) native libraries to target/natives, so we can 
-				put it on the classpath when running integration tests -->
+				put it on the classpath when launching the application from an IDE -->
 			<plugin>
 				<groupId>com.googlecode.mavennatives</groupId>
 				<artifactId>maven-nativedependencies-plugin</artifactId>
