@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.model;
+package nl.mvdr.game.state;
 
 /**
  * Marker interface for the state of the game.

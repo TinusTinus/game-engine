@@ -7,9 +7,9 @@
 		<version>3.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>tinustris</artifactId>
+	<artifactId>game-engine</artifactId>
 	<packaging>jar</packaging>
-	<name>Tinustris</name>
+	<name>Game Engine</name>
 
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
@@ -19,12 +19,6 @@
 	<!-- Dependencies. Please do not specify version numbers here; refer to 
 		dependency management in the parent pom instead! -->
 	<dependencies>
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>game-engine</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-	
 		<!-- Input -->
 		<dependency>
 			<groupId>net.java.jinput</groupId>
@@ -40,11 +34,7 @@
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- Testing -->
@@ -57,20 +47,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<!-- generate a jar with a manifest and main class -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>nl.mvdr.tinustris.gui.ConfigurationScreen</mainClass>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -99,20 +75,6 @@
 						<id>attach-javadocs</id>
 						<goals>
 							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- extract (jinput's) native libraries to target/natives, so we can 
-				put it on the classpath when running integration tests -->
-			<plugin>
-				<groupId>com.googlecode.mavennatives</groupId>
-				<artifactId>maven-nativedependencies-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpacknatives</id>
-						<goals>
-							<goal>copy</goal>
 						</goals>
 					</execution>
 				</executions>

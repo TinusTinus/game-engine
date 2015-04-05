@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.game.state.GameState;
 
 /**
  * Game renderer which merely defers to a number of other renderers.

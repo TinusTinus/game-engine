@@ -1,7 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import lombok.Getter;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.game.state.GameState;
 
 /**
  * Dummy renderer, which simply stores the last game state it has received.

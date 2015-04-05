@@ -3,6 +3,7 @@ package nl.mvdr.tinustris.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import nl.mvdr.game.state.GameState;
 
 /**
  * Dummy implementation of {@link GameState}.

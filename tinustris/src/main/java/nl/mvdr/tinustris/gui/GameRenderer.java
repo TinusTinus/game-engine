@@ -1,6 +1,6 @@
 package nl.mvdr.tinustris.gui;
 
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.game.state.GameState;
 
 /**
  * User interface component displaying (an aspect of) the game state.

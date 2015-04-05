@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import nl.mvdr.game.state.GameState;
 
 /**
  * Contains the game state for a multiplayer game.

@@ -8,6 +8,7 @@
 	<name>Tinustris Parent</name>
 
 	<modules>
+		<module>game-engine</module>
 		<module>tinustris</module>
 		<module>tinustris-assembly</module>
 	</modules>

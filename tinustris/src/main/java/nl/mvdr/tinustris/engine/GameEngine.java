@@ -2,8 +2,8 @@ package nl.mvdr.tinustris.engine;
 
 import java.util.List;
 
+import nl.mvdr.game.state.GameState;
 import nl.mvdr.tinustris.input.InputState;
-import nl.mvdr.tinustris.model.GameState;
 
 /**
  * Game engine interface.

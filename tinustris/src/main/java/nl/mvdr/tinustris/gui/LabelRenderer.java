@@ -2,7 +2,7 @@ package nl.mvdr.tinustris.gui;
 
 import javafx.application.Platform;
 import lombok.NonNull;
-import nl.mvdr.tinustris.model.GameState;
+import nl.mvdr.game.state.GameState;
 
 /**
  * Label containing (part of) the game state.
