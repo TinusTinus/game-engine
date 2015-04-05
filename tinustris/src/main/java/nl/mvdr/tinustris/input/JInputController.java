@@ -13,23 +13,27 @@ import net.java.games.input.Controller;
 /**
  * Implementation of InputController that uses JInput to determine the current input state.
  * 
+ * @param <S> enum type containing all possible inputs from the user
+ * 
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
 @ToString
-public class JInputController implements InputController<Input> {
+public class JInputController<S extends Enum<S>> implements InputController<S> {
+    /** Actual enum type for input values. */
+    private final Class<S> inputType;
     /** Configuration of this component. */
     @NonNull
     private final JInputControllerConfiguration configuration;
 
     /** {@inheritDoc} */
     @Override
-    public InputState<Input> getInputState() {
+    public InputState<S> getInputState() {
         configuration.getControllers().forEach(Controller::poll);
         
-        Set<Input> pressedInputs = Stream.of(Input.values())
+        Set<S> pressedInputs = Stream.of(inputType.getEnumConstants())
             .filter(this::isPressed)
-            .collect(Collectors.toCollection(() -> EnumSet.noneOf(Input.class)));
+            .collect(Collectors.toCollection(() -> EnumSet.noneOf(inputType)));
         
         return new InputStateImpl<>(pressedInputs);
     }
@@ -40,7 +44,7 @@ public class JInputController implements InputController<Input> {
      * @param input input
      * @return whether the input is pressed
      */
-    private boolean isPressed(Input input) {
+    private boolean isPressed(S input) {
         return configuration.getMapping()
             .get(input)
             .stream()

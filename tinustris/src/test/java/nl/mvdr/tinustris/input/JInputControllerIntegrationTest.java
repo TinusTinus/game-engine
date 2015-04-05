@@ -51,7 +51,8 @@ public class JInputControllerIntegrationTest {
      */
     @Test
     public void test() throws NoSuitableControllerException {
-        JInputController inputController = new JInputController(JInputControllerConfiguration.defaultConfiguration());
+        JInputController<Input> inputController = new JInputController<>(Input.class,
+                JInputControllerConfiguration.defaultConfiguration());
         log.info("Controller: " + inputController);
 
         InputState<Input> state = inputController.getInputState();
