@@ -25,12 +25,6 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 	
-		<!-- Input -->
-		<dependency>
-			<groupId>net.java.jinput</groupId>
-			<artifactId>jinput</artifactId>
-		</dependency>
-		
 		<!-- Compile-time assistance -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
