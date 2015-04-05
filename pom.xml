@@ -17,7 +17,7 @@
 		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
 		<hazelcast.version>3.3.3</hazelcast.version>
 		<jinput.version>2.0.6</jinput.version>
-		<junit.version>4.11</junit.version>
+		<junit.version>4.12</junit.version>
 		<lombok.version>1.16.2</lombok.version>
 		<maven-assembly-plugin.version>2.2-beta-4</maven-assembly-plugin.version>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
