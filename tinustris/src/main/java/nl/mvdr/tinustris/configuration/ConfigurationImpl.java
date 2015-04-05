@@ -30,9 +30,6 @@ public class ConfigurationImpl implements Configuration {
     private final Behavior behavior;
     /** Starting level. */
     private final int startLevel;
-    /** Netcode configuration. */
-    @NonNull
-    private final NetcodeConfiguration netcodeConfiguration;
     /** Random seed for the gap generator. */
     private final long gapRandomSeed;
     /** Random seed for the tetromino generator. */

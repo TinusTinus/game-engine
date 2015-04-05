@@ -113,38 +113,20 @@ public class Tinustris {
         
         if (numPlayers == 1) {
             // single player game
-            List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
-            GameStateHolder<OnePlayerGameState> holder;
-            if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
-                // ... with spectators
-                // TODO initiate networked game!
-                holder = new SingleGameStateHolder<>();
-                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
-            } else {
-                holder = new SingleGameStateHolder<>();
-                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
-            }
-            
+            GameStateHolder<OnePlayerGameState> holder = new SingleGameStateHolder<>();
+            List<Consumer<FrameAndInputStatesContainer>> localInputListeners = Collections.emptyList();
             gameLoop = new GameLoop<>(inputControllers, onePlayerEngine, onePlayerRenderers.get(0),
                     holder, localInputListeners);
         } else {
             // multiplayer game
-            List<Consumer<FrameAndInputStatesContainer>> localInputListeners;
-            GameStateHolder<MultiplayerGameState> holder;
             GameEngine<MultiplayerGameState> gameEngine = new MultiplayerEngine(numPlayers, onePlayerEngine);
             List<GameRenderer<MultiplayerGameState>> multiplayerRenderers = IntStream.range(0, numPlayers)
                     .mapToObj(i -> new MultiplayerGameRenderer(onePlayerRenderers.get(i), i))
                     .collect(Collectors.toList());
             GameRenderer<MultiplayerGameState> gameRenderer = new CompositeRenderer<>(multiplayerRenderers);
-            if (configuration.getNetcodeConfiguration().isNetworkedGame()) {
-                // TODO initiate networked game
-                holder = new SingleGameStateHolder<>();
-                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
-            } else {
-                // local multiplayer, no spectators
-                holder = new SingleGameStateHolder<>();
-                localInputListeners = Collections.<Consumer<FrameAndInputStatesContainer>> emptyList();
-            }
+            // local multiplayer, no spectators
+            GameStateHolder<MultiplayerGameState> holder = new SingleGameStateHolder<>();
+            List<Consumer<FrameAndInputStatesContainer>> localInputListeners = Collections.emptyList();
             gameLoop = new GameLoop<>(inputControllers, gameEngine, gameRenderer, holder,
                     localInputListeners);
         }

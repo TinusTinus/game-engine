@@ -3,7 +3,6 @@ package nl.mvdr.tinustris.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,7 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.configuration.Behavior;
 import nl.mvdr.tinustris.configuration.Configuration;
 import nl.mvdr.tinustris.configuration.ConfigurationImpl;
-import nl.mvdr.tinustris.configuration.NetcodeConfiguration;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.gui.Tinustris;
@@ -61,36 +59,27 @@ public class ConfigurationScreenController {
     
     /** Controllers for the contents of the player tabs. */
     private final List<PlayerConfigurationController> playerConfigurationControllers;
-    /** Netcode configuration. */
-    private final NetcodeConfiguration netcodeConfiguration;
     /** Random seed for the gap generator. */
     private final long gapRandomSeed;
     /** Random seed for the tetromino generator. */
     private final long tetrominoRandomSeed;
 
-    // TODO in case of a netcode game:
-    // * rename the Start button to Ready
-    // * don't start until both players have readied up
-    // * remove the ability to add / remove players
-    
     /**
      * Constructor.
      * 
-     * @param netcodeConfiguration netcode configuration
      * @param gapRandomSeed random seed for the gap generator
      * @param tetrominoRandomSeed random seed for the tetromino generator
      */
-    public ConfigurationScreenController(NetcodeConfiguration netcodeConfiguration, long gapRandomSeed, long tetrominoRandomSeed) {
+    public ConfigurationScreenController(long gapRandomSeed, long tetrominoRandomSeed) {
         super();
         this.playerConfigurationControllers = new ArrayList<>();
-        this.netcodeConfiguration = netcodeConfiguration;
         this.gapRandomSeed = gapRandomSeed;
         this.tetrominoRandomSeed = tetrominoRandomSeed;
     }
     
     /** Constructor for an offline game. */
     public ConfigurationScreenController() {
-        this(() -> Optional.empty(), new Random().nextLong(), new Random().nextLong());
+        this(new Random().nextLong(), new Random().nextLong());
     }
 
     /**
@@ -374,7 +363,7 @@ public class ConfigurationScreenController {
         
         int startLevel = Integer.parseInt(startLevelTextField.getText());
         
-        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, netcodeConfiguration,
-            gapRandomSeed, tetrominoRandomSeed);
+        return new ConfigurationImpl(playerConfigurations, graphicsStyle, behavior, startLevel, gapRandomSeed,
+                tetrominoRandomSeed);
     }
 }

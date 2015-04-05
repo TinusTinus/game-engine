@@ -48,12 +48,6 @@ public class Logging {
                 (thread, throwable) -> log.error("Uncaught runtime exception", throwable));
     }
     
-    /** Instructs Hazelcast to log using slf4j. */
-    public static void setUpHazelcastLogging() {
-        log.info("Setting Hazelcast logging mode to slf4j.");
-        System.setProperty("hazelcast.logging.type", "slf4j");
-    }
-    
     /** Installs a bridge for java.util.logging to slf4j. */
     public static void installSlf4jBridge() {
         log.info("Installing java.util.logging to slf4j bridge.");
