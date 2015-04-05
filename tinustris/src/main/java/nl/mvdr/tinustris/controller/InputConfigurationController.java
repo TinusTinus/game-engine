@@ -21,11 +21,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import net.java.games.input.Controller;
-import nl.mvdr.tinustris.input.ControllerAndInputMapping;
+import nl.mvdr.game.input.ControllerAndInputMapping;
+import nl.mvdr.game.input.InputMapping;
+import nl.mvdr.game.input.JInputCaptureController;
+import nl.mvdr.game.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.input.Input;
-import nl.mvdr.tinustris.input.InputMapping;
-import nl.mvdr.tinustris.input.JInputCaptureController;
-import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Controller for ithe input configuration screen.

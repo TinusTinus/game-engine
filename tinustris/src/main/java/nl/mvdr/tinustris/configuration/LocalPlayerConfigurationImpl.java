@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import nl.mvdr.game.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.input.Input;
-import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
  * Implementation of {@link PlayerConfiguration}.

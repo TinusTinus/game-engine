@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.input;
 
+import nl.mvdr.game.input.InputController;
+import nl.mvdr.game.input.InputState;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

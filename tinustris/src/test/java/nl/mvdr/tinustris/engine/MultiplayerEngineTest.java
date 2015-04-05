@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.game.input.InputState;
 import nl.mvdr.tinustris.input.Input;
-import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 

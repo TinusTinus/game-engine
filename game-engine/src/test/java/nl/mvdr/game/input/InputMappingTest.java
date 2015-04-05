@@ -1,9 +1,10 @@
-package nl.mvdr.tinustris.input;
+package nl.mvdr.game.input;
 
 import net.java.games.input.Component;
 import net.java.games.input.Component.POV;
 import net.java.games.input.Component.Identifier.Axis;
 import net.java.games.input.Component.Identifier.Button;
+import nl.mvdr.game.input.InputMapping;
 
 import org.junit.Assert;
 import org.junit.Test;

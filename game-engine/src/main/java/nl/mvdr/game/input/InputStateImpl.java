@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.input;
+package nl.mvdr.game.input;
 
 import java.util.Set;
 

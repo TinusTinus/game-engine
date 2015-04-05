@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.game.input.InputState;
 import nl.mvdr.tinustris.engine.level.DummyLevelSystem;
 import nl.mvdr.tinustris.engine.speedcurve.ConstantSpeedCurve;
 import nl.mvdr.tinustris.engine.speedcurve.GameBoySpeedCurve;
 import nl.mvdr.tinustris.input.Input;
-import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.input.InputStateHistory;
 import nl.mvdr.tinustris.model.Block;
 import nl.mvdr.tinustris.model.OnePlayerGameState;

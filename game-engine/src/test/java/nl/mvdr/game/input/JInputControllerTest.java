@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.input;
+package nl.mvdr.game.input;
 
 import java.util.Collections;
 import java.util.Map;
@@ -23,17 +23,17 @@ public class JInputControllerTest {
     @Test
     public void testNoInputs() {
         // map every input to an empty set of components
-        Map<Input, Set<InputMapping>> mapping = Stream.of(Input.values())
+        Map<DummyInput, Set<InputMapping>> mapping = Stream.of(DummyInput.values())
             .collect(Collectors.toMap(Function.identity(), input -> Collections.emptySet()));
         // also do not provide any controllers
-        JInputControllerConfiguration<Input> configuration = new JInputControllerConfiguration<>(mapping, Collections.emptySet());
-        JInputController<Input> inputController = new JInputController<>(Input.class, configuration);
+        JInputControllerConfiguration<DummyInput> configuration = new JInputControllerConfiguration<>(mapping, Collections.emptySet());
+        JInputController<DummyInput> inputController = new JInputController<>(DummyInput.class, configuration);
         log.info("Controller: " + inputController);
 
-        InputState<Input> state = inputController.getInputState();
+        InputState<DummyInput> state = inputController.getInputState();
 
         log.info("State: " + state);
-        for (Input input: Input.values()) {
+        for (DummyInput input: DummyInput.values()) {
             Assert.assertFalse(state.isPressed(input));
         }
     }

@@ -1,5 +1,7 @@
 package nl.mvdr.tinustris.input;
 
+import nl.mvdr.game.input.InputState;
+
 import org.junit.Assert;
 import org.junit.Test;
 

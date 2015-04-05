@@ -1,8 +1,8 @@
 package nl.mvdr.tinustris.configuration;
 
+import nl.mvdr.game.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.input.DefaultControllerConfiguration;
 import nl.mvdr.tinustris.input.Input;
-import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.input.NoSuitableControllerException;
 
 /**

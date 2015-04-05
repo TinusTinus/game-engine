@@ -1,9 +1,10 @@
-package nl.mvdr.tinustris.input;
+package nl.mvdr.game.input;
 
 /**
  * Provides current input states.
  * 
- * @param <S> enum type containing all possible inputs from the user
+ * @param <S>
+ *            enum type containing all possible inputs from the user
  * 
  * @author Martijn van de Rijdt
  */

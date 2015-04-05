@@ -3,6 +3,8 @@ package nl.mvdr.tinustris.input;
 import java.util.EnumMap;
 import java.util.Map;
 
+import nl.mvdr.game.input.InputState;
+
 /**
  * Keeps administration of the number of frames each input has been pressed.
  * 
