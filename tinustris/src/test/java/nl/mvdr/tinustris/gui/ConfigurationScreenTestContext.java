@@ -1,12 +1,5 @@
 package nl.mvdr.tinustris.gui;
 
-import java.io.IOException;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.tinustris.controller.ConfigurationScreenController;
-import nl.mvdr.tinustris.logging.Logging;
 
 /**
  * Main class that starts a {@link ConfigurationScreen}.
@@ -23,33 +16,13 @@ import nl.mvdr.tinustris.logging.Logging;
  * 
  * @author Martijn van de Rijdt
  */
-@Slf4j
 public class ConfigurationScreenTestContext extends ConfigurationScreen {
-    /** Constructor. */
-    public ConfigurationScreenTestContext() {
-        super(new ConfigurationScreenController());
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        Logging.setUncaughtExceptionHandler();
-        super.start(primaryStage);
-    }
-    
     /**
      * Main method.
      * 
      * @param args commandline arguments; these are passed on to JavaFX
      */
     public static void main(String[] args) {
-        log.info("Starting Tinustris configuration screen.");
-
-        Logging.logVersionInfo();
-        
-        // JInput uses java.util.logging; redirect to slf4j.
-        Logging.installSlf4jBridge();
-
-        Application.launch(args);
+        ConfigurationScreen.main(args);
     }
 }

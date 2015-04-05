@@ -6,7 +6,8 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
 	minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0"
-	prefWidth="413.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	prefWidth="413.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="nl.mvdr.tinustris.controller.ConfigurationScreenController">
 	<children>
 		<TitledPane collapsible="false" layoutX="14.0" layoutY="14.0"
 			prefHeight="96.0" prefWidth="135.0" text="Graphics"
