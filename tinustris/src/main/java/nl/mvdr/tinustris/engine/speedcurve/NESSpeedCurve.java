@@ -22,7 +22,7 @@ public class NESSpeedCurve implements SpeedCurve {
         
         @SuppressWarnings("serial") // not to be serialised
         Map<Integer, Integer> map = new HashMap<Integer, Integer>() {{
-            // Note: in the actual Gameboy Tetris gravity was expressed as frames per cell rather than as G.
+            // Note: in the actual NES Tetris gravity was expressed as frames per cell rather than as G.
             // The values returned here are an approximation.
             put(Integer.valueOf(0), Integer.valueOf(5));   // 48 frames per cell
             put(Integer.valueOf(1), Integer.valueOf(6));   // 43 frames per cell
