@@ -15,7 +15,6 @@
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
 		<cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
-		<hazelcast.version>3.4.2</hazelcast.version>
 		<jinput.version>2.0.6</jinput.version>
 		<junit.version>4.12</junit.version>
 		<lombok.version>1.16.2</lombok.version>
@@ -39,18 +38,6 @@
 				<version>${jinput.version}</version>
 			</dependency>
 			
-			<!-- Networking -->
-			<dependency>
-				<groupId>com.hazelcast</groupId>
-				<artifactId>hazelcast</artifactId>
-				<version>${hazelcast.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.hazelcast</groupId>
-				<artifactId>hazelcast-client</artifactId>
-				<version>${hazelcast.version}</version>
-			</dependency>
-
 			<!-- Compile-time assistance -->
 			<dependency>
 				<groupId>org.projectlombok</groupId>
