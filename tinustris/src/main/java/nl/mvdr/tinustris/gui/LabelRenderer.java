@@ -2,6 +2,7 @@ package nl.mvdr.tinustris.gui;
 
 import javafx.application.Platform;
 import lombok.NonNull;
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.game.state.GameState;
 
 /**

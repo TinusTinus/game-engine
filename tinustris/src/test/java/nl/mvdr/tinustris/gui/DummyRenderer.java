@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import lombok.Getter;
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.game.state.GameState;
 
 /**

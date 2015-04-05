@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**

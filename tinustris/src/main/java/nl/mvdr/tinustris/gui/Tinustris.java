@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.game.input.InputController;
 import nl.mvdr.game.input.JInputController;
 import nl.mvdr.game.input.JInputControllerConfiguration;

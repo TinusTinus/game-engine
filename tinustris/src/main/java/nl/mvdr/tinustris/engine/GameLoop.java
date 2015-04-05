@@ -8,10 +8,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.game.input.InputController;
 import nl.mvdr.game.input.InputState;
 import nl.mvdr.game.state.GameState;
-import nl.mvdr.tinustris.gui.GameRenderer;
 
 /**
  * Offers functionality for starting and stopping the game loop.

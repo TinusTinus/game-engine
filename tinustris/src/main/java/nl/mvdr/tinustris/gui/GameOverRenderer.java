@@ -1,6 +1,7 @@
 package nl.mvdr.tinustris.gui;
 
 import javafx.application.Platform;
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
 
 /**

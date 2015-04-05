@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.game.state.GameState;
 
 /**

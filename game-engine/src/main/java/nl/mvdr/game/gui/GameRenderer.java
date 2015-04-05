@@ -1,4 +1,4 @@
-package nl.mvdr.tinustris.gui;
+package nl.mvdr.game.gui;
 
 import nl.mvdr.game.state.GameState;
 

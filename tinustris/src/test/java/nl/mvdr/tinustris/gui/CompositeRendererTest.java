@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import nl.mvdr.game.gui.GameRenderer;
 import nl.mvdr.tinustris.model.DummyGameState;
 
 import org.junit.Assert;
