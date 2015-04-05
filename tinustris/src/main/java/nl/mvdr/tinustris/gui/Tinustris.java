@@ -131,7 +131,7 @@ public class Tinustris {
      * @return input controller
      */
     private InputController<Input> createInputController(PlayerConfiguration playerConfiguration) {
-        JInputControllerConfiguration inputControllerConfiguration = playerConfiguration.getJInputControllerConfiguration();
+        JInputControllerConfiguration<Input> inputControllerConfiguration = playerConfiguration.getJInputControllerConfiguration();
         return new JInputController<>(Input.class, inputControllerConfiguration);
     }
 

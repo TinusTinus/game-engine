@@ -26,7 +26,7 @@ public class JInputControllerTest {
         Map<Input, Set<InputMapping>> mapping = Stream.of(Input.values())
             .collect(Collectors.toMap(Function.identity(), input -> Collections.emptySet()));
         // also do not provide any controllers
-        JInputControllerConfiguration configuration = new JInputControllerConfiguration(mapping, Collections.emptySet());
+        JInputControllerConfiguration<Input> configuration = new JInputControllerConfiguration<>(mapping, Collections.emptySet());
         JInputController<Input> inputController = new JInputController<>(Input.class, configuration);
         log.info("Controller: " + inputController);
 

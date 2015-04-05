@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 
 /**
@@ -22,5 +23,5 @@ public class LocalPlayerConfigurationImpl implements PlayerConfiguration {
     private final String name;
     /** Configuration for the JInputController for this player. */
     @NonNull
-    private final JInputControllerConfiguration jInputControllerConfiguration;
+    private final JInputControllerConfiguration<Input> jInputControllerConfiguration;
 }

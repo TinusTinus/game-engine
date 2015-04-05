@@ -1,5 +1,6 @@
 package nl.mvdr.tinustris.configuration;
 
+import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.input.NoSuitableControllerException;
 
@@ -14,8 +15,8 @@ public interface PlayerConfiguration {
     String getName();
     
     /** @return configuration for JInputController for this player */
-    default JInputControllerConfiguration getJInputControllerConfiguration() {
-        JInputControllerConfiguration result;
+    default JInputControllerConfiguration<Input> getJInputControllerConfiguration() {
+        JInputControllerConfiguration<Input> result;
         try {
             result = JInputControllerConfiguration.defaultConfiguration();
         } catch (NoSuitableControllerException e) {

@@ -24,7 +24,7 @@ public class JInputController<S extends Enum<S>> implements InputController<S> {
     private final Class<S> inputType;
     /** Configuration of this component. */
     @NonNull
-    private final JInputControllerConfiguration configuration;
+    private final JInputControllerConfiguration<S> configuration;
 
     /** {@inheritDoc} */
     @Override

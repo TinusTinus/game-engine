@@ -25,19 +25,21 @@ import net.java.games.input.ControllerEnvironment;
 /**
  * Configuration for {@link JInputController}.
  * 
+ * @param <S> enum type containing all possible inputs from the user
+ * 
  * @author Martijn van de Rijdt
  */
 @RequiredArgsConstructor
 @Getter
 @Slf4j
 @ToString
-public class JInputControllerConfiguration {
+public class JInputControllerConfiguration<S extends Enum<S>> {
     /**
      * Key / button mapping. Not every input needs to be mapped, which is to say: values in this map may be empty sets;
      * if an input is not mapped it will simply never get pressed. The mapping should contain values for all valid keys.
      */
     @NonNull
-    private final Map<Input, Set<InputMapping>> mapping;
+    private final Map<S, Set<InputMapping>> mapping;
 
     /** All relevant controllers. All of the components in {@link #mapping} must belong to one of these controllers. */
     @NonNull
@@ -50,7 +52,7 @@ public class JInputControllerConfiguration {
      * @return default configuration
      * @throws NoSuitableControllerException in case there is no suitable controller
      */
-    public static JInputControllerConfiguration defaultConfiguration() throws NoSuitableControllerException {
+    public static JInputControllerConfiguration<Input> defaultConfiguration() throws NoSuitableControllerException {
         return defaultKeyboardConfiguration();
     }
 
@@ -61,7 +63,7 @@ public class JInputControllerConfiguration {
      * @return default keyboard configuration
      * @throws NoSuitableControllerException in case there is no keyboard
      */
-    public static JInputControllerConfiguration defaultKeyboardConfiguration() throws NoSuitableControllerException {
+    public static JInputControllerConfiguration<Input> defaultKeyboardConfiguration() throws NoSuitableControllerException {
         Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
         if (controllersFromEnvironment.length == 0) {
             throw new NoSuitableControllerException(
@@ -100,7 +102,7 @@ public class JInputControllerConfiguration {
         }
         log.info("Created input mapping: " + mapping);
         
-        return new JInputControllerConfiguration(mapping, controllers);
+        return new JInputControllerConfiguration<>(mapping, controllers);
     }
     
     /**
@@ -111,7 +113,7 @@ public class JInputControllerConfiguration {
      * @return default gamepad configuration
      * @throws NoSuitableControllerException in case there is no gamepad
      */
-    public static JInputControllerConfiguration defaultGamepadConfiguration() throws NoSuitableControllerException {
+    public static JInputControllerConfiguration<Input> defaultGamepadConfiguration() throws NoSuitableControllerException {
         Controller[] controllersFromEnvironment = ControllerEnvironment.getDefaultEnvironment().getControllers();
         if (controllersFromEnvironment.length == 0) {
             throw new NoSuitableControllerException(
@@ -162,7 +164,7 @@ public class JInputControllerConfiguration {
         }
         log.info("Created input mapping: " + mapping);
         
-        return new JInputControllerConfiguration(mapping, controllers);
+        return new JInputControllerConfiguration<>(mapping, controllers);
     }
     
     /**

@@ -44,7 +44,7 @@ public class PlayerConfigurationController {
     private TableView<InputAndMapping> inputTable;
     
     /** Configuration for the input controller. */
-    private JInputControllerConfiguration inputConfiguration;
+    private JInputControllerConfiguration<Input> inputConfiguration;
 
     /** Constructor. */
     public PlayerConfigurationController() {
@@ -52,7 +52,7 @@ public class PlayerConfigurationController {
         
         Map<Input, Set<InputMapping>> mapping = Stream.of(Input.values())
             .collect(Collectors.toMap(Function.identity(), input -> Collections.emptySet()));
-        this.inputConfiguration = new JInputControllerConfiguration(mapping, Collections.emptySet());
+        this.inputConfiguration = new JInputControllerConfiguration<>(mapping, Collections.emptySet());
     }
     
     /**
@@ -92,7 +92,7 @@ public class PlayerConfigurationController {
      * 
      * @param configuration configuration
      */
-    void updateInputConfiguration(JInputControllerConfiguration configuration) {
+    void updateInputConfiguration(JInputControllerConfiguration<Input> configuration) {
         log.info("Updating input configuration to: " + configuration);
         this.inputConfiguration = configuration;
         updateInputTable();

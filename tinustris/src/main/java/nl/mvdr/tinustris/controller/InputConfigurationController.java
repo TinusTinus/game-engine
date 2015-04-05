@@ -58,7 +58,7 @@ public class InputConfigurationController {
     private Runnable handleCancelled;
     /** Callback to be called if the input configuration is completed succesfully. */
     @Setter
-    private Consumer<JInputControllerConfiguration> handleSuccess;
+    private Consumer<JInputControllerConfiguration<Input>> handleSuccess;
     
     /** Constructor. */
     public InputConfigurationController() {
@@ -156,8 +156,8 @@ public class InputConfigurationController {
      * 
      * @return configuration for this player
      */
-    private JInputControllerConfiguration buildConfiguration() {
-        return new JInputControllerConfiguration(Collections.unmodifiableMap(mapping),
+    private JInputControllerConfiguration<Input> buildConfiguration() {
+        return new JInputControllerConfiguration<>(Collections.unmodifiableMap(mapping),
                 Collections.unmodifiableSet(controllers)); 
     }
 
