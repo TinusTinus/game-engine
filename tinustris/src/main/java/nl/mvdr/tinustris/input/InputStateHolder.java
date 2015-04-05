@@ -24,7 +24,7 @@ public class InputStateHolder implements InputController {
     private final boolean local;
     
     /** Map of frame index to the received input states. */
-    private final Map<Integer, InputState> states;
+    private final Map<Integer, InputState<Input>> states;
     
     /**
      * Constructor.
@@ -44,7 +44,7 @@ public class InputStateHolder implements InputController {
      * Returns the latest known input state, or a default input state if none are known.
      */
     @Override
-    public InputState getInputState() {
+    public InputState<Input> getInputState() {
         return getInputState(OptionalInt.empty());
     }
     
@@ -54,7 +54,7 @@ public class InputStateHolder implements InputController {
      * @param frame frame / update index
      * @return input state
      */
-    public InputState getInputState(int frame) {
+    public InputState<Input> getInputState(int frame) {
         return getInputState(OptionalInt.of(frame));
     }
     
@@ -64,13 +64,13 @@ public class InputStateHolder implements InputController {
      * @param frame frame / update index; if empty, the very latest value is returned
      * @return input state
      */
-    private InputState getInputState(OptionalInt frame) {
+    private InputState<Input> getInputState(OptionalInt frame) {
         synchronized(states) {
             return states.entrySet()
                 .stream()
                 .filter(entry -> !frame.isPresent() || entry.getKey().intValue() <= frame.getAsInt())
                 .max((left, right) -> Integer.compare(left.getKey().intValue(), right.getKey().intValue()))
-                .map(Entry<Integer, InputState>::getValue)
+                .map(Entry<Integer, InputState<Input>>::getValue)
                 .orElse(input -> false);
         }
     }
@@ -82,7 +82,7 @@ public class InputStateHolder implements InputController {
      * @param state state
      * @return previous state value, or null if unavailable
      */
-    public InputState putState(int frame, @NonNull InputState state) {
+    public InputState<Input> putState(int frame, @NonNull InputState<Input> state) {
         synchronized(states) {
             return states.put(Integer.valueOf(frame), state);
         }

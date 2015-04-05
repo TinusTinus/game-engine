@@ -84,7 +84,7 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(new DummyGenerator<>(), new ConstantSpeedCurve(),
                 new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = new OnePlayerGameState();
-        InputState inputState = input -> false;
+        InputState<Input> inputState = input -> false;
         
         state = engine.computeNextState(state, Collections.singletonList(inputState));
 
@@ -102,7 +102,7 @@ public class OnePlayerEngineTest {
                 new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = new OnePlayerGameState();
         
-        engine.computeNextState(state, Collections.<InputState>emptyList());
+        engine.computeNextState(state, Collections.emptyList());
     }
     
     /** Tests the {@link OnePlayerEngine#computeNextState(OnePlayerGameState, InputState)} method with too many input states. */
@@ -112,7 +112,7 @@ public class OnePlayerEngineTest {
         OnePlayerEngine engine = new OnePlayerEngine(generator, new ConstantSpeedCurve(), new DummyLevelSystem(),
                 new DummyGenerator<>());
         OnePlayerGameState state = new OnePlayerGameState();
-        InputState inputState = input -> false;
+        InputState<Input> inputState = input -> false;
         
         engine.computeNextState(state, Arrays.asList(inputState, inputState));
     }
@@ -127,7 +127,7 @@ public class OnePlayerEngineTest {
                 new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
-        InputState inputState = input -> input == Input.HARD_DROP;
+        InputState<Input> inputState = input -> input == Input.HARD_DROP;
         
         state = engine.computeNextState(state, Collections.singletonList(inputState));
 
@@ -145,7 +145,7 @@ public class OnePlayerEngineTest {
                 new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
-        InputState inputState = input -> input == Input.HARD_DROP || input == Input.HOLD;
+        InputState<Input> inputState = input -> input == Input.HARD_DROP || input == Input.HOLD;
         
         state = engine.computeNextState(state, Collections.singletonList(inputState));
 
@@ -165,7 +165,7 @@ public class OnePlayerEngineTest {
         // have the active block be right where it will lock in place
         state = state.withCurrentBlockLocation(state.getGhostLocation());
         log.info("Before: " + state);
-        InputState inputState = input -> input == Input.HARD_DROP || input == Input.SOFT_DROP;
+        InputState<Input> inputState = input -> input == Input.HARD_DROP || input == Input.SOFT_DROP;
         
         state = engine.computeNextState(state, Collections.singletonList(inputState));
 
@@ -183,7 +183,7 @@ public class OnePlayerEngineTest {
                 new DummyLevelSystem(), new DummyGenerator<>());
         OnePlayerGameState state = createGameStateForHardDropTest();
         log.info("Before: " + state);
-        InputState inputState = input -> input == Input.HARD_DROP;
+        InputState<Input> inputState = input -> input == Input.HARD_DROP;
         
         state = engine.computeNextState(state, Collections.singletonList(inputState));
 

@@ -29,7 +29,7 @@ public interface InputStateHistory {
      *            input state for the next frame
      * @return new input state history
      */
-    default InputStateHistory next(InputState inputState) {
+    default InputStateHistory next(InputState<Input> inputState) {
         Map<Input, Integer> frames = new EnumMap<>(Input.class);
         for (Input input : Input.values()) {
             int value;

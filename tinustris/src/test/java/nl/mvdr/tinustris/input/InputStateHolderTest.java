@@ -16,7 +16,7 @@ public class InputStateHolderTest {
     public void testGetInputStateDefaultValue() {
         InputStateHolder holder = new InputStateHolder(true);
         
-        InputState state = holder.getInputState();
+        InputState<Input> state = holder.getInputState();
         
         Stream.of(Input.values())
             .forEach(input -> Assert.assertFalse(state.isPressed(input)));
@@ -27,7 +27,7 @@ public class InputStateHolderTest {
     public void testGetInputStateIndexedDefaultValue() {
         InputStateHolder holder = new InputStateHolder(true);
         
-        InputState state = holder.getInputState(123);
+        InputState<Input> state = holder.getInputState(123);
         
         Stream.of(Input.values())
             .forEach(input -> Assert.assertFalse(state.isPressed(input)));
@@ -37,7 +37,7 @@ public class InputStateHolderTest {
     @Test
     public void testGetInputState() {
         InputStateHolder holder = new InputStateHolder(true);
-        InputState state = input -> true;
+        InputState<Input> state = input -> true;
         holder.putState(0, state);
         
         Assert.assertSame(state, holder.getInputState());
@@ -47,7 +47,7 @@ public class InputStateHolderTest {
     @Test
     public void testGetInputStateIndexed() {
         InputStateHolder holder = new InputStateHolder(true);
-        InputState state = input -> true;
+        InputState<Input> state = input -> true;
         holder.putState(0, state);
         
         Assert.assertSame(state, holder.getInputState(0));
@@ -57,7 +57,7 @@ public class InputStateHolderTest {
     @Test
     public void testGetInputStateIndexedGreater() {
         InputStateHolder holder = new InputStateHolder(true);
-        InputState state = input -> true;
+        InputState<Input> state = input -> true;
         holder.putState(0, state);
         
         Assert.assertSame(state, holder.getInputState(1));
@@ -67,7 +67,7 @@ public class InputStateHolderTest {
     @Test
     public void testGetInputStateIndexedLess() {
         InputStateHolder holder = new InputStateHolder(true);
-        InputState state = input -> true;
+        InputState<Input> state = input -> true;
         holder.putState(1, state);
         
         Assert.assertNotEquals(state, holder.getInputState(0));

@@ -29,7 +29,7 @@ public class DummyInputController implements InputController {
      * Dummy implementation which returns an input state where no input is pressed.
      */
     @Override
-    public InputState getInputState() {
+    public InputState<Input> getInputState() {
         return input -> false;
     }
 }

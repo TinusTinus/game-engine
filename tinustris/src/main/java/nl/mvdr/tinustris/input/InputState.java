@@ -5,10 +5,12 @@ import java.io.Serializable;
 /**
  * The state of all inputs at a given moment in time.
  * 
+ * @param <S> enum type containing all possible inputs from the user
+ * 
  * @author Martijn van de Rijdt
  */
 @FunctionalInterface
-public interface InputState extends Serializable {
+public interface InputState<S extends Enum<S>> extends Serializable {
 
     /**
      * Indicates whether the given input is pressed.
@@ -17,5 +19,5 @@ public interface InputState extends Serializable {
      *            input
      * @return true if pressed, false if not
      */
-    boolean isPressed(Input input);
+    boolean isPressed(S input);
 }

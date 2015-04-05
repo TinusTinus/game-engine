@@ -5,6 +5,7 @@ import java.util.List;
 
 import nl.mvdr.tinustris.gui.DummyRenderer;
 import nl.mvdr.tinustris.input.DummyInputController;
+import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.DummyGameState;
 
@@ -112,7 +113,7 @@ public class GameLoopTest {
         DummyGameEngine engine = new DummyGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public DummyGameState computeNextState(DummyGameState previousState, List<InputState> inputStates) {
+            public DummyGameState computeNextState(DummyGameState previousState, List<InputState<Input>> inputStates) {
                 // return game state that is game over
                 return DummyGameState.GAME_OVER;
             }

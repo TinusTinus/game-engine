@@ -24,14 +24,14 @@ public class JInputController implements InputController {
 
     /** {@inheritDoc} */
     @Override
-    public InputState getInputState() {
+    public InputState<Input> getInputState() {
         configuration.getControllers().forEach(Controller::poll);
         
         Set<Input> pressedInputs = Stream.of(Input.values())
             .filter(this::isPressed)
             .collect(Collectors.toCollection(() -> EnumSet.noneOf(Input.class)));
         
-        return new InputStateImpl(pressedInputs);
+        return new InputStateImpl<>(pressedInputs);
     }
     
     /**

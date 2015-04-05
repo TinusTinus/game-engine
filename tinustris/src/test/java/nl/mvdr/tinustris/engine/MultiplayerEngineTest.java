@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -110,7 +111,7 @@ public class MultiplayerEngineTest {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
-        InputState inputState = input -> false;
+        InputState<Input> inputState = input -> false;
 
         MultiplayerGameState newState = engine.computeNextState(state, Arrays.asList(inputState, inputState));
 
@@ -124,7 +125,7 @@ public class MultiplayerEngineTest {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
-        InputState inputState = input -> false;
+        InputState<Input> inputState = input -> false;
 
         engine.computeNextState(state, Arrays.asList(inputState));
     }
@@ -135,7 +136,7 @@ public class MultiplayerEngineTest {
         MultiplayerEngine engine = new MultiplayerEngine(2, new DummyOnePlayerGameEngine());
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
-        InputState inputState = input -> false;
+        InputState<Input> inputState = input -> false;
 
         engine.computeNextState(state, Arrays.asList(inputState, inputState, inputState));
     }
@@ -147,7 +148,7 @@ public class MultiplayerEngineTest {
         OnePlayerGameState onePlayerState = new OnePlayerGameState();
         MultiplayerGameState state = new MultiplayerGameState(Arrays.asList(onePlayerState, onePlayerState), Arrays.asList(1, 0));
 
-        engine.computeNextState(state, Collections.<InputState>emptyList());
+        engine.computeNextState(state, Collections.emptyList());
     }
 
     /**
@@ -162,7 +163,7 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState<Input>> inputStates) {
                 OnePlayerGameState result;
                 if (prevState == playerOneState) {
                     result = prevState.withLines(1);
@@ -194,7 +195,7 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState<Input>> inputStates) {
                 OnePlayerGameState result;
                 if (prevState == playerOneState) {
                     result = prevState.withLines(2);
@@ -225,7 +226,7 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState<Input>> inputStates) {
                 OnePlayerGameState result;
                 if (prevState == playerOneState) {
                     result = prevState.withLines(3);
@@ -256,7 +257,7 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState<Input>> inputStates) {
                 OnePlayerGameState result;
                 if (prevState == playerOneState) {
                     result = prevState.withLines(4);
@@ -288,7 +289,7 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState<Input>> inputStates) {
                 OnePlayerGameState result;
                 if (prevState == playerOneState) {
                     result = prevState.withLines(2);
@@ -321,7 +322,7 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState<Input>> inputStates) {
                 OnePlayerGameState result;
                 if (prevState == playerOneState) {
                     result = prevState.withLines(3);
@@ -354,7 +355,7 @@ public class MultiplayerEngineTest {
         DummyOnePlayerGameEngine onePlayerEngine = new DummyOnePlayerGameEngine() {
             /** {@inheritDoc} */
             @Override
-            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState> inputStates) {
+            public OnePlayerGameState computeNextState(OnePlayerGameState prevState, List<InputState<Input>> inputStates) {
                 OnePlayerGameState result;
                 if (prevState == playerOneState) {
                     result = prevState.withLines(4);

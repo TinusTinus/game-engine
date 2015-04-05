@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.mvdr.tinustris.gui.GameRenderer;
+import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.GameState;
@@ -91,7 +92,7 @@ public class GameLoop<S extends GameState> {
                 if (!paused) {
                     // Do as many game updates as we need to, potentially playing catchup.
                     while (TIME_BETWEEN_UPDATES < now - lastUpdateTime && updateCount < MAX_UPDATES_BEFORE_RENDER) {
-                        List<InputState> inputStates = retrieveInputStates(totalUpdateCount);
+                        List<InputState<Input>> inputStates = retrieveInputStates(totalUpdateCount);
                         
                         state = gameEngine.computeNextState(state, inputStates);
 
@@ -140,7 +141,7 @@ public class GameLoop<S extends GameState> {
      * @param updateIndex index of the current frame / update
      * @return inputs
      */
-    private List<InputState> retrieveInputStates(int updateIndex) {
+    private List<InputState<Input>> retrieveInputStates(int updateIndex) {
         // Get the input states.
         return inputControllers.stream()
             .map(InputController::getInputState)

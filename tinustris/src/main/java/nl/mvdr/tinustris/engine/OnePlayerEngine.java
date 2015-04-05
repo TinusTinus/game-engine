@@ -94,7 +94,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
 
     /** {@inheritDoc} */
     @Override
-    public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState> inputStates) {
+    public OnePlayerGameState computeNextState(OnePlayerGameState previousState, List<InputState<Input>> inputStates) {
         if (inputStates.size() != 1) {
             throw new IllegalArgumentException("Expected 1 input state, got " + inputStates.size());
         }
@@ -113,7 +113,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      *            input state for this player
      * @return new game state
      */
-    private OnePlayerGameState computeNextState(OnePlayerGameState previousState, InputState inputState) {
+    private OnePlayerGameState computeNextState(OnePlayerGameState previousState, InputState<Input> inputState) {
         OnePlayerGameState result;
         
         if (!previousState.isGameOver()) {
@@ -156,7 +156,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @return actions
      */
     private List<Action> determineActions(OnePlayerGameState previousState, OnePlayerGameState resultState,
-            InputState inputState) {
+            InputState<Input> inputState) {
         List<Action> actions = new ArrayList<>();
         
         // process gravity
@@ -198,7 +198,7 @@ public class OnePlayerEngine implements GameEngine<OnePlayerGameState> {
      * @param inputState input state for the current frame
      * @return game state with updated input history and frame counter, otherwise unchanged
      */
-    private OnePlayerGameState updateInputStateAndCounters(OnePlayerGameState previousState, InputState inputState) {
+    private OnePlayerGameState updateInputStateAndCounters(OnePlayerGameState previousState, InputState<Input> inputState) {
         return previousState.withInputStateHistory(previousState.getInputStateHistory().next(inputState))
                 .withNumFramesSinceLastDownMove(previousState.getNumFramesSinceLastDownMove() + 1)
                 .withNumFramesSinceLastLock(previousState.getNumFramesSinceLastLock() + 1)

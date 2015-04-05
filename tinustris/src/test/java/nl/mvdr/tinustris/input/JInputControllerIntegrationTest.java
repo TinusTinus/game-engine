@@ -54,7 +54,7 @@ public class JInputControllerIntegrationTest {
         JInputController inputController = new JInputController(JInputControllerConfiguration.defaultConfiguration());
         log.info("Controller: " + inputController);
 
-        InputState state = inputController.getInputState();
+        InputState<Input> state = inputController.getInputState();
 
         log.info("State: " + state);
         // state depends on what inputs the user was pressing; just check that they are non-null

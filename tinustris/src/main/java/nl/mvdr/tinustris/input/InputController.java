@@ -11,7 +11,7 @@ public interface InputController {
      * 
      * @return input state
      */
-    InputState getInputState();
+    InputState<Input> getInputState();
 
     /** @return whether this input controller is local */
     boolean isLocal();

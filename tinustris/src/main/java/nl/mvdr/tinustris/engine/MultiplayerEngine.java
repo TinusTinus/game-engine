@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import lombok.ToString;
+import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.MultiplayerGameState;
 import nl.mvdr.tinustris.model.OnePlayerGameState;
@@ -56,7 +57,7 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
 
     /** {@inheritDoc} */
     @Override
-    public MultiplayerGameState computeNextState(MultiplayerGameState previousState, List<InputState> inputStates) {
+    public MultiplayerGameState computeNextState(MultiplayerGameState previousState, List<InputState<Input>> inputStates) {
         // check the input
         if (inputStates.size() != previousState.getNumberOfPlayers()) {
             throw new IllegalArgumentException(String.format(
@@ -132,9 +133,9 @@ public class MultiplayerEngine implements GameEngine<MultiplayerGameState> {
      *            input states for all players; the length of this list must match the number of players in the game
      * @return new game state
      */
-    private OnePlayerGameState computeNextOnePlayerState(int playerIndex, MultiplayerGameState previousState, List<InputState> inputStates) {
+    private OnePlayerGameState computeNextOnePlayerState(int playerIndex, MultiplayerGameState previousState, List<InputState<Input>> inputStates) {
         OnePlayerGameState previousOnePlayerState = previousState.getStateForPlayer(playerIndex);
-        InputState inputState = inputStates.get(playerIndex);
+        InputState<Input> inputState = inputStates.get(playerIndex);
         return onePlayerEngine.computeNextState(previousOnePlayerState, Collections.singletonList(inputState));
     }
 }

@@ -30,7 +30,7 @@ public class JInputControllerTest {
         JInputController inputController = new JInputController(configuration);
         log.info("Controller: " + inputController);
 
-        InputState state = inputController.getInputState();
+        InputState<Input> state = inputController.getInputState();
 
         log.info("State: " + state);
         for (Input input: Input.values()) {

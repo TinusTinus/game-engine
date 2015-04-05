@@ -22,7 +22,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case nothing is pressed. */
     @Test
     public void testGetNumberOfFramesNothingPressed() {
-        InputState inputState = input -> false;
+        InputState<Input> inputState = input -> false;
         
         InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
@@ -35,7 +35,7 @@ public class InputStateHistoryTest {
     @Test
     public void testGetNumberOfFramesNothingPressedTwice() {
         InputStateHistory history = InputStateHistory.NEW;
-        InputState inputState = input -> false;
+        InputState<Input> inputState = input -> false;
         
         history = history.next(inputState);
         history = history.next(inputState);
@@ -48,7 +48,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case every button is pressed. */
     @Test
     public void testGetNumberOfFramesEverythingPressed() {
-        InputState inputState = input -> true;
+        InputState<Input> inputState = input -> true;
         
         InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
@@ -61,7 +61,7 @@ public class InputStateHistoryTest {
     @Test
     public void testGetNumberOfFramesEverythingPressedTwice() {
         InputStateHistory history = InputStateHistory.NEW;
-        InputState inputState = input -> true;
+        InputState<Input> inputState = input -> true;
         
         history = history.next(inputState);
         history = history.next(inputState);
@@ -87,7 +87,7 @@ public class InputStateHistoryTest {
     /** Test method for {@link InputStateHistory#next(InputState)} in case a single button is pressed. */
     @Test
     public void testGetNumberOfFramesOneButtonPressed() {
-        InputState inputState = input -> input == Input.TURN_RIGHT;
+        InputState<Input> inputState = input -> input == Input.TURN_RIGHT;
         
         InputStateHistory history = InputStateHistory.NEW.next(inputState);
         
