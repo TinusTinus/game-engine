@@ -12,7 +12,6 @@ import nl.mvdr.tinustris.gui.GameRenderer;
 import nl.mvdr.tinustris.input.InputController;
 import nl.mvdr.tinustris.input.InputState;
 import nl.mvdr.tinustris.model.GameState;
-import nl.mvdr.tinustris.model.GameStateHolder;
 
 /**
  * Offers functionality for starting and stopping the game loop.
@@ -45,9 +44,6 @@ public class GameLoop<S extends GameState> {
     /** Game renderer. */
     @NonNull
     private final GameRenderer<S> gameRenderer;
-    /** Game state holder. */
-    @NonNull
-    private final GameStateHolder<S> holder;
 
     /** Indicates whether the game should be running. */
     @Getter
@@ -81,14 +77,14 @@ public class GameLoop<S extends GameState> {
         // Total frame counter.
         int totalUpdateCount = 0;
 
-        holder.addGameState(gameEngine.initGameState());
+        S state = gameEngine.initGameState();
 
-        gameRenderer.render(holder.retrieveLatestGameState());
+        gameRenderer.render(state);
 
         log.info("Starting main game loop.");
 
         try {
-            while (running && !holder.isGameOver()) {
+            while (running && !state.isGameOver()) {
                 double now = System.nanoTime();
                 int updateCount = 0;
 
@@ -97,9 +93,7 @@ public class GameLoop<S extends GameState> {
                     while (TIME_BETWEEN_UPDATES < now - lastUpdateTime && updateCount < MAX_UPDATES_BEFORE_RENDER) {
                         List<InputState> inputStates = retrieveInputStates(totalUpdateCount);
                         
-                        S gameState = holder.retrieveLatestGameState();
-                        gameState = gameEngine.computeNextState(holder.retrieveLatestGameState(), inputStates);
-                        holder.addGameState(gameState);
+                        state = gameEngine.computeNextState(state, inputStates);
 
                         lastUpdateTime += TIME_BETWEEN_UPDATES;
                         updateCount++;
@@ -107,7 +101,7 @@ public class GameLoop<S extends GameState> {
                     }
 
                     // Render.
-                    gameRenderer.render(holder.retrieveLatestGameState());
+                    gameRenderer.render(state);
                     framesThisSecond++;
                     lastRenderTime = now;
 
@@ -125,9 +119,7 @@ public class GameLoop<S extends GameState> {
                             && now - lastUpdateTime < TIME_BETWEEN_UPDATES) {
                         Thread.yield();
 
-                        // This stops the app from consuming all your CPU. It makes this slightly less accurate, but is
-                        // worth it. You can remove this line and it will still work (better), your CPU just climbs on
-                        // certain OSes.
+                        // Stop the app from consuming all CPU.
                         Thread.sleep(1);
 
                         now = System.nanoTime();
@@ -139,7 +131,7 @@ public class GameLoop<S extends GameState> {
             log.error("Fatal exception encountered in game loop.", e);
         }
         running = false;
-        log.info("Finished main game loop. Final game state: {}", holder.retrieveLatestGameState());
+        log.info("Finished main game loop. Final game state: {}", state);
     }
 
     /**
@@ -150,11 +142,9 @@ public class GameLoop<S extends GameState> {
      */
     private List<InputState> retrieveInputStates(int updateIndex) {
         // Get the input states.
-        List<InputState> inputStates = inputControllers.stream()
+        return inputControllers.stream()
             .map(InputController::getInputState)
             .collect(Collectors.toList());
-        
-        return inputStates;
     }
 
     /** Stops the game loop. */
