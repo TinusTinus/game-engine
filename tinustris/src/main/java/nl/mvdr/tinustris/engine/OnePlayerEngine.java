@@ -13,6 +13,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.game.engine.GameEngine;
 import nl.mvdr.game.input.InputState;
 import nl.mvdr.tinustris.configuration.Behavior;
 import nl.mvdr.tinustris.engine.level.LevelSystem;
