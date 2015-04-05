@@ -30,6 +30,7 @@ import nl.mvdr.tinustris.configuration.ConfigurationImpl;
 import nl.mvdr.tinustris.configuration.PlayerConfiguration;
 import nl.mvdr.tinustris.gui.GraphicsStyle;
 import nl.mvdr.tinustris.gui.Tinustris;
+import nl.mvdr.tinustris.input.DefaultControllerConfiguration;
 import nl.mvdr.tinustris.input.Input;
 import nl.mvdr.tinustris.input.JInputControllerConfiguration;
 import nl.mvdr.tinustris.input.NoSuitableControllerException;
@@ -160,7 +161,7 @@ public class ConfigurationScreenController {
     /** Initialises the first player configuration controller. */
     private void initFirstController() {
         try {
-            JInputControllerConfiguration<Input> configuration = JInputControllerConfiguration.defaultConfiguration();
+            JInputControllerConfiguration<Input> configuration = DefaultControllerConfiguration.get();
             playerConfigurationControllers.get(0).updateInputConfiguration(configuration);
         } catch (NoSuitableControllerException e) {
             log.info("Unable to set default controller configuration; leaving the default.", e);
