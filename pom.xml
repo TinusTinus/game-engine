@@ -112,7 +112,12 @@
 		</plugins>
 	</reporting>
 
-	<!-- TODO SCM connection -->
+	<scm>
+		<connection>scm:git:https://github.com/TinusTinus/game-engine.git</connection>
+		<developerConnection>scm:git:git@github.com:TinusTinus/game-engine.git</developerConnection>
+		<url>https://github.com/TinusTinus/game-engine</url>
+		<tag>HEAD</tag>
+	</scm>
 
 	<distributionManagement>
 		<!-- As of right now there is no public Maven repository for this project; 
