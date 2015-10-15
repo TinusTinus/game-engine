@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.mvdr.game.input.DummyInput;
+import nl.mvdr.game.jinput.DummyInput;
 import nl.mvdr.game.input.InputState;
 import nl.mvdr.game.jinput.InputMapping;
 import nl.mvdr.game.jinput.JInputController;
