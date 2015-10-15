@@ -16,7 +16,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString
-class InputStateImpl<S extends Enum<S>> implements InputState<S> {
+public class InputStateImpl<S extends Enum<S>> implements InputState<S> {
     /** Generated serial version UID. */
     private static final long serialVersionUID = 1L;
     /** Pressed inputs. */

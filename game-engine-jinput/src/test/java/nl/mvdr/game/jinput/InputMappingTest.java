@@ -1,10 +1,10 @@
-package nl.mvdr.game.input;
+package nl.mvdr.game.jinput;
 
 import net.java.games.input.Component;
 import net.java.games.input.Component.POV;
 import net.java.games.input.Component.Identifier.Axis;
 import net.java.games.input.Component.Identifier.Button;
-import nl.mvdr.game.input.InputMapping;
+import nl.mvdr.game.jinput.InputMapping;
 
 import org.junit.Assert;
 import org.junit.Test;

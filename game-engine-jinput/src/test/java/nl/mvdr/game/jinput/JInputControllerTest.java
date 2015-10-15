@@ -1,4 +1,4 @@
-package nl.mvdr.game.input;
+package nl.mvdr.game.jinput;
 
 import java.util.Collections;
 import java.util.Map;
@@ -8,6 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.mvdr.game.input.DummyInput;
+import nl.mvdr.game.input.InputState;
+import nl.mvdr.game.jinput.InputMapping;
+import nl.mvdr.game.jinput.JInputController;
+import nl.mvdr.game.jinput.JInputControllerConfiguration;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -3,4 +3,4 @@
  * 
  * @author Martijn van de Rijdt
  */
-package nl.mvdr.game.input;
+package nl.mvdr.game.jinput;

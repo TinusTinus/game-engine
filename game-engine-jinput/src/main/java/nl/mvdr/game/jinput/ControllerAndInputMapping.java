@@ -1,4 +1,4 @@
-package nl.mvdr.game.input;
+package nl.mvdr.game.jinput;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

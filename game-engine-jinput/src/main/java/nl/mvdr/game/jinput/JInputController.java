@@ -1,4 +1,4 @@
-package nl.mvdr.game.input;
+package nl.mvdr.game.jinput;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -9,6 +9,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import net.java.games.input.Controller;
+import nl.mvdr.game.input.InputController;
+import nl.mvdr.game.input.InputState;
+import nl.mvdr.game.input.InputStateImpl;
 
 /**
  * Implementation of InputController that uses JInput to determine the current input state.
