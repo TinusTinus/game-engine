@@ -7,9 +7,9 @@
 		<version>2.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>game-engine</artifactId>
+	<artifactId>game-engine-jinput</artifactId>
 	<packaging>jar</packaging>
-	<name>Game Engine</name>
+	<name>Game Engine JInput Implementation</name>
 
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
@@ -19,16 +19,22 @@
 	<!-- Dependencies. Please do not specify version numbers here; refer to 
 		dependency management in the parent pom instead! -->
 	<dependencies>
+		<dependency>
+			<groupId>${project.parent.groupId}</groupId>
+			<artifactId>game-engine</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+
+		<!-- Input -->
+		<dependency>
+			<groupId>net.java.jinput</groupId>
+			<artifactId>jinput</artifactId>
+		</dependency>
+		
 		<!-- Compile-time assistance -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-		</dependency>
-
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
 		<!-- Testing -->

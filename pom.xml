@@ -21,6 +21,7 @@
 
 	<modules>
 		<module>game-engine</module>
+		<module>game-engine-jinput</module>
 	</modules>
 
 	<dependencyManagement>
