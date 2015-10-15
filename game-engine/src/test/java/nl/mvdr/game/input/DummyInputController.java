@@ -1,12 +1,5 @@
 package nl.mvdr.game.input;
 
-import nl.mvdr.game.input.InputController;
-import nl.mvdr.game.input.InputState;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-
 /**
  * Dummy implementation of {@link InputController}.
  * 
@@ -14,19 +7,7 @@ import lombok.ToString;
  * 
  * @author Martijn van de Rijdt
  */
-@RequiredArgsConstructor
-@Getter
-@EqualsAndHashCode
-@ToString
 public class DummyInputController<S extends Enum<S>> implements InputController<S> {
-    /** Whether this input controller simulates a local one. */
-    private final boolean local;
-    
-    /** Default constructor. */
-    public DummyInputController() {
-        this(true);
-    }
-    
     /** 
      * {@inheritDoc}
      * 

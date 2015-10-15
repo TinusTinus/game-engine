@@ -8,6 +8,7 @@ package nl.mvdr.game.input;
  * 
  * @author Martijn van de Rijdt
  */
+@FunctionalInterface
 public interface InputController<S extends Enum<S>> {
     /**
      * Retrieves the current input state.
