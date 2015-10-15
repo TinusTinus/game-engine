@@ -53,10 +53,4 @@ public class JInputController<S extends Enum<S>> implements InputController<S> {
             .stream()
             .anyMatch(InputMapping::isPressed);
     }
-
-    /** {@inheritDoc} */
-    @Override
-    public boolean isLocal() {
-        return true;
-    }
 }
