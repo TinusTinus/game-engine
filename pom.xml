@@ -5,7 +5,7 @@
 	<artifactId>game-engine-parent</artifactId>
 	<packaging>pom</packaging>
 	<name>Game Engine - Parent</name>
-	<version>2.1</version>
+	<version>2.2-SNAPSHOT</version>
 
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
@@ -97,7 +97,7 @@
 		<connection>scm:git:https://github.com/TinusTinus/game-engine.git</connection>
 		<developerConnection>scm:git:git@github.com:TinusTinus/game-engine.git</developerConnection>
 		<url>https://github.com/TinusTinus/game-engine</url>
-		<tag>game-engine-parent-2.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<distributionManagement>
