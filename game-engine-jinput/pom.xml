@@ -8,8 +8,12 @@
 	</parent>
 
 	<artifactId>game-engine-jinput</artifactId>
+	
 	<packaging>jar</packaging>
+	
 	<name>Game Engine JInput Implementation</name>
+	<description>An implementation of the Game Engine project's input interface, using JInput.</description>
+	<url>https://github.com/TinusTinus/game-engine</url>
 
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->

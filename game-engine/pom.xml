@@ -8,8 +8,12 @@
 	</parent>
 
 	<artifactId>game-engine</artifactId>
+	
 	<packaging>jar</packaging>
+	
 	<name>Game Engine</name>
+	<description>Reusable Java components for developing straightforward, arcade-style games.</description>
+	<url>https://github.com/TinusTinus/game-engine</url>
 
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->

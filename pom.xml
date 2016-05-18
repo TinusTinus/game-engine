@@ -3,9 +3,28 @@
 
 	<groupId>nl.mvdr.game</groupId>
 	<artifactId>game-engine-parent</artifactId>
-	<packaging>pom</packaging>
-	<name>Game Engine - Parent</name>
 	<version>2.2-SNAPSHOT</version>
+	
+	<packaging>pom</packaging>
+
+	<name>Game Engine - Parent</name>
+	<description>Parent project for the game engine Java projects.</description>
+	<url>https://github.com/TinusTinus/game-engine</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Martijn van de Rijdt</name>
+			<email>mvdrijdt@planet.nl</email>
+			<url>www.mvdr.nl</url>
+		</developer>
+	</developers>
 
 	<properties>
 		<!-- Version numbers. Please keep these sorted in alphabetical order. -->
