@@ -1,7 +1,7 @@
 package nl.mvdr.game.state;
 
 /**
- * Marker interface for the state of the game.
+ * Overall state of the game.
  * 
  * @author Martijn van de Rijdt
  */
